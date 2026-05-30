@@ -28,7 +28,7 @@ jobs:
       - name: Test (with binary feature, default)
         run: cargo test --workspace
       - name: Test (text-only, no Polars)
-        run: cargo test -p ax-normalize --no-default-features
+        run: cargo test -p anomalyx-normalize --no-default-features
 
   mutants:
     name: mutation gate (0 survivors)

@@ -1,5 +1,5 @@
 [package]
-name = "ax-validate"
+name = "anomalyx-validate"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -7,6 +7,11 @@ license.workspace = true
 repository.workspace = true
 description = "anomalyx validation harness: NIST StRD certified-value checks and rigorous stress tests"
 publish = false
+
+# Keep the import/extern name `ax_validate` even though the package is
+# `anomalyx-validate`, so the integration tests' `use ax_validate` is unaffected.
+[lib]
+name = "ax_validate"
 
 [dependencies]
 ax-core = { workspace = true }

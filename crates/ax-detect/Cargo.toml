@@ -1,5 +1,5 @@
 [package]
-name = "ax-detect"
+name = "anomalyx-detect"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

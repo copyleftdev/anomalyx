@@ -57,10 +57,54 @@ dependencies = [
 name = "anomalyx"
 version = "0.1.0"
 dependencies = [
- "ax-core",
- "ax-detect",
- "ax-normalize",
+ "anomalyx-core",
+ "anomalyx-detect",
+ "anomalyx-normalize",
  "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "anomalyx-core"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
+name = "anomalyx-detect"
+version = "0.1.0"
+dependencies = [
+ "anomalyx-core",
+ "proptest",
+ "serde",
+ "serde_json",
+ "statrs",
+]
+
+[[package]]
+name = "anomalyx-normalize"
+version = "0.1.0"
+dependencies = [
+ "anomalyx-core",
+ "csv",
+ "polars",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
+name = "anomalyx-validate"
+version = "0.1.0"
+dependencies = [
+ "anomalyx-core",
+ "anomalyx-detect",
+ "proptest",
  "serde_json",
 ]
 
@@ -181,50 +225,6 @@ name = "autocfg"
 version = "1.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
-
-[[package]]
-name = "ax-core"
-version = "0.1.0"
-dependencies = [
- "proptest",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "ax-detect"
-version = "0.1.0"
-dependencies = [
- "ax-core",
- "proptest",
- "serde",
- "serde_json",
- "statrs",
-]
-
-[[package]]
-name = "ax-normalize"
-version = "0.1.0"
-dependencies = [
- "ax-core",
- "csv",
- "polars",
- "proptest",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "ax-validate"
-version = "0.1.0"
-dependencies = [
- "ax-core",
- "ax-detect",
- "proptest",
- "serde_json",
-]
 
 [[package]]
 name = "base64"

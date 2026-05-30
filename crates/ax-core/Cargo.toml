@@ -1,5 +1,5 @@
 [package]
-name = "ax-core"
+name = "anomalyx-core"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

@@ -17,12 +17,14 @@ repository = "https://github.com/copyleftdev/anomalyx"
 authors = ["copyleftdev"]
 
 [workspace.dependencies]
-# `version` alongside `path` is required to publish to crates.io: path is used
-# for local/workspace builds, version for the published package. Keep in sync
-# with workspace.package.version above.
-ax-core = { path = "crates/ax-core", version = "0.1.0" }
-ax-normalize = { path = "crates/ax-normalize", version = "0.1.0" }
-ax-detect = { path = "crates/ax-detect", version = "0.1.0" }
+# `version` alongside `path` is required to publish to crates.io. The crates.io
+# package names are namespaced under the brand (`anomalyx-*`, since the short
+# `ax-*` names were taken), but the import/extern name stays `ax_core` etc. via
+# the dependency key + `package` rename — so no source code changes are needed.
+# Keep versions in sync with workspace.package.version above.
+ax-core = { path = "crates/ax-core", version = "0.1.0", package = "anomalyx-core" }
+ax-normalize = { path = "crates/ax-normalize", version = "0.1.0", package = "anomalyx-normalize" }
+ax-detect = { path = "crates/ax-detect", version = "0.1.0", package = "anomalyx-detect" }
 
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

@@ -19,9 +19,9 @@ cd "$(dirname "$0")/.."
 DRY=""
 [ "${1:-}" = "--dry-run" ] && DRY="--dry-run"
 
-for crate in ax-core ax-normalize ax-detect anomalyx; do
+for crate in anomalyx-core anomalyx-normalize anomalyx-detect anomalyx; do
     echo "==> cargo publish -p $crate $DRY"
     cargo publish -p "$crate" $DRY
 done
 
-echo "==> done: ax-core, ax-normalize, ax-detect, anomalyx"
+echo "==> done: anomalyx-core, anomalyx-normalize, anomalyx-detect, anomalyx"
