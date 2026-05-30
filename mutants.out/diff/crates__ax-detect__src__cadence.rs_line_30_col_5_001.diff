@@ -1,0 +1,26 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace coefficient_of_variation -> Option<f64> with Some(0.0)
+@@ -22,22 +22,17 @@
+ /// Consecutive forward differences of a value sequence.
+ pub fn intervals(xs: &[f64]) -> Vec<f64> {
+     xs.windows(2).map(|w| w[1] - w[0]).collect()
+ }
+ 
+ /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two
+ /// values and the mean is strictly positive (a progressing series).
+ pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {
+-    let mean = det::mean(xs)?;
+-    if mean <= 0.0 {
+-        return None;
+-    }
+-    let sd = det::std_dev(xs)?;
+-    Some(sd / mean)
++    Some(0.0) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ impl Detector for CadenceDetector {
+     fn id(&self) -> &'static str {
+         "cad.regularity"
+     }
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Cadence

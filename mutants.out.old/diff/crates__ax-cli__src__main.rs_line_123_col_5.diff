@@ -1,0 +1,25 @@
+--- crates/ax-cli/src/main.rs
++++ replace config_for -> DetectConfig with Default::default()
+@@ -115,21 +115,17 @@
+             _ => parsed.positional.push(arg.clone()),
+         }
+     }
+     Ok(parsed)
+ }
+ 
+ /// Builds the detector config, applying any `--period` / `--cadence` overrides.
+ fn config_for(args: &ScanArgs) -> DetectConfig {
+-    DetectConfig {
+-        ctx_period: args.period.unwrap_or(0),
+-        cadence_column: args.cadence.clone(),
+-        ..DetectConfig::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Reads the input corpus: a path argument, or stdin when absent or `-`.
+ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+     match path {
+         Some(p) if p != "-" => {
+             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+             Ok((p.clone(), bytes))

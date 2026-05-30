@@ -1,2 +1,4 @@
-crates/ax-validate/src/lib.rs:37:5: replace parse -> Strd with Default::default()
-crates/ax-validate/src/lib.rs:110:5: replace datasets -> Vec<Strd> with vec![Default::default()]
+crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())
+crates/ax-cli/src/main.rs:149:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))
+crates/ax-cli/src/main.rs:159:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())
+crates/ax-cli/src/main.rs:193:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())

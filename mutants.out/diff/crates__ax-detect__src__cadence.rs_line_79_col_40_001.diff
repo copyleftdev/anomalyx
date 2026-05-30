@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace / with * in <impl Detector for CadenceDetector>::detect
+@@ -71,17 +71,17 @@
+             return;
+         };
+ 
+         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero
+         // boundary mutant has a distinct `>`/`>=` descriptor — letting the
+         // genuinely-killable `min_n` `<` above stay under the gate.
+         if cfg.cad_max_cv > cv {
+             // Lower CV ⇒ more metronomic ⇒ higher confidence.
+-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);
++            let confidence = (1.0 - cv * /* ~ changed by cargo-mutants ~ */ cfg.cad_max_cv).clamp(0.0, 1.0);
+             out.push(Finding::new(
+                 self.id(),
+                 AnomalyClass::Cadence,
+                 Handle::Column { name: name.to_string() },
+                 confidence,
+                 cv,
+                 format!(
+                     "column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence",

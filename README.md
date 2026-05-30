@@ -25,6 +25,10 @@ With `--period N`, rows are treated as an ordered time series and the contextual
 (seasonal-subseries) detector compares each point to its phase peers. Without a
 period it reports honest absence — seasonality is never guessed.
 
+With `--cadence COL`, column `COL` is read as event times and assessed for
+metronomic (automated) regularity. Without it the cadence detector is absent —
+which column means "time" is never guessed.
+
 Exit codes are part of the contract: **`0`** clean · **`1`** anomalies found ·
 **`2`** tool error.
 
@@ -76,7 +80,7 @@ Seven classes, so an agent reasons about the *kind* of deviation:
 | `contextual` | anomalous only in context (seasonal subseries) | ✅ `ctx.seasonal` |
 | `collective` | a subsequence is jointly anomalous (level shift) | ✅ `coll.cusum` |
 | `multivariate` | a row isolated in feature space — breaks the joint structure | ✅ `mv.mahalanobis` |
-| `cadence` | suspiciously regular timing | ⏳ planned |
+| `cadence` | suspiciously *regular* timing (automation) | ✅ `cad.regularity` |
 
 ## Build vs. assemble
 

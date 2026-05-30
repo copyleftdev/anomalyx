@@ -1,0 +1,397 @@
+
+*** crates/ax-cli/src/main.rs:100:13: delete match arm "--period" in parse_scan_args
+
+*** mutation diff:
+--- crates/ax-cli/src/main.rs
++++ delete match arm "--period" in parse_scan_args
+@@ -92,25 +92,17 @@
+     while let Some(arg) = it.next() {
+         match arg.as_str() {
+             "--baseline" => {
+                 let v = it
+                     .next()
+                     .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+                 parsed.baseline = Some(v.clone());
+             }
+-            "--period" => {
+-                let v = it
+-                    .next()
+-                    .ok_or_else(|| AxError::Config("--period requires an integer".into()))?;
+-                let n = v.parse::<usize>().map_err(|_| {
+-                    AxError::Config(format!("--period must be an integer, got '{v}'"))
+-                })?;
+-                parsed.period = Some(n);
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             "--cadence" => {
+                 let v = it
+                     .next()
+                     .ok_or_else(|| AxError::Config("--cadence requires a column name".into()))?;
+                 parsed.cadence = Some(v.clone());
+             }
+             _ => parsed.positional.push(arg.clone()),
+         }
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-cli@0.1.0
+       Fresh unicode-ident v1.0.24
+       Fresh cfg-if v1.0.4
+       Fresh version_check v0.9.5
+       Fresh autocfg v1.5.1
+       Fresh find-msvc-tools v0.1.9
+       Fresh shlex v2.0.1
+       Fresh equivalent v1.0.2
+       Fresh memchr v2.8.1
+       Fresh allocator-api2 v0.2.21
+       Fresh itoa v1.0.18
+       Fresh foldhash v0.1.5
+       Fresh pkg-config v0.3.33
+       Fresh scopeguard v1.2.0
+       Fresh array-init-cursor v0.2.1
+       Fresh either v1.16.0
+       Fresh smallvec v1.15.1
+       Fresh ryu v1.0.23
+       Fresh regex-syntax v0.8.10
+       Fresh libc v0.2.186
+       Fresh hashbrown v0.15.5
+       Fresh aho-corasick v1.1.4
+       Fresh lock_api v0.4.14
+       Fresh simdutf8 v0.1.5
+       Fresh bitflags v2.11.1
+       Fresh foldhash v0.2.0
+       Fresh siphasher v1.0.3
+       Fresh static_assertions v1.1.0
+       Fresh hashbrown v0.17.1
+       Fresh bytes v1.11.1
+       Fresh heck v0.5.0
+       Fresh ethnum v1.5.3
+       Fresh dyn-clone v1.0.20
+       Fresh streaming-iterator v0.1.9
+       Fresh debug_unsafe v0.1.4
+       Fresh strength_reduce v0.2.4
+       Fresh fast-float2 v0.2.3
+       Fresh boxcar v0.2.14
+       Fresh alloc-no-stdlib v2.0.4
+       Fresh zlib-rs v0.6.3
+       Fresh fallible-streaming-iterator v0.1.9
+       Fresh xxhash-rust v0.8.15
+       Fresh polars-parquet-format v0.1.0
+       Fresh base64 v0.22.1
+       Fresh rawpointer v0.2.1
+       Fresh glob v0.3.3
+       Fresh percent-encoding v2.3.2
+       Fresh home v0.5.12
+       Fresh typenum v1.20.1
+       Fresh csv-core v0.1.13
+       Fresh proc-macro2 v1.0.106
+       Fresh jobserver v0.1.34
+       Fresh libm v0.2.16
+       Fresh serde_core v1.0.228
+       Fresh crossbeam-utils v0.8.21
+       Fresh object v0.37.3
+       Fresh getrandom v0.3.4
+       Fresh errno v0.3.14
+       Fresh planus v1.1.1
+       Fresh parking_lot_core v0.9.12
+       Fresh rustversion v1.0.22
+       Fresh regex-automata v0.4.14
+       Fresh getrandom v0.4.2
+       Fresh memmap2 v0.9.10
+       Fresh raw-cpuid v11.6.0
+       Fresh phf_shared v0.12.1
+       Fresh atoi_simd v0.17.0
+       Fresh getrandom v0.2.17
+       Fresh alloc-stdlib v0.2.2
+       Fresh streaming-decompression v0.1.2
+       Fresh flate2 v1.1.9
+       Fresh quote v1.0.45
+       Fresh cc v1.2.63
+       Fresh num-traits v0.2.19
+       Fresh ar_archive_writer v0.5.1
+       Fresh crossbeam-epoch v0.9.18
+       Fresh rand_core v0.9.5
+       Fresh signal-hook-registry v1.4.8
+       Fresh castaway v0.2.4
+       Fresh parking_lot v0.12.5
+       Fresh uuid v1.23.2
+       Fresh slotmap v1.1.1
+       Fresh regex v1.12.3
+       Fresh indexmap v2.14.0
+       Fresh phf v0.12.1
+       Fresh zmij v1.0.21
+       Fresh rand_core v0.6.4
+       Fresh brotli-decompressor v5.0.1
+       Fresh paste v1.0.15
+       Fresh snap v1.1.1
+       Fresh matrixmultiply v0.3.10
+       Fresh csv v1.4.0
+       Fresh syn v2.0.117
+       Fresh crossbeam-deque v0.8.6
+       Fresh signal-hook v0.4.4
+       Fresh chrono v0.4.41
+       Fresh num-integer v0.1.46
+       Fresh brotli v8.0.3
+       Fresh num-complex v0.4.6
+       Fresh approx v0.5.1
+       Fresh serde_json v1.0.150
+       Fresh zerocopy-derive v0.8.50
+       Fresh bytemuck_derive v1.10.2
+       Fresh serde_derive v1.0.228
+       Fresh rayon-core v1.13.0
+       Fresh num-derive v0.4.2
+       Fresh strum_macros v0.27.2
+       Fresh chrono-tz v0.10.4
+       Fresh thiserror-impl v2.0.18
+       Fresh num-rational v0.4.2
+       Fresh zerocopy v0.8.50
+       Fresh bytemuck v1.25.0
+       Fresh serde v1.0.228
+       Fresh psm v0.1.31
+       Fresh rayon v1.12.0
+       Fresh zstd-sys v2.0.16+zstd.1.5.7
+       Fresh lz4-sys v1.11.1+lz4-1.10.0
+       Fresh thiserror v2.0.18
+       Fresh ppv-lite86 v0.2.21
+       Fresh half v2.7.1
+       Fresh polars-arrow-format v0.2.1
+       Fresh hashbrown v0.16.1
+       Fresh stacker v0.1.24
+       Fresh compact_str v0.9.1
+       Fresh zstd-safe v7.2.4
+       Fresh lz4 v1.28.1
+       Fresh polars-buffer v0.53.0
+       Fresh safe_arch v0.7.4
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-core)
+       Fresh rand_chacha v0.9.0
+       Fresh argminmax v0.6.3
+       Fresh polars-error v0.53.0
+       Fresh zstd v0.13.3
+       Fresh rand_chacha v0.3.1
+       Fresh wide v0.7.33
+       Fresh rand v0.9.4
+       Fresh rand v0.8.6
+       Fresh simba v0.9.1
+       Fresh polars-utils v0.53.0
+       Fresh rand_distr v0.4.3
+       Fresh polars-schema v0.53.0
+       Fresh nalgebra v0.33.3
+       Fresh polars-arrow v0.53.0
+       Fresh statrs v0.18.0
+       Fresh polars-compute v0.53.0
+       Fresh polars-dtype v0.53.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-detect)
+       Fresh polars-row v0.53.0
+       Fresh polars-parquet v0.53.0
+       Fresh polars-core v0.53.0
+       Fresh polars-ops v0.53.0
+       Fresh polars-io v0.53.0
+       Fresh polars v0.53.0
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-normalize)
+       Dirty ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-cli): the file `crates/ax-cli/src/main.rs` has changed (1780168092.270687145s, 2s after last build at 1780168090.657573333s)
+   Compiling ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-cli)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=f2740b944fe8f02b -C extra-filename=-5406d62d6b5c9b19 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_core-e70cc725e1a68552.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_detect-b2d80913b3e9eaca.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_normalize-a3fb6c35f6e10c49.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libserde-02b79f9a1a0c304c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libserde_json-fa8ed67a83dddc58.rlib -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/lz4-sys-ba55d572d9bc99f1/out -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/psm-c5f83cb0b2d68836/out -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/zstd-sys-edb3771c0d9f8d3c/out`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=5ccd932d9337b3a8 -C extra-filename=-54011caffc42c56d --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_core-e70cc725e1a68552.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_detect-b2d80913b3e9eaca.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libax_normalize-a3fb6c35f6e10c49.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libserde-02b79f9a1a0c304c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/libserde_json-fa8ed67a83dddc58.rlib -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/lz4-sys-ba55d572d9bc99f1/out -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/psm-c5f83cb0b2d68836/out -L native=/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/build/zstd-sys-edb3771c0d9f8d3c/out`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.50s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/anomalyx-54011caffc42c56d`
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/cli-c9edfffddfc56272`
+
+*** result: Success
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --verbose --package=ax-cli@0.1.0
+       Fresh unicode-ident v1.0.24
+       Fresh cfg-if v1.0.4
+       Fresh version_check v0.9.5
+       Fresh autocfg v1.5.1
+       Fresh find-msvc-tools v0.1.9
+       Fresh shlex v2.0.1
+       Fresh memchr v2.8.1
+       Fresh equivalent v1.0.2
+       Fresh allocator-api2 v0.2.21
+       Fresh itoa v1.0.18
+       Fresh pkg-config v0.3.33
+       Fresh foldhash v0.1.5
+       Fresh libc v0.2.186
+       Fresh hashbrown v0.15.5
+       Fresh array-init-cursor v0.2.1
+       Fresh scopeguard v1.2.0
+       Fresh either v1.16.0
+       Fresh smallvec v1.15.1
+       Fresh aho-corasick v1.1.4
+       Fresh ryu v1.0.23
+       Fresh regex-syntax v0.8.10
+       Fresh foldhash v0.2.0
+       Fresh siphasher v1.0.3
+       Fresh hashbrown v0.17.1
+       Fresh simdutf8 v0.1.5
+       Fresh bitflags v2.11.1
+       Fresh static_assertions v1.1.0
+       Fresh bytes v1.11.1
+       Fresh heck v0.5.0
+       Fresh dyn-clone v1.0.20
+       Fresh ethnum v1.5.3
+       Fresh streaming-iterator v0.1.9
+       Fresh debug_unsafe v0.1.4
+       Fresh fast-float2 v0.2.3
+       Fresh strength_reduce v0.2.4
+       Fresh boxcar v0.2.14
+       Fresh alloc-no-stdlib v2.0.4
+       Fresh zlib-rs v0.6.3
+       Fresh fallible-streaming-iterator v0.1.9
+       Fresh xxhash-rust v0.8.15
+       Fresh rawpointer v0.2.1
+       Fresh base64 v0.22.1
+       Fresh polars-parquet-format v0.1.0
+       Fresh home v0.5.12
+       Fresh percent-encoding v2.3.2
+       Fresh proc-macro2 v1.0.106
+       Fresh jobserver v0.1.34
+       Fresh libm v0.2.16
+       Fresh serde_core v1.0.228
+       Fresh crossbeam-utils v0.8.21
+       Fresh object v0.37.3
+       Fresh errno v0.3.14
+       Fresh getrandom v0.3.4
+       Fresh lock_api v0.4.14
+       Fresh planus v1.1.1
+       Fresh rustversion v1.0.22
+       Fresh parking_lot_core v0.9.12
+       Fresh regex-automata v0.4.14
+       Fresh phf_shared v0.12.1
+       Fresh raw-cpuid v11.6.0
+       Fresh memmap2 v0.9.10
+       Fresh atoi_simd v0.17.0
+       Fresh getrandom v0.2.17
+       Fresh alloc-stdlib v0.2.2
+       Fresh flate2 v1.1.9
+       Fresh streaming-decompression v0.1.2
+       Fresh glob v0.3.3
+       Fresh typenum v1.20.1
+       Fresh csv-core v0.1.13
+       Fresh quote v1.0.45
+       Fresh cc v1.2.63
+       Fresh num-traits v0.2.19
+       Fresh ar_archive_writer v0.5.1
+       Fresh crossbeam-epoch v0.9.18
+       Fresh rand_core v0.9.5
+       Fresh signal-hook-registry v1.4.8
+       Fresh parking_lot v0.12.5
+       Fresh getrandom v0.4.2
+       Fresh castaway v0.2.4
+       Fresh slotmap v1.1.1
+       Fresh regex v1.12.3
+       Fresh indexmap v2.14.0
+       Fresh zmij v1.0.21
+       Fresh phf v0.12.1
+       Fresh rand_core v0.6.4
+       Fresh brotli-decompressor v5.0.1
+       Fresh paste v1.0.15
+       Fresh snap v1.1.1
+       Fresh matrixmultiply v0.3.10
+       Fresh csv v1.4.0
+       Fresh syn v2.0.117
+       Fresh crossbeam-deque v0.8.6
+       Fresh signal-hook v0.4.4
+       Fresh uuid v1.23.2
+       Fresh chrono v0.4.41
+       Fresh approx v0.5.1
+       Fresh num-integer v0.1.46
+       Fresh brotli v8.0.3
+       Fresh num-complex v0.4.6
+       Fresh serde_json v1.0.150
+       Fresh zerocopy-derive v0.8.50
+       Fresh bytemuck_derive v1.10.2
+       Fresh serde_derive v1.0.228
+       Fresh rayon-core v1.13.0
+       Fresh num-derive v0.4.2
+       Fresh chrono-tz v0.10.4
+       Fresh strum_macros v0.27.2
+       Fresh thiserror-impl v2.0.18
+       Fresh num-rational v0.4.2
+       Fresh zerocopy v0.8.50
+       Fresh bytemuck v1.25.0
+       Fresh serde v1.0.228
+       Fresh rayon v1.12.0
+       Fresh psm v0.1.31
+       Fresh zstd-sys v2.0.16+zstd.1.5.7
+       Fresh lz4-sys v1.11.1+lz4-1.10.0
+       Fresh thiserror v2.0.18
+       Fresh ppv-lite86 v0.2.21
+       Fresh polars-arrow-format v0.2.1
+       Fresh half v2.7.1
+       Fresh compact_str v0.9.1
+       Fresh stacker v0.1.24
+       Fresh hashbrown v0.16.1
+       Fresh zstd-safe v7.2.4
+       Fresh polars-buffer v0.53.0
+       Fresh lz4 v1.28.1
+       Fresh safe_arch v0.7.4
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-core)
+       Fresh rand_chacha v0.9.0
+       Fresh argminmax v0.6.3
+       Fresh polars-error v0.53.0
+       Fresh zstd v0.13.3
+       Fresh rand_chacha v0.3.1
+       Fresh wide v0.7.33
+       Fresh rand v0.9.4
+       Fresh rand v0.8.6
+       Fresh simba v0.9.1
+       Fresh polars-utils v0.53.0
+       Fresh rand_distr v0.4.3
+       Fresh polars-schema v0.53.0
+       Fresh nalgebra v0.33.3
+       Fresh polars-arrow v0.53.0
+       Fresh statrs v0.18.0
+       Fresh polars-compute v0.53.0
+       Fresh polars-dtype v0.53.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-detect)
+       Fresh polars-row v0.53.0
+       Fresh polars-parquet v0.53.0
+       Fresh polars-core v0.53.0
+       Fresh polars-io v0.53.0
+       Fresh polars-ops v0.53.0
+       Fresh polars v0.53.0
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-normalize)
+       Fresh ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/crates/ax-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-iK86Xw.tmp/target/debug/deps/anomalyx-54011caffc42c56d`
+
+running 13 tests
+test tests::parse_scan_args_defaults_when_flags_absent ... ok
+test tests::config_for_applies_period_override ... ok
+test describe::tests::describe_is_valid_json_with_protocol ... ok
+test tests::parse_scan_args_errors_on_bad_flag_values ... FAILED
+test tests::parse_scan_args_extracts_flags_and_positionals ... FAILED
+test tests::resolve_cell_ok ... ok
+test tests::resolve_out_of_range_is_unresolved ... ok
+test tests::resolve_missing_column_is_unresolved ... ok
+test schema::tests::schema_is_valid_json_and_pins_protocol ... ok
+test tests::resolve_range_valid_and_invalid ... ok
+test tests::unknown_command_errors ... ok
+test tests::resolve_row_ok_and_out_of_range ... ok
+test tests::usage_is_nonempty_and_documents_verbs ... ok
+
+failures:
+
+---- tests::parse_scan_args_errors_on_bad_flag_values stdout ----
+
+thread 'tests::parse_scan_args_errors_on_bad_flag_values' (2045503) panicked at crates/ax-cli/src/main.rs:450:9:
+assertion failed: parse_scan_args(&strings(&["--period"])).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::parse_scan_args_extracts_flags_and_positionals stdout ----
+
+thread 'tests::parse_scan_args_extracts_flags_and_positionals' (2045504) panicked at crates/ax-cli/src/main.rs:434:9:
+assertion `left == right` failed
+  left: None
+ right: Some(7)
+
+
+failures:
+    tests::parse_scan_args_errors_on_bad_flag_values
+    tests::parse_scan_args_extracts_flags_and_positionals
+
+test result: FAILED. 11 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p ax-cli --bin anomalyx`
+
+*** result: Failure(101)

@@ -1,0 +1,32 @@
+--- crates/ax-cli/src/main.rs
++++ replace usage -> &'static str with ""
+@@ -56,28 +56,17 @@
+         other => Err(AxError::Config(format!(
+             "unknown command '{other}'\n{}",
+             usage()
+         ))),
+     }
+ }
+ 
+ fn usage() -> &'static str {
+-    "anomalyx — contract-first anomaly detection\n\
+-     \n\
+-     USAGE:\n\
+-     \x20 anomalyx describe                         Protocol metadata\n\
+-     \x20 anomalyx schema                           JSON Schema of scan output\n\
+-     \x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [PATH]\n\
+-     \x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [PATH]\n\
+-     \n\
+-     --baseline B  compare against B (distributional drift + schema-diff)\n\
+-     --period N    treat rows as a time series of period N (contextual/seasonal)\n\
+-     --cadence COL assess column COL for metronomic timing (cadence)\n\
+-     EXIT: 0 clean · 1 anomalies found · 2 error"
++    "" /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Parsed scan/explain arguments: optional `--baseline <PATH>`, optional
+ /// `--period <N>`, and the remaining positionals. Fails cleanly on a flag with a
+ /// missing or malformed value.
+ #[derive(Debug, Default, PartialEq)]
+ struct ScanArgs {
+     baseline: Option<String>,

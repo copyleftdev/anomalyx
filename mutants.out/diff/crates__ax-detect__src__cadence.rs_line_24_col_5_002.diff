@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace intervals -> Vec<f64> with vec![1.0]
+@@ -16,17 +16,17 @@
+ use ax_core::finding::Handle;
+ use ax_core::{AnomalyClass, Finding};
+ 
+ #[derive(Debug, Default, Clone)]
+ pub struct CadenceDetector;
+ 
+ /// Consecutive forward differences of a value sequence.
+ pub fn intervals(xs: &[f64]) -> Vec<f64> {
+-    xs.windows(2).map(|w| w[1] - w[0]).collect()
++    vec![1.0] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two
+ /// values and the mean is strictly positive (a progressing series).
+ pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {
+     let mean = det::mean(xs)?;
+     if mean <= 0.0 {
+         return None;

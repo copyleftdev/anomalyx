@@ -13,6 +13,7 @@
 use ax_core::envelope::Absence;
 use ax_core::{AnomalyClass, Finding, RecordSet};
 
+pub mod cadence;
 pub mod coll;
 pub mod config;
 pub mod ctx;
@@ -23,6 +24,7 @@ pub mod point;
 pub mod robustz;
 pub mod structural;
 
+pub use cadence::CadenceDetector;
 pub use coll::CusumDetector;
 pub use config::DetectConfig;
 pub use ctx::SeasonalDetector;
@@ -129,6 +131,7 @@ impl Registry {
         r.register(Box::new(MahalanobisDetector));
         r.register(Box::new(SeasonalDetector));
         r.register(Box::new(CusumDetector));
+        r.register(Box::new(CadenceDetector));
         r
     }
 
@@ -190,7 +193,8 @@ mod tests {
                 "dist.chi2",
                 "mv.mahalanobis",
                 "ctx.seasonal",
-                "coll.cusum"
+                "coll.cusum",
+                "cad.regularity"
             ]
         );
     }

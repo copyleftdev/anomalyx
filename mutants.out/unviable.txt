@@ -1,2 +1,1 @@
-crates/ax-validate/src/lib.rs:37:5: replace parse -> Strd with Default::default()
-crates/ax-validate/src/lib.rs:117:5: replace datasets -> Vec<Strd> with vec![Default::default()]
+crates/ax-detect/src/cadence.rs:43:9: replace <impl Detector for CadenceDetector>::class -> AnomalyClass with Default::default()

@@ -1,0 +1,51 @@
+--- crates/ax-cli/src/main.rs
++++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())
+@@ -151,47 +151,17 @@
+             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+             Ok(Some(ax_normalize::normalize(p, &bytes)?))
+         }
+         None => Ok(None),
+     }
+ }
+ 
+ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
+-    let args = parse_scan_args(rest)?;
+-    let (source, bytes) = read_input(args.positional.first())?;
+-    let rs = ax_normalize::normalize(&source, &bytes)?;
+-    let baseline = load_baseline(&args.baseline)?;
+-
+-    let cfg = config_for(&args);
+-    let ctx = match &baseline {
+-        Some(b) => ScanContext::compared(b, &rs),
+-        None => ScanContext::single(&rs),
+-    };
+-    let report = Registry::default_set().run(&ctx, &cfg);
+-
+-    let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())
+-        .findings(report.findings);
+-    if let Some(b) = &baseline {
+-        builder = builder.baseline(b.source.clone());
+-    }
+-    for a in report.absent {
+-        builder = builder.absent(a.detector, a.reason);
+-    }
+-    let env = builder.build();
+-
+-    println!(
+-        "{}",
+-        serde_json::to_string(&env).expect("envelope serializes")
+-    );
+-    Ok(if env.exit == ExitCode::Anomalies.code() {
+-        ExitCode::Anomalies
+-    } else {
+-        ExitCode::Clean
+-    })
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
+     let args = parse_scan_args(rest)?;
+     let handle_str = args
+         .positional
+         .first()
+         .ok_or_else(|| AxError::Config("explain requires a <HANDLE> argument".into()))?;

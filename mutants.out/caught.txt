@@ -1,18 +1,25 @@
-crates/ax-validate/src/lib.rs:68:26: replace && with || in parse
-crates/ax-validate/src/lib.rs:68:21: replace >= with < in parse
-crates/ax-validate/src/lib.rs:68:49: replace == with != in parse
-crates/ax-validate/src/lib.rs:73:36: replace + with - in parse
-crates/ax-validate/src/lib.rs:73:36: replace + with * in parse
-crates/ax-validate/src/lib.rs:76:21: delete ! in parse
-crates/ax-validate/src/lib.rs:117:5: replace datasets -> Vec<Strd> with vec![]
-crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 0.0
-crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 1.0
-crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with -1.0
-crates/ax-validate/src/lib.rs:124:17: replace == with != in correct_digits
-crates/ax-validate/src/lib.rs:127:28: replace != with == in correct_digits
-crates/ax-validate/src/lib.rs:128:33: replace / with % in correct_digits
-crates/ax-validate/src/lib.rs:128:33: replace / with * in correct_digits
-crates/ax-validate/src/lib.rs:128:20: replace - with + in correct_digits
-crates/ax-validate/src/lib.rs:128:20: replace - with / in correct_digits
-crates/ax-validate/src/lib.rs:132:12: replace == with != in correct_digits
-crates/ax-validate/src/lib.rs:135:9: delete - in correct_digits
+crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![]
+crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![0.0]
+crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![1.0]
+crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![-1.0]
+crates/ax-detect/src/cadence.rs:24:32: replace - with + in intervals
+crates/ax-detect/src/cadence.rs:24:32: replace - with / in intervals
+crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with None
+crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(0.0)
+crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(1.0)
+crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(-1.0)
+crates/ax-detect/src/cadence.rs:31:13: replace <= with > in coefficient_of_variation
+crates/ax-detect/src/cadence.rs:35:13: replace / with % in coefficient_of_variation
+crates/ax-detect/src/cadence.rs:35:13: replace / with * in coefficient_of_variation
+crates/ax-detect/src/cadence.rs:40:9: replace <impl Detector for CadenceDetector>::id -> &'static str with ""
+crates/ax-detect/src/cadence.rs:40:9: replace <impl Detector for CadenceDetector>::id -> &'static str with "xyzzy"
+crates/ax-detect/src/cadence.rs:46:9: replace <impl Detector for CadenceDetector>::detect with ()
+crates/ax-detect/src/cadence.rs:59:25: replace < with == in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:59:25: replace < with > in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:59:25: replace < with <= in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:77:27: replace > with == in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:77:27: replace > with < in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:79:35: replace - with + in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:79:35: replace - with / in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:79:40: replace / with % in <impl Detector for CadenceDetector>::detect
+crates/ax-detect/src/cadence.rs:79:40: replace / with * in <impl Detector for CadenceDetector>::detect

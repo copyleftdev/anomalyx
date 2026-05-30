@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ delete field cadence_column from struct DetectConfig expression in config_for
+@@ -117,17 +117,17 @@
+     }
+     Ok(parsed)
+ }
+ 
+ /// Builds the detector config, applying any `--period` / `--cadence` overrides.
+ fn config_for(args: &ScanArgs) -> DetectConfig {
+     DetectConfig {
+         ctx_period: args.period.unwrap_or(0),
+-        cadence_column: args.cadence.clone(),
++         /* ~ changed by cargo-mutants ~ */
+         ..DetectConfig::default()
+     }
+ }
+ 
+ /// Reads the input corpus: a path argument, or stdin when absent or `-`.
+ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+     match path {
+         Some(p) if p != "-" => {

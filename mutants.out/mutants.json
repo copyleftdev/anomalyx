@@ -1,641 +1,833 @@
 [
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace parse -> Strd with Default::default()\n@@ -29,77 +29,17 @@\n /// Parses the standard NIST StRD univariate `.dat` layout: a documentation\n /// header carrying the certified values (each on a line keyed by a trailing\n /// `label:` token), an all-dashes separator, then one observation per line.\n ///\n /// Panics on a malformed file — these are vendored fixtures, so a parse failure\n /// is a build-time bug to fix, not a runtime condition to handle.\n pub fn parse(name: &str, text: &str) -> Strd {\n     // `str::lines` already strips the `\\r` of CRLF endings.\n-    let lines: Vec<&str> = text.lines().collect();\n-\n-    // The certified value is the first whitespace token after the final colon\n-    // on the line carrying `keyword` (e.g. \"... ybar:  -177.4350  (exact)\").\n-    let certified = |keyword: &str| -> f64 {\n-        let line = lines\n-            .iter()\n-            .find(|l| l.contains(keyword))\n-            .unwrap_or_else(|| panic!(\"{name}: no line containing '{keyword}'\"));\n-        let after_colon = line\n-            .rsplit(':')\n-            .next()\n-            .unwrap_or_else(|| panic!(\"{name}: no ':' on '{keyword}' line\"));\n-        after_colon\n-            .split_whitespace()\n-            .next()\n-            .unwrap_or_else(|| panic!(\"{name}: no value after '{keyword}:'\"))\n-            .parse()\n-            .unwrap_or_else(|e| panic!(\"{name}: bad '{keyword}' value: {e}\"))\n-    };\n-\n-    let mean = certified(\"Sample Mean\");\n-    let std = certified(\"Standard Deviation\");\n-    let autocorr = certified(\"Autocorrelation\");\n-    let nobs = certified(\"Number of Observations\") as usize;\n-\n-    // Data starts after the all-dashes separator line.\n-    let sep = lines\n-        .iter()\n-        .position(|l| {\n-            let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n-        })\n-        .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n-    // Strict parse: every non-blank line after the separator must be numeric.\n-    // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n-    let data: Vec<f64> = lines[sep + 1..]\n-        .iter()\n-        .map(|l| l.trim())\n-        .filter(|l| !l.is_empty())\n-        .map(|l| {\n-            l.parse::<f64>()\n-                .unwrap_or_else(|_| panic!(\"{name}: non-numeric data line {l:?}\"))\n-        })\n-        .collect();\n-\n-    assert_eq!(\n-        data.len(),\n-        nobs,\n-        \"{name}: parsed {} observations, certified {nobs}\",\n-        data.len()\n-    );\n-\n-    Strd {\n-        name: name.to_string(),\n-        mean,\n-        std,\n-        autocorr,\n-        nobs,\n-        data,\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n /// The NIST StRD univariate datasets, vendored and embedded. Ordered roughly by\n /// numerical difficulty; the `NumAcc*` set is purpose-built to break naïve\n /// statistics code.\n pub const DATASETS: &[(&str, &str)] = &[\n     (\"PiDigits\", include_str!(\"../data/strd/PiDigits.dat\")),\n     (\"Lottery\", include_str!(\"../data/strd/Lottery.dat\")),\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace intervals -> Vec<f64> with vec![]\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    vec![] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 98
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 29
+          "line": 22
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:37:5: replace parse -> Strd with Default::default()",
-    "package": "ax-validate",
-    "replacement": "Default::default()",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 97
-      },
-      "start": {
-        "column": 5,
-        "line": 37
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace && with || in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() >= 3 || /* ~ changed by cargo-mutants ~ */ t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .map(|l| l.trim())\n         .filter(|l| !l.is_empty())\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:26: replace && with || in parse",
-    "package": "ax-validate",
-    "replacement": "||",
-    "span": {
-      "end": {
-        "column": 28,
-        "line": 68
-      },
-      "start": {
-        "column": 26,
-        "line": 68
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace >= with < in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() < /* ~ changed by cargo-mutants ~ */ 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .map(|l| l.trim())\n         .filter(|l| !l.is_empty())\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:21: replace >= with < in parse",
-    "package": "ax-validate",
-    "replacement": "<",
-    "span": {
-      "end": {
-        "column": 23,
-        "line": 68
-      },
-      "start": {
-        "column": 21,
-        "line": 68
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() >= 3 && t.bytes().all(|b| b != /* ~ changed by cargo-mutants ~ */ b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .map(|l| l.trim())\n         .filter(|l| !l.is_empty())\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:49: replace == with != in parse",
-    "package": "ax-validate",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 51,
-        "line": 68
-      },
-      "start": {
-        "column": 49,
-        "line": 68
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace + with - in parse\n@@ -65,17 +65,17 @@\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n             t.len() >= 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n-    let data: Vec<f64> = lines[sep + 1..]\n+    let data: Vec<f64> = lines[sep - /* ~ changed by cargo-mutants ~ */ 1..]\n         .iter()\n         .map(|l| l.trim())\n         .filter(|l| !l.is_empty())\n         .map(|l| {\n             l.parse::<f64>()\n                 .unwrap_or_else(|_| panic!(\"{name}: non-numeric data line {l:?}\"))\n         })\n         .collect();\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:73:36: replace + with - in parse",
-    "package": "ax-validate",
-    "replacement": "-",
-    "span": {
-      "end": {
-        "column": 37,
-        "line": 73
-      },
-      "start": {
-        "column": 36,
-        "line": 73
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace + with * in parse\n@@ -65,17 +65,17 @@\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n             t.len() >= 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n-    let data: Vec<f64> = lines[sep + 1..]\n+    let data: Vec<f64> = lines[sep * /* ~ changed by cargo-mutants ~ */ 1..]\n         .iter()\n         .map(|l| l.trim())\n         .filter(|l| !l.is_empty())\n         .map(|l| {\n             l.parse::<f64>()\n                 .unwrap_or_else(|_| panic!(\"{name}: non-numeric data line {l:?}\"))\n         })\n         .collect();\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:73:36: replace + with * in parse",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 37,
-        "line": 73
-      },
-      "start": {
-        "column": 36,
-        "line": 73
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ delete ! in parse\n@@ -68,17 +68,17 @@\n             t.len() >= 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     // Strict parse: every non-blank line after the separator must be numeric.\n     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .map(|l| l.trim())\n-        .filter(|l| !l.is_empty())\n+        .filter(|l|  /* ~ changed by cargo-mutants ~ */l.is_empty())\n         .map(|l| {\n             l.parse::<f64>()\n                 .unwrap_or_else(|_| panic!(\"{name}: non-numeric data line {l:?}\"))\n         })\n         .collect();\n \n     assert_eq!(\n         data.len(),\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 98
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "UnaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:76:21: delete ! in parse",
-    "package": "ax-validate",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 22,
-        "line": 76
-      },
-      "start": {
-        "column": 21,
-        "line": 76
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace datasets -> Vec<Strd> with vec![]\n@@ -109,17 +109,17 @@\n     (\"NumAcc1\", include_str!(\"../data/strd/NumAcc1.dat\")),\n     (\"NumAcc2\", include_str!(\"../data/strd/NumAcc2.dat\")),\n     (\"NumAcc3\", include_str!(\"../data/strd/NumAcc3.dat\")),\n     (\"NumAcc4\", include_str!(\"../data/strd/NumAcc4.dat\")),\n ];\n \n /// Parses every embedded dataset.\n pub fn datasets() -> Vec<Strd> {\n-    DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n+    vec![] /* ~ changed by cargo-mutants ~ */\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "datasets",
-      "return_type": "-> Vec<Strd>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 118
-        },
-        "start": {
-          "column": 1,
-          "line": 115
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:117:5: replace datasets -> Vec<Strd> with vec![]",
-    "package": "ax-validate",
+    "name": "crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![]",
+    "package": "ax-detect",
     "replacement": "vec![]",
     "span": {
       "end": {
-        "column": 56,
-        "line": 117
+        "column": 49,
+        "line": 24
       },
       "start": {
         "column": 5,
-        "line": 117
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace datasets -> Vec<Strd> with vec![Default::default()]\n@@ -109,17 +109,17 @@\n     (\"NumAcc1\", include_str!(\"../data/strd/NumAcc1.dat\")),\n     (\"NumAcc2\", include_str!(\"../data/strd/NumAcc2.dat\")),\n     (\"NumAcc3\", include_str!(\"../data/strd/NumAcc3.dat\")),\n     (\"NumAcc4\", include_str!(\"../data/strd/NumAcc4.dat\")),\n ];\n \n /// Parses every embedded dataset.\n pub fn datasets() -> Vec<Strd> {\n-    DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n+    vec![Default::default()] /* ~ changed by cargo-mutants ~ */\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace intervals -> Vec<f64> with vec![0.0]\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    vec![0.0] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "datasets",
-      "return_type": "-> Vec<Strd>",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 118
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 115
+          "line": 22
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:117:5: replace datasets -> Vec<Strd> with vec![Default::default()]",
-    "package": "ax-validate",
-    "replacement": "vec![Default::default()]",
+    "name": "crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![0.0]",
+    "package": "ax-detect",
+    "replacement": "vec![0.0]",
     "span": {
       "end": {
-        "column": 56,
-        "line": 117
+        "column": 49,
+        "line": 24
       },
       "start": {
         "column": 5,
-        "line": 117
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with 0.0\n@@ -116,29 +116,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    0.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace intervals -> Vec<f64> with vec![1.0]\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    vec![1.0] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 120
+          "line": 22
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 0.0",
-    "package": "ax-validate",
-    "replacement": "0.0",
+    "name": "crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![1.0]",
+    "package": "ax-detect",
+    "replacement": "vec![1.0]",
     "span": {
       "end": {
-        "column": 6,
-        "line": 136
+        "column": 49,
+        "line": 24
       },
       "start": {
         "column": 5,
-        "line": 124
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with 1.0\n@@ -116,29 +116,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace intervals -> Vec<f64> with vec![-1.0]\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    vec![-1.0] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 120
+          "line": 22
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 1.0",
-    "package": "ax-validate",
-    "replacement": "1.0",
+    "name": "crates/ax-detect/src/cadence.rs:24:5: replace intervals -> Vec<f64> with vec![-1.0]",
+    "package": "ax-detect",
+    "replacement": "vec![-1.0]",
     "span": {
       "end": {
-        "column": 6,
-        "line": 136
+        "column": 49,
+        "line": 24
       },
       "start": {
         "column": 5,
-        "line": 124
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with -1.0\n@@ -116,29 +116,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    -1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace - with + in intervals\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    xs.windows(2).map(|w| w[1] + /* ~ changed by cargo-mutants ~ */ w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 120
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with -1.0",
-    "package": "ax-validate",
-    "replacement": "-1.0",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 136
-      },
-      "start": {
-        "column": 5,
-        "line": 124
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in correct_digits\n@@ -116,17 +116,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n+    if computed != /* ~ changed by cargo-mutants ~ */ certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 137
-        },
-        "start": {
-          "column": 1,
-          "line": 120
+          "line": 22
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:124:17: replace == with != in correct_digits",
-    "package": "ax-validate",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 19,
-        "line": 124
-      },
-      "start": {
-        "column": 17,
-        "line": 124
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace != with == in correct_digits\n@@ -119,17 +119,17 @@\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n-    let rel = if certified != 0.0 {\n+    let rel = if certified == /* ~ changed by cargo-mutants ~ */ 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 137
-        },
-        "start": {
-          "column": 1,
-          "line": 120
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:127:28: replace != with == in correct_digits",
-    "package": "ax-validate",
-    "replacement": "==",
-    "span": {
-      "end": {
-        "column": 30,
-        "line": 127
-      },
-      "start": {
-        "column": 28,
-        "line": 127
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with % in correct_digits\n@@ -120,17 +120,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed - certified) % /* ~ changed by cargo-mutants ~ */ certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 137
-        },
-        "start": {
-          "column": 1,
-          "line": 120
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:128:33: replace / with % in correct_digits",
-    "package": "ax-validate",
-    "replacement": "%",
-    "span": {
-      "end": {
-        "column": 34,
-        "line": 128
-      },
-      "start": {
-        "column": 33,
-        "line": 128
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with * in correct_digits\n@@ -120,17 +120,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed - certified) * /* ~ changed by cargo-mutants ~ */ certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 137
-        },
-        "start": {
-          "column": 1,
-          "line": 120
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:128:33: replace / with * in correct_digits",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 34,
-        "line": 128
-      },
-      "start": {
-        "column": 33,
-        "line": 128
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with + in correct_digits\n@@ -120,17 +120,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed + /* ~ changed by cargo-mutants ~ */ certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 137
-        },
-        "start": {
-          "column": 1,
-          "line": 120
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:128:20: replace - with + in correct_digits",
-    "package": "ax-validate",
+    "name": "crates/ax-detect/src/cadence.rs:24:32: replace - with + in intervals",
+    "package": "ax-detect",
     "replacement": "+",
     "span": {
       "end": {
-        "column": 21,
-        "line": 128
+        "column": 33,
+        "line": 24
       },
       "start": {
-        "column": 20,
-        "line": 128
+        "column": 32,
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with / in correct_digits\n@@ -120,17 +120,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed / /* ~ changed by cargo-mutants ~ */ certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace - with / in intervals\n@@ -16,17 +16,17 @@\n use ax_core::finding::Handle;\n use ax_core::{AnomalyClass, Finding};\n \n #[derive(Debug, Default, Clone)]\n pub struct CadenceDetector;\n \n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n-    xs.windows(2).map(|w| w[1] - w[0]).collect()\n+    xs.windows(2).map(|w| w[1] / /* ~ changed by cargo-mutants ~ */ w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "intervals",
+      "return_type": "-> Vec<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 25
         },
         "start": {
           "column": 1,
-          "line": 120
+          "line": 22
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:128:20: replace - with / in correct_digits",
-    "package": "ax-validate",
+    "name": "crates/ax-detect/src/cadence.rs:24:32: replace - with / in intervals",
+    "package": "ax-detect",
     "replacement": "/",
     "span": {
       "end": {
-        "column": 21,
-        "line": 128
+        "column": 33,
+        "line": 24
       },
       "start": {
-        "column": 20,
-        "line": 128
+        "column": 32,
+        "line": 24
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in correct_digits\n@@ -124,17 +124,17 @@\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n-    if rel == 0.0 {\n+    if rel != /* ~ changed by cargo-mutants ~ */ 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace coefficient_of_variation -> Option<f64> with None\n@@ -22,22 +22,17 @@\n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n     xs.windows(2).map(|w| w[1] - w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n-    let mean = det::mean(xs)?;\n-    if mean <= 0.0 {\n-        return None;\n-    }\n-    let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 36
         },
         "start": {
           "column": 1,
-          "line": 120
+          "line": 27
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with None",
+    "package": "ax-detect",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 35
+      },
+      "start": {
+        "column": 5,
+        "line": 30
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace coefficient_of_variation -> Option<f64> with Some(0.0)\n@@ -22,22 +22,17 @@\n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n     xs.windows(2).map(|w| w[1] - w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n-    let mean = det::mean(xs)?;\n-    if mean <= 0.0 {\n-        return None;\n-    }\n-    let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 36
+        },
+        "start": {
+          "column": 1,
+          "line": 27
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(0.0)",
+    "package": "ax-detect",
+    "replacement": "Some(0.0)",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 35
+      },
+      "start": {
+        "column": 5,
+        "line": 30
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace coefficient_of_variation -> Option<f64> with Some(1.0)\n@@ -22,22 +22,17 @@\n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n     xs.windows(2).map(|w| w[1] - w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n-    let mean = det::mean(xs)?;\n-    if mean <= 0.0 {\n-        return None;\n-    }\n-    let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 36
+        },
+        "start": {
+          "column": 1,
+          "line": 27
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(1.0)",
+    "package": "ax-detect",
+    "replacement": "Some(1.0)",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 35
+      },
+      "start": {
+        "column": 5,
+        "line": 30
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace coefficient_of_variation -> Option<f64> with Some(-1.0)\n@@ -22,22 +22,17 @@\n /// Consecutive forward differences of a value sequence.\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n     xs.windows(2).map(|w| w[1] - w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n-    let mean = det::mean(xs)?;\n-    if mean <= 0.0 {\n-        return None;\n-    }\n-    let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 36
+        },
+        "start": {
+          "column": 1,
+          "line": 27
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:30:5: replace coefficient_of_variation -> Option<f64> with Some(-1.0)",
+    "package": "ax-detect",
+    "replacement": "Some(-1.0)",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 35
+      },
+      "start": {
+        "column": 5,
+        "line": 30
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace <= with > in coefficient_of_variation\n@@ -23,17 +23,17 @@\n pub fn intervals(xs: &[f64]) -> Vec<f64> {\n     xs.windows(2).map(|w| w[1] - w[0]).collect()\n }\n \n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n-    if mean <= 0.0 {\n+    if mean > /* ~ changed by cargo-mutants ~ */ 0.0 {\n         return None;\n     }\n     let sd = det::std_dev(xs)?;\n     Some(sd / mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 36
+        },
+        "start": {
+          "column": 1,
+          "line": 27
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:132:12: replace == with != in correct_digits",
-    "package": "ax-validate",
-    "replacement": "!=",
+    "name": "crates/ax-detect/src/cadence.rs:31:13: replace <= with > in coefficient_of_variation",
+    "package": "ax-detect",
+    "replacement": ">",
     "span": {
       "end": {
-        "column": 14,
-        "line": 132
+        "column": 15,
+        "line": 31
       },
       "start": {
-        "column": 12,
-        "line": 132
+        "column": 13,
+        "line": 31
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ delete - in correct_digits\n@@ -127,17 +127,17 @@\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n-        -rel.log10()\n+         /* ~ changed by cargo-mutants ~ */rel.log10()\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace / with % in coefficient_of_variation\n@@ -27,17 +27,17 @@\n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n     }\n     let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    Some(sd % /* ~ changed by cargo-mutants ~ */ mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
       "span": {
         "end": {
           "column": 2,
-          "line": 137
+          "line": 36
         },
         "start": {
           "column": 1,
-          "line": 120
+          "line": 27
         }
       }
     },
-    "genre": "UnaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:135:9: delete - in correct_digits",
-    "package": "ax-validate",
-    "replacement": "",
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:35:13: replace / with % in coefficient_of_variation",
+    "package": "ax-detect",
+    "replacement": "%",
     "span": {
       "end": {
-        "column": 10,
-        "line": 135
+        "column": 14,
+        "line": 35
+      },
+      "start": {
+        "column": 13,
+        "line": 35
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace / with * in coefficient_of_variation\n@@ -27,17 +27,17 @@\n /// Coefficient of variation `σ/μ` of `xs`. `None` unless there are at least two\n /// values and the mean is strictly positive (a progressing series).\n pub fn coefficient_of_variation(xs: &[f64]) -> Option<f64> {\n     let mean = det::mean(xs)?;\n     if mean <= 0.0 {\n         return None;\n     }\n     let sd = det::std_dev(xs)?;\n-    Some(sd / mean)\n+    Some(sd * /* ~ changed by cargo-mutants ~ */ mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "coefficient_of_variation",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 36
+        },
+        "start": {
+          "column": 1,
+          "line": 27
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:35:13: replace / with * in coefficient_of_variation",
+    "package": "ax-detect",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 35
+      },
+      "start": {
+        "column": 13,
+        "line": 35
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace <impl Detector for CadenceDetector>::id -> &'static str with \"\"\n@@ -32,17 +32,17 @@\n         return None;\n     }\n     let sd = det::std_dev(xs)?;\n     Some(sd / mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n-        \"cad.regularity\"\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n     }\n     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {\n         let Some(name) = cfg.cadence_column.as_deref() else {\n             out.mark_absent(\n                 self.id(),\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::id",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 41
+        },
+        "start": {
+          "column": 5,
+          "line": 39
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:40:9: replace <impl Detector for CadenceDetector>::id -> &'static str with \"\"",
+    "package": "ax-detect",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 40
       },
       "start": {
         "column": 9,
-        "line": 135
+        "line": 40
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace <impl Detector for CadenceDetector>::id -> &'static str with \"xyzzy\"\n@@ -32,17 +32,17 @@\n         return None;\n     }\n     let sd = det::std_dev(xs)?;\n     Some(sd / mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n-        \"cad.regularity\"\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n     }\n     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {\n         let Some(name) = cfg.cadence_column.as_deref() else {\n             out.mark_absent(\n                 self.id(),\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::id",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 41
+        },
+        "start": {
+          "column": 5,
+          "line": 39
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:40:9: replace <impl Detector for CadenceDetector>::id -> &'static str with \"xyzzy\"",
+    "package": "ax-detect",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 40
+      },
+      "start": {
+        "column": 9,
+        "line": 40
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace <impl Detector for CadenceDetector>::class -> AnomalyClass with Default::default()\n@@ -35,17 +35,17 @@\n     Some(sd / mean)\n }\n \n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n-        AnomalyClass::Cadence\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {\n         let Some(name) = cfg.cadence_column.as_deref() else {\n             out.mark_absent(\n                 self.id(),\n                 \"cadence detection requires a time column (pass --cadence <COL>)\",\n             );\n             return;\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::class",
+      "return_type": "-> AnomalyClass",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 44
+        },
+        "start": {
+          "column": 5,
+          "line": 42
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:43:9: replace <impl Detector for CadenceDetector>::class -> AnomalyClass with Default::default()",
+    "package": "ax-detect",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 30,
+        "line": 43
+      },
+      "start": {
+        "column": 9,
+        "line": 43
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace <impl Detector for CadenceDetector>::detect with ()\n@@ -38,62 +38,17 @@\n impl Detector for CadenceDetector {\n     fn id(&self) -> &'static str {\n         \"cad.regularity\"\n     }\n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Cadence\n     }\n     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {\n-        let Some(name) = cfg.cadence_column.as_deref() else {\n-            out.mark_absent(\n-                self.id(),\n-                \"cadence detection requires a time column (pass --cadence <COL>)\",\n-            );\n-            return;\n-        };\n-        let Some(col) = ctx.current.column(name) else {\n-            out.mark_absent(self.id(), format!(\"column '{name}' not found\"));\n-            return;\n-        };\n-        let values = col.numeric();\n-        let deltas = intervals(&values);\n-        if deltas.len() < cfg.cad_min_n {\n-            out.mark_absent(\n-                self.id(),\n-                format!(\"column '{name}' has fewer than {} intervals\", cfg.cad_min_n),\n-            );\n-            return;\n-        }\n-        let Some(cv) = coefficient_of_variation(&deltas) else {\n-            out.mark_absent(\n-                self.id(),\n-                format!(\"column '{name}' is not a progressing time series (non-positive mean interval)\"),\n-            );\n-            return;\n-        };\n-\n-        // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n-        // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n-        // genuinely-killable `min_n` `<` above stay under the gate.\n-        if cfg.cad_max_cv > cv {\n-            // Lower CV ⇒ more metronomic ⇒ higher confidence.\n-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n-            out.push(Finding::new(\n-                self.id(),\n-                AnomalyClass::Cadence,\n-                Handle::Column { name: name.to_string() },\n-                confidence,\n-                cv,\n-                format!(\n-                    \"column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence\",\n-                    cfg.cad_max_cv\n-                ),\n-            ));\n-        }\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::{Column, RecordSet, Value};\n \n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/cadence.rs:46:9: replace <impl Detector for CadenceDetector>::detect with ()",
+    "package": "ax-detect",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 91
+      },
+      "start": {
+        "column": 9,
+        "line": 46
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace < with == in <impl Detector for CadenceDetector>::detect\n@@ -51,17 +51,17 @@\n             return;\n         };\n         let Some(col) = ctx.current.column(name) else {\n             out.mark_absent(self.id(), format!(\"column '{name}' not found\"));\n             return;\n         };\n         let values = col.numeric();\n         let deltas = intervals(&values);\n-        if deltas.len() < cfg.cad_min_n {\n+        if deltas.len() == /* ~ changed by cargo-mutants ~ */ cfg.cad_min_n {\n             out.mark_absent(\n                 self.id(),\n                 format!(\"column '{name}' has fewer than {} intervals\", cfg.cad_min_n),\n             );\n             return;\n         }\n         let Some(cv) = coefficient_of_variation(&deltas) else {\n             out.mark_absent(\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:59:25: replace < with == in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 59
+      },
+      "start": {
+        "column": 25,
+        "line": 59
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace < with > in <impl Detector for CadenceDetector>::detect\n@@ -51,17 +51,17 @@\n             return;\n         };\n         let Some(col) = ctx.current.column(name) else {\n             out.mark_absent(self.id(), format!(\"column '{name}' not found\"));\n             return;\n         };\n         let values = col.numeric();\n         let deltas = intervals(&values);\n-        if deltas.len() < cfg.cad_min_n {\n+        if deltas.len() > /* ~ changed by cargo-mutants ~ */ cfg.cad_min_n {\n             out.mark_absent(\n                 self.id(),\n                 format!(\"column '{name}' has fewer than {} intervals\", cfg.cad_min_n),\n             );\n             return;\n         }\n         let Some(cv) = coefficient_of_variation(&deltas) else {\n             out.mark_absent(\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:59:25: replace < with > in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": ">",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 59
+      },
+      "start": {
+        "column": 25,
+        "line": 59
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace < with <= in <impl Detector for CadenceDetector>::detect\n@@ -51,17 +51,17 @@\n             return;\n         };\n         let Some(col) = ctx.current.column(name) else {\n             out.mark_absent(self.id(), format!(\"column '{name}' not found\"));\n             return;\n         };\n         let values = col.numeric();\n         let deltas = intervals(&values);\n-        if deltas.len() < cfg.cad_min_n {\n+        if deltas.len() <= /* ~ changed by cargo-mutants ~ */ cfg.cad_min_n {\n             out.mark_absent(\n                 self.id(),\n                 format!(\"column '{name}' has fewer than {} intervals\", cfg.cad_min_n),\n             );\n             return;\n         }\n         let Some(cv) = coefficient_of_variation(&deltas) else {\n             out.mark_absent(\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:59:25: replace < with <= in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "<=",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 59
+      },
+      "start": {
+        "column": 25,
+        "line": 59
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace > with == in <impl Detector for CadenceDetector>::detect\n@@ -69,17 +69,17 @@\n                 format!(\"column '{name}' is not a progressing time series (non-positive mean interval)\"),\n             );\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n-        if cfg.cad_max_cv > cv {\n+        if cfg.cad_max_cv == /* ~ changed by cargo-mutants ~ */ cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n             let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:77:27: replace > with == in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 77
+      },
+      "start": {
+        "column": 27,
+        "line": 77
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace > with < in <impl Detector for CadenceDetector>::detect\n@@ -69,17 +69,17 @@\n                 format!(\"column '{name}' is not a progressing time series (non-positive mean interval)\"),\n             );\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n-        if cfg.cad_max_cv > cv {\n+        if cfg.cad_max_cv < /* ~ changed by cargo-mutants ~ */ cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n             let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:77:27: replace > with < in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 77
+      },
+      "start": {
+        "column": 27,
+        "line": 77
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace - with + in <impl Detector for CadenceDetector>::detect\n@@ -71,17 +71,17 @@\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n         if cfg.cad_max_cv > cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n+            let confidence = (1.0 + /* ~ changed by cargo-mutants ~ */ cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n                 format!(\n                     \"column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence\",\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:79:35: replace - with + in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 79
+      },
+      "start": {
+        "column": 35,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace - with / in <impl Detector for CadenceDetector>::detect\n@@ -71,17 +71,17 @@\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n         if cfg.cad_max_cv > cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n+            let confidence = (1.0 / /* ~ changed by cargo-mutants ~ */ cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n                 format!(\n                     \"column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence\",\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:79:35: replace - with / in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 36,
+        "line": 79
+      },
+      "start": {
+        "column": 35,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace / with % in <impl Detector for CadenceDetector>::detect\n@@ -71,17 +71,17 @@\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n         if cfg.cad_max_cv > cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n+            let confidence = (1.0 - cv % /* ~ changed by cargo-mutants ~ */ cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n                 format!(\n                     \"column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence\",\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:79:40: replace / with % in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "%",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 79
+      },
+      "start": {
+        "column": 40,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/cadence.rs\n+++ replace / with * in <impl Detector for CadenceDetector>::detect\n@@ -71,17 +71,17 @@\n             return;\n         };\n \n         // Written `threshold > cv` (not `cv < threshold`) so the measure-zero\n         // boundary mutant has a distinct `>`/`>=` descriptor — letting the\n         // genuinely-killable `min_n` `<` above stay under the gate.\n         if cfg.cad_max_cv > cv {\n             // Lower CV ⇒ more metronomic ⇒ higher confidence.\n-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);\n+            let confidence = (1.0 - cv * /* ~ changed by cargo-mutants ~ */ cfg.cad_max_cv).clamp(0.0, 1.0);\n             out.push(Finding::new(\n                 self.id(),\n                 AnomalyClass::Cadence,\n                 Handle::Column { name: name.to_string() },\n                 confidence,\n                 cv,\n                 format!(\n                     \"column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence\",\n",
+    "file": "crates/ax-detect/src/cadence.rs",
+    "function": {
+      "function_name": "<impl Detector for CadenceDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 92
+        },
+        "start": {
+          "column": 5,
+          "line": 45
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/cadence.rs:79:40: replace / with * in <impl Detector for CadenceDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 79
+      },
+      "start": {
+        "column": 40,
+        "line": 79
       }
     }
   }

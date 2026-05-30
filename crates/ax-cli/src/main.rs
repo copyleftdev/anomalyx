@@ -66,10 +66,12 @@ fn usage() -> &'static str {
      USAGE:\n\
      \x20 anomalyx describe                         Protocol metadata\n\
      \x20 anomalyx schema                           JSON Schema of scan output\n\
-     \x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\n\
-     \x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\n\
+     \x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [PATH]\n\
+     \x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [PATH]\n\
      \n\
-     With --baseline, distributional drift and schema-diff are compared against B.\n\
+     --baseline B  compare against B (distributional drift + schema-diff)\n\
+     --period N    treat rows as a time series of period N (contextual/seasonal)\n\
+     --cadence COL assess column COL for metronomic timing (cadence)\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
@@ -80,6 +82,7 @@ fn usage() -> &'static str {
 struct ScanArgs {
     baseline: Option<String>,
     period: Option<usize>,
+    cadence: Option<String>,
     positional: Vec<String>,
 }
 
@@ -103,16 +106,23 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                 })?;
                 parsed.period = Some(n);
             }
+            "--cadence" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--cadence requires a column name".into()))?;
+                parsed.cadence = Some(v.clone());
+            }
             _ => parsed.positional.push(arg.clone()),
         }
     }
     Ok(parsed)
 }
 
-/// Builds the detector config, applying any `--period` override.
+/// Builds the detector config, applying any `--period` / `--cadence` overrides.
 fn config_for(args: &ScanArgs) -> DetectConfig {
     DetectConfig {
         ctx_period: args.period.unwrap_or(0),
+        cadence_column: args.cadence.clone(),
         ..DetectConfig::default()
     }
 }
@@ -423,11 +433,14 @@ mod tests {
             "base.csv",
             "--period",
             "7",
+            "--cadence",
+            "ts",
             "cur.csv",
         ]))
         .unwrap();
         assert_eq!(a.baseline, Some("base.csv".to_string()));
         assert_eq!(a.period, Some(7));
+        assert_eq!(a.cadence, Some("ts".to_string()));
         assert_eq!(a.positional, strings(&["cur.csv"]));
     }
 
@@ -455,5 +468,13 @@ mod tests {
         assert_eq!(config_for(&a).ctx_period, 24);
         // no --period ⇒ disabled (0)
         assert_eq!(config_for(&ScanArgs::default()).ctx_period, 0);
+
+        // --cadence threads through to the config column
+        let c = ScanArgs {
+            cadence: Some("ts".into()),
+            ..ScanArgs::default()
+        };
+        assert_eq!(config_for(&c).cadence_column.as_deref(), Some("ts"));
+        assert_eq!(config_for(&ScanArgs::default()).cadence_column, None);
     }
 }

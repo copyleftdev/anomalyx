@@ -20,6 +20,7 @@ exclude_re = [
     "replace > with >= in <impl Detector for PsiDetector>::detect",
     "replace < with <= in <impl Detector for MahalanobisDetector>::detect",
     "replace > with >= in <impl Detector for CusumDetector>::detect",
+    "replace > with >= in <impl Detector for CadenceDetector>::detect",
 
     # CUSUM uses only |S_k|, so negating the accumulation (`+=` → `-=`) leaves
     # every magnitude — and thus the chosen change point — identical. Equivalent.

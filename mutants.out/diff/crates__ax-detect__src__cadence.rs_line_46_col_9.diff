@@ -1,0 +1,66 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace <impl Detector for CadenceDetector>::detect with ()
+@@ -38,62 +38,17 @@
+ impl Detector for CadenceDetector {
+     fn id(&self) -> &'static str {
+         "cad.regularity"
+     }
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Cadence
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+-        let Some(name) = cfg.cadence_column.as_deref() else {
+-            out.mark_absent(
+-                self.id(),
+-                "cadence detection requires a time column (pass --cadence <COL>)",
+-            );
+-            return;
+-        };
+-        let Some(col) = ctx.current.column(name) else {
+-            out.mark_absent(self.id(), format!("column '{name}' not found"));
+-            return;
+-        };
+-        let values = col.numeric();
+-        let deltas = intervals(&values);
+-        if deltas.len() < cfg.cad_min_n {
+-            out.mark_absent(
+-                self.id(),
+-                format!("column '{name}' has fewer than {} intervals", cfg.cad_min_n),
+-            );
+-            return;
+-        }
+-        let Some(cv) = coefficient_of_variation(&deltas) else {
+-            out.mark_absent(
+-                self.id(),
+-                format!("column '{name}' is not a progressing time series (non-positive mean interval)"),
+-            );
+-            return;
+-        };
+-
+-        // Written `threshold > cv` (not `cv < threshold`) so the measure-zero
+-        // boundary mutant has a distinct `>`/`>=` descriptor — letting the
+-        // genuinely-killable `min_n` `<` above stay under the gate.
+-        if cfg.cad_max_cv > cv {
+-            // Lower CV ⇒ more metronomic ⇒ higher confidence.
+-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);
+-            out.push(Finding::new(
+-                self.id(),
+-                AnomalyClass::Cadence,
+-                Handle::Column { name: name.to_string() },
+-                confidence,
+-                cv,
+-                format!(
+-                    "column '{name}': inter-arrival CV={cv:.5} < {:.5} — metronomic (automated) cadence",
+-                    cfg.cad_max_cv
+-                ),
+-            ));
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::{Column, RecordSet, Value};
+ 

@@ -1,0 +1,29 @@
+--- crates/ax-cli/src/main.rs
++++ delete match arm "--period" in parse_scan_args
+@@ -92,25 +92,17 @@
+     while let Some(arg) = it.next() {
+         match arg.as_str() {
+             "--baseline" => {
+                 let v = it
+                     .next()
+                     .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+                 parsed.baseline = Some(v.clone());
+             }
+-            "--period" => {
+-                let v = it
+-                    .next()
+-                    .ok_or_else(|| AxError::Config("--period requires an integer".into()))?;
+-                let n = v.parse::<usize>().map_err(|_| {
+-                    AxError::Config(format!("--period must be an integer, got '{v}'"))
+-                })?;
+-                parsed.period = Some(n);
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             "--cadence" => {
+                 let v = it
+                     .next()
+                     .ok_or_else(|| AxError::Config("--cadence requires a column name".into()))?;
+                 parsed.cadence = Some(v.clone());
+             }
+             _ => parsed.positional.push(arg.clone()),
+         }

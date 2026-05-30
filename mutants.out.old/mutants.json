@@ -1,29 +1,61 @@
 [
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace parse -> Strd with Default::default()\n@@ -29,70 +29,17 @@\n /// Parses the standard NIST StRD univariate `.dat` layout: a documentation\n /// header carrying the certified values (each on a line keyed by a trailing\n /// `label:` token), an all-dashes separator, then one observation per line.\n ///\n /// Panics on a malformed file — these are vendored fixtures, so a parse failure\n /// is a build-time bug to fix, not a runtime condition to handle.\n pub fn parse(name: &str, text: &str) -> Strd {\n     // `str::lines` already strips the `\\r` of CRLF endings.\n-    let lines: Vec<&str> = text.lines().collect();\n-\n-    // The certified value is the first whitespace token after the final colon\n-    // on the line carrying `keyword` (e.g. \"... ybar:  -177.4350  (exact)\").\n-    let certified = |keyword: &str| -> f64 {\n-        let line = lines\n-            .iter()\n-            .find(|l| l.contains(keyword))\n-            .unwrap_or_else(|| panic!(\"{name}: no line containing '{keyword}'\"));\n-        let after_colon = line\n-            .rsplit(':')\n-            .next()\n-            .unwrap_or_else(|| panic!(\"{name}: no ':' on '{keyword}' line\"));\n-        after_colon\n-            .split_whitespace()\n-            .next()\n-            .unwrap_or_else(|| panic!(\"{name}: no value after '{keyword}:'\"))\n-            .parse()\n-            .unwrap_or_else(|e| panic!(\"{name}: bad '{keyword}' value: {e}\"))\n-    };\n-\n-    let mean = certified(\"Sample Mean\");\n-    let std = certified(\"Standard Deviation\");\n-    let autocorr = certified(\"Autocorrelation\");\n-    let nobs = certified(\"Number of Observations\") as usize;\n-\n-    // Data starts after the all-dashes separator line.\n-    let sep = lines\n-        .iter()\n-        .position(|l| {\n-            let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n-        })\n-        .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n-    let data: Vec<f64> = lines[sep + 1..]\n-        .iter()\n-        .filter_map(|l| l.trim().parse::<f64>().ok())\n-        .collect();\n-\n-    assert_eq!(\n-        data.len(),\n-        nobs,\n-        \"{name}: parsed {} observations, certified {nobs}\",\n-        data.len()\n-    );\n-\n-    Strd {\n-        name: name.to_string(),\n-        mean,\n-        std,\n-        autocorr,\n-        nobs,\n-        data,\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n /// The NIST StRD univariate datasets, vendored and embedded. Ordered roughly by\n /// numerical difficulty; the `NumAcc*` set is purpose-built to break naïve\n /// statistics code.\n pub const DATASETS: &[(&str, &str)] = &[\n     (\"PiDigits\", include_str!(\"../data/strd/PiDigits.dat\")),\n     (\"Lottery\", include_str!(\"../data/strd/Lottery.dat\")),\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace main -> ProcExit with Default::default()\n@@ -18,24 +18,17 @@\n use ax_detect::{DetectConfig, Registry, ScanContext};\n use std::io::Read;\n use std::process::ExitCode as ProcExit;\n \n mod describe;\n mod schema;\n \n fn main() -> ProcExit {\n-    let args: Vec<String> = std::env::args().skip(1).collect();\n-    match run(&args) {\n-        Ok(code) => ProcExit::from(code.code() as u8),\n-        Err(e) => {\n-            eprintln!(\"anomalyx: error: {e}\");\n-            ProcExit::from(ExitCode::Error.code() as u8)\n-        }\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n     let Some((cmd, rest)) = args.split_first() else {\n         eprintln!(\"{}\", usage());\n         return Ok(ExitCode::Error);\n     };\n     match cmd.as_str() {\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
+      "function_name": "main",
+      "return_type": "-> ProcExit",
       "span": {
         "end": {
           "column": 2,
-          "line": 91
+          "line": 34
         },
         "start": {
           "column": 1,
-          "line": 29
+          "line": 25
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:37:5: replace parse -> Strd with Default::default()",
-    "package": "ax-validate",
+    "name": "crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()",
+    "package": "ax-cli",
     "replacement": "Default::default()",
     "span": {
       "end": {
         "column": 6,
-        "line": 90
+        "line": 33
+      },
+      "start": {
+        "column": 5,
+        "line": 26
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace run -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -29,40 +29,17 @@\n         Err(e) => {\n             eprintln!(\"anomalyx: error: {e}\");\n             ProcExit::from(ExitCode::Error.code() as u8)\n         }\n     }\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n-    let Some((cmd, rest)) = args.split_first() else {\n-        eprintln!(\"{}\", usage());\n-        return Ok(ExitCode::Error);\n-    };\n-    match cmd.as_str() {\n-        \"describe\" => {\n-            println!(\"{}\", describe::describe_json());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"schema\" => {\n-            println!(\"{}\", schema::envelope_schema());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"scan\" => cmd_scan(rest),\n-        \"explain\" => cmd_explain(rest),\n-        \"-h\" | \"--help\" | \"help\" => {\n-            println!(\"{}\", usage());\n-            Ok(ExitCode::Clean)\n-        }\n-        other => Err(AxError::Config(format!(\n-            \"unknown command '{other}'\\n{}\",\n-            usage()\n-        ))),\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn usage() -> &'static str {\n     \"anomalyx — contract-first anomaly detection\\n\\\n      \\n\\\n      USAGE:\\n\\\n      \\x20 anomalyx describe                         Protocol metadata\\n\\\n      \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "run",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 61
+        },
+        "start": {
+          "column": 1,
+          "line": 36
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 60
       },
       "start": {
         "column": 5,
@@ -32,1058 +64,1122 @@
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace && with || in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() >= 3 || /* ~ changed by cargo-mutants ~ */ t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .filter_map(|l| l.trim().parse::<f64>().ok())\n         .collect();\n \n     assert_eq!(\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"\"\n@@ -56,28 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [PATH]\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [PATH]\\n\\\n-     \\n\\\n-     --baseline B  compare against B (distributional drift + schema-diff)\\n\\\n-     --period N    treat rows as a time series of period N (contextual/seasonal)\\n\\\n-     --cadence COL assess column COL for metronomic timing (cadence)\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Parsed scan/explain arguments: optional `--baseline <PATH>`, optional\n /// `--period <N>`, and the remaining positionals. Fails cleanly on a flag with a\n /// missing or malformed value.\n #[derive(Debug, Default, PartialEq)]\n struct ScanArgs {\n     baseline: Option<String>,\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
+      "function_name": "usage",
+      "return_type": "-> &'static str",
       "span": {
         "end": {
           "column": 2,
-          "line": 91
+          "line": 76
         },
         "start": {
           "column": 1,
-          "line": 29
+          "line": 63
         }
       }
     },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:26: replace && with || in parse",
-    "package": "ax-validate",
-    "replacement": "||",
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"\"",
+    "package": "ax-cli",
+    "replacement": "\"\"",
     "span": {
       "end": {
-        "column": 28,
-        "line": 68
+        "column": 50,
+        "line": 75
       },
       "start": {
-        "column": 26,
-        "line": 68
+        "column": 5,
+        "line": 64
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace >= with < in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() < /* ~ changed by cargo-mutants ~ */ 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .filter_map(|l| l.trim().parse::<f64>().ok())\n         .collect();\n \n     assert_eq!(\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"xyzzy\"\n@@ -56,28 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [PATH]\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [PATH]\\n\\\n-     \\n\\\n-     --baseline B  compare against B (distributional drift + schema-diff)\\n\\\n-     --period N    treat rows as a time series of period N (contextual/seasonal)\\n\\\n-     --cadence COL assess column COL for metronomic timing (cadence)\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Parsed scan/explain arguments: optional `--baseline <PATH>`, optional\n /// `--period <N>`, and the remaining positionals. Fails cleanly on a flag with a\n /// missing or malformed value.\n #[derive(Debug, Default, PartialEq)]\n struct ScanArgs {\n     baseline: Option<String>,\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
+      "function_name": "usage",
+      "return_type": "-> &'static str",
       "span": {
         "end": {
           "column": 2,
-          "line": 91
+          "line": 76
         },
         "start": {
           "column": 1,
-          "line": 29
+          "line": 63
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"xyzzy\"",
+    "package": "ax-cli",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 50,
+        "line": 75
+      },
+      "start": {
+        "column": 5,
+        "line": 64
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace parse_scan_args -> Result<ScanArgs, AxError> with Ok(Default::default())\n@@ -82,45 +82,17 @@\n struct ScanArgs {\n     baseline: Option<String>,\n     period: Option<usize>,\n     cadence: Option<String>,\n     positional: Vec<String>,\n }\n \n fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {\n-    let mut parsed = ScanArgs::default();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        match arg.as_str() {\n-            \"--baseline\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-                parsed.baseline = Some(v.clone());\n-            }\n-            \"--period\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--period requires an integer\".into()))?;\n-                let n = v.parse::<usize>().map_err(|_| {\n-                    AxError::Config(format!(\"--period must be an integer, got '{v}'\"))\n-                })?;\n-                parsed.period = Some(n);\n-            }\n-            \"--cadence\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--cadence requires a column name\".into()))?;\n-                parsed.cadence = Some(v.clone());\n-            }\n-            _ => parsed.positional.push(arg.clone()),\n-        }\n-    }\n-    Ok(parsed)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Builds the detector config, applying any `--period` / `--cadence` overrides.\n fn config_for(args: &ScanArgs) -> DetectConfig {\n     DetectConfig {\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "parse_scan_args",
+      "return_type": "-> Result<ScanArgs, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 119
+        },
+        "start": {
+          "column": 1,
+          "line": 89
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:90:5: replace parse_scan_args -> Result<ScanArgs, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 15,
+        "line": 118
+      },
+      "start": {
+        "column": 5,
+        "line": 90
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ delete match arm \"--baseline\" in parse_scan_args\n@@ -86,22 +86,17 @@\n     positional: Vec<String>,\n }\n \n fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {\n     let mut parsed = ScanArgs::default();\n     let mut it = args.iter();\n     while let Some(arg) = it.next() {\n         match arg.as_str() {\n-            \"--baseline\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-                parsed.baseline = Some(v.clone());\n-            }\n+             /* ~ changed by cargo-mutants ~ */\n             \"--period\" => {\n                 let v = it\n                     .next()\n                     .ok_or_else(|| AxError::Config(\"--period requires an integer\".into()))?;\n                 let n = v.parse::<usize>().map_err(|_| {\n                     AxError::Config(format!(\"--period must be an integer, got '{v}'\"))\n                 })?;\n                 parsed.period = Some(n);\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "parse_scan_args",
+      "return_type": "-> Result<ScanArgs, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 119
+        },
+        "start": {
+          "column": 1,
+          "line": 89
+        }
+      }
+    },
+    "genre": "MatchArm",
+    "name": "crates/ax-cli/src/main.rs:94:13: delete match arm \"--baseline\" in parse_scan_args",
+    "package": "ax-cli",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 99
+      },
+      "start": {
+        "column": 13,
+        "line": 94
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ delete match arm \"--period\" in parse_scan_args\n@@ -92,25 +92,17 @@\n     while let Some(arg) = it.next() {\n         match arg.as_str() {\n             \"--baseline\" => {\n                 let v = it\n                     .next()\n                     .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n                 parsed.baseline = Some(v.clone());\n             }\n-            \"--period\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--period requires an integer\".into()))?;\n-                let n = v.parse::<usize>().map_err(|_| {\n-                    AxError::Config(format!(\"--period must be an integer, got '{v}'\"))\n-                })?;\n-                parsed.period = Some(n);\n-            }\n+             /* ~ changed by cargo-mutants ~ */\n             \"--cadence\" => {\n                 let v = it\n                     .next()\n                     .ok_or_else(|| AxError::Config(\"--cadence requires a column name\".into()))?;\n                 parsed.cadence = Some(v.clone());\n             }\n             _ => parsed.positional.push(arg.clone()),\n         }\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "parse_scan_args",
+      "return_type": "-> Result<ScanArgs, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 119
+        },
+        "start": {
+          "column": 1,
+          "line": 89
+        }
+      }
+    },
+    "genre": "MatchArm",
+    "name": "crates/ax-cli/src/main.rs:100:13: delete match arm \"--period\" in parse_scan_args",
+    "package": "ax-cli",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 108
+      },
+      "start": {
+        "column": 13,
+        "line": 100
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ delete match arm \"--cadence\" in parse_scan_args\n@@ -101,22 +101,17 @@\n                 let v = it\n                     .next()\n                     .ok_or_else(|| AxError::Config(\"--period requires an integer\".into()))?;\n                 let n = v.parse::<usize>().map_err(|_| {\n                     AxError::Config(format!(\"--period must be an integer, got '{v}'\"))\n                 })?;\n                 parsed.period = Some(n);\n             }\n-            \"--cadence\" => {\n-                let v = it\n-                    .next()\n-                    .ok_or_else(|| AxError::Config(\"--cadence requires a column name\".into()))?;\n-                parsed.cadence = Some(v.clone());\n-            }\n+             /* ~ changed by cargo-mutants ~ */\n             _ => parsed.positional.push(arg.clone()),\n         }\n     }\n     Ok(parsed)\n }\n \n /// Builds the detector config, applying any `--period` / `--cadence` overrides.\n fn config_for(args: &ScanArgs) -> DetectConfig {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "parse_scan_args",
+      "return_type": "-> Result<ScanArgs, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 119
+        },
+        "start": {
+          "column": 1,
+          "line": 89
+        }
+      }
+    },
+    "genre": "MatchArm",
+    "name": "crates/ax-cli/src/main.rs:109:13: delete match arm \"--cadence\" in parse_scan_args",
+    "package": "ax-cli",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 114
+      },
+      "start": {
+        "column": 13,
+        "line": 109
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace config_for -> DetectConfig with Default::default()\n@@ -115,21 +115,17 @@\n             _ => parsed.positional.push(arg.clone()),\n         }\n     }\n     Ok(parsed)\n }\n \n /// Builds the detector config, applying any `--period` / `--cadence` overrides.\n fn config_for(args: &ScanArgs) -> DetectConfig {\n-    DetectConfig {\n-        ctx_period: args.period.unwrap_or(0),\n-        cadence_column: args.cadence.clone(),\n-        ..DetectConfig::default()\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "config_for",
+      "return_type": "-> DetectConfig",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 121
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:123:5: replace config_for -> DetectConfig with Default::default()",
+    "package": "ax-cli",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 127
+      },
+      "start": {
+        "column": 5,
+        "line": 123
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ delete field ctx_period from struct DetectConfig expression in config_for\n@@ -116,17 +116,17 @@\n         }\n     }\n     Ok(parsed)\n }\n \n /// Builds the detector config, applying any `--period` / `--cadence` overrides.\n fn config_for(args: &ScanArgs) -> DetectConfig {\n     DetectConfig {\n-        ctx_period: args.period.unwrap_or(0),\n+         /* ~ changed by cargo-mutants ~ */\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "config_for",
+      "return_type": "-> DetectConfig",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 121
+        }
+      }
+    },
+    "genre": "StructField",
+    "name": "crates/ax-cli/src/main.rs:124:9: delete field ctx_period from struct DetectConfig expression in config_for",
+    "package": "ax-cli",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 46,
+        "line": 124
+      },
+      "start": {
+        "column": 9,
+        "line": 124
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ delete field cadence_column from struct DetectConfig expression in config_for\n@@ -117,17 +117,17 @@\n     }\n     Ok(parsed)\n }\n \n /// Builds the detector config, applying any `--period` / `--cadence` overrides.\n fn config_for(args: &ScanArgs) -> DetectConfig {\n     DetectConfig {\n         ctx_period: args.period.unwrap_or(0),\n-        cadence_column: args.cadence.clone(),\n+         /* ~ changed by cargo-mutants ~ */\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "config_for",
+      "return_type": "-> DetectConfig",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 121
+        }
+      }
+    },
+    "genre": "StructField",
+    "name": "crates/ax-cli/src/main.rs:125:9: delete field cadence_column from struct DetectConfig expression in config_for",
+    "package": "ax-cli",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 46,
+        "line": 125
+      },
+      "start": {
+        "column": 9,
+        "line": 125
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![0]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![1]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))\n@@ -124,29 +124,17 @@\n         ctx_period: args.period.unwrap_or(0),\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:132:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 144
+      },
+      "start": {
+        "column": 5,
+        "line": 132
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with true in read_input\n@@ -125,17 +125,17 @@\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if true /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-cli/src/main.rs:133:20: replace match guard p != \"-\" with true in read_input",
+    "package": "ax-cli",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 133
+      },
+      "start": {
+        "column": 20,
+        "line": 133
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with false in read_input\n@@ -125,17 +125,17 @@\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if false /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-cli/src/main.rs:133:20: replace match guard p != \"-\" with false in read_input",
+    "package": "ax-cli",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 133
+      },
+      "start": {
+        "column": 20,
+        "line": 133
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace != with == in read_input\n@@ -125,17 +125,17 @@\n         cadence_column: args.cadence.clone(),\n         ..DetectConfig::default()\n     }\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if p == /* ~ changed by cargo-mutants ~ */ \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 145
+        },
+        "start": {
+          "column": 1,
+          "line": 130
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:21: replace >= with < in parse",
-    "package": "ax-validate",
+    "name": "crates/ax-cli/src/main.rs:133:22: replace != with == in read_input",
+    "package": "ax-cli",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 133
+      },
+      "start": {
+        "column": 22,
+        "line": 133
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)\n@@ -141,23 +141,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(None) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let args = parse_scan_args(rest)?;\n     let (source, bytes) = read_input(args.positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&args.baseline)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 156
+        },
+        "start": {
+          "column": 1,
+          "line": 147
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:149:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
+    "package": "ax-cli",
+    "replacement": "Ok(None)",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 155
+      },
+      "start": {
+        "column": 5,
+        "line": 149
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))\n@@ -141,23 +141,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(Some(Default::default())) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let args = parse_scan_args(rest)?;\n     let (source, bytes) = read_input(args.positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&args.baseline)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 156
+        },
+        "start": {
+          "column": 1,
+          "line": 147
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:149:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
+    "package": "ax-cli",
+    "replacement": "Ok(Some(Default::default()))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 155
+      },
+      "start": {
+        "column": 5,
+        "line": 149
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -151,47 +151,17 @@\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n         }\n         None => Ok(None),\n     }\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let args = parse_scan_args(rest)?;\n-    let (source, bytes) = read_input(args.positional.first())?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&args.baseline)?;\n-\n-    let cfg = config_for(&args);\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-\n-    let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())\n-        .findings(report.findings);\n-    if let Some(b) = &baseline {\n-        builder = builder.baseline(b.source.clone());\n-    }\n-    for a in report.absent {\n-        builder = builder.absent(a.detector, a.reason);\n-    }\n-    let env = builder.build();\n-\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&env).expect(\"envelope serializes\")\n-    );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n-        ExitCode::Anomalies\n-    } else {\n-        ExitCode::Clean\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let args = parse_scan_args(rest)?;\n     let handle_str = args\n         .positional\n         .first()\n         .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_scan",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 190
+        },
+        "start": {
+          "column": 1,
+          "line": 158
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:159:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 7,
+        "line": 189
+      },
+      "start": {
+        "column": 5,
+        "line": 159
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_scan\n@@ -177,17 +177,17 @@\n         builder = builder.absent(a.detector, a.reason);\n     }\n     let env = builder.build();\n \n     println!(\n         \"{}\",\n         serde_json::to_string(&env).expect(\"envelope serializes\")\n     );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n+    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let args = parse_scan_args(rest)?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_scan",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 190
+        },
+        "start": {
+          "column": 1,
+          "line": 158
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:185:20: replace == with != in cmd_scan",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 185
+      },
+      "start": {
+        "column": 20,
+        "line": 185
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -185,53 +185,17 @@\n     Ok(if env.exit == ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let args = parse_scan_args(rest)?;\n-    let handle_str = args\n-        .positional\n-        .first()\n-        .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n-    let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n-\n-    let (source, bytes) = read_input(args.positional.get(1))?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&args.baseline)?;\n-\n-    let evidence = resolve_handle(&rs, &handle)?;\n-\n-    // Re-run detection and attach any findings that point at this handle.\n-    let cfg = config_for(&args);\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-    let findings: Vec<_> = report\n-        .findings\n-        .into_iter()\n-        .filter(|f| f.handle == handle)\n-        .collect();\n-\n-    let out = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"handle\": handle_str,\n-        \"evidence\": evidence,\n-        \"findings\": findings,\n-    });\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&out).expect(\"explain serializes\")\n-    );\n-    Ok(ExitCode::Clean)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n     let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n     match handle {\n         Handle::Column { name } | Handle::Dist { column: name } => {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_explain",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 230
+        },
+        "start": {
+          "column": 1,
+          "line": 192
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:193:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 229
+      },
+      "start": {
+        "column": 5,
+        "line": 193
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_explain\n@@ -208,17 +208,17 @@\n     let ctx = match &baseline {\n         Some(b) => ScanContext::compared(b, &rs),\n         None => ScanContext::single(&rs),\n     };\n     let report = Registry::default_set().run(&ctx, &cfg);\n     let findings: Vec<_> = report\n         .findings\n         .into_iter()\n-        .filter(|f| f.handle == handle)\n+        .filter(|f| f.handle != /* ~ changed by cargo-mutants ~ */ handle)\n         .collect();\n \n     let out = serde_json::json!({\n         \"protocol\": PROTOCOL,\n         \"handle\": handle_str,\n         \"evidence\": evidence,\n         \"findings\": findings,\n     });\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_explain",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 230
+        },
+        "start": {
+          "column": 1,
+          "line": 192
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:216:30: replace == with != in cmd_explain",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 216
+      },
+      "start": {
+        "column": 30,
+        "line": 216
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())\n@@ -227,73 +227,17 @@\n         serde_json::to_string(&out).expect(\"explain serializes\")\n     );\n     Ok(ExitCode::Clean)\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n-    match handle {\n-        Handle::Column { name } | Handle::Dist { column: name } => {\n-            let col = rs.column(name).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"column\",\n-                \"column\": col.name,\n-                \"type\": col.ty,\n-                \"len\": col.len(),\n-                \"nulls\": col.null_count(),\n-            }))\n-        }\n-        Handle::Cell { column, row } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"cell\",\n-                \"column\": col.name,\n-                \"row\": row,\n-                \"value\": value,\n-                \"column_type\": col.ty,\n-            }))\n-        }\n-        Handle::Range { column, start, end } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n-                return Err(unresolved());\n-            }\n-            Ok(serde_json::json!({\n-                \"kind\": \"range\",\n-                \"column\": col.name,\n-                \"start\": start,\n-                \"end\": end,\n-                \"values\": &col.cells[*start..*end],\n-            }))\n-        }\n-        Handle::Row { row } => {\n-            if *row >= rs.rows() {\n-                return Err(unresolved());\n-            }\n-            let cells: serde_json::Map<String, serde_json::Value> = rs\n-                .columns\n-                .iter()\n-                .map(|c| {\n-                    (\n-                        c.name.clone(),\n-                        serde_json::to_value(&c.cells[*row]).unwrap(),\n-                    )\n-                })\n-                .collect();\n-            Ok(serde_json::json!({\n-                \"kind\": \"row\",\n-                \"row\": row,\n-                \"cells\": cells,\n-            }))\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::Column;\n \n     fn corpus() -> RecordSet {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:235:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 291
+      },
+      "start": {
+        "column": 5,
+        "line": 235
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace || with && in resolve_handle\n@@ -252,17 +252,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:260:31: replace || with && in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "&&",
+    "span": {
+      "end": {
+        "column": 33,
+        "line": 260
+      },
+      "start": {
+        "column": 31,
+        "line": 260
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -252,17 +252,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start < /* ~ changed by cargo-mutants ~ */ *end || *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:260:23: replace >= with < in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 260
+      },
+      "start": {
+        "column": 23,
+        "line": 260
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with == in resolve_handle\n@@ -252,17 +252,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end == /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:260:39: replace > with == in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 260
+      },
+      "start": {
+        "column": 39,
+        "line": 260
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with < in resolve_handle\n@@ -252,17 +252,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end < /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:260:39: replace > with < in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 260
+      },
+      "start": {
+        "column": 39,
+        "line": 260
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with >= in resolve_handle\n@@ -252,17 +252,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end >= /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:260:39: replace > with >= in resolve_handle",
+    "package": "ax-cli",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 260
+      },
+      "start": {
+        "column": 39,
+        "line": 260
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -264,17 +264,17 @@\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n             }))\n         }\n         Handle::Row { row } => {\n-            if *row >= rs.rows() {\n+            if *row < /* ~ changed by cargo-mutants ~ */ rs.rows() {\n                 return Err(unresolved());\n             }\n             let cells: serde_json::Map<String, serde_json::Value> = rs\n                 .columns\n                 .iter()\n                 .map(|c| {\n                     (\n                         c.name.clone(),\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 292
+        },
+        "start": {
+          "column": 1,
+          "line": 232
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:272:21: replace >= with < in resolve_handle",
+    "package": "ax-cli",
     "replacement": "<",
     "span": {
       "end": {
         "column": 23,
-        "line": 68
+        "line": 272
       },
       "start": {
         "column": 21,
-        "line": 68
+        "line": 272
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in parse\n@@ -60,17 +60,17 @@\n     let autocorr = certified(\"Autocorrelation\");\n     let nobs = certified(\"Number of Observations\") as usize;\n \n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n-            t.len() >= 3 && t.bytes().all(|b| b == b'-')\n+            t.len() >= 3 && t.bytes().all(|b| b != /* ~ changed by cargo-mutants ~ */ b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n     let data: Vec<f64> = lines[sep + 1..]\n         .iter()\n         .filter_map(|l| l.trim().parse::<f64>().ok())\n         .collect();\n \n     assert_eq!(\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with String::new()\n@@ -6,44 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\", \"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
+    "file": "crates/ax-cli/src/describe.rs",
     "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
+      "function_name": "describe_json",
+      "return_type": "-> String",
       "span": {
         "end": {
           "column": 2,
-          "line": 91
+          "line": 42
         },
         "start": {
           "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:68:49: replace == with != in parse",
-    "package": "ax-validate",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 51,
-        "line": 68
-      },
-      "start": {
-        "column": 49,
-        "line": 68
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace + with - in parse\n@@ -63,17 +63,17 @@\n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n             t.len() >= 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n-    let data: Vec<f64> = lines[sep + 1..]\n+    let data: Vec<f64> = lines[sep - /* ~ changed by cargo-mutants ~ */ 1..]\n         .iter()\n         .filter_map(|l| l.trim().parse::<f64>().ok())\n         .collect();\n \n     assert_eq!(\n         data.len(),\n         nobs,\n         \"{name}: parsed {} observations, certified {nobs}\",\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 91
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:71:36: replace + with - in parse",
-    "package": "ax-validate",
-    "replacement": "-",
-    "span": {
-      "end": {
-        "column": 37,
-        "line": 71
-      },
-      "start": {
-        "column": 36,
-        "line": 71
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace + with * in parse\n@@ -63,17 +63,17 @@\n     // Data starts after the all-dashes separator line.\n     let sep = lines\n         .iter()\n         .position(|l| {\n             let t = l.trim();\n             t.len() >= 3 && t.bytes().all(|b| b == b'-')\n         })\n         .unwrap_or_else(|| panic!(\"{name}: no dashed separator before data\"));\n-    let data: Vec<f64> = lines[sep + 1..]\n+    let data: Vec<f64> = lines[sep * /* ~ changed by cargo-mutants ~ */ 1..]\n         .iter()\n         .filter_map(|l| l.trim().parse::<f64>().ok())\n         .collect();\n \n     assert_eq!(\n         data.len(),\n         nobs,\n         \"{name}: parsed {} observations, certified {nobs}\",\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "parse",
-      "return_type": "-> Strd",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 91
-        },
-        "start": {
-          "column": 1,
-          "line": 29
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:71:36: replace + with * in parse",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 37,
-        "line": 71
-      },
-      "start": {
-        "column": 36,
-        "line": 71
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace datasets -> Vec<Strd> with vec![]\n@@ -102,17 +102,17 @@\n     (\"NumAcc1\", include_str!(\"../data/strd/NumAcc1.dat\")),\n     (\"NumAcc2\", include_str!(\"../data/strd/NumAcc2.dat\")),\n     (\"NumAcc3\", include_str!(\"../data/strd/NumAcc3.dat\")),\n     (\"NumAcc4\", include_str!(\"../data/strd/NumAcc4.dat\")),\n ];\n \n /// Parses every embedded dataset.\n pub fn datasets() -> Vec<Strd> {\n-    DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n+    vec![] /* ~ changed by cargo-mutants ~ */\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "datasets",
-      "return_type": "-> Vec<Strd>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 111
-        },
-        "start": {
-          "column": 1,
-          "line": 108
+          "line": 13
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:110:5: replace datasets -> Vec<Strd> with vec![]",
-    "package": "ax-validate",
-    "replacement": "vec![]",
+    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()",
+    "package": "ax-cli",
+    "replacement": "String::new()",
     "span": {
       "end": {
-        "column": 56,
-        "line": 110
+        "column": 69,
+        "line": 41
       },
       "start": {
         "column": 5,
-        "line": 110
+        "line": 14
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace datasets -> Vec<Strd> with vec![Default::default()]\n@@ -102,17 +102,17 @@\n     (\"NumAcc1\", include_str!(\"../data/strd/NumAcc1.dat\")),\n     (\"NumAcc2\", include_str!(\"../data/strd/NumAcc2.dat\")),\n     (\"NumAcc3\", include_str!(\"../data/strd/NumAcc3.dat\")),\n     (\"NumAcc4\", include_str!(\"../data/strd/NumAcc4.dat\")),\n ];\n \n /// Parses every embedded dataset.\n pub fn datasets() -> Vec<Strd> {\n-    DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n+    vec![Default::default()] /* ~ changed by cargo-mutants ~ */\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with \"xyzzy\".into()\n@@ -6,44 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\", \"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
+    "file": "crates/ax-cli/src/describe.rs",
     "function": {
-      "function_name": "datasets",
-      "return_type": "-> Vec<Strd>",
+      "function_name": "describe_json",
+      "return_type": "-> String",
       "span": {
         "end": {
           "column": 2,
-          "line": 111
+          "line": 42
         },
         "start": {
           "column": 1,
-          "line": 108
+          "line": 13
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:110:5: replace datasets -> Vec<Strd> with vec![Default::default()]",
-    "package": "ax-validate",
-    "replacement": "vec![Default::default()]",
+    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with \"xyzzy\".into()",
+    "package": "ax-cli",
+    "replacement": "\"xyzzy\".into()",
     "span": {
       "end": {
-        "column": 56,
-        "line": 110
+        "column": 69,
+        "line": 41
       },
       "start": {
         "column": 5,
-        "line": 110
+        "line": 14
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with 0.0\n@@ -109,29 +109,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    0.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with String::new()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "file": "crates/ax-cli/src/schema.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "envelope_schema",
+      "return_type": "-> String",
       "span": {
         "end": {
           "column": 2,
-          "line": 130
+          "line": 97
         },
         "start": {
           "column": 1,
-          "line": 113
+          "line": 9
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:117:5: replace correct_digits -> f64 with 0.0",
-    "package": "ax-validate",
-    "replacement": "0.0",
+    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()",
+    "package": "ax-cli",
+    "replacement": "String::new()",
     "span": {
       "end": {
-        "column": 6,
-        "line": 129
+        "column": 70,
+        "line": 96
       },
       "start": {
         "column": 5,
-        "line": 117
+        "line": 10
       }
     }
   },
   {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with 1.0\n@@ -109,29 +109,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with \"xyzzy\".into()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "file": "crates/ax-cli/src/schema.rs",
     "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
+      "function_name": "envelope_schema",
+      "return_type": "-> String",
       "span": {
         "end": {
           "column": 2,
-          "line": 130
+          "line": 97
         },
         "start": {
           "column": 1,
-          "line": 113
+          "line": 9
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:117:5: replace correct_digits -> f64 with 1.0",
-    "package": "ax-validate",
-    "replacement": "1.0",
+    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with \"xyzzy\".into()",
+    "package": "ax-cli",
+    "replacement": "\"xyzzy\".into()",
     "span": {
       "end": {
-        "column": 6,
-        "line": 129
+        "column": 70,
+        "line": 96
       },
       "start": {
         "column": 5,
-        "line": 117
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace correct_digits -> f64 with -1.0\n@@ -109,29 +109,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n-        return f64::INFINITY;\n-    }\n-    let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n-    } else {\n-        computed.abs()\n-    };\n-    if rel == 0.0 {\n-        f64::INFINITY\n-    } else {\n-        -rel.log10()\n-    }\n+    -1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:117:5: replace correct_digits -> f64 with -1.0",
-    "package": "ax-validate",
-    "replacement": "-1.0",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 129
-      },
-      "start": {
-        "column": 5,
-        "line": 117
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in correct_digits\n@@ -109,17 +109,17 @@\n pub fn datasets() -> Vec<Strd> {\n     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()\n }\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n-    if computed == certified {\n+    if computed != /* ~ changed by cargo-mutants ~ */ certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:117:17: replace == with != in correct_digits",
-    "package": "ax-validate",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 19,
-        "line": 117
-      },
-      "start": {
-        "column": 17,
-        "line": 117
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace != with == in correct_digits\n@@ -112,17 +112,17 @@\n \n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n-    let rel = if certified != 0.0 {\n+    let rel = if certified == /* ~ changed by cargo-mutants ~ */ 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:120:28: replace != with == in correct_digits",
-    "package": "ax-validate",
-    "replacement": "==",
-    "span": {
-      "end": {
-        "column": 30,
-        "line": 120
-      },
-      "start": {
-        "column": 28,
-        "line": 120
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with % in correct_digits\n@@ -113,17 +113,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed - certified) % /* ~ changed by cargo-mutants ~ */ certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:121:33: replace / with % in correct_digits",
-    "package": "ax-validate",
-    "replacement": "%",
-    "span": {
-      "end": {
-        "column": 34,
-        "line": 121
-      },
-      "start": {
-        "column": 33,
-        "line": 121
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with * in correct_digits\n@@ -113,17 +113,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed - certified) * /* ~ changed by cargo-mutants ~ */ certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:121:33: replace / with * in correct_digits",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 34,
-        "line": 121
-      },
-      "start": {
-        "column": 33,
-        "line": 121
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with + in correct_digits\n@@ -113,17 +113,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed + /* ~ changed by cargo-mutants ~ */ certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:121:20: replace - with + in correct_digits",
-    "package": "ax-validate",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 21,
-        "line": 121
-      },
-      "start": {
-        "column": 20,
-        "line": 121
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with / in correct_digits\n@@ -113,17 +113,17 @@\n /// NIST's \"log relative error\": the number of correct significant digits in\n /// `computed` relative to `certified`. Higher is better; an exact match is\n /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.\n pub fn correct_digits(computed: f64, certified: f64) -> f64 {\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n-        ((computed - certified) / certified).abs()\n+        ((computed / /* ~ changed by cargo-mutants ~ */ certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:121:20: replace - with / in correct_digits",
-    "package": "ax-validate",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 21,
-        "line": 121
-      },
-      "start": {
-        "column": 20,
-        "line": 121
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace == with != in correct_digits\n@@ -117,17 +117,17 @@\n     if computed == certified {\n         return f64::INFINITY;\n     }\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n-    if rel == 0.0 {\n+    if rel != /* ~ changed by cargo-mutants ~ */ 0.0 {\n         f64::INFINITY\n     } else {\n         -rel.log10()\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:125:12: replace == with != in correct_digits",
-    "package": "ax-validate",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 14,
-        "line": 125
-      },
-      "start": {
-        "column": 12,
-        "line": 125
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ delete - in correct_digits\n@@ -120,17 +120,17 @@\n     let rel = if certified != 0.0 {\n         ((computed - certified) / certified).abs()\n     } else {\n         computed.abs()\n     };\n     if rel == 0.0 {\n         f64::INFINITY\n     } else {\n-        -rel.log10()\n+         /* ~ changed by cargo-mutants ~ */rel.log10()\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "correct_digits",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 130
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "UnaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:128:9: delete - in correct_digits",
-    "package": "ax-validate",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 128
-      },
-      "start": {
-        "column": 9,
-        "line": 128
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace naive_one_pass_variance -> f64 with 0.0\n@@ -129,20 +129,17 @@\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n-    let n = xs.len() as f64;\n-    let sum: f64 = xs.iter().sum();\n-    let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    0.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:137:5: replace naive_one_pass_variance -> f64 with 0.0",
-    "package": "ax-validate",
-    "replacement": "0.0",
-    "span": {
-      "end": {
-        "column": 41,
-        "line": 140
-      },
-      "start": {
-        "column": 5,
-        "line": 137
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace naive_one_pass_variance -> f64 with 1.0\n@@ -129,20 +129,17 @@\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n-    let n = xs.len() as f64;\n-    let sum: f64 = xs.iter().sum();\n-    let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:137:5: replace naive_one_pass_variance -> f64 with 1.0",
-    "package": "ax-validate",
-    "replacement": "1.0",
-    "span": {
-      "end": {
-        "column": 41,
-        "line": 140
-      },
-      "start": {
-        "column": 5,
-        "line": 137
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace naive_one_pass_variance -> f64 with -1.0\n@@ -129,20 +129,17 @@\n     }\n }\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n-    let n = xs.len() as f64;\n-    let sum: f64 = xs.iter().sum();\n-    let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    -1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-validate/src/lib.rs:137:5: replace naive_one_pass_variance -> f64 with -1.0",
-    "package": "ax-validate",
-    "replacement": "-1.0",
-    "span": {
-      "end": {
-        "column": 41,
-        "line": 140
-      },
-      "start": {
-        "column": 5,
-        "line": 137
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace * with + in naive_one_pass_variance\n@@ -131,17 +131,17 @@\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n-    let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n+    let sum_sq: f64 = xs.iter().map(|x| x + /* ~ changed by cargo-mutants ~ */ x).sum();\n     (sum_sq - sum * sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:139:43: replace * with + in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 44,
-        "line": 139
-      },
-      "start": {
-        "column": 43,
-        "line": 139
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace * with / in naive_one_pass_variance\n@@ -131,17 +131,17 @@\n \n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n-    let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n+    let sum_sq: f64 = xs.iter().map(|x| x / /* ~ changed by cargo-mutants ~ */ x).sum();\n     (sum_sq - sum * sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:139:43: replace * with / in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 44,
-        "line": 139
-      },
-      "start": {
-        "column": 43,
-        "line": 139
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with % in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum / n) % /* ~ changed by cargo-mutants ~ */ (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:30: replace / with % in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "%",
-    "span": {
-      "end": {
-        "column": 31,
-        "line": 140
-      },
-      "start": {
-        "column": 30,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with * in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum / n) * /* ~ changed by cargo-mutants ~ */ (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:30: replace / with * in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 31,
-        "line": 140
-      },
-      "start": {
-        "column": 30,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with + in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq + /* ~ changed by cargo-mutants ~ */ sum * sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:13: replace - with + in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 14,
-        "line": 140
-      },
-      "start": {
-        "column": 13,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with / in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq / /* ~ changed by cargo-mutants ~ */ sum * sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:13: replace - with / in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 14,
-        "line": 140
-      },
-      "start": {
-        "column": 13,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with % in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum % /* ~ changed by cargo-mutants ~ */ n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:25: replace / with % in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "%",
-    "span": {
-      "end": {
-        "column": 26,
-        "line": 140
-      },
-      "start": {
-        "column": 25,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace / with * in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum * /* ~ changed by cargo-mutants ~ */ n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:25: replace / with * in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "*",
-    "span": {
-      "end": {
-        "column": 26,
-        "line": 140
-      },
-      "start": {
-        "column": 25,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace * with + in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum + /* ~ changed by cargo-mutants ~ */ sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:19: replace * with + in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 20,
-        "line": 140
-      },
-      "start": {
-        "column": 19,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace * with / in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum / /* ~ changed by cargo-mutants ~ */ sum / n) / (n - 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:19: replace * with / in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 20,
-        "line": 140
-      },
-      "start": {
-        "column": 19,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with + in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum / n) / (n + /* ~ changed by cargo-mutants ~ */ 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:35: replace - with + in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 36,
-        "line": 140
-      },
-      "start": {
-        "column": 35,
-        "line": 140
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-validate/src/lib.rs\n+++ replace - with / in naive_one_pass_variance\n@@ -132,17 +132,17 @@\n /// The textbook one-pass (\"sum of squares\") variance, kept here precisely to\n /// demonstrate what anomalyx deliberately does *not* do: on data with a large\n /// mean and small spread it suffers catastrophic cancellation. Contrast with\n /// [`ax_core::det::variance`], which is two-pass and compensated.\n pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {\n     let n = xs.len() as f64;\n     let sum: f64 = xs.iter().sum();\n     let sum_sq: f64 = xs.iter().map(|x| x * x).sum();\n-    (sum_sq - sum * sum / n) / (n - 1.0)\n+    (sum_sq - sum * sum / n) / (n / /* ~ changed by cargo-mutants ~ */ 1.0)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn every_dataset_parses_with_the_certified_count() {\n",
-    "file": "crates/ax-validate/src/lib.rs",
-    "function": {
-      "function_name": "naive_one_pass_variance",
-      "return_type": "-> f64",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 141
-        },
-        "start": {
-          "column": 1,
-          "line": 132
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-validate/src/lib.rs:140:35: replace - with / in naive_one_pass_variance",
-    "package": "ax-validate",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 36,
-        "line": 140
-      },
-      "start": {
-        "column": 35,
-        "line": 140
+        "line": 10
       }
     }
   }

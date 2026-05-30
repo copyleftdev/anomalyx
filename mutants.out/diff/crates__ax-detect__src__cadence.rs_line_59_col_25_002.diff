@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace < with <= in <impl Detector for CadenceDetector>::detect
+@@ -51,17 +51,17 @@
+             return;
+         };
+         let Some(col) = ctx.current.column(name) else {
+             out.mark_absent(self.id(), format!("column '{name}' not found"));
+             return;
+         };
+         let values = col.numeric();
+         let deltas = intervals(&values);
+-        if deltas.len() < cfg.cad_min_n {
++        if deltas.len() <= /* ~ changed by cargo-mutants ~ */ cfg.cad_min_n {
+             out.mark_absent(
+                 self.id(),
+                 format!("column '{name}' has fewer than {} intervals", cfg.cad_min_n),
+             );
+             return;
+         }
+         let Some(cv) = coefficient_of_variation(&deltas) else {
+             out.mark_absent(

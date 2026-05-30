@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/cadence.rs
++++ replace <impl Detector for CadenceDetector>::id -> &'static str with ""
+@@ -32,17 +32,17 @@
+         return None;
+     }
+     let sd = det::std_dev(xs)?;
+     Some(sd / mean)
+ }
+ 
+ impl Detector for CadenceDetector {
+     fn id(&self) -> &'static str {
+-        "cad.regularity"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Cadence
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+         let Some(name) = cfg.cadence_column.as_deref() else {
+             out.mark_absent(
+                 self.id(),

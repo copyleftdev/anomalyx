@@ -55,6 +55,16 @@ pub struct DetectConfig {
     /// Standardized mean-shift threshold for the collective detector. Set
     /// conservatively because the change point is chosen by maximization.
     pub coll_threshold: f64,
+
+    /// Column to assess for metronomic cadence (interpreted as event times).
+    /// `None` disables the cadence detector — which timestamps mean "time" is
+    /// never guessed, so without this it reports honest absence.
+    pub cadence_column: Option<String>,
+    /// Coefficient-of-variation threshold below which inter-arrival intervals
+    /// are flagged as suspiciously regular (automated).
+    pub cad_max_cv: f64,
+    /// Minimum number of intervals before cadence is assessed.
+    pub cad_min_n: usize,
 }
 
 impl Default for DetectConfig {
@@ -75,6 +85,9 @@ impl Default for DetectConfig {
             ctx_min_per_phase: 4,
             coll_min_n: 20,
             coll_threshold: 5.0,
+            cadence_column: None,
+            cad_max_cv: 0.05,
+            cad_min_n: 20,
         }
     }
 }
@@ -84,7 +97,7 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/4;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4}",
+            "anomalyx-cfg/5;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
             self.point_threshold,
             self.point_min_n,
             self.dist_alpha,
@@ -100,6 +113,9 @@ impl DetectConfig {
             self.ctx_min_per_phase,
             self.coll_min_n,
             self.coll_threshold,
+            self.cadence_column.as_deref().unwrap_or(""),
+            self.cad_max_cv,
+            self.cad_min_n,
         )
     }
 }
