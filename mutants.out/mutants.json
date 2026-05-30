@@ -1,733 +1,61 @@
 [
   {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![])\n@@ -20,28 +20,17 @@\n pub mod infer;\n \n pub use format::Format;\n \n /// Reads a binary columnar format (Parquet/Arrow) into columns. Behind the\n /// `polars` feature; without it, binary formats fail cleanly (honest absence)\n /// rather than the crate silently mis-handling them.\n fn read_binary(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n-    #[cfg(feature = \"polars\")]\n-    {\n-        binary::read(fmt, bytes)\n-    }\n-    #[cfg(not(feature = \"polars\"))]\n-    {\n-        let _ = bytes;\n-        Err(AxError::Config(format!(\n-            \"{} requires the 'polars' feature, which was not built\",\n-            fmt.token()\n-        )))\n-    }\n+    Ok(vec![]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes `bytes` from logical `source` into a [`RecordSet`], resolving the\n /// format by extension then content sniff.\n pub fn normalize(source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {\n     let fmt = Format::resolve(source, bytes)?;\n     normalize_as(source, bytes, fmt)\n }\n",
-    "file": "crates/ax-normalize/src/lib.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace main -> ProcExit with Default::default()\n@@ -18,24 +18,17 @@\n use ax_detect::{DetectConfig, Registry, ScanContext};\n use std::io::Read;\n use std::process::ExitCode as ProcExit;\n \n mod describe;\n mod schema;\n \n fn main() -> ProcExit {\n-    let args: Vec<String> = std::env::args().skip(1).collect();\n-    match run(&args) {\n-        Ok(code) => ProcExit::from(code.code() as u8),\n-        Err(e) => {\n-            eprintln!(\"anomalyx: error: {e}\");\n-            ProcExit::from(ExitCode::Error.code() as u8)\n-        }\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n     let Some((cmd, rest)) = args.split_first() else {\n         eprintln!(\"{}\", usage());\n         return Ok(ExitCode::Error);\n     };\n     match cmd.as_str() {\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "read_binary",
-      "return_type": "-> Result<Vec<Column>, AxError>",
+      "function_name": "main",
+      "return_type": "-> ProcExit",
       "span": {
         "end": {
           "column": 2,
-          "line": 40
+          "line": 34
         },
         "start": {
           "column": 1,
-          "line": 24
+          "line": 25
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:28:5: replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![])",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 39
-      },
-      "start": {
-        "column": 5,
-        "line": 28
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])\n@@ -20,28 +20,17 @@\n pub mod infer;\n \n pub use format::Format;\n \n /// Reads a binary columnar format (Parquet/Arrow) into columns. Behind the\n /// `polars` feature; without it, binary formats fail cleanly (honest absence)\n /// rather than the crate silently mis-handling them.\n fn read_binary(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n-    #[cfg(feature = \"polars\")]\n-    {\n-        binary::read(fmt, bytes)\n-    }\n-    #[cfg(not(feature = \"polars\"))]\n-    {\n-        let _ = bytes;\n-        Err(AxError::Config(format!(\n-            \"{} requires the 'polars' feature, which was not built\",\n-            fmt.token()\n-        )))\n-    }\n+    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes `bytes` from logical `source` into a [`RecordSet`], resolving the\n /// format by extension then content sniff.\n pub fn normalize(source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {\n     let fmt = Format::resolve(source, bytes)?;\n     normalize_as(source, bytes, fmt)\n }\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_binary",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 40
-        },
-        "start": {
-          "column": 1,
-          "line": 24
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:28:5: replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![Default::default()])",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 39
-      },
-      "start": {
-        "column": 5,
-        "line": 28
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace normalize -> Result<RecordSet, AxError> with Ok(Default::default())\n@@ -37,18 +37,17 @@\n             fmt.token()\n         )))\n     }\n }\n \n /// Normalizes `bytes` from logical `source` into a [`RecordSet`], resolving the\n /// format by extension then content sniff.\n pub fn normalize(source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {\n-    let fmt = Format::resolve(source, bytes)?;\n-    normalize_as(source, bytes, fmt)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes with an explicit format (skips detection).\n pub fn normalize_as(source: &str, bytes: &[u8], fmt: Format) -> Result<RecordSet, AxError> {\n     let columns = match fmt {\n         Format::Csv => read_delimited(bytes, b',', fmt)?,\n         Format::Tsv => read_delimited(bytes, b'\\t', fmt)?,\n         Format::Ndjson => read_ndjson(bytes, fmt)?,\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "normalize",
-      "return_type": "-> Result<RecordSet, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 47
-        },
-        "start": {
-          "column": 1,
-          "line": 42
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:45:5: replace normalize -> Result<RecordSet, AxError> with Ok(Default::default())",
-    "package": "ax-normalize",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 37,
-        "line": 46
-      },
-      "start": {
-        "column": 5,
-        "line": 45
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace normalize_as -> Result<RecordSet, AxError> with Ok(Default::default())\n@@ -43,24 +43,17 @@\n /// format by extension then content sniff.\n pub fn normalize(source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {\n     let fmt = Format::resolve(source, bytes)?;\n     normalize_as(source, bytes, fmt)\n }\n \n /// Normalizes with an explicit format (skips detection).\n pub fn normalize_as(source: &str, bytes: &[u8], fmt: Format) -> Result<RecordSet, AxError> {\n-    let columns = match fmt {\n-        Format::Csv => read_delimited(bytes, b',', fmt)?,\n-        Format::Tsv => read_delimited(bytes, b'\\t', fmt)?,\n-        Format::Ndjson => read_ndjson(bytes, fmt)?,\n-        Format::Json => read_json(bytes, fmt)?,\n-        Format::Parquet | Format::Arrow => read_binary(fmt, bytes)?,\n-    };\n-    Ok(RecordSet::new(source, fmt.token(), columns))\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads CSV/TSV with a header row. Field count is normalized to the header\n /// width: short rows pad with [`Value::Null`], long rows truncate.\n fn read_delimited(bytes: &[u8], delim: u8, fmt: Format) -> Result<Vec<Column>, AxError> {\n     let mut rdr = csv::ReaderBuilder::new()\n         .delimiter(delim)\n         .flexible(true)\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "normalize_as",
-      "return_type": "-> Result<RecordSet, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 59
-        },
-        "start": {
-          "column": 1,
-          "line": 49
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:51:5: replace normalize_as -> Result<RecordSet, AxError> with Ok(Default::default())",
-    "package": "ax-normalize",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 53,
-        "line": 58
-      },
-      "start": {
-        "column": 5,
-        "line": 51
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![])\n@@ -56,45 +56,17 @@\n         Format::Parquet | Format::Arrow => read_binary(fmt, bytes)?,\n     };\n     Ok(RecordSet::new(source, fmt.token(), columns))\n }\n \n /// Reads CSV/TSV with a header row. Field count is normalized to the header\n /// width: short rows pad with [`Value::Null`], long rows truncate.\n fn read_delimited(bytes: &[u8], delim: u8, fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let mut rdr = csv::ReaderBuilder::new()\n-        .delimiter(delim)\n-        .flexible(true)\n-        .has_headers(true)\n-        .from_reader(bytes);\n-\n-    let headers = rdr\n-        .headers()\n-        .map_err(|e| parse_err(fmt, e))?\n-        .iter()\n-        .map(|h| h.to_string())\n-        .collect::<Vec<_>>();\n-\n-    let mut cols: Vec<Vec<Value>> = vec![Vec::new(); headers.len()];\n-    for rec in rdr.records() {\n-        let rec = rec.map_err(|e| parse_err(fmt, e))?;\n-        for (i, col) in cols.iter_mut().enumerate() {\n-            match rec.get(i) {\n-                Some(field) => col.push(infer::infer_scalar(field)),\n-                None => col.push(Value::Null),\n-            }\n-        }\n-    }\n-\n-    Ok(headers\n-        .into_iter()\n-        .zip(cols)\n-        .map(|(name, cells)| Column::new(name, cells))\n-        .collect())\n+    Ok(vec![]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads newline-delimited JSON. Each non-empty line is one record; scalar or\n /// array lines are placed under a synthetic `value` column.\n fn read_ndjson(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n     let text = std::str::from_utf8(bytes).map_err(|e| parse_err(fmt, e))?;\n     let mut builder = TableBuilder::new();\n     for (lineno, line) in text.lines().enumerate() {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_delimited",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 93
-        },
-        "start": {
-          "column": 1,
-          "line": 61
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:64:5: replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![])",
-    "span": {
-      "end": {
-        "column": 20,
-        "line": 92
-      },
-      "start": {
-        "column": 5,
-        "line": 64
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])\n@@ -56,45 +56,17 @@\n         Format::Parquet | Format::Arrow => read_binary(fmt, bytes)?,\n     };\n     Ok(RecordSet::new(source, fmt.token(), columns))\n }\n \n /// Reads CSV/TSV with a header row. Field count is normalized to the header\n /// width: short rows pad with [`Value::Null`], long rows truncate.\n fn read_delimited(bytes: &[u8], delim: u8, fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let mut rdr = csv::ReaderBuilder::new()\n-        .delimiter(delim)\n-        .flexible(true)\n-        .has_headers(true)\n-        .from_reader(bytes);\n-\n-    let headers = rdr\n-        .headers()\n-        .map_err(|e| parse_err(fmt, e))?\n-        .iter()\n-        .map(|h| h.to_string())\n-        .collect::<Vec<_>>();\n-\n-    let mut cols: Vec<Vec<Value>> = vec![Vec::new(); headers.len()];\n-    for rec in rdr.records() {\n-        let rec = rec.map_err(|e| parse_err(fmt, e))?;\n-        for (i, col) in cols.iter_mut().enumerate() {\n-            match rec.get(i) {\n-                Some(field) => col.push(infer::infer_scalar(field)),\n-                None => col.push(Value::Null),\n-            }\n-        }\n-    }\n-\n-    Ok(headers\n-        .into_iter()\n-        .zip(cols)\n-        .map(|(name, cells)| Column::new(name, cells))\n-        .collect())\n+    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads newline-delimited JSON. Each non-empty line is one record; scalar or\n /// array lines are placed under a synthetic `value` column.\n fn read_ndjson(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n     let text = std::str::from_utf8(bytes).map_err(|e| parse_err(fmt, e))?;\n     let mut builder = TableBuilder::new();\n     for (lineno, line) in text.lines().enumerate() {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_delimited",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 93
-        },
-        "start": {
-          "column": 1,
-          "line": 61
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:64:5: replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![Default::default()])",
-    "span": {
-      "end": {
-        "column": 20,
-        "line": 92
-      },
-      "start": {
-        "column": 5,
-        "line": 64
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![])\n@@ -90,29 +90,17 @@\n         .zip(cols)\n         .map(|(name, cells)| Column::new(name, cells))\n         .collect())\n }\n \n /// Reads newline-delimited JSON. Each non-empty line is one record; scalar or\n /// array lines are placed under a synthetic `value` column.\n fn read_ndjson(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let text = std::str::from_utf8(bytes).map_err(|e| parse_err(fmt, e))?;\n-    let mut builder = TableBuilder::new();\n-    for (lineno, line) in text.lines().enumerate() {\n-        if line.trim().is_empty() {\n-            continue;\n-        }\n-        let val: serde_json::Value = serde_json::from_str(line).map_err(|e| AxError::Parse {\n-            format: fmt.token().to_string(),\n-            message: format!(\"line {}: {e}\", lineno + 1),\n-        })?;\n-        builder.push_value(val);\n-    }\n-    Ok(builder.finish())\n+    Ok(vec![]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads a single JSON document: an array of records, a lone object (one row),\n /// or a scalar/array (one `value` cell).\n fn read_json(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n     let val: serde_json::Value = serde_json::from_slice(bytes).map_err(|e| parse_err(fmt, e))?;\n     let mut builder = TableBuilder::new();\n     match val {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_ndjson",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 111
-        },
-        "start": {
-          "column": 1,
-          "line": 95
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:98:5: replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![])",
-    "span": {
-      "end": {
-        "column": 25,
-        "line": 110
-      },
-      "start": {
-        "column": 5,
-        "line": 98
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])\n@@ -90,29 +90,17 @@\n         .zip(cols)\n         .map(|(name, cells)| Column::new(name, cells))\n         .collect())\n }\n \n /// Reads newline-delimited JSON. Each non-empty line is one record; scalar or\n /// array lines are placed under a synthetic `value` column.\n fn read_ndjson(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let text = std::str::from_utf8(bytes).map_err(|e| parse_err(fmt, e))?;\n-    let mut builder = TableBuilder::new();\n-    for (lineno, line) in text.lines().enumerate() {\n-        if line.trim().is_empty() {\n-            continue;\n-        }\n-        let val: serde_json::Value = serde_json::from_str(line).map_err(|e| AxError::Parse {\n-            format: fmt.token().to_string(),\n-            message: format!(\"line {}: {e}\", lineno + 1),\n-        })?;\n-        builder.push_value(val);\n-    }\n-    Ok(builder.finish())\n+    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads a single JSON document: an array of records, a lone object (one row),\n /// or a scalar/array (one `value` cell).\n fn read_json(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n     let val: serde_json::Value = serde_json::from_slice(bytes).map_err(|e| parse_err(fmt, e))?;\n     let mut builder = TableBuilder::new();\n     match val {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_ndjson",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 111
-        },
-        "start": {
-          "column": 1,
-          "line": 95
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:98:5: replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![Default::default()])",
-    "span": {
-      "end": {
-        "column": 25,
-        "line": 110
-      },
-      "start": {
-        "column": 5,
-        "line": 98
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![])\n@@ -108,27 +108,17 @@\n         builder.push_value(val);\n     }\n     Ok(builder.finish())\n }\n \n /// Reads a single JSON document: an array of records, a lone object (one row),\n /// or a scalar/array (one `value` cell).\n fn read_json(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let val: serde_json::Value = serde_json::from_slice(bytes).map_err(|e| parse_err(fmt, e))?;\n-    let mut builder = TableBuilder::new();\n-    match val {\n-        serde_json::Value::Array(items) => {\n-            for item in items {\n-                builder.push_value(item);\n-            }\n-        }\n-        other => builder.push_value(other),\n-    }\n-    Ok(builder.finish())\n+    Ok(vec![]) /* ~ changed by cargo-mutants ~ */\n }\n \n const VALUE_COL: &str = \"value\";\n \n /// Accumulates JSON records into columns with a stable, sorted key-union order.\n /// Missing keys fill with [`Value::Null`] so every column ends equal length.\n struct TableBuilder {\n     order: Vec<String>,\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_json",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 127
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:116:5: replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![])",
-    "span": {
-      "end": {
-        "column": 25,
-        "line": 126
-      },
-      "start": {
-        "column": 5,
-        "line": 116
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])\n@@ -108,27 +108,17 @@\n         builder.push_value(val);\n     }\n     Ok(builder.finish())\n }\n \n /// Reads a single JSON document: an array of records, a lone object (one row),\n /// or a scalar/array (one `value` cell).\n fn read_json(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {\n-    let val: serde_json::Value = serde_json::from_slice(bytes).map_err(|e| parse_err(fmt, e))?;\n-    let mut builder = TableBuilder::new();\n-    match val {\n-        serde_json::Value::Array(items) => {\n-            for item in items {\n-                builder.push_value(item);\n-            }\n-        }\n-        other => builder.push_value(other),\n-    }\n-    Ok(builder.finish())\n+    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */\n }\n \n const VALUE_COL: &str = \"value\";\n \n /// Accumulates JSON records into columns with a stable, sorted key-union order.\n /// Missing keys fill with [`Value::Null`] so every column ends equal length.\n struct TableBuilder {\n     order: Vec<String>,\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "read_json",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 127
-        },
-        "start": {
-          "column": 1,
-          "line": 113
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:116:5: replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![Default::default()])",
-    "span": {
-      "end": {
-        "column": 25,
-        "line": 126
-      },
-      "start": {
-        "column": 5,
-        "line": 116
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace TableBuilder::ensure -> usize with 0\n@@ -144,24 +144,17 @@\n             index: BTreeMap::new(),\n             cols: Vec::new(),\n             rows: 0,\n         }\n     }\n \n     /// Ensures a column exists, back-filling it with `Null` for prior rows.\n     fn ensure(&mut self, name: &str) -> usize {\n-        if let Some(&i) = self.index.get(name) {\n-            return i;\n-        }\n-        let i = self.order.len();\n-        self.order.push(name.to_string());\n-        self.index.insert(name.to_string(), i);\n-        self.cols.push(vec![Value::Null; self.rows]);\n-        i\n+        0 /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Adds one record. Objects contribute their fields; anything else goes to\n     /// the synthetic `value` column.\n     fn push_value(&mut self, val: serde_json::Value) {\n         let mut row: BTreeMap<String, Value> = BTreeMap::new();\n         match val {\n             serde_json::Value::Object(map) => {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::ensure",
-      "return_type": "-> usize",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 160
-        },
-        "start": {
-          "column": 5,
-          "line": 150
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:152:9: replace TableBuilder::ensure -> usize with 0",
-    "package": "ax-normalize",
-    "replacement": "0",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 159
-      },
-      "start": {
-        "column": 9,
-        "line": 152
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace TableBuilder::ensure -> usize with 1\n@@ -144,24 +144,17 @@\n             index: BTreeMap::new(),\n             cols: Vec::new(),\n             rows: 0,\n         }\n     }\n \n     /// Ensures a column exists, back-filling it with `Null` for prior rows.\n     fn ensure(&mut self, name: &str) -> usize {\n-        if let Some(&i) = self.index.get(name) {\n-            return i;\n-        }\n-        let i = self.order.len();\n-        self.order.push(name.to_string());\n-        self.index.insert(name.to_string(), i);\n-        self.cols.push(vec![Value::Null; self.rows]);\n-        i\n+        1 /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Adds one record. Objects contribute their fields; anything else goes to\n     /// the synthetic `value` column.\n     fn push_value(&mut self, val: serde_json::Value) {\n         let mut row: BTreeMap<String, Value> = BTreeMap::new();\n         match val {\n             serde_json::Value::Object(map) => {\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::ensure",
-      "return_type": "-> usize",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 160
-        },
-        "start": {
-          "column": 5,
-          "line": 150
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:152:9: replace TableBuilder::ensure -> usize with 1",
-    "package": "ax-normalize",
-    "replacement": "1",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 159
-      },
-      "start": {
-        "column": 9,
-        "line": 152
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace TableBuilder::push_value with ()\n@@ -157,35 +157,17 @@\n         self.index.insert(name.to_string(), i);\n         self.cols.push(vec![Value::Null; self.rows]);\n         i\n     }\n \n     /// Adds one record. Objects contribute their fields; anything else goes to\n     /// the synthetic `value` column.\n     fn push_value(&mut self, val: serde_json::Value) {\n-        let mut row: BTreeMap<String, Value> = BTreeMap::new();\n-        match val {\n-            serde_json::Value::Object(map) => {\n-                for (k, v) in map {\n-                    row.insert(k, infer::json_to_value(&v));\n-                }\n-            }\n-            other => {\n-                row.insert(VALUE_COL.to_string(), infer::json_to_value(&other));\n-            }\n-        }\n-        for k in row.keys() {\n-            self.ensure(k);\n-        }\n-        for (name, &i) in &self.index {\n-            let cell = row.remove(name).unwrap_or(Value::Null);\n-            self.cols[i].push(cell);\n-        }\n-        self.rows += 1;\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn finish(self) -> Vec<Column> {\n         self.order\n             .into_iter()\n             .zip(self.cols)\n             .map(|(name, cells)| Column::new(name, cells))\n             .collect()\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::push_value",
-      "return_type": "",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 184
-        },
-        "start": {
-          "column": 5,
-          "line": 162
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:165:9: replace TableBuilder::push_value with ()",
-    "package": "ax-normalize",
-    "replacement": "()",
-    "span": {
-      "end": {
-        "column": 24,
-        "line": 183
-      },
-      "start": {
-        "column": 9,
-        "line": 165
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace += with -= in TableBuilder::push_value\n@@ -175,17 +175,17 @@\n         }\n         for k in row.keys() {\n             self.ensure(k);\n         }\n         for (name, &i) in &self.index {\n             let cell = row.remove(name).unwrap_or(Value::Null);\n             self.cols[i].push(cell);\n         }\n-        self.rows += 1;\n+        self.rows -= /* ~ changed by cargo-mutants ~ */ 1;\n     }\n \n     fn finish(self) -> Vec<Column> {\n         self.order\n             .into_iter()\n             .zip(self.cols)\n             .map(|(name, cells)| Column::new(name, cells))\n             .collect()\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::push_value",
-      "return_type": "",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 184
-        },
-        "start": {
-          "column": 5,
-          "line": 162
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-normalize/src/lib.rs:183:19: replace += with -= in TableBuilder::push_value",
-    "package": "ax-normalize",
-    "replacement": "-=",
-    "span": {
-      "end": {
-        "column": 21,
-        "line": 183
-      },
-      "start": {
-        "column": 19,
-        "line": 183
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace += with *= in TableBuilder::push_value\n@@ -175,17 +175,17 @@\n         }\n         for k in row.keys() {\n             self.ensure(k);\n         }\n         for (name, &i) in &self.index {\n             let cell = row.remove(name).unwrap_or(Value::Null);\n             self.cols[i].push(cell);\n         }\n-        self.rows += 1;\n+        self.rows *= /* ~ changed by cargo-mutants ~ */ 1;\n     }\n \n     fn finish(self) -> Vec<Column> {\n         self.order\n             .into_iter()\n             .zip(self.cols)\n             .map(|(name, cells)| Column::new(name, cells))\n             .collect()\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::push_value",
-      "return_type": "",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 184
-        },
-        "start": {
-          "column": 5,
-          "line": 162
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-normalize/src/lib.rs:183:19: replace += with *= in TableBuilder::push_value",
-    "package": "ax-normalize",
-    "replacement": "*=",
-    "span": {
-      "end": {
-        "column": 21,
-        "line": 183
-      },
-      "start": {
-        "column": 19,
-        "line": 183
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace TableBuilder::finish -> Vec<Column> with vec![]\n@@ -179,21 +179,17 @@\n         for (name, &i) in &self.index {\n             let cell = row.remove(name).unwrap_or(Value::Null);\n             self.cols[i].push(cell);\n         }\n         self.rows += 1;\n     }\n \n     fn finish(self) -> Vec<Column> {\n-        self.order\n-            .into_iter()\n-            .zip(self.cols)\n-            .map(|(name, cells)| Column::new(name, cells))\n-            .collect()\n+        vec![] /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {\n     AxError::Parse {\n         format: fmt.token().to_string(),\n         message: e.to_string(),\n     }\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::finish",
-      "return_type": "-> Vec<Column>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 192
-        },
-        "start": {
-          "column": 5,
-          "line": 186
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:187:9: replace TableBuilder::finish -> Vec<Column> with vec![]",
-    "package": "ax-normalize",
-    "replacement": "vec![]",
-    "span": {
-      "end": {
-        "column": 23,
-        "line": 191
-      },
-      "start": {
-        "column": 9,
-        "line": 187
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace TableBuilder::finish -> Vec<Column> with vec![Default::default()]\n@@ -179,21 +179,17 @@\n         for (name, &i) in &self.index {\n             let cell = row.remove(name).unwrap_or(Value::Null);\n             self.cols[i].push(cell);\n         }\n         self.rows += 1;\n     }\n \n     fn finish(self) -> Vec<Column> {\n-        self.order\n-            .into_iter()\n-            .zip(self.cols)\n-            .map(|(name, cells)| Column::new(name, cells))\n-            .collect()\n+        vec![Default::default()] /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {\n     AxError::Parse {\n         format: fmt.token().to_string(),\n         message: e.to_string(),\n     }\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "TableBuilder::finish",
-      "return_type": "-> Vec<Column>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 192
-        },
-        "start": {
-          "column": 5,
-          "line": 186
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:187:9: replace TableBuilder::finish -> Vec<Column> with vec![Default::default()]",
-    "package": "ax-normalize",
-    "replacement": "vec![Default::default()]",
-    "span": {
-      "end": {
-        "column": 23,
-        "line": 191
-      },
-      "start": {
-        "column": 9,
-        "line": 187
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/lib.rs\n+++ replace parse_err -> AxError with Default::default()\n@@ -188,20 +188,17 @@\n             .into_iter()\n             .zip(self.cols)\n             .map(|(name, cells)| Column::new(name, cells))\n             .collect()\n     }\n }\n \n fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {\n-    AxError::Parse {\n-        format: fmt.token().to_string(),\n-        message: e.to_string(),\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::ColType;\n \n     #[test]\n",
-    "file": "crates/ax-normalize/src/lib.rs",
-    "function": {
-      "function_name": "parse_err",
-      "return_type": "-> AxError",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 200
-        },
-        "start": {
-          "column": 1,
-          "line": 195
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/lib.rs:196:5: replace parse_err -> AxError with Default::default()",
-    "package": "ax-normalize",
+    "name": "crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()",
+    "package": "ax-cli",
     "replacement": "Default::default()",
     "span": {
       "end": {
         "column": 6,
-        "line": 199
+        "line": 33
       },
       "start": {
         "column": 5,
-        "line": 196
+        "line": 26
       }
     }
   },
   {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace read -> Result<Vec<Column>, AxError> with Ok(vec![])\n@@ -10,31 +10,17 @@\n use crate::format::Format;\n use ax_core::{AxError, Column, Value};\n use polars::prelude::*;\n use std::io::Cursor;\n \n /// Reads a binary `fmt` into columns. Only [`Format::Parquet`] and\n /// [`Format::Arrow`] are handled; anything else is a programming error.\n pub fn read(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n-    let df = match fmt {\n-        Format::Parquet => ParquetReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n-        Format::Arrow => IpcReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n-        _ => {\n-            return Err(AxError::UnknownFormat(format!(\n-                \"{} is not a binary format\",\n-                fmt.token()\n-            )))\n-        }\n-    };\n-    Ok(df_to_columns(&df))\n+    Ok(vec![]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Lowers a Polars `DataFrame` to `RecordSet` columns, preserving column order.\n fn df_to_columns(df: &DataFrame) -> Vec<Column> {\n     df.columns()\n         .iter()\n         .map(|col| {\n             let series = col.as_materialized_series();\n",
-    "file": "crates/ax-normalize/src/binary.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace run -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -29,40 +29,17 @@\n         Err(e) => {\n             eprintln!(\"anomalyx: error: {e}\");\n             ProcExit::from(ExitCode::Error.code() as u8)\n         }\n     }\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n-    let Some((cmd, rest)) = args.split_first() else {\n-        eprintln!(\"{}\", usage());\n-        return Ok(ExitCode::Error);\n-    };\n-    match cmd.as_str() {\n-        \"describe\" => {\n-            println!(\"{}\", describe::describe_json());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"schema\" => {\n-            println!(\"{}\", schema::envelope_schema());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"scan\" => cmd_scan(rest),\n-        \"explain\" => cmd_explain(rest),\n-        \"-h\" | \"--help\" | \"help\" => {\n-            println!(\"{}\", usage());\n-            Ok(ExitCode::Clean)\n-        }\n-        other => Err(AxError::Config(format!(\n-            \"unknown command '{other}'\\n{}\",\n-            usage()\n-        ))),\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn usage() -> &'static str {\n     \"anomalyx — contract-first anomaly detection\\n\\\n      \\n\\\n      USAGE:\\n\\\n      \\x20 anomalyx describe                         Protocol metadata\\n\\\n      \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "read",
-      "return_type": "-> Result<Vec<Column>, AxError>",
+      "function_name": "run",
+      "return_type": "-> Result<ExitCode, AxError>",
       "span": {
         "end": {
           "column": 2,
-          "line": 33
+          "line": 61
         },
         "start": {
           "column": 1,
-          "line": 15
+          "line": 36
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:18:5: replace read -> Result<Vec<Column>, AxError> with Ok(vec![])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![])",
+    "name": "crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
     "span": {
       "end": {
-        "column": 27,
-        "line": 32
-      },
-      "start": {
-        "column": 5,
-        "line": 18
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace read -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])\n@@ -10,31 +10,17 @@\n use crate::format::Format;\n use ax_core::{AxError, Column, Value};\n use polars::prelude::*;\n use std::io::Cursor;\n \n /// Reads a binary `fmt` into columns. Only [`Format::Parquet`] and\n /// [`Format::Arrow`] are handled; anything else is a programming error.\n pub fn read(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n-    let df = match fmt {\n-        Format::Parquet => ParquetReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n-        Format::Arrow => IpcReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n-        _ => {\n-            return Err(AxError::UnknownFormat(format!(\n-                \"{} is not a binary format\",\n-                fmt.token()\n-            )))\n-        }\n-    };\n-    Ok(df_to_columns(&df))\n+    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Lowers a Polars `DataFrame` to `RecordSet` columns, preserving column order.\n fn df_to_columns(df: &DataFrame) -> Vec<Column> {\n     df.columns()\n         .iter()\n         .map(|col| {\n             let series = col.as_materialized_series();\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "read",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 33
-        },
-        "start": {
-          "column": 1,
-          "line": 15
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:18:5: replace read -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-    "package": "ax-normalize",
-    "replacement": "Ok(vec![Default::default()])",
-    "span": {
-      "end": {
-        "column": 27,
-        "line": 32
-      },
-      "start": {
-        "column": 5,
-        "line": 18
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ delete match arm Format::Parquet in read\n@@ -11,19 +11,17 @@\n use ax_core::{AxError, Column, Value};\n use polars::prelude::*;\n use std::io::Cursor;\n \n /// Reads a binary `fmt` into columns. Only [`Format::Parquet`] and\n /// [`Format::Arrow`] are handled; anything else is a programming error.\n pub fn read(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n     let df = match fmt {\n-        Format::Parquet => ParquetReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n+         /* ~ changed by cargo-mutants ~ */\n         Format::Arrow => IpcReader::new(Cursor::new(bytes.to_vec()))\n             .finish()\n             .map_err(|e| parse_err(fmt, e))?,\n         _ => {\n             return Err(AxError::UnknownFormat(format!(\n                 \"{} is not a binary format\",\n                 fmt.token()\n             )))\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "read",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 33
-        },
-        "start": {
-          "column": 1,
-          "line": 15
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/binary.rs:19:9: delete match arm Format::Parquet in read",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 46,
-        "line": 21
-      },
-      "start": {
-        "column": 9,
-        "line": 19
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ delete match arm Format::Arrow in read\n@@ -14,19 +14,17 @@\n \n /// Reads a binary `fmt` into columns. Only [`Format::Parquet`] and\n /// [`Format::Arrow`] are handled; anything else is a programming error.\n pub fn read(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {\n     let df = match fmt {\n         Format::Parquet => ParquetReader::new(Cursor::new(bytes.to_vec()))\n             .finish()\n             .map_err(|e| parse_err(fmt, e))?,\n-        Format::Arrow => IpcReader::new(Cursor::new(bytes.to_vec()))\n-            .finish()\n-            .map_err(|e| parse_err(fmt, e))?,\n+         /* ~ changed by cargo-mutants ~ */\n         _ => {\n             return Err(AxError::UnknownFormat(format!(\n                 \"{} is not a binary format\",\n                 fmt.token()\n             )))\n         }\n     };\n     Ok(df_to_columns(&df))\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "read",
-      "return_type": "-> Result<Vec<Column>, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 33
-        },
-        "start": {
-          "column": 1,
-          "line": 15
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/binary.rs:22:9: delete match arm Format::Arrow in read",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 46,
-        "line": 24
-      },
-      "start": {
-        "column": 9,
-        "line": 22
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace df_to_columns -> Vec<Column> with vec![]\n@@ -29,24 +29,17 @@\n             )))\n         }\n     };\n     Ok(df_to_columns(&df))\n }\n \n /// Lowers a Polars `DataFrame` to `RecordSet` columns, preserving column order.\n fn df_to_columns(df: &DataFrame) -> Vec<Column> {\n-    df.columns()\n-        .iter()\n-        .map(|col| {\n-            let series = col.as_materialized_series();\n-            let cells: Vec<Value> = series.iter().map(any_value_to_value).collect();\n-            Column::new(col.name().as_str(), cells)\n-        })\n-        .collect()\n+    vec![] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Maps one Polars `AnyValue` into the closed [`Value`] set. Integer widths fold\n /// to `i64`; floats to `f64` (non-finite → `Null`); strings pass through; every\n /// other logical type is preserved as its display string (honest, not dropped).\n fn any_value_to_value(av: AnyValue) -> Value {\n     match av {\n         AnyValue::Null => Value::Null,\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "df_to_columns",
-      "return_type": "-> Vec<Column>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 45
-        },
-        "start": {
-          "column": 1,
-          "line": 35
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:37:5: replace df_to_columns -> Vec<Column> with vec![]",
-    "package": "ax-normalize",
-    "replacement": "vec![]",
-    "span": {
-      "end": {
-        "column": 19,
-        "line": 44
+        "column": 6,
+        "line": 60
       },
       "start": {
         "column": 5,
@@ -736,1026 +64,1218 @@
     }
   },
   {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace df_to_columns -> Vec<Column> with vec![Default::default()]\n@@ -29,24 +29,17 @@\n             )))\n         }\n     };\n     Ok(df_to_columns(&df))\n }\n \n /// Lowers a Polars `DataFrame` to `RecordSet` columns, preserving column order.\n fn df_to_columns(df: &DataFrame) -> Vec<Column> {\n-    df.columns()\n-        .iter()\n-        .map(|col| {\n-            let series = col.as_materialized_series();\n-            let cells: Vec<Value> = series.iter().map(any_value_to_value).collect();\n-            Column::new(col.name().as_str(), cells)\n-        })\n-        .collect()\n+    vec![Default::default()] /* ~ changed by cargo-mutants ~ */\n }\n \n /// Maps one Polars `AnyValue` into the closed [`Value`] set. Integer widths fold\n /// to `i64`; floats to `f64` (non-finite → `Null`); strings pass through; every\n /// other logical type is preserved as its display string (honest, not dropped).\n fn any_value_to_value(av: AnyValue) -> Value {\n     match av {\n         AnyValue::Null => Value::Null,\n",
-    "file": "crates/ax-normalize/src/binary.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"\"\n@@ -56,26 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\\n\\\n-     \\n\\\n-     With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "df_to_columns",
-      "return_type": "-> Vec<Column>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 45
-        },
-        "start": {
-          "column": 1,
-          "line": 35
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:37:5: replace df_to_columns -> Vec<Column> with vec![Default::default()]",
-    "package": "ax-normalize",
-    "replacement": "vec![Default::default()]",
-    "span": {
-      "end": {
-        "column": 19,
-        "line": 44
-      },
-      "start": {
-        "column": 5,
-        "line": 37
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace any_value_to_value -> Value with Default::default()\n@@ -43,37 +43,17 @@\n         })\n         .collect()\n }\n \n /// Maps one Polars `AnyValue` into the closed [`Value`] set. Integer widths fold\n /// to `i64`; floats to `f64` (non-finite → `Null`); strings pass through; every\n /// other logical type is preserved as its display string (honest, not dropped).\n fn any_value_to_value(av: AnyValue) -> Value {\n-    match av {\n-        AnyValue::Null => Value::Null,\n-        AnyValue::Boolean(b) => Value::Bool(b),\n-        AnyValue::Int8(v) => Value::Int(v as i64),\n-        AnyValue::Int16(v) => Value::Int(v as i64),\n-        AnyValue::Int32(v) => Value::Int(v as i64),\n-        AnyValue::Int64(v) => Value::Int(v),\n-        AnyValue::UInt8(v) => Value::Int(v as i64),\n-        AnyValue::UInt16(v) => Value::Int(v as i64),\n-        AnyValue::UInt32(v) => Value::Int(v as i64),\n-        // u64 can exceed i64; keep the exact value as a string rather than wrap.\n-        AnyValue::UInt64(v) => match i64::try_from(v) {\n-            Ok(i) => Value::Int(i),\n-            Err(_) => Value::Str(v.to_string()),\n-        },\n-        AnyValue::Float32(v) => finite_float(v as f64),\n-        AnyValue::Float64(v) => finite_float(v),\n-        AnyValue::String(s) => Value::Str(s.to_string()),\n-        AnyValue::StringOwned(s) => Value::Str(s.to_string()),\n-        other => Value::Str(other.to_string()),\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n /// A finite float becomes `Float`; NaN/±∞ become `Null` (honest absence).\n fn finite_float(f: f64) -> Value {\n     if f.is_finite() {\n         Value::Float(f)\n     } else {\n         Value::Null\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "any_value_to_value",
-      "return_type": "-> Value",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 72
-        },
-        "start": {
-          "column": 1,
-          "line": 47
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:51:5: replace any_value_to_value -> Value with Default::default()",
-    "package": "ax-normalize",
-    "replacement": "Default::default()",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 71
-      },
-      "start": {
-        "column": 5,
-        "line": 51
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace finite_float -> Value with Default::default()\n@@ -68,21 +68,17 @@\n         AnyValue::String(s) => Value::Str(s.to_string()),\n         AnyValue::StringOwned(s) => Value::Str(s.to_string()),\n         other => Value::Str(other.to_string()),\n     }\n }\n \n /// A finite float becomes `Float`; NaN/±∞ become `Null` (honest absence).\n fn finite_float(f: f64) -> Value {\n-    if f.is_finite() {\n-        Value::Float(f)\n-    } else {\n-        Value::Null\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {\n     AxError::Parse {\n         format: fmt.token().to_string(),\n         message: e.to_string(),\n     }\n }\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "finite_float",
-      "return_type": "-> Value",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 81
-        },
-        "start": {
-          "column": 1,
-          "line": 74
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:76:5: replace finite_float -> Value with Default::default()",
-    "package": "ax-normalize",
-    "replacement": "Default::default()",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 80
-      },
-      "start": {
-        "column": 5,
-        "line": 76
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/binary.rs\n+++ replace parse_err -> AxError with Default::default()\n@@ -76,20 +76,17 @@\n     if f.is_finite() {\n         Value::Float(f)\n     } else {\n         Value::Null\n     }\n }\n \n fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {\n-    AxError::Parse {\n-        format: fmt.token().to_string(),\n-        message: e.to_string(),\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::ColType;\n \n     fn parquet_bytes(df: &mut DataFrame) -> Vec<u8> {\n",
-    "file": "crates/ax-normalize/src/binary.rs",
-    "function": {
-      "function_name": "parse_err",
-      "return_type": "-> AxError",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 88
-        },
-        "start": {
-          "column": 1,
-          "line": 83
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/binary.rs:84:5: replace parse_err -> AxError with Default::default()",
-    "package": "ax-normalize",
-    "replacement": "Default::default()",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 87
-      },
-      "start": {
-        "column": 5,
-        "line": 84
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::token -> &'static str with \"\"\n@@ -17,24 +17,17 @@\n     Parquet,\n     /// Apache Arrow IPC / Feather file (binary columnar). Requires `polars`.\n     Arrow,\n }\n \n impl Format {\n     /// Stable token recorded in the envelope's `format` field.\n     pub fn token(self) -> &'static str {\n-        match self {\n-            Format::Csv => \"csv\",\n-            Format::Tsv => \"tsv\",\n-            Format::Ndjson => \"ndjson\",\n-            Format::Json => \"json\",\n-            Format::Parquet => \"parquet\",\n-            Format::Arrow => \"arrow\",\n-        }\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::token",
+      "function_name": "usage",
       "return_type": "-> &'static str",
       "span": {
         "end": {
-          "column": 6,
-          "line": 33
+          "column": 2,
+          "line": 74
         },
         "start": {
-          "column": 5,
-          "line": 23
+          "column": 1,
+          "line": 63
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:25:9: replace Format::token -> &'static str with \"\"",
-    "package": "ax-normalize",
+    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"\"",
+    "package": "ax-cli",
     "replacement": "\"\"",
     "span": {
       "end": {
-        "column": 10,
-        "line": 32
+        "column": 50,
+        "line": 73
       },
       "start": {
-        "column": 9,
-        "line": 25
+        "column": 5,
+        "line": 64
       }
     }
   },
   {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::token -> &'static str with \"xyzzy\"\n@@ -17,24 +17,17 @@\n     Parquet,\n     /// Apache Arrow IPC / Feather file (binary columnar). Requires `polars`.\n     Arrow,\n }\n \n impl Format {\n     /// Stable token recorded in the envelope's `format` field.\n     pub fn token(self) -> &'static str {\n-        match self {\n-            Format::Csv => \"csv\",\n-            Format::Tsv => \"tsv\",\n-            Format::Ndjson => \"ndjson\",\n-            Format::Json => \"json\",\n-            Format::Parquet => \"parquet\",\n-            Format::Arrow => \"arrow\",\n-        }\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n",
-    "file": "crates/ax-normalize/src/format.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"xyzzy\"\n@@ -56,26 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\\n\\\n-     \\n\\\n-     With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "Format::token",
+      "function_name": "usage",
       "return_type": "-> &'static str",
       "span": {
         "end": {
-          "column": 6,
-          "line": 33
+          "column": 2,
+          "line": 74
         },
         "start": {
-          "column": 5,
-          "line": 23
+          "column": 1,
+          "line": 63
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:25:9: replace Format::token -> &'static str with \"xyzzy\"",
-    "package": "ax-normalize",
+    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"xyzzy\"",
+    "package": "ax-cli",
     "replacement": "\"xyzzy\"",
     "span": {
       "end": {
-        "column": 10,
-        "line": 32
-      },
-      "start": {
-        "column": 9,
-        "line": 25
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::is_binary -> bool with true\n@@ -29,17 +29,17 @@\n             Format::Json => \"json\",\n             Format::Parquet => \"parquet\",\n             Format::Arrow => \"arrow\",\n         }\n     }\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n-        matches!(self, Format::Parquet | Format::Arrow)\n+        true /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::is_binary",
-      "return_type": "-> bool",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 38
-        },
-        "start": {
-          "column": 5,
-          "line": 35
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:37:9: replace Format::is_binary -> bool with true",
-    "package": "ax-normalize",
-    "replacement": "true",
-    "span": {
-      "end": {
-        "column": 56,
-        "line": 37
-      },
-      "start": {
-        "column": 9,
-        "line": 37
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::is_binary -> bool with false\n@@ -29,17 +29,17 @@\n             Format::Json => \"json\",\n             Format::Parquet => \"parquet\",\n             Format::Arrow => \"arrow\",\n         }\n     }\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n-        matches!(self, Format::Parquet | Format::Arrow)\n+        false /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::is_binary",
-      "return_type": "-> bool",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 38
-        },
-        "start": {
-          "column": 5,
-          "line": 35
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:37:9: replace Format::is_binary -> bool with false",
-    "package": "ax-normalize",
-    "replacement": "false",
-    "span": {
-      "end": {
-        "column": 56,
-        "line": 37
-      },
-      "start": {
-        "column": 9,
-        "line": 37
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::from_extension -> Option<Format> with None\n@@ -34,26 +34,17 @@\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n-        let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n-        match ext.as_str() {\n-            \"csv\" => Some(Format::Csv),\n-            \"tsv\" | \"tab\" => Some(Format::Tsv),\n-            \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n-            \"json\" => Some(Format::Json),\n-            \"parquet\" | \"pq\" => Some(Format::Parquet),\n-            \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n-            _ => None,\n-        }\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n     pub fn sniff(bytes: &[u8]) -> Option<Format> {\n         // Parquet files begin (and end) with the 4-byte magic \"PAR1\".\n         if bytes.starts_with(b\"PAR1\") {\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:42:9: replace Format::from_extension -> Option<Format> with None",
-    "package": "ax-normalize",
-    "replacement": "None",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 51
-      },
-      "start": {
-        "column": 9,
-        "line": 42
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::from_extension -> Option<Format> with Some(Default::default())\n@@ -34,26 +34,17 @@\n \n     /// Whether this format is binary columnar (read via the Polars backbone).\n     pub fn is_binary(self) -> bool {\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n-        let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n-        match ext.as_str() {\n-            \"csv\" => Some(Format::Csv),\n-            \"tsv\" | \"tab\" => Some(Format::Tsv),\n-            \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n-            \"json\" => Some(Format::Json),\n-            \"parquet\" | \"pq\" => Some(Format::Parquet),\n-            \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n-            _ => None,\n-        }\n+        Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n     pub fn sniff(bytes: &[u8]) -> Option<Format> {\n         // Parquet files begin (and end) with the 4-byte magic \"PAR1\".\n         if bytes.starts_with(b\"PAR1\") {\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:42:9: replace Format::from_extension -> Option<Format> with Some(Default::default())",
-    "package": "ax-normalize",
-    "replacement": "Some(Default::default())",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 51
-      },
-      "start": {
-        "column": 9,
-        "line": 42
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"csv\" in Format::from_extension\n@@ -36,17 +36,17 @@\n     pub fn is_binary(self) -> bool {\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n-            \"csv\" => Some(Format::Csv),\n+             /* ~ changed by cargo-mutants ~ */\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n             \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n             \"json\" => Some(Format::Json),\n             \"parquet\" | \"pq\" => Some(Format::Parquet),\n             \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n             _ => None,\n         }\n     }\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:44:13: delete match arm \"csv\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 40,
-        "line": 44
-      },
-      "start": {
-        "column": 13,
-        "line": 44
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"tsv\" | \"tab\" in Format::from_extension\n@@ -37,17 +37,17 @@\n         matches!(self, Format::Parquet | Format::Arrow)\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n-            \"tsv\" | \"tab\" => Some(Format::Tsv),\n+             /* ~ changed by cargo-mutants ~ */\n             \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n             \"json\" => Some(Format::Json),\n             \"parquet\" | \"pq\" => Some(Format::Parquet),\n             \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n             _ => None,\n         }\n     }\n \n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:45:13: delete match arm \"tsv\" | \"tab\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 48,
-        "line": 45
-      },
-      "start": {
-        "column": 13,
-        "line": 45
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"ndjson\" | \"jsonl\" in Format::from_extension\n@@ -38,17 +38,17 @@\n     }\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n-            \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n+             /* ~ changed by cargo-mutants ~ */\n             \"json\" => Some(Format::Json),\n             \"parquet\" | \"pq\" => Some(Format::Parquet),\n             \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n             _ => None,\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:46:13: delete match arm \"ndjson\" | \"jsonl\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 56,
-        "line": 46
-      },
-      "start": {
-        "column": 13,
-        "line": 46
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"json\" in Format::from_extension\n@@ -39,17 +39,17 @@\n \n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n             \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n-            \"json\" => Some(Format::Json),\n+             /* ~ changed by cargo-mutants ~ */\n             \"parquet\" | \"pq\" => Some(Format::Parquet),\n             \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n             _ => None,\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:47:13: delete match arm \"json\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 42,
-        "line": 47
-      },
-      "start": {
-        "column": 13,
-        "line": 47
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"parquet\" | \"pq\" in Format::from_extension\n@@ -40,17 +40,17 @@\n     /// Picks a format from a file extension, if recognized.\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n             \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n             \"json\" => Some(Format::Json),\n-            \"parquet\" | \"pq\" => Some(Format::Parquet),\n+             /* ~ changed by cargo-mutants ~ */\n             \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n             _ => None,\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:48:13: delete match arm \"parquet\" | \"pq\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 55,
-        "line": 48
-      },
-      "start": {
-        "column": 13,
-        "line": 48
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm \"arrow\" | \"ipc\" | \"feather\" in Format::from_extension\n@@ -41,17 +41,17 @@\n     pub fn from_extension(path: &str) -> Option<Format> {\n         let ext = path.rsplit('.').next()?.to_ascii_lowercase();\n         match ext.as_str() {\n             \"csv\" => Some(Format::Csv),\n             \"tsv\" | \"tab\" => Some(Format::Tsv),\n             \"ndjson\" | \"jsonl\" => Some(Format::Ndjson),\n             \"json\" => Some(Format::Json),\n             \"parquet\" | \"pq\" => Some(Format::Parquet),\n-            \"arrow\" | \"ipc\" | \"feather\" => Some(Format::Arrow),\n+             /* ~ changed by cargo-mutants ~ */\n             _ => None,\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n     pub fn sniff(bytes: &[u8]) -> Option<Format> {\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::from_extension",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 52
-        },
-        "start": {
-          "column": 5,
-          "line": 40
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:49:13: delete match arm \"arrow\" | \"ipc\" | \"feather\" in Format::from_extension",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 64,
-        "line": 49
-      },
-      "start": {
-        "column": 13,
-        "line": 49
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::sniff -> Option<Format> with None\n@@ -51,54 +51,17 @@\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n     pub fn sniff(bytes: &[u8]) -> Option<Format> {\n         // Parquet files begin (and end) with the 4-byte magic \"PAR1\".\n-        if bytes.starts_with(b\"PAR1\") {\n-            return Some(Format::Parquet);\n-        }\n-        // Arrow IPC files begin with \"ARROW1\".\n-        if bytes.starts_with(b\"ARROW1\") {\n-            return Some(Format::Arrow);\n-        }\n-        let text = std::str::from_utf8(bytes).ok()?;\n-        let trimmed = text.trim_start();\n-        let first = trimmed.chars().next()?;\n-        match first {\n-            '[' => Some(Format::Json),\n-            '{' => {\n-                // One object → json; multiple object-lines → ndjson.\n-                let object_lines = trimmed\n-                    .lines()\n-                    .filter(|l| !l.trim().is_empty())\n-                    .take(3)\n-                    .filter(|l| l.trim_start().starts_with('{'))\n-                    .count();\n-                if object_lines >= 2 {\n-                    Some(Format::Ndjson)\n-                } else {\n-                    Some(Format::Json)\n-                }\n-            }\n-            _ => {\n-                // Tabular: prefer TSV if a tab appears before any comma on line 1.\n-                let line = trimmed.lines().next()?;\n-                // Indices of '\\t' and ',' are positions of distinct characters,\n-                // so they are never equal; `<` is the only meaningful test.\n-                match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n-                    (Some(_), None) => Some(Format::Tsv),\n-                    _ => Some(Format::Csv), // comma-first, or single comma-free column\n-                }\n-            }\n-        }\n+        None /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n     pub fn resolve(source: &str, bytes: &[u8]) -> Result<Format, AxError> {\n         if let Some(f) = Format::from_extension(source) {\n             return Ok(f);\n         }\n         Format::sniff(bytes).ok_or_else(|| AxError::UnknownFormat(source.to_string()))\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:59:9: replace Format::sniff -> Option<Format> with None",
-    "package": "ax-normalize",
-    "replacement": "None",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 96
-      },
-      "start": {
-        "column": 9,
-        "line": 59
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::sniff -> Option<Format> with Some(Default::default())\n@@ -51,54 +51,17 @@\n         }\n     }\n \n     /// Sniffs a format from leading content. Binary magic numbers are checked\n     /// first (they are not valid UTF-8); then textual sniffing. `None` if\n     /// nothing matches.\n     pub fn sniff(bytes: &[u8]) -> Option<Format> {\n         // Parquet files begin (and end) with the 4-byte magic \"PAR1\".\n-        if bytes.starts_with(b\"PAR1\") {\n-            return Some(Format::Parquet);\n-        }\n-        // Arrow IPC files begin with \"ARROW1\".\n-        if bytes.starts_with(b\"ARROW1\") {\n-            return Some(Format::Arrow);\n-        }\n-        let text = std::str::from_utf8(bytes).ok()?;\n-        let trimmed = text.trim_start();\n-        let first = trimmed.chars().next()?;\n-        match first {\n-            '[' => Some(Format::Json),\n-            '{' => {\n-                // One object → json; multiple object-lines → ndjson.\n-                let object_lines = trimmed\n-                    .lines()\n-                    .filter(|l| !l.trim().is_empty())\n-                    .take(3)\n-                    .filter(|l| l.trim_start().starts_with('{'))\n-                    .count();\n-                if object_lines >= 2 {\n-                    Some(Format::Ndjson)\n-                } else {\n-                    Some(Format::Json)\n-                }\n-            }\n-            _ => {\n-                // Tabular: prefer TSV if a tab appears before any comma on line 1.\n-                let line = trimmed.lines().next()?;\n-                // Indices of '\\t' and ',' are positions of distinct characters,\n-                // so they are never equal; `<` is the only meaningful test.\n-                match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n-                    (Some(_), None) => Some(Format::Tsv),\n-                    _ => Some(Format::Csv), // comma-first, or single comma-free column\n-                }\n-            }\n-        }\n+        Some(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n     pub fn resolve(source: &str, bytes: &[u8]) -> Result<Format, AxError> {\n         if let Some(f) = Format::from_extension(source) {\n             return Ok(f);\n         }\n         Format::sniff(bytes).ok_or_else(|| AxError::UnknownFormat(source.to_string()))\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:59:9: replace Format::sniff -> Option<Format> with Some(Default::default())",
-    "package": "ax-normalize",
-    "replacement": "Some(Default::default())",
-    "span": {
-      "end": {
-        "column": 10,
-        "line": 96
-      },
-      "start": {
-        "column": 9,
-        "line": 59
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm '[' in Format::sniff\n@@ -62,17 +62,17 @@\n         // Arrow IPC files begin with \"ARROW1\".\n         if bytes.starts_with(b\"ARROW1\") {\n             return Some(Format::Arrow);\n         }\n         let text = std::str::from_utf8(bytes).ok()?;\n         let trimmed = text.trim_start();\n         let first = trimmed.chars().next()?;\n         match first {\n-            '[' => Some(Format::Json),\n+             /* ~ changed by cargo-mutants ~ */\n             '{' => {\n                 // One object → json; multiple object-lines → ndjson.\n                 let object_lines = trimmed\n                     .lines()\n                     .filter(|l| !l.trim().is_empty())\n                     .take(3)\n                     .filter(|l| l.trim_start().starts_with('{'))\n                     .count();\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:70:13: delete match arm '[' in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 39,
-        "line": 70
-      },
-      "start": {
-        "column": 13,
-        "line": 70
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm '{' in Format::sniff\n@@ -63,30 +63,17 @@\n         if bytes.starts_with(b\"ARROW1\") {\n             return Some(Format::Arrow);\n         }\n         let text = std::str::from_utf8(bytes).ok()?;\n         let trimmed = text.trim_start();\n         let first = trimmed.chars().next()?;\n         match first {\n             '[' => Some(Format::Json),\n-            '{' => {\n-                // One object → json; multiple object-lines → ndjson.\n-                let object_lines = trimmed\n-                    .lines()\n-                    .filter(|l| !l.trim().is_empty())\n-                    .take(3)\n-                    .filter(|l| l.trim_start().starts_with('{'))\n-                    .count();\n-                if object_lines >= 2 {\n-                    Some(Format::Ndjson)\n-                } else {\n-                    Some(Format::Json)\n-                }\n-            }\n+             /* ~ changed by cargo-mutants ~ */\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n                     (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n                     (Some(_), None) => Some(Format::Tsv),\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:71:13: delete match arm '{' in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 14,
-        "line": 84
-      },
-      "start": {
-        "column": 13,
-        "line": 71
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete ! in Format::sniff\n@@ -67,17 +67,17 @@\n         let trimmed = text.trim_start();\n         let first = trimmed.chars().next()?;\n         match first {\n             '[' => Some(Format::Json),\n             '{' => {\n                 // One object → json; multiple object-lines → ndjson.\n                 let object_lines = trimmed\n                     .lines()\n-                    .filter(|l| !l.trim().is_empty())\n+                    .filter(|l|  /* ~ changed by cargo-mutants ~ */l.trim().is_empty())\n                     .take(3)\n                     .filter(|l| l.trim_start().starts_with('{'))\n                     .count();\n                 if object_lines >= 2 {\n                     Some(Format::Ndjson)\n                 } else {\n                     Some(Format::Json)\n                 }\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "UnaryOperator",
-    "name": "crates/ax-normalize/src/format.rs:75:33: delete ! in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 34,
-        "line": 75
-      },
-      "start": {
-        "column": 33,
-        "line": 75
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace >= with < in Format::sniff\n@@ -71,17 +71,17 @@\n             '{' => {\n                 // One object → json; multiple object-lines → ndjson.\n                 let object_lines = trimmed\n                     .lines()\n                     .filter(|l| !l.trim().is_empty())\n                     .take(3)\n                     .filter(|l| l.trim_start().starts_with('{'))\n                     .count();\n-                if object_lines >= 2 {\n+                if object_lines < /* ~ changed by cargo-mutants ~ */ 2 {\n                     Some(Format::Ndjson)\n                 } else {\n                     Some(Format::Json)\n                 }\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-normalize/src/format.rs:79:33: replace >= with < in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "<",
-    "span": {
-      "end": {
-        "column": 35,
-        "line": 79
-      },
-      "start": {
-        "column": 33,
-        "line": 79
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ delete match arm (Some(_), None) in Format::sniff\n@@ -84,17 +84,17 @@\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n                     (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n-                    (Some(_), None) => Some(Format::Tsv),\n+                     /* ~ changed by cargo-mutants ~ */\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n     pub fn resolve(source: &str, bytes: &[u8]) -> Result<Format, AxError> {\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/format.rs:92:21: delete match arm (Some(_), None) in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 58,
-        "line": 92
-      },
-      "start": {
-        "column": 21,
-        "line": 92
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace match guard t < c with true in Format::sniff\n@@ -83,17 +83,17 @@\n                 }\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n+                    (Some(t), Some(c)) if true /* ~ changed by cargo-mutants ~ */ => Some(Format::Tsv),\n                     (Some(_), None) => Some(Format::Tsv),\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "MatchArmGuard",
-    "name": "crates/ax-normalize/src/format.rs:91:43: replace match guard t < c with true in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "true",
-    "span": {
-      "end": {
-        "column": 48,
-        "line": 91
-      },
-      "start": {
-        "column": 43,
-        "line": 91
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace match guard t < c with false in Format::sniff\n@@ -83,17 +83,17 @@\n                 }\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n+                    (Some(t), Some(c)) if false /* ~ changed by cargo-mutants ~ */ => Some(Format::Tsv),\n                     (Some(_), None) => Some(Format::Tsv),\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "MatchArmGuard",
-    "name": "crates/ax-normalize/src/format.rs:91:43: replace match guard t < c with false in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "false",
-    "span": {
-      "end": {
-        "column": 48,
-        "line": 91
-      },
-      "start": {
-        "column": 43,
-        "line": 91
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace < with == in Format::sniff\n@@ -83,17 +83,17 @@\n                 }\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n+                    (Some(t), Some(c)) if t == /* ~ changed by cargo-mutants ~ */ c => Some(Format::Tsv),\n                     (Some(_), None) => Some(Format::Tsv),\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-normalize/src/format.rs:91:45: replace < with == in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": "==",
-    "span": {
-      "end": {
-        "column": 46,
-        "line": 91
-      },
-      "start": {
-        "column": 45,
-        "line": 91
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace < with > in Format::sniff\n@@ -83,17 +83,17 @@\n                 }\n             }\n             _ => {\n                 // Tabular: prefer TSV if a tab appears before any comma on line 1.\n                 let line = trimmed.lines().next()?;\n                 // Indices of '\\t' and ',' are positions of distinct characters,\n                 // so they are never equal; `<` is the only meaningful test.\n                 match (line.find('\\t'), line.find(',')) {\n-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),\n+                    (Some(t), Some(c)) if t > /* ~ changed by cargo-mutants ~ */ c => Some(Format::Tsv),\n                     (Some(_), None) => Some(Format::Tsv),\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::sniff",
-      "return_type": "-> Option<Format>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 97
-        },
-        "start": {
-          "column": 5,
-          "line": 54
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-normalize/src/format.rs:91:45: replace < with > in Format::sniff",
-    "package": "ax-normalize",
-    "replacement": ">",
-    "span": {
-      "end": {
-        "column": 46,
-        "line": 91
-      },
-      "start": {
-        "column": 45,
-        "line": 91
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/format.rs\n+++ replace Format::resolve -> Result<Format, AxError> with Ok(Default::default())\n@@ -93,20 +93,17 @@\n                     _ => Some(Format::Csv), // comma-first, or single comma-free column\n                 }\n             }\n         }\n     }\n \n     /// Resolves the format for `source`/`bytes`: extension first, then sniff.\n     pub fn resolve(source: &str, bytes: &[u8]) -> Result<Format, AxError> {\n-        if let Some(f) = Format::from_extension(source) {\n-            return Ok(f);\n-        }\n-        Format::sniff(bytes).ok_or_else(|| AxError::UnknownFormat(source.to_string()))\n+        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
-    "file": "crates/ax-normalize/src/format.rs",
-    "function": {
-      "function_name": "Format::resolve",
-      "return_type": "-> Result<Format, AxError>",
-      "span": {
-        "end": {
-          "column": 6,
-          "line": 105
-        },
-        "start": {
-          "column": 5,
-          "line": 99
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/format.rs:101:9: replace Format::resolve -> Result<Format, AxError> with Ok(Default::default())",
-    "package": "ax-normalize",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 87,
-        "line": 104
-      },
-      "start": {
-        "column": 9,
-        "line": 101
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/infer.rs\n+++ replace infer_scalar -> Value with Default::default()\n@@ -5,35 +5,17 @@\n use ax_core::Value;\n \n /// Infers a [`Value`] from a raw textual cell (CSV/TSV).\n ///\n /// Order matters: empty → `Null`; then integer, then float, then bool, else the\n /// trimmed string. Quoting/whitespace handling is the CSV reader's job; this\n /// sees the already-unquoted field.\n pub fn infer_scalar(raw: &str) -> Value {\n-    if raw.is_empty() {\n-        return Value::Null;\n-    }\n-    if let Ok(i) = raw.parse::<i64>() {\n-        return Value::Int(i);\n-    }\n-    if let Ok(f) = raw.parse::<f64>() {\n-        // Reject the textual forms `inf`/`nan` that `f64::parse` accepts but\n-        // that are not meaningful data values; keep them as strings instead.\n-        if f.is_finite() {\n-            return Value::Float(f);\n-        }\n-    }\n-    match raw {\n-        \"true\" | \"TRUE\" | \"True\" => return Value::Bool(true),\n-        \"false\" | \"FALSE\" | \"False\" => return Value::Bool(false),\n-        _ => {}\n-    }\n-    Value::Str(raw.to_string())\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not\n /// flattened here — they are preserved as their canonical JSON string and typed\n /// as `Str`, so a structural detector can still see them without the normalizer\n /// inventing a shape.\n pub fn json_to_value(j: &serde_json::Value) -> Value {\n     use serde_json::Value as J;\n",
-    "file": "crates/ax-normalize/src/infer.rs",
-    "function": {
-      "function_name": "infer_scalar",
-      "return_type": "-> Value",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 32
-        },
-        "start": {
-          "column": 1,
-          "line": 7
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-normalize/src/infer.rs:13:5: replace infer_scalar -> Value with Default::default()",
-    "package": "ax-normalize",
-    "replacement": "Default::default()",
-    "span": {
-      "end": {
-        "column": 32,
-        "line": 31
+        "column": 50,
+        "line": 73
       },
       "start": {
         "column": 5,
-        "line": 13
+        "line": 64
       }
     }
   },
   {
-    "diff": "--- crates/ax-normalize/src/infer.rs\n+++ delete match arm \"true\" | \"TRUE\" | \"True\" in infer_scalar\n@@ -19,17 +19,17 @@\n     if let Ok(f) = raw.parse::<f64>() {\n         // Reject the textual forms `inf`/`nan` that `f64::parse` accepts but\n         // that are not meaningful data values; keep them as strings instead.\n         if f.is_finite() {\n             return Value::Float(f);\n         }\n     }\n     match raw {\n-        \"true\" | \"TRUE\" | \"True\" => return Value::Bool(true),\n+         /* ~ changed by cargo-mutants ~ */\n         \"false\" | \"FALSE\" | \"False\" => return Value::Bool(false),\n         _ => {}\n     }\n     Value::Str(raw.to_string())\n }\n \n /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not\n /// flattened here — they are preserved as their canonical JSON string and typed\n",
-    "file": "crates/ax-normalize/src/infer.rs",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
     "function": {
-      "function_name": "infer_scalar",
-      "return_type": "-> Value",
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
       "span": {
         "end": {
           "column": 2,
-          "line": 32
+          "line": 93
         },
         "start": {
           "column": 1,
-          "line": 7
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/infer.rs:27:9: delete match arm \"true\" | \"TRUE\" | \"True\" in infer_scalar",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 62,
-        "line": 27
-      },
-      "start": {
-        "column": 9,
-        "line": 27
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/infer.rs\n+++ delete match arm \"false\" | \"FALSE\" | \"False\" in infer_scalar\n@@ -20,17 +20,17 @@\n         // Reject the textual forms `inf`/`nan` that `f64::parse` accepts but\n         // that are not meaningful data values; keep them as strings instead.\n         if f.is_finite() {\n             return Value::Float(f);\n         }\n     }\n     match raw {\n         \"true\" | \"TRUE\" | \"True\" => return Value::Bool(true),\n-        \"false\" | \"FALSE\" | \"False\" => return Value::Bool(false),\n+         /* ~ changed by cargo-mutants ~ */\n         _ => {}\n     }\n     Value::Str(raw.to_string())\n }\n \n /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not\n /// flattened here — they are preserved as their canonical JSON string and typed\n /// as `Str`, so a structural detector can still see them without the normalizer\n",
-    "file": "crates/ax-normalize/src/infer.rs",
-    "function": {
-      "function_name": "infer_scalar",
-      "return_type": "-> Value",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 32
-        },
-        "start": {
-          "column": 1,
-          "line": 7
-        }
-      }
-    },
-    "genre": "MatchArm",
-    "name": "crates/ax-normalize/src/infer.rs:28:9: delete match arm \"false\" | \"FALSE\" | \"False\" in infer_scalar",
-    "package": "ax-normalize",
-    "replacement": "",
-    "span": {
-      "end": {
-        "column": 66,
-        "line": 28
-      },
-      "start": {
-        "column": 9,
-        "line": 28
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-normalize/src/infer.rs\n+++ replace json_to_value -> Value with Default::default()\n@@ -31,37 +31,17 @@\n     Value::Str(raw.to_string())\n }\n \n /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not\n /// flattened here — they are preserved as their canonical JSON string and typed\n /// as `Str`, so a structural detector can still see them without the normalizer\n /// inventing a shape.\n pub fn json_to_value(j: &serde_json::Value) -> Value {\n-    use serde_json::Value as J;\n-    match j {\n-        J::Null => Value::Null,\n-        J::Bool(b) => Value::Bool(*b),\n-        J::Number(n) => {\n-            if let Some(i) = n.as_i64() {\n-                Value::Int(i)\n-            } else if let Some(f) = n.as_f64() {\n-                if f.is_finite() {\n-                    Value::Float(f)\n-                } else {\n-                    Value::Null\n-                }\n-            } else {\n-                // u64 too large for i64\n-                Value::Str(n.to_string())\n-            }\n-        }\n-        J::String(s) => Value::Str(s.clone()),\n-        J::Array(_) | J::Object(_) => Value::Str(j.to_string()),\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn scalar_inference_precedence() {\n",
-    "file": "crates/ax-normalize/src/infer.rs",
-    "function": {
-      "function_name": "json_to_value",
-      "return_type": "-> Value",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 60
-        },
-        "start": {
-          "column": 1,
-          "line": 34
+          "line": 76
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-normalize/src/infer.rs:39:5: replace json_to_value -> Value with Default::default()",
-    "package": "ax-normalize",
-    "replacement": "Default::default()",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in split_baseline\n@@ -75,17 +75,17 @@\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n     while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n+        if arg != /* ~ changed by cargo-mutants ~ */ \"--baseline\" {\n             let value = it\n                 .next()\n                 .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n             baseline = Some(value.clone());\n         } else {\n             positional.push(arg.clone());\n         }\n     }\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 18,
+        "line": 83
+      },
+      "start": {
+        "column": 16,
+        "line": 83
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 59
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 39
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![0]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 109
+      },
+      "start": {
+        "column": 5,
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
+    "package": "ax-cli",
+    "replacement": "Ok((String::new(), vec![1]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 109
+      },
+      "start": {
+        "column": 5,
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 109
+      },
+      "start": {
+        "column": 5,
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 109
+      },
+      "start": {
+        "column": 5,
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
+    "package": "ax-cli",
+    "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 109
+      },
+      "start": {
+        "column": 5,
+        "line": 97
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with true in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if true /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with true in read_input",
+    "package": "ax-cli",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 98
+      },
+      "start": {
+        "column": 20,
+        "line": 98
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with false in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if false /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with false in read_input",
+    "package": "ax-cli",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 98
+      },
+      "start": {
+        "column": 20,
+        "line": 98
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace != with == in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if p == /* ~ changed by cargo-mutants ~ */ \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "read_input",
+      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 110
+        },
+        "start": {
+          "column": 1,
+          "line": 95
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:98:22: replace != with == in read_input",
+    "package": "ax-cli",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 98
+      },
+      "start": {
+        "column": 22,
+        "line": 98
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)\n@@ -106,23 +106,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(None) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let (source, bytes) = read_input(positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&baseline_path)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 121
+        },
+        "start": {
+          "column": 1,
+          "line": 112
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
+    "package": "ax-cli",
+    "replacement": "Ok(None)",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 120
+      },
+      "start": {
+        "column": 5,
+        "line": 114
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))\n@@ -106,23 +106,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(Some(Default::default())) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let (source, bytes) = read_input(positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&baseline_path)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 121
+        },
+        "start": {
+          "column": 1,
+          "line": 112
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
+    "package": "ax-cli",
+    "replacement": "Ok(Some(Default::default()))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 120
+      },
+      "start": {
+        "column": 5,
+        "line": 114
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -116,47 +116,17 @@\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n         }\n         None => Ok(None),\n     }\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (baseline_path, positional) = split_baseline(rest)?;\n-    let (source, bytes) = read_input(positional.first())?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&baseline_path)?;\n-\n-    let cfg = DetectConfig::default();\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-\n-    let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())\n-        .findings(report.findings);\n-    if let Some(b) = &baseline {\n-        builder = builder.baseline(b.source.clone());\n-    }\n-    for a in report.absent {\n-        builder = builder.absent(a.detector, a.reason);\n-    }\n-    let env = builder.build();\n-\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&env).expect(\"envelope serializes\")\n-    );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n-        ExitCode::Anomalies\n-    } else {\n-        ExitCode::Clean\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let handle_str = positional\n         .first()\n         .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n     let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_scan",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 155
+        },
+        "start": {
+          "column": 1,
+          "line": 123
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 7,
+        "line": 154
+      },
+      "start": {
+        "column": 5,
+        "line": 124
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_scan\n@@ -142,17 +142,17 @@\n         builder = builder.absent(a.detector, a.reason);\n     }\n     let env = builder.build();\n \n     println!(\n         \"{}\",\n         serde_json::to_string(&env).expect(\"envelope serializes\")\n     );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n+    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_scan",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 155
+        },
+        "start": {
+          "column": 1,
+          "line": 123
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 150
+      },
+      "start": {
+        "column": 20,
+        "line": 150
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -150,52 +150,17 @@\n     Ok(if env.exit == ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (baseline_path, positional) = split_baseline(rest)?;\n-    let handle_str = positional\n-        .first()\n-        .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n-    let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n-\n-    let (source, bytes) = read_input(positional.get(1))?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&baseline_path)?;\n-\n-    let evidence = resolve_handle(&rs, &handle)?;\n-\n-    // Re-run detection and attach any findings that point at this handle.\n-    let cfg = DetectConfig::default();\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-    let findings: Vec<_> = report\n-        .findings\n-        .into_iter()\n-        .filter(|f| f.handle == handle)\n-        .collect();\n-\n-    let out = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"handle\": handle_str,\n-        \"evidence\": evidence,\n-        \"findings\": findings,\n-    });\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&out).expect(\"explain serializes\")\n-    );\n-    Ok(ExitCode::Clean)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n     let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n     match handle {\n         Handle::Column { name } | Handle::Dist { column: name } => {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_explain",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 194
+        },
+        "start": {
+          "column": 1,
+          "line": 157
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 193
+      },
+      "start": {
+        "column": 5,
+        "line": 158
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_explain\n@@ -172,17 +172,17 @@\n     let ctx = match &baseline {\n         Some(b) => ScanContext::compared(b, &rs),\n         None => ScanContext::single(&rs),\n     };\n     let report = Registry::default_set().run(&ctx, &cfg);\n     let findings: Vec<_> = report\n         .findings\n         .into_iter()\n-        .filter(|f| f.handle == handle)\n+        .filter(|f| f.handle != /* ~ changed by cargo-mutants ~ */ handle)\n         .collect();\n \n     let out = serde_json::json!({\n         \"protocol\": PROTOCOL,\n         \"handle\": handle_str,\n         \"evidence\": evidence,\n         \"findings\": findings,\n     });\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "cmd_explain",
+      "return_type": "-> Result<ExitCode, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 194
+        },
+        "start": {
+          "column": 1,
+          "line": 157
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 32,
+        "line": 180
+      },
+      "start": {
+        "column": 30,
+        "line": 180
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())\n@@ -191,73 +191,17 @@\n         serde_json::to_string(&out).expect(\"explain serializes\")\n     );\n     Ok(ExitCode::Clean)\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n-    match handle {\n-        Handle::Column { name } | Handle::Dist { column: name } => {\n-            let col = rs.column(name).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"column\",\n-                \"column\": col.name,\n-                \"type\": col.ty,\n-                \"len\": col.len(),\n-                \"nulls\": col.null_count(),\n-            }))\n-        }\n-        Handle::Cell { column, row } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"cell\",\n-                \"column\": col.name,\n-                \"row\": row,\n-                \"value\": value,\n-                \"column_type\": col.ty,\n-            }))\n-        }\n-        Handle::Range { column, start, end } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n-                return Err(unresolved());\n-            }\n-            Ok(serde_json::json!({\n-                \"kind\": \"range\",\n-                \"column\": col.name,\n-                \"start\": start,\n-                \"end\": end,\n-                \"values\": &col.cells[*start..*end],\n-            }))\n-        }\n-        Handle::Row { row } => {\n-            if *row >= rs.rows() {\n-                return Err(unresolved());\n-            }\n-            let cells: serde_json::Map<String, serde_json::Value> = rs\n-                .columns\n-                .iter()\n-                .map(|c| {\n-                    (\n-                        c.name.clone(),\n-                        serde_json::to_value(&c.cells[*row]).unwrap(),\n-                    )\n-                })\n-                .collect();\n-            Ok(serde_json::json!({\n-                \"kind\": \"row\",\n-                \"row\": row,\n-                \"cells\": cells,\n-            }))\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::Column;\n \n     fn corpus() -> RecordSet {\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
+    "package": "ax-cli",
+    "replacement": "Ok(Default::default())",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 255
+      },
+      "start": {
+        "column": 5,
+        "line": 199
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace || with && in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "&&",
+    "span": {
+      "end": {
+        "column": 33,
+        "line": 224
+      },
+      "start": {
+        "column": 31,
+        "line": 224
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start < /* ~ changed by cargo-mutants ~ */ *end || *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 224
+      },
+      "start": {
+        "column": 23,
+        "line": 224
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with == in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end == /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 224
+      },
+      "start": {
+        "column": 39,
+        "line": 224
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with < in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end < /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 224
+      },
+      "start": {
+        "column": 39,
+        "line": 224
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with >= in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end >= /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle",
+    "package": "ax-cli",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 40,
+        "line": 224
+      },
+      "start": {
+        "column": 39,
+        "line": 224
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -228,17 +228,17 @@\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n             }))\n         }\n         Handle::Row { row } => {\n-            if *row >= rs.rows() {\n+            if *row < /* ~ changed by cargo-mutants ~ */ rs.rows() {\n                 return Err(unresolved());\n             }\n             let cells: serde_json::Map<String, serde_json::Value> = rs\n                 .columns\n                 .iter()\n                 .map(|c| {\n                     (\n                         c.name.clone(),\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "resolve_handle",
+      "return_type": "-> Result<serde_json::Value, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 256
+        },
+        "start": {
+          "column": 1,
+          "line": 196
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:236:21: replace >= with < in resolve_handle",
+    "package": "ax-cli",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 23,
+        "line": 236
+      },
+      "start": {
+        "column": 21,
+        "line": 236
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with String::new()\n@@ -6,44 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\", \"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
+    "file": "crates/ax-cli/src/describe.rs",
+    "function": {
+      "function_name": "describe_json",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 42
+        },
+        "start": {
+          "column": 1,
+          "line": 13
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()",
+    "package": "ax-cli",
+    "replacement": "String::new()",
+    "span": {
+      "end": {
+        "column": 69,
+        "line": 41
+      },
+      "start": {
+        "column": 5,
+        "line": 14
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with \"xyzzy\".into()\n@@ -6,44 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\", \"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
+    "file": "crates/ax-cli/src/describe.rs",
+    "function": {
+      "function_name": "describe_json",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 42
+        },
+        "start": {
+          "column": 1,
+          "line": 13
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with \"xyzzy\".into()",
+    "package": "ax-cli",
+    "replacement": "\"xyzzy\".into()",
+    "span": {
+      "end": {
+        "column": 69,
+        "line": 41
+      },
+      "start": {
+        "column": 5,
+        "line": 14
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with String::new()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "file": "crates/ax-cli/src/schema.rs",
+    "function": {
+      "function_name": "envelope_schema",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 97
+        },
+        "start": {
+          "column": 1,
+          "line": 9
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()",
+    "package": "ax-cli",
+    "replacement": "String::new()",
+    "span": {
+      "end": {
+        "column": 70,
+        "line": 96
+      },
+      "start": {
+        "column": 5,
+        "line": 10
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with \"xyzzy\".into()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "file": "crates/ax-cli/src/schema.rs",
+    "function": {
+      "function_name": "envelope_schema",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 97
+        },
+        "start": {
+          "column": 1,
+          "line": 9
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with \"xyzzy\".into()",
+    "package": "ax-cli",
+    "replacement": "\"xyzzy\".into()",
+    "span": {
+      "end": {
+        "column": 70,
+        "line": 96
+      },
+      "start": {
+        "column": 5,
+        "line": 10
       }
     }
   }

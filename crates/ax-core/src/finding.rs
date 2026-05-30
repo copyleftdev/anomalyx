@@ -103,6 +103,8 @@ pub enum Handle {
     },
     /// A distribution-level finding comparing `column` against a baseline.
     Dist { column: String },
+    /// A whole row, by index — for multivariate findings that span columns.
+    Row { row: usize },
 }
 
 impl Handle {
@@ -113,6 +115,7 @@ impl Handle {
             Handle::Cell { column, row } => format!("cell:{column}:{row}"),
             Handle::Range { column, start, end } => format!("range:{column}:{start}:{end}"),
             Handle::Dist { column } => format!("dist:{column}"),
+            Handle::Row { row } => format!("row:{row}"),
         }
     }
 
@@ -126,6 +129,9 @@ impl Handle {
             }),
             "dist" => Some(Handle::Dist {
                 column: rest.to_string(),
+            }),
+            "row" => Some(Handle::Row {
+                row: rest.parse().ok()?,
             }),
             "cell" => {
                 let (column, row) = rest.rsplit_once(':')?;
@@ -217,6 +223,7 @@ mod tests {
             Handle::Dist {
                 column: "score".into(),
             },
+            Handle::Row { row: 7 },
         ];
         for h in cases {
             let s = h.canonical();

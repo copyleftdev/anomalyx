@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ replace >= with < in resolve_handle
+@@ -228,17 +228,17 @@
+                 "kind": "range",
+                 "column": col.name,
+                 "start": start,
+                 "end": end,
+                 "values": &col.cells[*start..*end],
+             }))
+         }
+         Handle::Row { row } => {
+-            if *row >= rs.rows() {
++            if *row < /* ~ changed by cargo-mutants ~ */ rs.rows() {
+                 return Err(unresolved());
+             }
+             let cells: serde_json::Map<String, serde_json::Value> = rs
+                 .columns
+                 .iter()
+                 .map(|c| {
+                     (
+                         c.name.clone(),

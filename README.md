@@ -71,17 +71,20 @@ Seven classes, so an agent reasons about the *kind* of deviation:
 | `structural` | schema / type / null-rate violation, baseline schema-diff | ✅ `struct.schema` |
 | `contextual` | anomalous only in context (seasonal) | ⏳ planned |
 | `collective` | a subsequence/group is jointly anomalous (change-point) | ⏳ planned |
-| `multivariate` | isolated in feature space (isolation forest / LOF / DBSCAN) | ⏳ planned |
+| `multivariate` | a row isolated in feature space — breaks the joint structure | ✅ `mv.mahalanobis` |
 | `cadence` | suspiciously regular timing | ⏳ planned |
 
 ## Build vs. assemble
 
-Detection *math* is largely solved in the Rust ecosystem and is reused:
-`statrs` (tests/distributions), `smartcore` (isolation forest, one-class SVM,
-DBSCAN), `augurs`/`anomaly_detection` (seasonal), `polars` (normalization).
-What anomalyx *invents* is the part no crate provides: the executable contract —
-the envelope, the taxonomy + explainable detector registry, cross-corpus drift
-orchestration, and the determinism guarantees.
+Detection *math* is largely solved and is reused where it fits: `statrs`
+(distributions, χ² / KS p-values), `polars` (normalization). Where the
+determinism gate makes an off-the-shelf algorithm a liability — e.g. an
+isolation forest's RNG fights byte-reproducibility — anomalyx instead uses a
+fully deterministic method (the multivariate detector is Mahalanobis distance
+over a self-contained Cholesky solve, no RNG). What anomalyx *invents* is the
+part no crate provides: the executable contract — the envelope, the taxonomy +
+explainable detector registry, cross-corpus drift orchestration, and the
+determinism guarantees.
 
 ## The strong gates
 

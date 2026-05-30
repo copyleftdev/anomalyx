@@ -18,4 +18,5 @@ exclude_re = [
     "replace < with <= in <impl Detector for KsDetector>::detect",
     "replace < with <= in <impl Detector for Chi2Detector>::detect",
     "replace > with >= in <impl Detector for PsiDetector>::detect",
+    "replace < with <= in <impl Detector for MahalanobisDetector>::detect",
 ]

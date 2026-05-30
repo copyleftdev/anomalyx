@@ -232,6 +232,26 @@ fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, 
                 "values": &col.cells[*start..*end],
             }))
         }
+        Handle::Row { row } => {
+            if *row >= rs.rows() {
+                return Err(unresolved());
+            }
+            let cells: serde_json::Map<String, serde_json::Value> = rs
+                .columns
+                .iter()
+                .map(|c| {
+                    (
+                        c.name.clone(),
+                        serde_json::to_value(&c.cells[*row]).unwrap(),
+                    )
+                })
+                .collect();
+            Ok(serde_json::json!({
+                "kind": "row",
+                "row": row,
+                "cells": cells,
+            }))
+        }
     }
 }
 
@@ -340,6 +360,19 @@ mod tests {
             }
         )
         .is_ok());
+    }
+
+    #[test]
+    fn resolve_row_ok_and_out_of_range() {
+        let rs = corpus(); // column "x", 3 rows
+        let ev = resolve_handle(&rs, &Handle::Row { row: 1 }).unwrap();
+        assert_eq!(ev["kind"], "row");
+        assert_eq!(ev["cells"]["x"], serde_json::json!({"t": "int", "v": 2}));
+        // a row at or past the row count does not resolve
+        assert!(matches!(
+            resolve_handle(&rs, &Handle::Row { row: 3 }),
+            Err(AxError::UnresolvedHandle(_))
+        ));
     }
 
     #[test]

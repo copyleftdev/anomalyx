@@ -8,25 +8,25 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 35.555886759,
+          "duration": 34.749233897,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.251421301,
+          "duration": 0.201325907,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -34,1058 +34,30 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:28:5: replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
+          "name": "crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "read_binary",
-            "return_type": "-> Result<Vec<Column>, AxError>",
+            "function_name": "main",
+            "return_type": "-> ProcExit",
             "span": {
               "start": {
-                "line": 24,
+                "line": 25,
                 "column": 1
               },
               "end": {
-                "line": 40,
+                "line": 34,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 28,
+              "line": 26,
               "column": 5
             },
             "end": {
-              "line": 39,
-              "column": 6
-            }
-          },
-          "replacement": "Ok(vec![])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_28_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_28_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503276771,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.2013151,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:28:5: replace read_binary -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_binary",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 24,
-                "column": 1
-              },
-              "end": {
-                "line": 40,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 28,
-              "column": 5
-            },
-            "end": {
-              "line": 39,
-              "column": 6
-            }
-          },
-          "replacement": "Ok(vec![Default::default()])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_28_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_28_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301273005,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:45:5: replace normalize -> Result<RecordSet, AxError> with Ok(Default::default())",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "normalize",
-            "return_type": "-> Result<RecordSet, AxError>",
-            "span": {
-              "start": {
-                "line": 42,
-                "column": 1
-              },
-              "end": {
-                "line": 47,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 45,
-              "column": 5
-            },
-            "end": {
-              "line": 46,
-              "column": 37
-            }
-          },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_45_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_45_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301381659,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:51:5: replace normalize_as -> Result<RecordSet, AxError> with Ok(Default::default())",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "normalize_as",
-            "return_type": "-> Result<RecordSet, AxError>",
-            "span": {
-              "start": {
-                "line": 49,
-                "column": 1
-              },
-              "end": {
-                "line": 59,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 51,
-              "column": 5
-            },
-            "end": {
-              "line": 58,
-              "column": 53
-            }
-          },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_51_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_51_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301383889,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:64:5: replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_delimited",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 61,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 64,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 20
-            }
-          },
-          "replacement": "Ok(vec![])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_64_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_64_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 2.203953759,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201341691,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:64:5: replace read_delimited -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_delimited",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 61,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 64,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 20
-            }
-          },
-          "replacement": "Ok(vec![Default::default()])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_64_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_64_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301342897,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:98:5: replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_ndjson",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 111,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 98,
-              "column": 5
-            },
-            "end": {
-              "line": 110,
-              "column": 25
-            }
-          },
-          "replacement": "Ok(vec![])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_98_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_98_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 2.25405189,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201891131,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:98:5: replace read_ndjson -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_ndjson",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 111,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 98,
-              "column": 5
-            },
-            "end": {
-              "line": 110,
-              "column": 25
-            }
-          },
-          "replacement": "Ok(vec![Default::default()])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_98_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_98_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301251264,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:116:5: replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_json",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 113,
-                "column": 1
-              },
-              "end": {
-                "line": 127,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 116,
-              "column": 5
-            },
-            "end": {
-              "line": 126,
-              "column": 25
-            }
-          },
-          "replacement": "Ok(vec![])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_116_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_116_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553391773,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201415393,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:116:5: replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "read_json",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 113,
-                "column": 1
-              },
-              "end": {
-                "line": 127,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 116,
-              "column": 5
-            },
-            "end": {
-              "line": 126,
-              "column": 25
-            }
-          },
-          "replacement": "Ok(vec![Default::default()])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_116_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_116_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301249084,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:152:9: replace TableBuilder::ensure -> usize with 0",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::ensure",
-            "return_type": "-> usize",
-            "span": {
-              "start": {
-                "line": 150,
-                "column": 5
-              },
-              "end": {
-                "line": 160,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 152,
-              "column": 9
-            },
-            "end": {
-              "line": 159,
-              "column": 10
-            }
-          },
-          "replacement": "0",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_152_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_152_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.653822865,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201274808,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:152:9: replace TableBuilder::ensure -> usize with 1",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::ensure",
-            "return_type": "-> usize",
-            "span": {
-              "start": {
-                "line": 150,
-                "column": 5
-              },
-              "end": {
-                "line": 160,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 152,
-              "column": 9
-            },
-            "end": {
-              "line": 159,
-              "column": 10
-            }
-          },
-          "replacement": "1",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_152_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_152_col_9_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.45319333,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20130477,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:165:9: replace TableBuilder::push_value with ()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::push_value",
-            "return_type": "",
-            "span": {
-              "start": {
-                "line": 162,
-                "column": 5
-              },
-              "end": {
-                "line": 184,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 165,
-              "column": 9
-            },
-            "end": {
-              "line": 183,
-              "column": 24
-            }
-          },
-          "replacement": "()",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_165_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_165_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.603456134,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20131171,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:183:19: replace += with -= in TableBuilder::push_value",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::push_value",
-            "return_type": "",
-            "span": {
-              "start": {
-                "line": 162,
-                "column": 5
-              },
-              "end": {
-                "line": 184,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 183,
-              "column": 19
-            },
-            "end": {
-              "line": 183,
-              "column": 21
-            }
-          },
-          "replacement": "-=",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_183_col_19.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_183_col_19.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.65310099,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201408303,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:183:19: replace += with *= in TableBuilder::push_value",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::push_value",
-            "return_type": "",
-            "span": {
-              "start": {
-                "line": 162,
-                "column": 5
-              },
-              "end": {
-                "line": 184,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 183,
-              "column": 19
-            },
-            "end": {
-              "line": 183,
-              "column": 21
-            }
-          },
-          "replacement": "*=",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_183_col_19_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_183_col_19_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453091367,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201370362,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:187:9: replace TableBuilder::finish -> Vec<Column> with vec![]",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::finish",
-            "return_type": "-> Vec<Column>",
-            "span": {
-              "start": {
-                "line": 186,
-                "column": 5
-              },
-              "end": {
-                "line": 192,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 187,
-              "column": 9
-            },
-            "end": {
-              "line": 191,
-              "column": 23
-            }
-          },
-          "replacement": "vec![]",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_187_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_187_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.6034777359999999,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20132857,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:187:9: replace TableBuilder::finish -> Vec<Column> with vec![Default::default()]",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "TableBuilder::finish",
-            "return_type": "-> Vec<Column>",
-            "span": {
-              "start": {
-                "line": 186,
-                "column": 5
-              },
-              "end": {
-                "line": 192,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 187,
-              "column": 9
-            },
-            "end": {
-              "line": 191,
-              "column": 23
-            }
-          },
-          "replacement": "vec![Default::default()]",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_187_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_187_col_9_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301381669,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/lib.rs:196:5: replace parse_err -> AxError with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/lib.rs",
-          "function": {
-            "function_name": "parse_err",
-            "return_type": "-> AxError",
-            "span": {
-              "start": {
-                "line": 195,
-                "column": 1
-              },
-              "end": {
-                "line": 200,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 196,
-              "column": 5
-            },
-            "end": {
-              "line": 199,
+              "line": 33,
               "column": 6
             }
           },
@@ -1093,79 +65,25 @@
           "genre": "FnValue"
         }
       },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__lib.rs_line_196_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__lib.rs_line_196_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301828625,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:18:5: replace read -> Result<Vec<Column>, AxError> with Ok(vec![])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "read",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 15,
-                "column": 1
-              },
-              "end": {
-                "line": 33,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 18,
-              "column": 5
-            },
-            "end": {
-              "line": 32,
-              "column": 27
-            }
-          },
-          "replacement": "Ok(vec![])",
-          "genre": "FnValue"
-        }
-      },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_18_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_18_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_26_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_26_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.60335113,
+          "duration": 1.50310275,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201282419,
+          "duration": 0.201252885,
           "process_status": {
             "Failure": 101
           },
@@ -1173,7 +91,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -1181,203 +99,19 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:18:5: replace read -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
+          "name": "crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "read",
-            "return_type": "-> Result<Vec<Column>, AxError>",
+            "function_name": "run",
+            "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 15,
+                "line": 36,
                 "column": 1
               },
               "end": {
-                "line": 33,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 18,
-              "column": 5
-            },
-            "end": {
-              "line": 32,
-              "column": 27
-            }
-          },
-          "replacement": "Ok(vec![Default::default()])",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_18_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_18_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301456801,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:19:9: delete match arm Format::Parquet in read",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "read",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 15,
-                "column": 1
-              },
-              "end": {
-                "line": 33,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 19,
-              "column": 9
-            },
-            "end": {
-              "line": 21,
-              "column": 46
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_19_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_19_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.853815477,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201526897,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:22:9: delete match arm Format::Arrow in read",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "read",
-            "return_type": "-> Result<Vec<Column>, AxError>",
-            "span": {
-              "start": {
-                "line": 15,
-                "column": 1
-              },
-              "end": {
-                "line": 33,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 22,
-              "column": 9
-            },
-            "end": {
-              "line": 24,
-              "column": 46
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_22_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_22_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.6532094929999999,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201380492,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:37:5: replace df_to_columns -> Vec<Column> with vec![]",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "df_to_columns",
-            "return_type": "-> Vec<Column>",
-            "span": {
-              "start": {
-                "line": 35,
-                "column": 1
-              },
-              "end": {
-                "line": 45,
+                "line": 61,
                 "column": 2
               }
             }
@@ -1388,140 +122,21 @@
               "column": 5
             },
             "end": {
-              "line": 44,
-              "column": 19
-            }
-          },
-          "replacement": "vec![]",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_37_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_37_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.8537151139999999,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201444725,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:37:5: replace df_to_columns -> Vec<Column> with vec![Default::default()]",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "df_to_columns",
-            "return_type": "-> Vec<Column>",
-            "span": {
-              "start": {
-                "line": 35,
-                "column": 1
-              },
-              "end": {
-                "line": 45,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 37,
-              "column": 5
-            },
-            "end": {
-              "line": 44,
-              "column": 19
-            }
-          },
-          "replacement": "vec![Default::default()]",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_37_col_5_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_37_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301314596,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:51:5: replace any_value_to_value -> Value with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "any_value_to_value",
-            "return_type": "-> Value",
-            "span": {
-              "start": {
-                "line": 47,
-                "column": 1
-              },
-              "end": {
-                "line": 72,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 51,
-              "column": 5
-            },
-            "end": {
-              "line": 71,
+              "line": 60,
               "column": 6
             }
           },
-          "replacement": "Default::default()",
+          "replacement": "Ok(Default::default())",
           "genre": "FnValue"
         }
       },
       "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_51_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_51_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_37_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_37_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301396519,
+          "duration": 0.301246238,
           "process_status": {
             "Failure": 101
           },
@@ -1530,7 +145,7 @@
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -1538,139 +153,31 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:76:5: replace finite_float -> Value with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
+          "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"\"",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "finite_float",
-            "return_type": "-> Value",
-            "span": {
-              "start": {
-                "line": 74,
-                "column": 1
-              },
-              "end": {
-                "line": 81,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 76,
-              "column": 5
-            },
-            "end": {
-              "line": 80,
-              "column": 6
-            }
-          },
-          "replacement": "Default::default()",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_76_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_76_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301380248,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/binary.rs:84:5: replace parse_err -> AxError with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/binary.rs",
-          "function": {
-            "function_name": "parse_err",
-            "return_type": "-> AxError",
-            "span": {
-              "start": {
-                "line": 83,
-                "column": 1
-              },
-              "end": {
-                "line": 88,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 84,
-              "column": 5
-            },
-            "end": {
-              "line": 87,
-              "column": 6
-            }
-          },
-          "replacement": "Default::default()",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__binary.rs_line_84_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__binary.rs_line_84_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301398099,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:25:9: replace Format::token -> &'static str with \"\"",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::token",
+            "function_name": "usage",
             "return_type": "-> &'static str",
             "span": {
               "start": {
-                "line": 23,
-                "column": 5
+                "line": 63,
+                "column": 1
               },
               "end": {
-                "line": 33,
-                "column": 6
+                "line": 74,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 25,
-              "column": 9
+              "line": 64,
+              "column": 5
             },
             "end": {
-              "line": 32,
-              "column": 10
+              "line": 73,
+              "column": 50
             }
           },
           "replacement": "\"\"",
@@ -1678,24 +185,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_25_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_25_col_9.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_64_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_64_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.603231356,
+          "duration": 1.603323542,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.20133645,
+          "duration": 0.201310566,
           "process_status": {
             "Failure": 101
           },
@@ -1703,7 +210,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -1711,31 +218,31 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:25:9: replace Format::token -> &'static str with \"xyzzy\"",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"xyzzy\"",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::token",
+            "function_name": "usage",
             "return_type": "-> &'static str",
             "span": {
               "start": {
-                "line": 23,
-                "column": 5
+                "line": 63,
+                "column": 1
               },
               "end": {
-                "line": 33,
-                "column": 6
+                "line": 74,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 25,
-              "column": 9
+              "line": 64,
+              "column": 5
             },
             "end": {
-              "line": 32,
-              "column": 10
+              "line": 73,
+              "column": 50
             }
           },
           "replacement": "\"xyzzy\"",
@@ -1743,24 +250,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_25_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_25_col_9_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_64_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_64_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.402966664,
+          "duration": 1.503145032,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201375082,
+          "duration": 0.201254284,
           "process_status": {
             "Failure": 101
           },
@@ -1768,7 +275,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -1776,1009 +283,641 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:37:9: replace Format::is_binary -> bool with true",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::is_binary",
-            "return_type": "-> bool",
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
             "span": {
               "start": {
-                "line": 35,
-                "column": 5
+                "line": 76,
+                "column": 1
               },
               "end": {
-                "line": 38,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 37,
-              "column": 9
-            },
-            "end": {
-              "line": 37,
-              "column": 56
-            }
-          },
-          "replacement": "true",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_37_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_37_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.50326022,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201229877,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:37:9: replace Format::is_binary -> bool with false",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::is_binary",
-            "return_type": "-> bool",
-            "span": {
-              "start": {
-                "line": 35,
-                "column": 5
-              },
-              "end": {
-                "line": 38,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 37,
-              "column": 9
-            },
-            "end": {
-              "line": 37,
-              "column": 56
-            }
-          },
-          "replacement": "false",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_37_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_37_col_9_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453064686,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.202071017,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:42:9: replace Format::from_extension -> Option<Format> with None",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 42,
-              "column": 9
-            },
-            "end": {
-              "line": 51,
-              "column": 10
-            }
-          },
-          "replacement": "None",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_42_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_42_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.5031151550000001,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201305359,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:42:9: replace Format::from_extension -> Option<Format> with Some(Default::default())",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 42,
-              "column": 9
-            },
-            "end": {
-              "line": 51,
-              "column": 10
-            }
-          },
-          "replacement": "Some(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_42_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_42_col_9_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301450691,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:44:13: delete match arm \"csv\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 44,
-              "column": 13
-            },
-            "end": {
-              "line": 44,
-              "column": 40
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_44_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_44_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503447048,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20132158,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:45:13: delete match arm \"tsv\" | \"tab\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 45,
-              "column": 13
-            },
-            "end": {
-              "line": 45,
-              "column": 48
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_45_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_45_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453028244,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.2013111,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:46:13: delete match arm \"ndjson\" | \"jsonl\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 46,
-              "column": 13
-            },
-            "end": {
-              "line": 46,
-              "column": 56
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_46_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_46_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453019324,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201372603,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:47:13: delete match arm \"json\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 47,
-              "column": 13
-            },
-            "end": {
-              "line": 47,
-              "column": 42
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_47_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_47_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453209911,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201381562,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:48:13: delete match arm \"parquet\" | \"pq\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 48,
-              "column": 13
-            },
-            "end": {
-              "line": 48,
-              "column": 55
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_48_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_48_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.45319523,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20131874,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:49:13: delete match arm \"arrow\" | \"ipc\" | \"feather\" in Format::from_extension",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::from_extension",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 40,
-                "column": 5
-              },
-              "end": {
-                "line": 52,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 49,
-              "column": 13
-            },
-            "end": {
-              "line": 49,
-              "column": 64
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_49_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_49_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.453042544,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201308769,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:59:9: replace Format::sniff -> Option<Format> with None",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 9
-            },
-            "end": {
-              "line": 96,
-              "column": 10
-            }
-          },
-          "replacement": "None",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_59_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_59_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.5031202860000001,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20129263,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:59:9: replace Format::sniff -> Option<Format> with Some(Default::default())",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 9
-            },
-            "end": {
-              "line": 96,
-              "column": 10
-            }
-          },
-          "replacement": "Some(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_59_col_9_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_59_col_9_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301299186,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:70:13: delete match arm '[' in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 70,
-              "column": 13
-            },
-            "end": {
-              "line": 70,
-              "column": 39
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_70_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_70_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.50325774,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201401743,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:71:13: delete match arm '{' in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 71,
-              "column": 13
-            },
-            "end": {
-              "line": 84,
-              "column": 14
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_71_col_13.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_71_col_13.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503172217,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201327661,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:75:33: delete ! in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 75,
-              "column": 33
-            },
-            "end": {
-              "line": 75,
-              "column": 34
-            }
-          },
-          "replacement": "",
-          "genre": "UnaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_75_col_33.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_75_col_33.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503189669,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201405323,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:79:33: replace >= with < in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
-          "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
-            "span": {
-              "start": {
-                "line": 54,
-                "column": 5
-              },
-              "end": {
-                "line": 97,
-                "column": 6
+                "line": 93,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
               "line": 79,
-              "column": 33
+              "column": 5
             },
             "end": {
-              "line": 79,
-              "column": 35
+              "line": 92,
+              "column": 31
             }
           },
-          "replacement": "<",
+          "replacement": "Ok((None, vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553177329,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201304786,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((None, vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503176112,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201344547,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((None, vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553138388,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201287825,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_003.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_003.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503236145,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201332507,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_004.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_004.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.5032052930000002,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201297616,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_005.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_005.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503210463,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.20140759,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_006.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_006.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503143731,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201320237,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_007.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_007.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553395418,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201466612,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_008.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_008.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503130671,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201301686,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 83,
+              "column": 16
+            },
+            "end": {
+              "line": 83,
+              "column": 18
+            }
+          },
+          "replacement": "!=",
           "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_79_col_33.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_79_col_33.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_83_col_16.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_83_col_16.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.453326555,
+          "duration": 1.553313264,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201638041,
+          "duration": 0.201318967,
           "process_status": {
             "Failure": 101
           },
@@ -2786,7 +925,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -2794,56 +933,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:92:21: delete match arm (Some(_), None) in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 54,
-                "column": 5
+                "line": 95,
+                "column": 1
               },
               "end": {
-                "line": 97,
-                "column": 6
+                "line": 110,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 92,
-              "column": 21
+              "line": 97,
+              "column": 5
             },
             "end": {
-              "line": 92,
-              "column": 58
+              "line": 109,
+              "column": 6
             }
           },
-          "replacement": "",
-          "genre": "MatchArm"
+          "replacement": "Ok((String::new(), vec![]))",
+          "genre": "FnValue"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_92_col_21.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_92_col_21.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.453263402,
+          "duration": 1.553764691,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201347351,
+          "duration": 0.201307177,
           "process_status": {
             "Failure": 101
           },
@@ -2851,7 +990,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -2859,31 +998,356 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:91:43: replace match guard t < c with true in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 54,
-                "column": 5
+                "line": 95,
+                "column": 1
               },
               "end": {
-                "line": 97,
-                "column": 6
+                "line": 110,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 91,
-              "column": 43
+              "line": 97,
+              "column": 5
             },
             "end": {
-              "line": 91,
-              "column": 48
+              "line": 109,
+              "column": 6
+            }
+          },
+          "replacement": "Ok((String::new(), vec![0]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.5031322409999999,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.20166679,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1
+              },
+              "end": {
+                "line": 110,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 5
+            },
+            "end": {
+              "line": 109,
+              "column": 6
+            }
+          },
+          "replacement": "Ok((String::new(), vec![1]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503897948,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201338578,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1
+              },
+              "end": {
+                "line": 110,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 5
+            },
+            "end": {
+              "line": 109,
+              "column": 6
+            }
+          },
+          "replacement": "Ok((\"xyzzy\".into(), vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_003.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_003.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503017906,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201326457,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1
+              },
+              "end": {
+                "line": 110,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 5
+            },
+            "end": {
+              "line": 109,
+              "column": 6
+            }
+          },
+          "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_004.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_004.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503008726,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201348398,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1
+              },
+              "end": {
+                "line": 110,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 97,
+              "column": 5
+            },
+            "end": {
+              "line": 109,
+              "column": 6
+            }
+          },
+          "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_005.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_005.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503171252,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201311657,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with true in read_input",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "span": {
+              "start": {
+                "line": 95,
+                "column": 1
+              },
+              "end": {
+                "line": 110,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 98,
+              "column": 20
+            },
+            "end": {
+              "line": 98,
+              "column": 28
             }
           },
           "replacement": "true",
@@ -2891,24 +1355,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_91_col_43.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_91_col_43.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.453155919,
+          "duration": 1.553217611,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201383003,
+          "duration": 0.201361678,
           "process_status": {
             "Failure": 101
           },
@@ -2916,7 +1380,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -2924,31 +1388,31 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:91:43: replace match guard t < c with false in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with false in read_input",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 54,
-                "column": 5
+                "line": 95,
+                "column": 1
               },
               "end": {
-                "line": 97,
-                "column": 6
+                "line": 110,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 91,
-              "column": 43
+              "line": 98,
+              "column": 20
             },
             "end": {
-              "line": 91,
-              "column": 48
+              "line": 98,
+              "column": 28
             }
           },
           "replacement": "false",
@@ -2956,24 +1420,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_91_col_43_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_91_col_43_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.45346463,
+          "duration": 1.503239974,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201297929,
+          "duration": 0.201330167,
           "process_status": {
             "Failure": 101
           },
@@ -2981,7 +1445,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -2989,31 +1453,31 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:91:45: replace < with == in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:98:22: replace != with == in read_input",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
+            "function_name": "read_input",
+            "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 54,
-                "column": 5
+                "line": 95,
+                "column": 1
               },
               "end": {
-                "line": 97,
-                "column": 6
+                "line": 110,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 91,
-              "column": 45
+              "line": 98,
+              "column": 22
             },
             "end": {
-              "line": 91,
-              "column": 46
+              "line": 98,
+              "column": 24
             }
           },
           "replacement": "==",
@@ -3021,24 +1485,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_91_col_45.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_91_col_45.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_22.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_22.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.453165629,
+          "duration": 1.553165659,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201314879,
+          "duration": 0.201356639,
           "process_status": {
             "Failure": 101
           },
@@ -3046,7 +1510,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -3054,56 +1518,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:91:45: replace < with > in Format::sniff",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::sniff",
-            "return_type": "-> Option<Format>",
+            "function_name": "load_baseline",
+            "return_type": "-> Result<Option<RecordSet>, AxError>",
             "span": {
               "start": {
-                "line": 54,
-                "column": 5
+                "line": 112,
+                "column": 1
               },
               "end": {
-                "line": 97,
-                "column": 6
+                "line": 121,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 91,
-              "column": 45
+              "line": 114,
+              "column": 5
             },
             "end": {
-              "line": 91,
-              "column": 46
+              "line": 120,
+              "column": 6
             }
           },
-          "replacement": ">",
-          "genre": "BinaryOperator"
+          "replacement": "Ok(None)",
+          "genre": "FnValue"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_91_col_45_001.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_91_col_45_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503135916,
+          "duration": 1.503206653,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201427664,
+          "duration": 0.201326767,
           "process_status": {
             "Failure": 101
           },
@@ -3111,7 +1575,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -3119,31 +1583,85 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/format.rs:101:9: replace Format::resolve -> Result<Format, AxError> with Ok(Default::default())",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/format.rs",
+          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "Format::resolve",
-            "return_type": "-> Result<Format, AxError>",
+            "function_name": "load_baseline",
+            "return_type": "-> Result<Option<RecordSet>, AxError>",
             "span": {
               "start": {
-                "line": 99,
-                "column": 5
+                "line": 112,
+                "column": 1
               },
               "end": {
-                "line": 105,
-                "column": 6
+                "line": 121,
+                "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 101,
-              "column": 9
+              "line": 114,
+              "column": 5
             },
             "end": {
-              "line": 104,
-              "column": 87
+              "line": 120,
+              "column": 6
+            }
+          },
+          "replacement": "Ok(Some(Default::default()))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "Unviable",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.2512171,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "cmd_scan",
+            "return_type": "-> Result<ExitCode, AxError>",
+            "span": {
+              "start": {
+                "line": 123,
+                "column": 1
+              },
+              "end": {
+                "line": 155,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 124,
+              "column": 5
+            },
+            "end": {
+              "line": 154,
+              "column": 7
             }
           },
           "replacement": "Ok(Default::default())",
@@ -3151,12 +1669,12 @@
         }
       },
       "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__format.rs_line_101_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__format.rs_line_101_col_9.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_124_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_124_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301439431,
+          "duration": 0.301364903,
           "process_status": {
             "Failure": 101
           },
@@ -3165,7 +1683,7 @@
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -3173,110 +1691,175 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/infer.rs:13:5: replace infer_scalar -> Value with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/infer.rs",
+          "name": "crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "infer_scalar",
-            "return_type": "-> Value",
+            "function_name": "cmd_scan",
+            "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 7,
+                "line": 123,
                 "column": 1
               },
               "end": {
-                "line": 32,
+                "line": 155,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 13,
+              "line": 150,
+              "column": 20
+            },
+            "end": {
+              "line": 150,
+              "column": 22
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_150_col_20.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_150_col_20.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503439682,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201377589,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "cmd_explain",
+            "return_type": "-> Result<ExitCode, AxError>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 1
+              },
+              "end": {
+                "line": 194,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 158,
               "column": 5
             },
             "end": {
-              "line": 31,
+              "line": 193,
+              "column": 24
+            }
+          },
+          "replacement": "Ok(Default::default())",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "Unviable",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_158_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_158_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.301324431,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "cmd_explain",
+            "return_type": "-> Result<ExitCode, AxError>",
+            "span": {
+              "start": {
+                "line": 157,
+                "column": 1
+              },
+              "end": {
+                "line": 194,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 180,
+              "column": 30
+            },
+            "end": {
+              "line": 180,
               "column": 32
             }
           },
-          "replacement": "Default::default()",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__infer.rs_line_13_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__infer.rs_line_13_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301404549,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/infer.rs:27:9: delete match arm \"true\" | \"TRUE\" | \"True\" in infer_scalar",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/infer.rs",
-          "function": {
-            "function_name": "infer_scalar",
-            "return_type": "-> Value",
-            "span": {
-              "start": {
-                "line": 7,
-                "column": 1
-              },
-              "end": {
-                "line": 32,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 27,
-              "column": 9
-            },
-            "end": {
-              "line": 27,
-              "column": 62
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
+          "replacement": "!=",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__infer.rs_line_27_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__infer.rs_line_27_col_9.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_180_col_30.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_180_col_30.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.4530739559999999,
+          "duration": 1.553250722,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201349161,
+          "duration": 0.201349728,
           "process_status": {
             "Failure": 101
           },
@@ -3284,7 +1867,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
@@ -3292,130 +1875,726 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-normalize/src/infer.rs:28:9: delete match arm \"false\" | \"FALSE\" | \"False\" in infer_scalar",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/infer.rs",
+          "name": "crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
           "function": {
-            "function_name": "infer_scalar",
-            "return_type": "-> Value",
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 7,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 32,
+                "line": 256,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 28,
-              "column": 9
-            },
-            "end": {
-              "line": 28,
-              "column": 66
-            }
-          },
-          "replacement": "",
-          "genre": "MatchArm"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-normalize__src__infer.rs_line_28_col_9.log",
-      "diff_path": "diff/crates__ax-normalize__src__infer.rs_line_28_col_9.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.45318919,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201433294,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-normalize@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-normalize/src/infer.rs:39:5: replace json_to_value -> Value with Default::default()",
-          "package": "ax-normalize",
-          "file": "crates/ax-normalize/src/infer.rs",
-          "function": {
-            "function_name": "json_to_value",
-            "return_type": "-> Value",
-            "span": {
-              "start": {
-                "line": 34,
-                "column": 1
-              },
-              "end": {
-                "line": 60,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 39,
+              "line": 199,
               "column": 5
             },
             "end": {
-              "line": 59,
+              "line": 255,
               "column": 6
             }
           },
-          "replacement": "Default::default()",
+          "replacement": "Ok(Default::default())",
           "genre": "FnValue"
         }
       },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-normalize__src__infer.rs_line_39_col_5.log",
-      "diff_path": "diff/crates__ax-normalize__src__infer.rs_line_39_col_5.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_199_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_199_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301403719,
+          "duration": 1.553346186,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201326957,
           "process_status": {
             "Failure": 101
           },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 224,
+              "column": 31
+            },
+            "end": {
+              "line": 224,
+              "column": 33
+            }
+          },
+          "replacement": "&&",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_31.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_31.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.603226598,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
             "--no-run",
             "--verbose",
-            "--package=ax-normalize@0.1.0"
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201335427,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 224,
+              "column": 23
+            },
+            "end": {
+              "line": 224,
+              "column": 25
+            }
+          },
+          "replacement": "<",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_23.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_23.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503176532,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201370909,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 224,
+              "column": 39
+            },
+            "end": {
+              "line": 224,
+              "column": 40
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553210231,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201331687,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 224,
+              "column": 39
+            },
+            "end": {
+              "line": 224,
+              "column": 40
+            }
+          },
+          "replacement": "<",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503379989,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201391239,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 224,
+              "column": 39
+            },
+            "end": {
+              "line": 224,
+              "column": 40
+            }
+          },
+          "replacement": ">=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553180029,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201390609,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:236:21: replace >= with < in resolve_handle",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "resolve_handle",
+            "return_type": "-> Result<serde_json::Value, AxError>",
+            "span": {
+              "start": {
+                "line": 196,
+                "column": 1
+              },
+              "end": {
+                "line": 256,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 236,
+              "column": 21
+            },
+            "end": {
+              "line": 236,
+              "column": 23
+            }
+          },
+          "replacement": "<",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_236_col_21.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_236_col_21.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.503061868,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201326567,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/describe.rs",
+          "function": {
+            "function_name": "describe_json",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1
+              },
+              "end": {
+                "line": 42,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 5
+            },
+            "end": {
+              "line": 41,
+              "column": 69
+            }
+          },
+          "replacement": "String::new()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__describe.rs_line_14_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__describe.rs_line_14_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553139818,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201383129,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with \"xyzzy\".into()",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/describe.rs",
+          "function": {
+            "function_name": "describe_json",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 13,
+                "column": 1
+              },
+              "end": {
+                "line": 42,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 14,
+              "column": 5
+            },
+            "end": {
+              "line": 41,
+              "column": 69
+            }
+          },
+          "replacement": "\"xyzzy\".into()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__describe.rs_line_14_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__describe.rs_line_14_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.4532102359999999,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201329297,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/schema.rs",
+          "function": {
+            "function_name": "envelope_schema",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1
+              },
+              "end": {
+                "line": 97,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 5
+            },
+            "end": {
+              "line": 96,
+              "column": 70
+            }
+          },
+          "replacement": "String::new()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__schema.rs_line_10_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__schema.rs_line_10_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.553311324,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201354028,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with \"xyzzy\".into()",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/schema.rs",
+          "function": {
+            "function_name": "envelope_schema",
+            "return_type": "-> String",
+            "span": {
+              "start": {
+                "line": 9,
+                "column": 1
+              },
+              "end": {
+                "line": 97,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 10,
+              "column": 5
+            },
+            "end": {
+              "line": 96,
+              "column": 70
+            }
+          },
+          "replacement": "\"xyzzy\".into()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__schema.rs_line_10_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__schema.rs_line_10_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 1.453095042,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.201353808,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
           ]
         }
       ]
     }
   ],
-  "total_mutants": 55,
+  "total_mutants": 40,
   "missed": 0,
-  "caught": 37,
+  "caught": 36,
   "timeout": 0,
-  "unviable": 18,
+  "unviable": 4,
   "success": 0,
-  "start_time": "2026-05-30T16:56:01.647998345Z",
-  "end_time": "2026-05-30T16:57:48.593078404Z",
+  "start_time": "2026-05-30T17:57:17.492367752Z",
+  "end_time": "2026-05-30T17:58:56.232222623Z",
   "cargo_mutants_version": "27.0.0"
 }

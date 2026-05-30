@@ -29,6 +29,16 @@ pub struct DetectConfig {
 
     /// Null fraction above which the structural detector flags a column.
     pub struct_null_rate: f64,
+
+    /// Significance level for the Mahalanobis multivariate test (per row).
+    /// Smaller than the per-column α because every row is tested.
+    pub mv_alpha: f64,
+    /// Minimum number of complete (no-missing) rows before the multivariate
+    /// detector will estimate a covariance and run.
+    pub mv_min_n: usize,
+    /// Relative ridge added to the covariance diagonal for numerical stability
+    /// (handles collinear / zero-variance columns). Scaled by the mean variance.
+    pub mv_ridge: f64,
 }
 
 impl Default for DetectConfig {
@@ -41,6 +51,9 @@ impl Default for DetectConfig {
             psi_bins: 10,
             dist_min_n: 20,
             struct_null_rate: 0.5,
+            mv_alpha: 0.001,
+            mv_min_n: 20,
+            mv_ridge: 1e-9,
         }
     }
 }
@@ -50,7 +63,7 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/2;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4}",
+            "anomalyx-cfg/3;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e}",
             self.point_threshold,
             self.point_min_n,
             self.dist_alpha,
@@ -58,6 +71,9 @@ impl DetectConfig {
             self.psi_bins,
             self.dist_min_n,
             self.struct_null_rate,
+            self.mv_alpha,
+            self.mv_min_n,
+            self.mv_ridge,
         )
     }
 }

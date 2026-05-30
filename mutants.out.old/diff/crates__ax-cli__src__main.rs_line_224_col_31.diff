@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ replace || with && in resolve_handle
+@@ -216,17 +216,17 @@
+                 "column": col.name,
+                 "row": row,
+                 "value": value,
+                 "column_type": col.ty,
+             }))
+         }
+         Handle::Range { column, start, end } => {
+             let col = rs.column(column).ok_or_else(unresolved)?;
+-            if *start >= *end || *end > col.len() {
++            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {
+                 return Err(unresolved());
+             }
+             Ok(serde_json::json!({
+                 "kind": "range",
+                 "column": col.name,
+                 "start": start,
+                 "end": end,
+                 "values": &col.cells[*start..*end],

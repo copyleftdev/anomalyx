@@ -15,11 +15,14 @@ use ax_core::{AnomalyClass, Finding, RecordSet};
 
 pub mod config;
 pub mod dist;
+pub mod linalg;
+pub mod mv;
 pub mod point;
 pub mod structural;
 
 pub use config::DetectConfig;
 pub use dist::{Chi2Detector, KsDetector, PsiDetector};
+pub use mv::MahalanobisDetector;
 pub use point::PointDetector;
 pub use structural::SchemaDetector;
 
@@ -118,6 +121,7 @@ impl Registry {
         r.register(Box::new(KsDetector));
         r.register(Box::new(PsiDetector));
         r.register(Box::new(Chi2Detector));
+        r.register(Box::new(MahalanobisDetector));
         r
     }
 
@@ -176,7 +180,8 @@ mod tests {
                 "struct.schema",
                 "dist.ks",
                 "dist.psi",
-                "dist.chi2"
+                "dist.chi2",
+                "mv.mahalanobis"
             ]
         );
     }

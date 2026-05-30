@@ -1,0 +1,34 @@
+--- crates/ax-cli/src/main.rs
++++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec!["xyzzy".into()]))
+@@ -71,30 +71,17 @@
+      \n\
+      With --baseline, distributional drift and schema-diff are compared against B.\n\
+      EXIT: 0 clean · 1 anomalies found · 2 error"
+ }
+ 
+ /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the
+ /// remaining positional arguments. Fails cleanly if the flag has no value.
+ fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {
+-    let mut baseline = None;
+-    let mut positional = Vec::new();
+-    let mut it = args.iter();
+-    while let Some(arg) = it.next() {
+-        if arg == "--baseline" {
+-            let value = it
+-                .next()
+-                .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+-            baseline = Some(value.clone());
+-        } else {
+-            positional.push(arg.clone());
+-        }
+-    }
+-    Ok((baseline, positional))
++    Ok((Some("xyzzy".into()), vec!["xyzzy".into()])) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Reads the input corpus: a path argument, or stdin when absent or `-`.
+ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+     match path {
+         Some(p) if p != "-" => {
+             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+             Ok((p.clone(), bytes))

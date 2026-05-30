@@ -1,0 +1,27 @@
+--- crates/ax-cli/src/main.rs
++++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)
+@@ -106,23 +106,17 @@
+                 .map_err(|e| AxError::Io(format!("stdin: {e}")))?;
+             Ok(("-".to_string(), buf))
+         }
+     }
+ }
+ 
+ /// Normalizes the optional baseline corpus from its path.
+ fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {
+-    match path {
+-        Some(p) => {
+-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+-            Ok(Some(ax_normalize::normalize(p, &bytes)?))
+-        }
+-        None => Ok(None),
+-    }
++    Ok(None) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
+     let (baseline_path, positional) = split_baseline(rest)?;
+     let (source, bytes) = read_input(positional.first())?;
+     let rs = ax_normalize::normalize(&source, &bytes)?;
+     let baseline = load_baseline(&baseline_path)?;
+ 

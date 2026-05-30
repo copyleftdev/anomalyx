@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ replace == with != in split_baseline
+@@ -75,17 +75,17 @@
+ 
+ /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the
+ /// remaining positional arguments. Fails cleanly if the flag has no value.
+ fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {
+     let mut baseline = None;
+     let mut positional = Vec::new();
+     let mut it = args.iter();
+     while let Some(arg) = it.next() {
+-        if arg == "--baseline" {
++        if arg != /* ~ changed by cargo-mutants ~ */ "--baseline" {
+             let value = it
+                 .next()
+                 .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+             baseline = Some(value.clone());
+         } else {
+             positional.push(arg.clone());
+         }
+     }

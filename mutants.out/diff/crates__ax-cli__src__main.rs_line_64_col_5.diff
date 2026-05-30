@@ -1,0 +1,30 @@
+--- crates/ax-cli/src/main.rs
++++ replace usage -> &'static str with ""
+@@ -56,26 +56,17 @@
+         other => Err(AxError::Config(format!(
+             "unknown command '{other}'\n{}",
+             usage()
+         ))),
+     }
+ }
+ 
+ fn usage() -> &'static str {
+-    "anomalyx — contract-first anomaly detection\n\
+-     \n\
+-     USAGE:\n\
+-     \x20 anomalyx describe                         Protocol metadata\n\
+-     \x20 anomalyx schema                           JSON Schema of scan output\n\
+-     \x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\n\
+-     \x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\n\
+-     \n\
+-     With --baseline, distributional drift and schema-diff are compared against B.\n\
+-     EXIT: 0 clean · 1 anomalies found · 2 error"
++    "" /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the
+ /// remaining positional arguments. Fails cleanly if the flag has no value.
+ fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {
+     let mut baseline = None;
+     let mut positional = Vec::new();
+     let mut it = args.iter();
