@@ -73,23 +73,48 @@ fn usage() -> &'static str {
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
-/// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the
-/// remaining positional arguments. Fails cleanly if the flag has no value.
-fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {
-    let mut baseline = None;
-    let mut positional = Vec::new();
+/// Parsed scan/explain arguments: optional `--baseline <PATH>`, optional
+/// `--period <N>`, and the remaining positionals. Fails cleanly on a flag with a
+/// missing or malformed value.
+#[derive(Debug, Default, PartialEq)]
+struct ScanArgs {
+    baseline: Option<String>,
+    period: Option<usize>,
+    positional: Vec<String>,
+}
+
+fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
+    let mut parsed = ScanArgs::default();
     let mut it = args.iter();
     while let Some(arg) = it.next() {
-        if arg == "--baseline" {
-            let value = it
-                .next()
-                .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
-            baseline = Some(value.clone());
-        } else {
-            positional.push(arg.clone());
+        match arg.as_str() {
+            "--baseline" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+                parsed.baseline = Some(v.clone());
+            }
+            "--period" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--period requires an integer".into()))?;
+                let n = v.parse::<usize>().map_err(|_| {
+                    AxError::Config(format!("--period must be an integer, got '{v}'"))
+                })?;
+                parsed.period = Some(n);
+            }
+            _ => parsed.positional.push(arg.clone()),
         }
     }
-    Ok((baseline, positional))
+    Ok(parsed)
+}
+
+/// Builds the detector config, applying any `--period` override.
+fn config_for(args: &ScanArgs) -> DetectConfig {
+    DetectConfig {
+        ctx_period: args.period.unwrap_or(0),
+        ..DetectConfig::default()
+    }
 }
 
 /// Reads the input corpus: a path argument, or stdin when absent or `-`.
@@ -121,12 +146,12 @@ fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {
 }
 
 fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
-    let (baseline_path, positional) = split_baseline(rest)?;
-    let (source, bytes) = read_input(positional.first())?;
+    let args = parse_scan_args(rest)?;
+    let (source, bytes) = read_input(args.positional.first())?;
     let rs = ax_normalize::normalize(&source, &bytes)?;
-    let baseline = load_baseline(&baseline_path)?;
+    let baseline = load_baseline(&args.baseline)?;
 
-    let cfg = DetectConfig::default();
+    let cfg = config_for(&args);
     let ctx = match &baseline {
         Some(b) => ScanContext::compared(b, &rs),
         None => ScanContext::single(&rs),
@@ -155,20 +180,21 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
 }
 
 fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
-    let (baseline_path, positional) = split_baseline(rest)?;
-    let handle_str = positional
+    let args = parse_scan_args(rest)?;
+    let handle_str = args
+        .positional
         .first()
         .ok_or_else(|| AxError::Config("explain requires a <HANDLE> argument".into()))?;
     let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;
 
-    let (source, bytes) = read_input(positional.get(1))?;
+    let (source, bytes) = read_input(args.positional.get(1))?;
     let rs = ax_normalize::normalize(&source, &bytes)?;
-    let baseline = load_baseline(&baseline_path)?;
+    let baseline = load_baseline(&args.baseline)?;
 
     let evidence = resolve_handle(&rs, &handle)?;
 
     // Re-run detection and attach any findings that point at this handle.
-    let cfg = DetectConfig::default();
+    let cfg = config_for(&args);
     let ctx = match &baseline {
         Some(b) => ScanContext::compared(b, &rs),
         None => ScanContext::single(&rs),
@@ -391,21 +417,43 @@ mod tests {
     }
 
     #[test]
-    fn split_baseline_extracts_flag_and_positionals() {
-        let (b, pos) = split_baseline(&strings(&["--baseline", "base.csv", "cur.csv"])).unwrap();
-        assert_eq!(b, Some("base.csv".to_string()));
-        assert_eq!(pos, strings(&["cur.csv"]));
+    fn parse_scan_args_extracts_flags_and_positionals() {
+        let a = parse_scan_args(&strings(&[
+            "--baseline",
+            "base.csv",
+            "--period",
+            "7",
+            "cur.csv",
+        ]))
+        .unwrap();
+        assert_eq!(a.baseline, Some("base.csv".to_string()));
+        assert_eq!(a.period, Some(7));
+        assert_eq!(a.positional, strings(&["cur.csv"]));
     }
 
     #[test]
-    fn split_baseline_none_when_absent() {
-        let (b, pos) = split_baseline(&strings(&["cur.csv"])).unwrap();
-        assert_eq!(b, None);
-        assert_eq!(pos, strings(&["cur.csv"]));
+    fn parse_scan_args_defaults_when_flags_absent() {
+        let a = parse_scan_args(&strings(&["cur.csv"])).unwrap();
+        assert_eq!(a.baseline, None);
+        assert_eq!(a.period, None);
+        assert_eq!(a.positional, strings(&["cur.csv"]));
     }
 
     #[test]
-    fn split_baseline_errors_without_value() {
-        assert!(split_baseline(&strings(&["--baseline"])).is_err());
+    fn parse_scan_args_errors_on_bad_flag_values() {
+        assert!(parse_scan_args(&strings(&["--baseline"])).is_err());
+        assert!(parse_scan_args(&strings(&["--period"])).is_err());
+        assert!(parse_scan_args(&strings(&["--period", "notanumber"])).is_err());
+    }
+
+    #[test]
+    fn config_for_applies_period_override() {
+        let a = ScanArgs {
+            period: Some(24),
+            ..ScanArgs::default()
+        };
+        assert_eq!(config_for(&a).ctx_period, 24);
+        // no --period ⇒ disabled (0)
+        assert_eq!(config_for(&ScanArgs::default()).ctx_period, 0);
     }
 }

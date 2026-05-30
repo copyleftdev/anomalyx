@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ replace < with > in <impl Detector for CusumDetector>::detect
+@@ -66,17 +66,17 @@
+             }
+             // Finite values in row order, with their original row indices.
+             let pairs: Vec<(usize, f64)> = col
+                 .cells
+                 .iter()
+                 .enumerate()
+                 .filter_map(|(row, cell)| cell.as_f64().filter(|v| v.is_finite()).map(|v| (row, v)))
+                 .collect();
+-            if pairs.len() < cfg.coll_min_n {
++            if pairs.len() > /* ~ changed by cargo-mutants ~ */ cfg.coll_min_n {
+                 continue;
+             }
+             let xs: Vec<f64> = pairs.iter().map(|(_, v)| *v).collect();
+             let n = xs.len();
+             let mean = det::mean(&xs).unwrap_or(0.0);
+             let sigma = match det::std_dev(&xs) {
+                 Some(s) if s > 0.0 => s,
+                 _ => continue, // constant column: no shift possible

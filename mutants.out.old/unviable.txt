@@ -1,4 +1,2 @@
-crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))
-crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())
+crates/ax-detect/src/coll.rs:59:9: replace <impl Detector for CusumDetector>::class -> AnomalyClass with Default::default()
+crates/ax-detect/src/ctx.rs:76:9: replace <impl Detector for SeasonalDetector>::class -> AnomalyClass with Default::default()

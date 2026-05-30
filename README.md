@@ -21,6 +21,10 @@ With `--baseline B`, the current corpus is compared against `B`: distributional
 drift and schema-diff detectors activate. Without it they report honest absence
 ("no baseline provided"), and only single-corpus detectors run.
 
+With `--period N`, rows are treated as an ordered time series and the contextual
+(seasonal-subseries) detector compares each point to its phase peers. Without a
+period it reports honest absence — seasonality is never guessed.
+
 Exit codes are part of the contract: **`0`** clean · **`1`** anomalies found ·
 **`2`** tool error.
 
@@ -69,8 +73,8 @@ Seven classes, so an agent reasons about the *kind* of deviation:
 | `point` | value far from its column's distribution (modified z / MAD) | ✅ `point.modz` |
 | `distributional` | the distribution shifted vs. a baseline (KS / PSI / χ²) | ✅ `dist.ks`, `dist.psi`, `dist.chi2` |
 | `structural` | schema / type / null-rate violation, baseline schema-diff | ✅ `struct.schema` |
-| `contextual` | anomalous only in context (seasonal) | ⏳ planned |
-| `collective` | a subsequence/group is jointly anomalous (change-point) | ⏳ planned |
+| `contextual` | anomalous only in context (seasonal subseries) | ✅ `ctx.seasonal` |
+| `collective` | a subsequence is jointly anomalous (level shift) | ✅ `coll.cusum` |
 | `multivariate` | a row isolated in feature space — breaks the joint structure | ✅ `mv.mahalanobis` |
 | `cadence` | suspiciously regular timing | ⏳ planned |
 

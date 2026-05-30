@@ -1,0 +1,29 @@
+--- crates/ax-detect/src/robustz.rs
++++ replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 1.0, 1.0))
+@@ -12,25 +12,17 @@
+ /// Iglewicz–Hoaglin constant `1/Φ⁻¹(0.75)`, making the MAD-based score
+ /// comparable to a standard z-score for normal data.
+ pub const MODZ_K: f64 = 0.6745;
+ 
+ /// Robust `(center, scale, k)` for a sample: median + MAD (with constant `k`),
+ /// falling back to mean-relative σ (with `k = 1`) when MAD collapses. `None`
+ /// for an empty sample or one with no spread at all.
+ pub fn center_scale(xs: &[f64]) -> Option<(f64, f64, f64)> {
+-    let center = det::median(xs)?;
+-    let mad = det::mad(xs).unwrap_or(0.0);
+-    if mad > 0.0 {
+-        return Some((center, mad, MODZ_K));
+-    }
+-    match det::std_dev(xs) {
+-        Some(sd) if sd > 0.0 => Some((center, sd, 1.0)),
+-        _ => None,
+-    }
++    Some((-1.0, 1.0, 1.0)) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Absolute standardized deviation `|k·(x − center)/scale|`. Extracted so the
+ /// exact arithmetic (not just its sign) is pinned by tests.
+ pub fn score(x: f64, center: f64, scale: f64, k: f64) -> f64 {
+     (k * (x - center) / scale).abs()
+ }
+ 

@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ replace <impl Detector for CusumDetector>::class -> AnomalyClass with Default::default()
+@@ -51,17 +51,17 @@
+     1.0 / (1.0 + (-(shift - threshold)).exp())
+ }
+ 
+ impl Detector for CusumDetector {
+     fn id(&self) -> &'static str {
+         "coll.cusum"
+     }
+     fn class(&self) -> AnomalyClass {
+-        AnomalyClass::Collective
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+         let mut applicable = false;
+         for col in &ctx.current.columns {
+             if !col.ty.is_numeric() {
+                 continue;
+             }
+             // Finite values in row order, with their original row indices.

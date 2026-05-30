@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ replace > with == in <impl Detector for CusumDetector>::detect
+@@ -73,17 +73,17 @@
+                 .collect();
+             if pairs.len() < cfg.coll_min_n {
+                 continue;
+             }
+             let xs: Vec<f64> = pairs.iter().map(|(_, v)| *v).collect();
+             let n = xs.len();
+             let mean = det::mean(&xs).unwrap_or(0.0);
+             let sigma = match det::std_dev(&xs) {
+-                Some(s) if s > 0.0 => s,
++                Some(s) if s == /* ~ changed by cargo-mutants ~ */ 0.0 => s,
+                 _ => continue, // constant column: no shift possible
+             };
+             applicable = true;
+ 
+             let m = cusum_changepoint(&xs, mean);
+             if m == 0 {
+                 continue;
+             }

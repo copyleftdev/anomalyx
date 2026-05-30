@@ -1,0 +1,296 @@
+
+*** crates/ax-detect/src/ctx.rs:48:25: replace <= with > in SeasonalDetector::scan_column
+
+*** mutation diff:
+--- crates/ax-detect/src/ctx.rs
++++ replace <= with > in SeasonalDetector::scan_column
+@@ -40,17 +40,17 @@
+             }
+             let values: Vec<f64> = members.iter().map(|(_, v)| *v).collect();
+             let Some((center, scale, k)) = robustz::center_scale(&values) else {
+                 continue;
+             };
+             assessed = true;
+             for (row, v) in members {
+                 let modz = robustz::score(v, center, scale, k);
+-                if modz <= cfg.ctx_threshold {
++                if modz > /* ~ changed by cargo-mutants ~ */ cfg.ctx_threshold {
+                     continue;
+                 }
+                 out.push(Finding::new(
+                     self.id(),
+                     AnomalyClass::Contextual,
+                     Handle::Cell {
+                         column: col.name.clone(),
+                         row,
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-detect@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh bytemuck v1.25.0
+       Fresh bitflags v2.11.1
+       Fresh rawpointer v0.2.1
+       Fresh getrandom v0.2.17
+       Fresh safe_arch v0.7.4
+       Fresh linux-raw-sys v0.12.1
+       Fresh itoa v1.0.18
+       Fresh memchr v2.8.1
+       Fresh once_cell v1.21.4
+       Fresh typenum v1.20.1
+       Fresh fastrand v2.4.1
+       Fresh wait-timeout v0.2.1
+       Fresh quick-error v1.2.3
+       Fresh bit-vec v0.8.0
+       Fresh fnv v1.0.7
+       Fresh regex-syntax v0.8.10
+       Fresh unarray v0.1.4
+       Fresh libm v0.2.16
+       Fresh zerocopy v0.8.50
+       Fresh proc-macro2 v1.0.106
+       Fresh rand_core v0.6.4
+       Fresh getrandom v0.3.4
+       Fresh serde_core v1.0.228
+       Fresh paste v1.0.15
+       Fresh wide v0.7.33
+       Fresh getrandom v0.4.2
+       Fresh rustix v1.1.4
+       Fresh zmij v1.0.21
+       Fresh bit-set v0.8.0
+       Fresh num-traits v0.2.19
+       Fresh ppv-lite86 v0.2.21
+       Fresh quote v1.0.45
+       Fresh rand_core v0.9.5
+       Fresh matrixmultiply v0.3.10
+       Fresh tempfile v3.27.0
+       Fresh serde_json v1.0.150
+       Fresh syn v2.0.117
+       Fresh rand_chacha v0.3.1
+       Fresh approx v0.5.1
+       Fresh num-complex v0.4.6
+       Fresh num-integer v0.1.46
+       Fresh rand_chacha v0.9.0
+       Fresh rand_xorshift v0.4.0
+       Fresh rand v0.9.4
+       Fresh rusty-fork v0.3.1
+       Fresh rand v0.8.6
+       Fresh simba v0.9.1
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh num-rational v0.4.2
+       Fresh proptest v1.11.0
+       Fresh rand_distr v0.4.3
+       Fresh thiserror v2.0.18
+       Fresh serde v1.0.228
+       Fresh nalgebra v0.33.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-core)
+       Fresh statrs v0.18.0
+       Dirty ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-detect): the file `crates/ax-detect/src/ctx.rs` has changed (1780164845.773449404s, 474867433ns after last build at 1780164845.298581971s)
+   Compiling ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-detect)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d2fde9a58fac4fed -C extra-filename=-7d429c025ac68ce0 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=328ee7fb83b8c8a4 -C extra-filename=-f72ce03fa945c1a3 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rmeta --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rmeta`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.37s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/ax_detect-7d429c025ac68ce0`
+
+*** result: Success
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --verbose --package=ax-detect@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh bytemuck v1.25.0
+       Fresh bitflags v2.11.1
+       Fresh linux-raw-sys v0.12.1
+       Fresh rawpointer v0.2.1
+       Fresh itoa v1.0.18
+       Fresh memchr v2.8.1
+       Fresh fastrand v2.4.1
+       Fresh typenum v1.20.1
+       Fresh once_cell v1.21.4
+       Fresh wait-timeout v0.2.1
+       Fresh quick-error v1.2.3
+       Fresh fnv v1.0.7
+       Fresh bit-vec v0.8.0
+       Fresh unarray v0.1.4
+       Fresh regex-syntax v0.8.10
+       Fresh getrandom v0.2.17
+       Fresh safe_arch v0.7.4
+       Fresh bit-set v0.8.0
+       Fresh libm v0.2.16
+       Fresh zerocopy v0.8.50
+       Fresh proc-macro2 v1.0.106
+       Fresh rand_core v0.6.4
+       Fresh getrandom v0.3.4
+       Fresh paste v1.0.15
+       Fresh serde_core v1.0.228
+       Fresh wide v0.7.33
+       Fresh rustix v1.1.4
+       Fresh getrandom v0.4.2
+       Fresh zmij v1.0.21
+       Fresh num-traits v0.2.19
+       Fresh ppv-lite86 v0.2.21
+       Fresh quote v1.0.45
+       Fresh rand_core v0.9.5
+       Fresh matrixmultiply v0.3.10
+       Fresh serde_json v1.0.150
+       Fresh tempfile v3.27.0
+       Fresh syn v2.0.117
+       Fresh rand_chacha v0.3.1
+       Fresh num-integer v0.1.46
+       Fresh num-complex v0.4.6
+       Fresh approx v0.5.1
+       Fresh rand_chacha v0.9.0
+       Fresh rand v0.9.4
+       Fresh rand_xorshift v0.4.0
+       Fresh rusty-fork v0.3.1
+       Fresh rand v0.8.6
+       Fresh serde_derive v1.0.228
+       Fresh num-rational v0.4.2
+       Fresh simba v0.9.1
+       Fresh thiserror-impl v2.0.18
+       Fresh proptest v1.11.0
+       Fresh rand_distr v0.4.3
+       Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
+       Fresh nalgebra v0.33.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-core)
+       Fresh statrs v0.18.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-detect)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/ax_detect-7d429c025ac68ce0`
+
+running 97 tests
+test coll::tests::changepoint_breaks_ties_to_the_first_peak ... ok
+test coll::tests::changepoint_finds_the_shift_index ... ok
+test coll::tests::changepoint_on_flat_series_is_first_interior_split ... ok
+test coll::tests::constant_column_is_absent ... ok
+test coll::tests::shift_confidence_is_half_at_threshold_and_monotonic ... ok
+test coll::tests::runs_at_exactly_min_n ... ok
+test coll::tests::deterministic_across_runs ... ok
+test coll::tests::standardized_shift_is_exact ... ok
+test coll::tests::stationary_series_has_no_findings ... ok
+test coll::tests::sustained_level_shift_is_flagged_as_a_range ... ok
+test coll::tests::too_short_is_absent ... ok
+test config::tests::version_is_stable_and_reflects_changes ... ok
+test ctx::tests::absent_when_no_phase_has_enough_data ... ok
+test ctx::tests::absent_without_a_period ... ok
+test ctx::tests::period_two_is_assessed_not_absent ... ok
+test ctx::tests::clean_seasonal_series_has_no_findings ... FAILED
+test dist::tests::bin_counts_exact_and_asymmetric ... ok
+test ctx::tests::phase_with_exactly_min_members_is_assessed ... FAILED
+test dist::tests::chi2_absent_when_no_shared_categorical ... ok
+test ctx::tests::value_anomalous_only_in_context_is_flagged ... FAILED
+test dist::tests::chi2_categorical_exact_stat ... ok
+test dist::tests::chi2_detector_flags_category_drift ... ok
+test dist::tests::chi2_flags_new_category ... ok
+test dist::tests::chi2_detector_confidence_is_one_minus_pvalue ... ok
+test dist::tests::chi2_none_when_either_side_empty ... ok
+test dist::tests::chi2_pvalue_small_for_large_stat ... ok
+test dist::tests::chi2_zero_for_identical_category_mix ... ok
+test dist::tests::ks_detector_absent_without_baseline ... ok
+test dist::tests::ks_detector_clean_when_distributions_match ... ok
+test dist::tests::ks_detector_confidence_is_one_minus_pvalue ... ok
+test dist::tests::ks_detector_runs_at_exactly_min_n ... ok
+test dist::tests::ks_detector_flags_shift_with_baseline ... ok
+test dist::tests::ks_detector_skips_when_one_side_below_min_n ... ok
+test dist::tests::ks_disjoint_supports_is_one ... ok
+test dist::tests::ks_empty_is_none ... ok
+test dist::tests::ks_identical_samples_is_zero ... ok
+test dist::tests::ks_pvalue_exact_value ... ok
+test dist::tests::ks_pvalue_small_for_disjoint ... ok
+test dist::tests::ks_q_bounds_and_monotonic ... ok
+test ctx::tests::deterministic_across_runs ... ok
+test dist::tests::psi_absent_when_no_shared_numeric_column ... ok
+test dist::tests::ks_q_exact_values ... ok
+test dist::tests::psi_and_chi2_absent_without_baseline ... ok
+test dist::tests::psi_bin_boundaries_are_respected ... ok
+test dist::tests::psi_confidence_exact ... ok
+test dist::tests::psi_confidence_is_half_at_threshold_and_monotonic ... ok
+test dist::tests::psi_exact_shift_value ... ok
+test dist::tests::psi_none_when_baseline_too_small ... ok
+test dist::tests::quantile_edges_exact ... ok
+test linalg::tests::cholesky_of_identity_is_identity ... ok
+test linalg::tests::cholesky_reconstructs_3x3 ... ok
+test linalg::tests::forward_solve_is_correct ... ok
+test linalg::tests::cholesky_reconstructs_the_matrix ... ok
+test dist::tests::psi_detector_flags_shift_and_is_not_absent ... ok
+test dist::tests::psi_zero_for_identical_distributions ... ok
+test linalg::tests::mahalanobis_scales_with_variance ... ok
+test linalg::tests::mahalanobis_with_identity_is_squared_euclidean ... ok
+test dist::tests::psi_detector_clean_when_distributions_match ... ok
+test linalg::tests::non_positive_definite_returns_none ... ok
+test dist::tests::psi_large_for_shifted_distribution ... ok
+test mv::tests::constant_columns_are_absent_singular ... ok
+test mv::tests::covariance_is_exact ... ok
+test mv::tests::covariance_ridge_adds_scaled_diagonal ... ok
+test mv::tests::clean_correlated_cloud_has_no_findings ... ok
+test mv::tests::needs_two_numeric_columns ... ok
+test mv::tests::rows_with_non_finite_values_are_excluded ... ok
+test mv::tests::joint_outlier_is_flagged_though_each_axis_is_in_range ... ok
+test mv::tests::too_few_complete_rows_is_absent ... ok
+test mv::tests::runs_at_exactly_min_n_complete_rows ... ok
+test point::tests::constant_column_has_no_findings ... ok
+test point::tests::exactly_min_n_values_is_assessed ... ok
+test point::tests::non_numeric_corpus_marks_absent ... ok
+test mv::tests::deterministic_across_runs ... ok
+test point::tests::obvious_outlier_is_flagged ... ok
+test point::tests::robust_path_catches_what_sigma_path_misses ... ok
+test point::tests::too_few_values_marks_absent ... ok
+test robustz::tests::center_scale_prefers_mad_then_sigma_then_none ... ok
+test robustz::tests::confidence_is_half_at_threshold_and_monotonic ... ok
+test robustz::tests::score_exact_arithmetic ... ok
+test structural::tests::added_and_dropped_columns_detected ... ok
+test structural::tests::clean_single_corpus_has_no_findings_and_no_absence ... ok
+test structural::tests::high_null_rate_is_flagged_low_is_not ... ok
+test structural::tests::matching_schema_yields_no_schema_findings ... ok
+test structural::tests::mixed_type_column_is_flagged ... ok
+test structural::tests::type_change_detected ... ok
+test tests::registry_registers_the_default_detector_set ... ok
+test tests::registry_run_surfaces_point_finding ... ok
+test tests::report_is_clean_only_without_findings ... ok
+test tests::single_corpus_clean_numeric_has_no_point_findings ... ok
+test dist::tests::ks_in_unit_interval ... ok
+test dist::tests::ks_is_symmetric ... ok
+test point::tests::permutation_invariant_values ... ok
+test point::tests::scale_invariant ... ok
+test point::tests::deterministic ... ok
+test point::tests::shift_invariant ... ok
+test dist::tests::psi_is_nonnegative ... ok
+test mv::tests::translation_invariant ... ok
+
+failures:
+
+---- ctx::tests::clean_seasonal_series_has_no_findings stdout ----
+
+thread 'ctx::tests::clean_seasonal_series_has_no_findings' (1874988) panicked at crates/ax-detect/src/ctx.rs:159:9:
+tidy seasonal data has no contextual outlier
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- ctx::tests::phase_with_exactly_min_members_is_assessed stdout ----
+
+thread 'ctx::tests::phase_with_exactly_min_members_is_assessed' (1874991) panicked at crates/ax-detect/src/ctx.rs:205:9:
+assertion `left == right` failed
+  left: 27
+ right: 1
+
+---- ctx::tests::value_anomalous_only_in_context_is_flagged stdout ----
+
+thread 'ctx::tests::value_anomalous_only_in_context_is_flagged' (1874992) panicked at crates/ax-detect/src/ctx.rs:170:9:
+assertion `left == right` failed
+  left: 34
+ right: 1
+
+
+failures:
+    ctx::tests::clean_seasonal_series_has_no_findings
+    ctx::tests::phase_with_exactly_min_members_is_assessed
+    ctx::tests::value_anomalous_only_in_context_is_flagged
+
+test result: FAILED. 94 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+error: test failed, to rerun pass `-p ax-detect --lib`
+
+*** result: Failure(101)

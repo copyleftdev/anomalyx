@@ -8,25 +8,25 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 34.749233897,
+          "duration": 8.213815771,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201325907,
+          "duration": 0.201518431,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -34,175 +34,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "main",
-            "return_type": "-> ProcExit",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 25,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 34,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 26,
+              "line": 25,
               "column": 5
             },
             "end": {
-              "line": 33,
-              "column": 6
-            }
-          },
-          "replacement": "Default::default()",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_26_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_26_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.50310275,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201252885,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "run",
-            "return_type": "-> Result<ExitCode, AxError>",
-            "span": {
-              "start": {
-                "line": 36,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
               "line": 37,
-              "column": 5
-            },
-            "end": {
-              "line": 60,
               "column": 6
             }
           },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_37_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_37_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301246238,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"\"",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "usage",
-            "return_type": "-> &'static str",
-            "span": {
-              "start": {
-                "line": 63,
-                "column": 1
-              },
-              "end": {
-                "line": 74,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 64,
-              "column": 5
-            },
-            "end": {
-              "line": 73,
-              "column": 50
-            }
-          },
-          "replacement": "\"\"",
+          "replacement": "0",
           "genre": "FnValue"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_64_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_64_col_5.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_25_col_5.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_25_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.603323542,
+          "duration": 0.45168619,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201310566,
+          "duration": 0.151309197,
           "process_status": {
             "Failure": 101
           },
@@ -210,7 +91,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -218,56 +99,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"xyzzy\"",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 1",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "usage",
-            "return_type": "-> &'static str",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 63,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 74,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 64,
+              "line": 25,
               "column": 5
             },
             "end": {
-              "line": 73,
-              "column": 50
+              "line": 37,
+              "column": 6
             }
           },
-          "replacement": "\"xyzzy\"",
+          "replacement": "1",
           "genre": "FnValue"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_64_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_64_col_5_001.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_25_col_5_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_25_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503145032,
+          "duration": 0.401463565,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201254284,
+          "duration": 0.151325137,
           "process_status": {
             "Failure": 101
           },
@@ -275,7 +156,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -283,56 +164,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:27:20: delete - in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 76,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 93,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 79,
-              "column": 5
+              "line": 27,
+              "column": 20
             },
             "end": {
-              "line": 92,
-              "column": 31
+              "line": 27,
+              "column": 21
             }
           },
-          "replacement": "Ok((None, vec![]))",
-          "genre": "FnValue"
+          "replacement": "",
+          "genre": "UnaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_27_col_20.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_27_col_20.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553177329,
+          "duration": 0.451776363,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201304786,
+          "duration": 0.151308477,
           "process_status": {
             "Failure": 101
           },
@@ -340,7 +221,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -348,56 +229,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:30:11: replace += with *= in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 76,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 93,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 79,
-              "column": 5
+              "line": 30,
+              "column": 11
             },
             "end": {
-              "line": 92,
-              "column": 31
+              "line": 30,
+              "column": 13
             }
           },
-          "replacement": "Ok((None, vec![String::new()]))",
-          "genre": "FnValue"
+          "replacement": "*=",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_001.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_30_col_11.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_30_col_11.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503176112,
+          "duration": 0.401636021,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201344547,
+          "duration": 0.151287906,
           "process_status": {
             "Failure": 101
           },
@@ -405,7 +286,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -413,511 +294,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:30:16: replace - with + in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 76,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 93,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((None, vec![\"xyzzy\".into()]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_002.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_002.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553138388,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201287825,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(String::new()), vec![]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_003.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_003.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503236145,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201332507,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(String::new()), vec![String::new()]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_004.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_004.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.5032052930000002,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201297616,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_005.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_005.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503210463,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20140759,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(\"xyzzy\".into()), vec![]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_006.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_006.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503143731,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201320237,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_007.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_007.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553395418,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201466612,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 79,
-              "column": 5
-            },
-            "end": {
-              "line": 92,
-              "column": 31
-            }
-          },
-          "replacement": "Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_008.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_008.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503130671,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201301686,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "split_baseline",
-            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
-            "span": {
-              "start": {
-                "line": 76,
-                "column": 1
-              },
-              "end": {
-                "line": 93,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 83,
+              "line": 30,
               "column": 16
             },
             "end": {
-              "line": 83,
-              "column": 18
+              "line": 30,
+              "column": 17
             }
           },
-          "replacement": "!=",
+          "replacement": "+",
           "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_83_col_16.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_83_col_16.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_30_col_16.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_30_col_16.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553313264,
+          "duration": 0.852378058,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201318967,
+          "duration": 0.151304817,
           "process_status": {
             "Failure": 101
           },
@@ -925,7 +351,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -933,576 +359,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:30:16: replace - with / in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 95,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 110,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 97,
-              "column": 5
+              "line": 30,
+              "column": 16
             },
             "end": {
-              "line": 109,
-              "column": 6
+              "line": 30,
+              "column": 17
             }
           },
-          "replacement": "Ok((String::new(), vec![]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553764691,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201307177,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 97,
-              "column": 5
-            },
-            "end": {
-              "line": 109,
-              "column": 6
-            }
-          },
-          "replacement": "Ok((String::new(), vec![0]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.5031322409999999,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.20166679,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 97,
-              "column": 5
-            },
-            "end": {
-              "line": 109,
-              "column": 6
-            }
-          },
-          "replacement": "Ok((String::new(), vec![1]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_002.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_002.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503897948,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201338578,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 97,
-              "column": 5
-            },
-            "end": {
-              "line": 109,
-              "column": 6
-            }
-          },
-          "replacement": "Ok((\"xyzzy\".into(), vec![]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_003.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_003.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503017906,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201326457,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 97,
-              "column": 5
-            },
-            "end": {
-              "line": 109,
-              "column": 6
-            }
-          },
-          "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_004.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_004.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503008726,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201348398,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 97,
-              "column": 5
-            },
-            "end": {
-              "line": 109,
-              "column": 6
-            }
-          },
-          "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_005.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_005.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503171252,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201311657,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with true in read_input",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 98,
-              "column": 20
-            },
-            "end": {
-              "line": 98,
-              "column": 28
-            }
-          },
-          "replacement": "true",
-          "genre": "MatchArmGuard"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553217611,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201361678,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with false in read_input",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 98,
-              "column": 20
-            },
-            "end": {
-              "line": 98,
-              "column": 28
-            }
-          },
-          "replacement": "false",
-          "genre": "MatchArmGuard"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503239974,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201330167,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:98:22: replace != with == in read_input",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "read_input",
-            "return_type": "-> Result<(String, Vec<u8>), AxError>",
-            "span": {
-              "start": {
-                "line": 95,
-                "column": 1
-              },
-              "end": {
-                "line": 110,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 98,
-              "column": 22
-            },
-            "end": {
-              "line": 98,
-              "column": 24
-            }
-          },
-          "replacement": "==",
+          "replacement": "/",
           "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_22.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_22.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_30_col_16_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_30_col_16_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553165659,
+          "duration": 0.401635362,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201356639,
+          "duration": 0.151344079,
           "process_status": {
             "Failure": 101
           },
@@ -1510,7 +416,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -1518,543 +424,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:31:23: replace + with - in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "load_baseline",
-            "return_type": "-> Result<Option<RecordSet>, AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 112,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 121,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 114,
-              "column": 5
-            },
-            "end": {
-              "line": 120,
-              "column": 6
-            }
-          },
-          "replacement": "Ok(None)",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503206653,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201326767,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "load_baseline",
-            "return_type": "-> Result<Option<RecordSet>, AxError>",
-            "span": {
-              "start": {
-                "line": 112,
-                "column": 1
-              },
-              "end": {
-                "line": 121,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 114,
-              "column": 5
-            },
-            "end": {
-              "line": 120,
-              "column": 6
-            }
-          },
-          "replacement": "Ok(Some(Default::default()))",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.2512171,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "cmd_scan",
-            "return_type": "-> Result<ExitCode, AxError>",
-            "span": {
-              "start": {
-                "line": 123,
-                "column": 1
-              },
-              "end": {
-                "line": 155,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 124,
-              "column": 5
-            },
-            "end": {
-              "line": 154,
-              "column": 7
-            }
-          },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_124_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_124_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301364903,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "cmd_scan",
-            "return_type": "-> Result<ExitCode, AxError>",
-            "span": {
-              "start": {
-                "line": 123,
-                "column": 1
-              },
-              "end": {
-                "line": 155,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 150,
-              "column": 20
-            },
-            "end": {
-              "line": 150,
-              "column": 22
-            }
-          },
-          "replacement": "!=",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_150_col_20.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_150_col_20.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.503439682,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201377589,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "cmd_explain",
-            "return_type": "-> Result<ExitCode, AxError>",
-            "span": {
-              "start": {
-                "line": 157,
-                "column": 1
-              },
-              "end": {
-                "line": 194,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 158,
-              "column": 5
-            },
-            "end": {
-              "line": 193,
-              "column": 24
-            }
-          },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_158_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_158_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.301324431,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "cmd_explain",
-            "return_type": "-> Result<ExitCode, AxError>",
-            "span": {
-              "start": {
-                "line": 157,
-                "column": 1
-              },
-              "end": {
-                "line": 194,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 180,
-              "column": 30
-            },
-            "end": {
-              "line": 180,
-              "column": 32
-            }
-          },
-          "replacement": "!=",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_180_col_30.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_180_col_30.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553250722,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201349728,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
-            "span": {
-              "start": {
-                "line": 196,
-                "column": 1
-              },
-              "end": {
-                "line": 256,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 199,
-              "column": 5
-            },
-            "end": {
-              "line": 255,
-              "column": 6
-            }
-          },
-          "replacement": "Ok(Default::default())",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_199_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_199_col_5.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.553346186,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201326957,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
-            "span": {
-              "start": {
-                "line": 196,
-                "column": 1
-              },
-              "end": {
-                "line": 256,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 224,
-              "column": 31
-            },
-            "end": {
-              "line": 224,
-              "column": 33
-            }
-          },
-          "replacement": "&&",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_31.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_31.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 1.603226598,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.201335427,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-cli@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
-          "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
-            "span": {
-              "start": {
-                "line": 196,
-                "column": 1
-              },
-              "end": {
-                "line": 256,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 224,
+              "line": 31,
               "column": 23
             },
             "end": {
-              "line": 224,
-              "column": 25
+              "line": 31,
+              "column": 24
             }
           },
-          "replacement": "<",
+          "replacement": "-",
           "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_23.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_23.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_31_col_23.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_31_col_23.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503176532,
+          "duration": 0.401667393,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201370909,
+          "duration": 0.151284536,
           "process_status": {
             "Failure": 101
           },
@@ -2062,7 +481,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2070,31 +489,161 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:31:23: replace + with * in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 196,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 256,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 224,
-              "column": 39
+              "line": 31,
+              "column": 23
             },
             "end": {
-              "line": 224,
-              "column": 40
+              "line": 31,
+              "column": 24
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_31_col_23_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_31_col_23_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401616331,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151334528,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:32:22: replace && with || in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1
+              },
+              "end": {
+                "line": 38,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 22
+            },
+            "end": {
+              "line": 32,
+              "column": 24
+            }
+          },
+          "replacement": "||",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_22.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_22.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401543569,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151320808,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:32:18: replace < with == in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1
+              },
+              "end": {
+                "line": 38,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 18
+            },
+            "end": {
+              "line": 32,
+              "column": 19
             }
           },
           "replacement": "==",
@@ -2102,24 +651,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_18.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553210231,
+          "duration": 0.401528068,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201331687,
+          "duration": 0.151292817,
           "process_status": {
             "Failure": 101
           },
@@ -2127,7 +676,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2135,31 +684,161 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:32:18: replace < with > in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 196,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 256,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 224,
-              "column": 39
+              "line": 32,
+              "column": 18
             },
             "end": {
-              "line": 224,
-              "column": 40
+              "line": 32,
+              "column": 19
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_18_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_18_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401730836,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151311527,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:32:33: replace > with == in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1
+              },
+              "end": {
+                "line": 38,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 33
+            },
+            "end": {
+              "line": 32,
+              "column": 34
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_33.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_33.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401634172,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151318567,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:32:33: replace > with < in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
+            "span": {
+              "start": {
+                "line": 22,
+                "column": 1
+              },
+              "end": {
+                "line": 38,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 32,
+              "column": 33
+            },
+            "end": {
+              "line": 32,
+              "column": 34
             }
           },
           "replacement": "<",
@@ -2167,24 +846,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_001.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_33_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_33_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503379989,
+          "duration": 0.401632451,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201391239,
+          "duration": 0.151277195,
           "process_status": {
             "Failure": 101
           },
@@ -2192,7 +871,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2200,31 +879,31 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:32:33: replace > with >= in cusum_changepoint",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
+            "function_name": "cusum_changepoint",
+            "return_type": "-> usize",
             "span": {
               "start": {
-                "line": 196,
+                "line": 22,
                 "column": 1
               },
               "end": {
-                "line": 256,
+                "line": 38,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 224,
-              "column": 39
+              "line": 32,
+              "column": 33
             },
             "end": {
-              "line": 224,
-              "column": 40
+              "line": 32,
+              "column": 34
             }
           },
           "replacement": ">=",
@@ -2232,24 +911,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_002.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_002.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_32_col_33_002.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_32_col_33_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553180029,
+          "duration": 0.401554989,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201390609,
+          "duration": 0.151339608,
           "process_status": {
             "Failure": 101
           },
@@ -2257,7 +936,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2265,30 +944,2684 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:236:21: replace >= with < in resolve_handle",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/main.rs",
+          "name": "crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 0.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "resolve_handle",
-            "return_type": "-> Result<serde_json::Value, AxError>",
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
             "span": {
               "start": {
-                "line": 196,
+                "line": 40,
                 "column": 1
               },
               "end": {
-                "line": 256,
+                "line": 46,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 236,
-              "column": 21
+              "line": 44,
+              "column": 5
             },
             "end": {
-              "line": 236,
+              "line": 45,
+              "column": 33
+            }
+          },
+          "replacement": "0.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_5.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.4516834,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151292177,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 1.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 5
+            },
+            "end": {
+              "line": 45,
+              "column": 33
+            }
+          },
+          "replacement": "1.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_5_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401573039,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151385619,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with -1.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 5
+            },
+            "end": {
+              "line": 45,
+              "column": 33
+            }
+          },
+          "replacement": "-1.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_5_002.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401512777,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151336458,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:20: replace * with + in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 20
+            },
+            "end": {
+              "line": 44,
+              "column": 21
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_20.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_20.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.451754073,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151352929,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:20: replace * with / in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 20
+            },
+            "end": {
+              "line": 44,
+              "column": 21
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_20_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_20_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401710534,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151292306,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:39: replace + with - in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 39
+            },
+            "end": {
+              "line": 44,
+              "column": 40
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_39.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_39.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401521178,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151353279,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:39: replace + with * in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 39
+            },
+            "end": {
+              "line": 44,
+              "column": 40
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_39_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_39_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401543158,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151312937,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:27: replace / with % in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 27
+            },
+            "end": {
+              "line": 44,
+              "column": 28
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_27.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_27.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401564199,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151337278,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:27: replace / with * in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 27
+            },
+            "end": {
+              "line": 44,
+              "column": 28
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_27_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_27_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.40156502,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.15138505,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:45: replace / with % in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 45
+            },
+            "end": {
+              "line": 44,
+              "column": 46
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_45.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_45.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401532258,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151428342,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:44:45: replace / with * in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 44,
+              "column": 45
+            },
+            "end": {
+              "line": 44,
+              "column": 46
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_44_col_45_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_44_col_45_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.40160074,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151362619,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:45:29: replace / with % in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 45,
+              "column": 29
+            },
+            "end": {
+              "line": 45,
+              "column": 30
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_45_col_29.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_45_col_29.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401492487,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151289196,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:45:29: replace / with * in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 45,
+              "column": 29
+            },
+            "end": {
+              "line": 45,
+              "column": 30
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_45_col_29_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_45_col_29_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401512477,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151333338,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:45:13: replace - with + in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 45,
+              "column": 13
+            },
+            "end": {
+              "line": 45,
+              "column": 14
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_45_col_13.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_45_col_13.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401776457,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151448052,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:45:13: replace - with / in standardized_shift",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "standardized_shift",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 40,
+                "column": 1
+              },
+              "end": {
+                "line": 46,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 45,
+              "column": 13
+            },
+            "end": {
+              "line": 45,
+              "column": 14
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_45_col_13_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_45_col_13_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401536649,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.15138561,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 0.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 5
+            },
+            "end": {
+              "line": 51,
+              "column": 47
+            }
+          },
+          "replacement": "0.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_5.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401653302,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151337758,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 1.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 5
+            },
+            "end": {
+              "line": 51,
+              "column": 47
+            }
+          },
+          "replacement": "1.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_5_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401502737,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151318917,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with -1.0",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 5
+            },
+            "end": {
+              "line": 51,
+              "column": 47
+            }
+          },
+          "replacement": "-1.0",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_5_002.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401593621,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151308577,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:9: replace / with % in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 9
+            },
+            "end": {
+              "line": 51,
+              "column": 10
+            }
+          },
+          "replacement": "%",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_9.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401664033,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151326908,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:9: replace / with * in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 9
+            },
+            "end": {
+              "line": 51,
+              "column": 10
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_9_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401521798,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151344549,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:16: replace + with - in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "replacement": "-",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_16.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_16.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401554389,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151316688,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:16: replace + with * in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 16
+            },
+            "end": {
+              "line": 51,
+              "column": 17
+            }
+          },
+          "replacement": "*",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_16_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_16_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401642032,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151332338,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:19: delete - in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 19
+            },
+            "end": {
+              "line": 51,
+              "column": 20
+            }
+          },
+          "replacement": "",
+          "genre": "UnaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_19.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_19.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401539409,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151317227,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:27: replace - with + in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 27
+            },
+            "end": {
+              "line": 51,
+              "column": 28
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_27.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_27.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401647322,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151323887,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:51:27: replace - with / in shift_confidence",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "shift_confidence",
+            "return_type": "-> f64",
+            "span": {
+              "start": {
+                "line": 48,
+                "column": 1
+              },
+              "end": {
+                "line": 52,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 51,
+              "column": 27
+            },
+            "end": {
+              "line": 51,
+              "column": 28
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_51_col_27_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_51_col_27_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401613131,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151269676,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with \"\"",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::id",
+            "return_type": "-> &'static str",
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 5
+              },
+              "end": {
+                "line": 57,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 56,
+              "column": 9
+            },
+            "end": {
+              "line": 56,
+              "column": 21
+            }
+          },
+          "replacement": "\"\"",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_56_col_9.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_56_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401608831,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151355878,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with \"xyzzy\"",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::id",
+            "return_type": "-> &'static str",
+            "span": {
+              "start": {
+                "line": 55,
+                "column": 5
+              },
+              "end": {
+                "line": 57,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 56,
+              "column": 9
+            },
+            "end": {
+              "line": 56,
+              "column": 21
+            }
+          },
+          "replacement": "\"xyzzy\"",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_56_col_9_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_56_col_9_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401454875,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151326868,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:59:9: replace <impl Detector for CusumDetector>::class -> AnomalyClass with Default::default()",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::class",
+            "return_type": "-> AnomalyClass",
+            "span": {
+              "start": {
+                "line": 58,
+                "column": 5
+              },
+              "end": {
+                "line": 60,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 59,
+              "column": 9
+            },
+            "end": {
+              "line": 59,
+              "column": 33
+            }
+          },
+          "replacement": "Default::default()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "Unviable",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_59_col_9.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_59_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251407644,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:62:9: replace <impl Detector for CusumDetector>::detect with ()",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 62,
+              "column": 9
+            },
+            "end": {
+              "line": 121,
+              "column": 10
+            }
+          },
+          "replacement": "()",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_62_col_9.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_62_col_9.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.60196159,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.15138935,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:64:16: delete ! in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 64,
+              "column": 16
+            },
+            "end": {
+              "line": 64,
+              "column": 17
+            }
+          },
+          "replacement": "",
+          "genre": "UnaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_64_col_16.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_64_col_16.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.60197115,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151341748,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:74:28: replace < with == in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 74,
+              "column": 28
+            },
+            "end": {
+              "line": 74,
+              "column": 29
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_74_col_28.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_74_col_28.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.40156353,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151296657,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:74:28: replace < with > in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 74,
+              "column": 28
+            },
+            "end": {
+              "line": 74,
+              "column": 29
+            }
+          },
+          "replacement": ">",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_74_col_28_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_74_col_28_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401536958,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151267645,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:74:28: replace < with <= in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 74,
+              "column": 28
+            },
+            "end": {
+              "line": 74,
+              "column": 29
+            }
+          },
+          "replacement": "<=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_74_col_28_002.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_74_col_28_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401613381,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151303497,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with true in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 28
+            },
+            "end": {
+              "line": 81,
+              "column": 35
+            }
+          },
+          "replacement": "true",
+          "genre": "MatchArmGuard"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_81_col_28.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_81_col_28.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401518228,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151277156,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with false in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 28
+            },
+            "end": {
+              "line": 81,
+              "column": 35
+            }
+          },
+          "replacement": "false",
+          "genre": "MatchArmGuard"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_81_col_28_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_81_col_28_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.551901181,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151353498,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:81:30: replace > with == in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 30
+            },
+            "end": {
+              "line": 81,
+              "column": 31
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_81_col_30.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_81_col_30.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.501682446,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151314017,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:81:30: replace > with < in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 81,
+              "column": 30
+            },
+            "end": {
+              "line": 81,
+              "column": 31
+            }
+          },
+          "replacement": "<",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_81_col_30_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_81_col_30_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401512007,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.1513809,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:87:18: replace == with != in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 87,
+              "column": 18
+            },
+            "end": {
+              "line": 87,
+              "column": 20
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_87_col_18.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_87_col_18.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401729706,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151315837,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:92:72: replace - with + in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 92,
+              "column": 72
+            },
+            "end": {
+              "line": 92,
+              "column": 73
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_92_col_72.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_92_col_72.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401555609,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151322947,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:92:72: replace - with / in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 92,
+              "column": 72
+            },
+            "end": {
+              "line": 92,
+              "column": 73
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_92_col_72_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_92_col_72_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401535488,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151314307,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:93:22: replace > with == in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 93,
+              "column": 22
+            },
+            "end": {
+              "line": 93,
+              "column": 23
+            }
+          },
+          "replacement": "==",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_93_col_22.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_93_col_22.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401622252,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151343508,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:93:22: replace > with < in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 93,
+              "column": 22
+            },
+            "end": {
+              "line": 93,
               "column": 23
             }
           },
@@ -2297,24 +3630,24 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_236_col_21.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_236_col_21.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_93_col_22_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_93_col_22_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.503061868,
+          "duration": 0.401494757,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201326567,
+          "duration": 0.151309897,
           "process_status": {
             "Failure": 101
           },
@@ -2322,7 +3655,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2330,56 +3663,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/describe.rs",
+          "name": "crates/ax-detect/src/coll.rs:95:42: replace + with - in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "describe_json",
-            "return_type": "-> String",
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
             "span": {
               "start": {
-                "line": 13,
-                "column": 1
+                "line": 61,
+                "column": 5
               },
               "end": {
-                "line": 42,
-                "column": 2
+                "line": 122,
+                "column": 6
               }
             }
           },
           "span": {
             "start": {
-              "line": 14,
-              "column": 5
+              "line": 95,
+              "column": 42
             },
             "end": {
-              "line": 41,
-              "column": 69
+              "line": 95,
+              "column": 43
             }
           },
-          "replacement": "String::new()",
-          "genre": "FnValue"
+          "replacement": "-",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__describe.rs_line_14_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__describe.rs_line_14_col_5.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_95_col_42.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_95_col_42.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553139818,
+          "duration": 0.401498627,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201383129,
+          "duration": 0.151345038,
           "process_status": {
             "Failure": 101
           },
@@ -2387,7 +3720,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2395,56 +3728,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with \"xyzzy\".into()",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/describe.rs",
+          "name": "crates/ax-detect/src/coll.rs:95:42: replace + with * in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "describe_json",
-            "return_type": "-> String",
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
             "span": {
               "start": {
-                "line": 13,
-                "column": 1
+                "line": 61,
+                "column": 5
               },
               "end": {
-                "line": 42,
-                "column": 2
+                "line": 122,
+                "column": 6
               }
             }
           },
           "span": {
             "start": {
-              "line": 14,
-              "column": 5
+              "line": 95,
+              "column": 42
             },
             "end": {
-              "line": 41,
-              "column": 69
+              "line": 95,
+              "column": 43
             }
           },
-          "replacement": "\"xyzzy\".into()",
-          "genre": "FnValue"
+          "replacement": "*",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__describe.rs_line_14_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__describe.rs_line_14_col_5_001.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_95_col_42_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_95_col_42_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.4532102359999999,
+          "duration": 0.40158405,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201329297,
+          "duration": 0.151319367,
           "process_status": {
             "Failure": 101
           },
@@ -2452,7 +3785,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2460,56 +3793,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/schema.rs",
+          "name": "crates/ax-detect/src/coll.rs:95:35: replace - with + in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "envelope_schema",
-            "return_type": "-> String",
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
             "span": {
               "start": {
-                "line": 9,
-                "column": 1
+                "line": 61,
+                "column": 5
               },
               "end": {
-                "line": 97,
-                "column": 2
+                "line": 122,
+                "column": 6
               }
             }
           },
           "span": {
             "start": {
-              "line": 10,
-              "column": 5
+              "line": 95,
+              "column": 35
             },
             "end": {
-              "line": 96,
-              "column": 70
+              "line": 95,
+              "column": 36
             }
           },
-          "replacement": "String::new()",
-          "genre": "FnValue"
+          "replacement": "+",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__schema.rs_line_10_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__schema.rs_line_10_col_5.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_95_col_35.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_95_col_35.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.553311324,
+          "duration": 0.40159945,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201354028,
+          "duration": 0.201382376,
           "process_status": {
             "Failure": 101
           },
@@ -2517,7 +3850,7 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
@@ -2525,56 +3858,56 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with \"xyzzy\".into()",
-          "package": "ax-cli",
-          "file": "crates/ax-cli/src/schema.rs",
+          "name": "crates/ax-detect/src/coll.rs:95:35: replace - with / in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
           "function": {
-            "function_name": "envelope_schema",
-            "return_type": "-> String",
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
             "span": {
               "start": {
-                "line": 9,
-                "column": 1
+                "line": 61,
+                "column": 5
               },
               "end": {
-                "line": 97,
-                "column": 2
+                "line": 122,
+                "column": 6
               }
             }
           },
           "span": {
             "start": {
-              "line": 10,
-              "column": 5
+              "line": 95,
+              "column": 35
             },
             "end": {
-              "line": 96,
-              "column": 70
+              "line": 95,
+              "column": 36
             }
           },
-          "replacement": "\"xyzzy\".into()",
-          "genre": "FnValue"
+          "replacement": "/",
+          "genre": "BinaryOperator"
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__schema.rs_line_10_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__schema.rs_line_10_col_5_001.diff",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_95_col_35_001.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_95_col_35_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 1.453095042,
+          "duration": 0.401813458,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--no-run",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
           ]
         },
         {
           "phase": "Test",
-          "duration": 0.201353808,
+          "duration": 0.151327427,
           "process_status": {
             "Failure": 101
           },
@@ -2582,19 +3915,84 @@
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
             "--verbose",
-            "--package=ax-cli@0.1.0"
+            "--package=ax-detect@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-detect/src/coll.rs:113:12: delete ! in <impl Detector for CusumDetector>::detect",
+          "package": "ax-detect",
+          "file": "crates/ax-detect/src/coll.rs",
+          "function": {
+            "function_name": "<impl Detector for CusumDetector>::detect",
+            "return_type": "",
+            "span": {
+              "start": {
+                "line": 61,
+                "column": 5
+              },
+              "end": {
+                "line": 122,
+                "column": 6
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 113,
+              "column": 12
+            },
+            "end": {
+              "line": 113,
+              "column": 13
+            }
+          },
+          "replacement": "",
+          "genre": "UnaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-detect__src__coll.rs_line_113_col_12.log",
+      "diff_path": "diff/crates__ax-detect__src__coll.rs_line_113_col_12.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.401660602,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.151323497,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-detect@0.1.0"
           ]
         }
       ]
     }
   ],
-  "total_mutants": 40,
+  "total_mutants": 61,
   "missed": 0,
-  "caught": 36,
+  "caught": 60,
   "timeout": 0,
-  "unviable": 4,
+  "unviable": 1,
   "success": 0,
-  "start_time": "2026-05-30T17:57:17.492367752Z",
-  "end_time": "2026-05-30T17:58:56.232222623Z",
+  "start_time": "2026-05-30T18:15:18.62386143Z",
+  "end_time": "2026-05-30T18:16:03.588150664Z",
   "cargo_mutants_version": "27.0.0"
 }

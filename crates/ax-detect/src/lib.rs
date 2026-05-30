@@ -13,14 +13,19 @@
 use ax_core::envelope::Absence;
 use ax_core::{AnomalyClass, Finding, RecordSet};
 
+pub mod coll;
 pub mod config;
+pub mod ctx;
 pub mod dist;
 pub mod linalg;
 pub mod mv;
 pub mod point;
+pub mod robustz;
 pub mod structural;
 
+pub use coll::CusumDetector;
 pub use config::DetectConfig;
+pub use ctx::SeasonalDetector;
 pub use dist::{Chi2Detector, KsDetector, PsiDetector};
 pub use mv::MahalanobisDetector;
 pub use point::PointDetector;
@@ -122,6 +127,8 @@ impl Registry {
         r.register(Box::new(PsiDetector));
         r.register(Box::new(Chi2Detector));
         r.register(Box::new(MahalanobisDetector));
+        r.register(Box::new(SeasonalDetector));
+        r.register(Box::new(CusumDetector));
         r
     }
 
@@ -181,7 +188,9 @@ mod tests {
                 "dist.ks",
                 "dist.psi",
                 "dist.chi2",
-                "mv.mahalanobis"
+                "mv.mahalanobis",
+                "ctx.seasonal",
+                "coll.cusum"
             ]
         );
     }

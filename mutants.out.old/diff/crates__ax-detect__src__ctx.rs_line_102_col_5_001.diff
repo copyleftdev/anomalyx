@@ -1,0 +1,27 @@
+--- crates/ax-detect/src/ctx.rs
++++ replace scan_all -> bool with false
+@@ -94,23 +94,17 @@
+             );
+         }
+     }
+ }
+ 
+ /// Scans every numeric column, returning whether any phase anywhere was
+ /// assessed (so the caller can report honest absence otherwise).
+ fn scan_all(det: &SeasonalDetector, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) -> bool {
+-    let mut assessed = false;
+-    for col in &rs.columns {
+-        if col.ty.is_numeric() {
+-            assessed |= det.scan_column(col, cfg, out);
+-        }
+-    }
+-    assessed
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::Value;
+ 
+     fn weekly(cfg_period: usize) -> DetectConfig {

@@ -12,14 +12,9 @@
 //! exactly what the property tests pin down.
 
 use crate::config::DetectConfig;
-use crate::{Detector, Report, ScanContext};
-use ax_core::det;
+use crate::{robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Column, Finding, Value};
-
-/// Iglewicz–Hoaglin scale constant: `1/Φ⁻¹(0.75)`, makes the modified z-score
-/// comparable to a standard z-score for normal data.
-const MODZ_K: f64 = 0.6745;
 
 #[derive(Debug, Default, Clone)]
 pub struct PointDetector;
@@ -60,20 +55,9 @@ impl Detector for PointDetector {
 
 impl PointDetector {
     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {
-        let Some(center) = det::median(xs) else {
+        // Robust center/scale; a constant column has none and flags nothing.
+        let Some((center, scale, k)) = robustz::center_scale(xs) else {
             return;
-        };
-        let mad = det::mad(xs).unwrap_or(0.0);
-
-        // Choose a robust scale; fall back to σ when MAD collapses.
-        let (scale, k) = if mad > 0.0 {
-            (mad, MODZ_K)
-        } else {
-            match det::std_dev(xs) {
-                Some(sd) if sd > 0.0 => (sd, 1.0),
-                // Constant column: no point can deviate. Honest non-finding.
-                _ => return,
-            }
         };
 
         // Iterate the original cells so row indices in handles are correct.
@@ -81,11 +65,11 @@ impl PointDetector {
             let Some(x) = numeric_cell(cell) else {
                 continue;
             };
-            let modz = modified_score(x, center, scale, k);
+            let modz = robustz::score(x, center, scale, k);
             if modz <= cfg.point_threshold {
                 continue;
             }
-            let confidence = confidence_from_modz(modz, cfg.point_threshold);
+            let confidence = robustz::confidence(modz, cfg.point_threshold);
             let reason = format!(
                 "{} = {:.6}: modified z-score {:.3} exceeds {:.3} (center={:.6}, scale={:.6})",
                 col.name, x, modz, cfg.point_threshold, center, scale
@@ -112,23 +96,6 @@ impl PointDetector {
 /// drops non-finite values so they never become findings).
 fn numeric_cell(v: &Value) -> Option<f64> {
     v.as_f64().filter(|x| x.is_finite())
-}
-
-/// The (absolute) standardized deviation of `x` from `center` at the given
-/// `scale`, multiplied by the consistency constant `k`. Extracted so the exact
-/// arithmetic can be pinned by tests, not just its sign.
-fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {
-    (k * (x - center) / scale).abs()
-}
-
-/// Maps a modified z-score to a calibrated confidence in `[0, 1]`.
-///
-/// Logistic in the *excess* deviation `modz − threshold`: at the threshold the
-/// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing
-/// in `modz`, which the property tests rely on.
-fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {
-    let excess = modz - threshold;
-    1.0 / (1.0 + (-excess).exp())
 }
 
 #[cfg(test)]
@@ -216,24 +183,6 @@ mod tests {
     }
 
     #[test]
-    fn modified_score_exact_arithmetic() {
-        // Pins the formula |k·(x−center)/scale|, not just its sign. Catches any
-        // swap of the * , - , or / operators.
-        assert_eq!(modified_score(20.0, 10.0, 2.0, 0.5), 2.5);
-        assert_eq!(modified_score(0.0, 10.0, 2.0, 1.0), 5.0);
-        // negative deviation still yields a positive score
-        assert_eq!(modified_score(4.0, 10.0, 3.0, 1.0), 2.0);
-    }
-
-    #[test]
-    fn confidence_is_half_at_threshold() {
-        // excess == 0 ⇒ sigmoid(0) == 0.5 exactly. Catches `modz + threshold`
-        // and `modz / threshold` mutations, which both move this off 0.5.
-        assert_eq!(confidence_from_modz(3.5, 3.5), 0.5);
-        assert_eq!(confidence_from_modz(2.0, 2.0), 0.5);
-    }
-
-    #[test]
     fn exactly_min_n_values_is_assessed() {
         // A column with exactly point_min_n (=8) finite values must be scanned,
         // not skipped. Catches `len < min_n` → `len <= min_n`.
@@ -262,16 +211,6 @@ mod tests {
             report.findings[0].score > 100.0,
             "MAD-scaled score is large"
         );
-    }
-
-    #[test]
-    fn confidence_is_strictly_monotonic() {
-        let c1 = confidence_from_modz(4.0, 3.5);
-        let c2 = confidence_from_modz(6.0, 3.5);
-        let c3 = confidence_from_modz(20.0, 3.5);
-        assert!(c1 < c2 && c2 < c3);
-        assert!((0.0..=1.0).contains(&c1));
-        assert!(c3 <= 1.0);
     }
 
     proptest! {

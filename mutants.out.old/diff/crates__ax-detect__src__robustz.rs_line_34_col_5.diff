@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/robustz.rs
++++ replace score -> f64 with 0.0
+@@ -26,17 +26,17 @@
+         Some(sd) if sd > 0.0 => Some((center, sd, 1.0)),
+         _ => None,
+     }
+ }
+ 
+ /// Absolute standardized deviation `|k·(x − center)/scale|`. Extracted so the
+ /// exact arithmetic (not just its sign) is pinned by tests.
+ pub fn score(x: f64, center: f64, scale: f64, k: f64) -> f64 {
+-    (k * (x - center) / scale).abs()
++    0.0 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Maps a modified z-score to a calibrated confidence in `[0, 1]`: logistic in
+ /// the excess `modz − threshold`, so `modz == threshold` gives 0.5 and it rises
+ /// monotonically toward 1.0.
+ pub fn confidence(modz: f64, threshold: f64) -> f64 {
+     let excess = modz - threshold;
+     1.0 / (1.0 + (-excess).exp())

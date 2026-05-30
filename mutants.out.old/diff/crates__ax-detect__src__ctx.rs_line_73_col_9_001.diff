@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/ctx.rs
++++ replace <impl Detector for SeasonalDetector>::id -> &'static str with "xyzzy"
+@@ -65,17 +65,17 @@
+             }
+         }
+         assessed
+     }
+ }
+ 
+ impl Detector for SeasonalDetector {
+     fn id(&self) -> &'static str {
+-        "ctx.seasonal"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Contextual
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+         if cfg.ctx_period < 2 {
+             out.mark_absent(
+                 self.id(),

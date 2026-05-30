@@ -1,0 +1,117 @@
+
+*** crates/ax-detect/src/ctx.rs:76:9: replace <impl Detector for SeasonalDetector>::class -> AnomalyClass with Default::default()
+
+*** mutation diff:
+--- crates/ax-detect/src/ctx.rs
++++ replace <impl Detector for SeasonalDetector>::class -> AnomalyClass with Default::default()
+@@ -68,17 +68,17 @@
+     }
+ }
+ 
+ impl Detector for SeasonalDetector {
+     fn id(&self) -> &'static str {
+         "ctx.seasonal"
+     }
+     fn class(&self) -> AnomalyClass {
+-        AnomalyClass::Contextual
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+         if cfg.ctx_period < 2 {
+             out.mark_absent(
+                 self.id(),
+                 "contextual detection needs a declared period ≥ 2 (pass --period N)",
+             );
+             return;
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-detect@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh bytemuck v1.25.0
+       Fresh linux-raw-sys v0.12.1
+       Fresh rawpointer v0.2.1
+       Fresh bitflags v2.11.1
+       Fresh fastrand v2.4.1
+       Fresh memchr v2.8.1
+       Fresh itoa v1.0.18
+       Fresh typenum v1.20.1
+       Fresh once_cell v1.21.4
+       Fresh wait-timeout v0.2.1
+       Fresh bit-vec v0.8.0
+       Fresh quick-error v1.2.3
+       Fresh fnv v1.0.7
+       Fresh unarray v0.1.4
+       Fresh getrandom v0.2.17
+       Fresh safe_arch v0.7.4
+       Fresh bit-set v0.8.0
+       Fresh regex-syntax v0.8.10
+       Fresh libm v0.2.16
+       Fresh zerocopy v0.8.50
+       Fresh proc-macro2 v1.0.106
+       Fresh rand_core v0.6.4
+       Fresh getrandom v0.3.4
+       Fresh paste v1.0.15
+       Fresh wide v0.7.33
+       Fresh serde_core v1.0.228
+       Fresh rustix v1.1.4
+       Fresh zmij v1.0.21
+       Fresh getrandom v0.4.2
+       Fresh num-traits v0.2.19
+       Fresh ppv-lite86 v0.2.21
+       Fresh quote v1.0.45
+       Fresh rand_core v0.9.5
+       Fresh matrixmultiply v0.3.10
+       Fresh serde_json v1.0.150
+       Fresh tempfile v3.27.0
+       Fresh syn v2.0.117
+       Fresh rand_chacha v0.3.1
+       Fresh num-complex v0.4.6
+       Fresh num-integer v0.1.46
+       Fresh approx v0.5.1
+       Fresh rand_chacha v0.9.0
+       Fresh rand v0.9.4
+       Fresh rand_xorshift v0.4.0
+       Fresh rusty-fork v0.3.1
+       Fresh rand v0.8.6
+       Fresh num-rational v0.4.2
+       Fresh simba v0.9.1
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh proptest v1.11.0
+       Fresh rand_distr v0.4.3
+       Fresh thiserror v2.0.18
+       Fresh serde v1.0.228
+       Fresh nalgebra v0.33.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-core)
+       Fresh statrs v0.18.0
+       Dirty ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-detect): the file `crates/ax-detect/src/ctx.rs` has changed (1780164847.433732656s, 1s after last build at 1780164846.964699555s)
+   Compiling ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/crates/ax-detect)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d2fde9a58fac4fed -C extra-filename=-7d429c025ac68ce0 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=328ee7fb83b8c8a4 -C extra-filename=-f72ce03fa945c1a3 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rmeta --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rmeta`
+error[E0277]: the trait bound `AnomalyClass: Default` is not satisfied
+  --> crates/ax-detect/src/ctx.rs:76:9
+   |
+76 |         Default::default() /* ~ changed by cargo-mutants ~ */
+   |         ^^^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `AnomalyClass`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `ax-detect` (lib) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=328ee7fb83b8c8a4 -C extra-filename=-f72ce03fa945c1a3 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rmeta --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rmeta` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+error[E0277]: the trait bound `ax_core::AnomalyClass: Default` is not satisfied
+  --> crates/ax-detect/src/ctx.rs:76:9
+   |
+76 |         Default::default() /* ~ changed by cargo-mutants ~ */
+   |         ^^^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `ax_core::AnomalyClass`
+
+error: could not compile `ax-detect` (lib test) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_detect --edition=2021 crates/ax-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d2fde9a58fac4fed -C extra-filename=-7d429c025ac68ce0 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern statrs=/tmp/claude-1000/cargo-mutants-anomalyx-1F8il7.tmp/target/debug/deps/libstatrs-fedd21384be69567.rlib` (exit status: 1)
+
+*** result: Failure(101)

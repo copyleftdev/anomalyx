@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/robustz.rs
++++ replace > with < in center_scale
+@@ -14,17 +14,17 @@
+ pub const MODZ_K: f64 = 0.6745;
+ 
+ /// Robust `(center, scale, k)` for a sample: median + MAD (with constant `k`),
+ /// falling back to mean-relative σ (with `k = 1`) when MAD collapses. `None`
+ /// for an empty sample or one with no spread at all.
+ pub fn center_scale(xs: &[f64]) -> Option<(f64, f64, f64)> {
+     let center = det::median(xs)?;
+     let mad = det::mad(xs).unwrap_or(0.0);
+-    if mad > 0.0 {
++    if mad < /* ~ changed by cargo-mutants ~ */ 0.0 {
+         return Some((center, mad, MODZ_K));
+     }
+     match det::std_dev(xs) {
+         Some(sd) if sd > 0.0 => Some((center, sd, 1.0)),
+         _ => None,
+     }
+ }
+ 

@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ delete ! in <impl Detector for CusumDetector>::detect
+@@ -105,17 +105,17 @@
+                     shift,
+                     format!(
+                         "{}: level shift at row {start} — mean {mean_l:.4} → {mean_r:.4}, standardized shift {shift:.3} > {:.3}",
+                         col.name, cfg.coll_threshold
+                     ),
+                 ));
+             }
+         }
+-        if !applicable {
++        if  /* ~ changed by cargo-mutants ~ */applicable {
+             out.mark_absent(
+                 self.id(),
+                 format!(
+                     "no numeric column with ≥ {} values and non-zero variance",
+                     cfg.coll_min_n
+                 ),
+             );
+         }

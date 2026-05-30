@@ -39,6 +39,22 @@ pub struct DetectConfig {
     /// Relative ridge added to the covariance diagonal for numerical stability
     /// (handles collinear / zero-variance columns). Scaled by the mean variance.
     pub mv_ridge: f64,
+
+    /// Seasonal period for the contextual detector. `0` (or `1`) disables it —
+    /// seasonality is never guessed, so without a declared period the detector
+    /// reports honest absence.
+    pub ctx_period: usize,
+    /// Modified z-score threshold within a seasonal subseries.
+    pub ctx_threshold: f64,
+    /// Minimum finite values a phase needs before it is assessed.
+    pub ctx_min_per_phase: usize,
+
+    /// Minimum length of an ordered numeric column before the collective
+    /// (change-point) detector will run.
+    pub coll_min_n: usize,
+    /// Standardized mean-shift threshold for the collective detector. Set
+    /// conservatively because the change point is chosen by maximization.
+    pub coll_threshold: f64,
 }
 
 impl Default for DetectConfig {
@@ -54,6 +70,11 @@ impl Default for DetectConfig {
             mv_alpha: 0.001,
             mv_min_n: 20,
             mv_ridge: 1e-9,
+            ctx_period: 0,
+            ctx_threshold: 3.5,
+            ctx_min_per_phase: 4,
+            coll_min_n: 20,
+            coll_threshold: 5.0,
         }
     }
 }
@@ -63,7 +84,7 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/3;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e}",
+            "anomalyx-cfg/4;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4}",
             self.point_threshold,
             self.point_min_n,
             self.dist_alpha,
@@ -74,6 +95,11 @@ impl DetectConfig {
             self.mv_alpha,
             self.mv_min_n,
             self.mv_ridge,
+            self.ctx_period,
+            self.ctx_threshold,
+            self.ctx_min_per_phase,
+            self.coll_min_n,
+            self.coll_threshold,
         )
     }
 }

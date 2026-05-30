@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ delete ! in <impl Detector for CusumDetector>::detect
+@@ -56,17 +56,17 @@
+         "coll.cusum"
+     }
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Collective
+     }
+     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
+         let mut applicable = false;
+         for col in &ctx.current.columns {
+-            if !col.ty.is_numeric() {
++            if  /* ~ changed by cargo-mutants ~ */col.ty.is_numeric() {
+                 continue;
+             }
+             // Finite values in row order, with their original row indices.
+             let pairs: Vec<(usize, f64)> = col
+                 .cells
+                 .iter()
+                 .enumerate()
+                 .filter_map(|(row, cell)| cell.as_f64().filter(|v| v.is_finite()).map(|v| (row, v)))

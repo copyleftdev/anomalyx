@@ -1,35 +1,131 @@
-crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()
-crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with ""
-crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with "xyzzy"
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec!["xyzzy".into()]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec!["xyzzy".into()]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec![]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec![String::new()]))
-crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec!["xyzzy".into()]))
-crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![]))
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![0]))
-crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![1]))
-crates/ax-cli/src/main.rs:98:20: replace match guard p != "-" with true in read_input
-crates/ax-cli/src/main.rs:98:20: replace match guard p != "-" with false in read_input
-crates/ax-cli/src/main.rs:98:22: replace != with == in read_input
-crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)
-crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan
-crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain
-crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle
-crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle
-crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle
-crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle
-crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle
-crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()
-crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with "xyzzy".into()
-crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()
-crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with "xyzzy".into()
+crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 0
+crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 1
+crates/ax-detect/src/coll.rs:27:20: delete - in cusum_changepoint
+crates/ax-detect/src/coll.rs:30:11: replace += with *= in cusum_changepoint
+crates/ax-detect/src/coll.rs:30:16: replace - with + in cusum_changepoint
+crates/ax-detect/src/coll.rs:30:16: replace - with / in cusum_changepoint
+crates/ax-detect/src/coll.rs:31:23: replace + with - in cusum_changepoint
+crates/ax-detect/src/coll.rs:31:23: replace + with * in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:22: replace && with || in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:18: replace < with == in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:18: replace < with > in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:33: replace > with == in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:33: replace > with < in cusum_changepoint
+crates/ax-detect/src/coll.rs:32:33: replace > with >= in cusum_changepoint
+crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 0.0
+crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 1.0
+crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with -1.0
+crates/ax-detect/src/coll.rs:44:20: replace * with + in standardized_shift
+crates/ax-detect/src/coll.rs:44:20: replace * with / in standardized_shift
+crates/ax-detect/src/coll.rs:44:39: replace + with - in standardized_shift
+crates/ax-detect/src/coll.rs:44:39: replace + with * in standardized_shift
+crates/ax-detect/src/coll.rs:44:27: replace / with % in standardized_shift
+crates/ax-detect/src/coll.rs:44:27: replace / with * in standardized_shift
+crates/ax-detect/src/coll.rs:44:45: replace / with % in standardized_shift
+crates/ax-detect/src/coll.rs:44:45: replace / with * in standardized_shift
+crates/ax-detect/src/coll.rs:45:29: replace / with % in standardized_shift
+crates/ax-detect/src/coll.rs:45:29: replace / with * in standardized_shift
+crates/ax-detect/src/coll.rs:45:13: replace - with + in standardized_shift
+crates/ax-detect/src/coll.rs:45:13: replace - with / in standardized_shift
+crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 0.0
+crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 1.0
+crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with -1.0
+crates/ax-detect/src/coll.rs:51:9: replace / with % in shift_confidence
+crates/ax-detect/src/coll.rs:51:9: replace / with * in shift_confidence
+crates/ax-detect/src/coll.rs:51:16: replace + with - in shift_confidence
+crates/ax-detect/src/coll.rs:51:16: replace + with * in shift_confidence
+crates/ax-detect/src/coll.rs:51:19: delete - in shift_confidence
+crates/ax-detect/src/coll.rs:51:27: replace - with + in shift_confidence
+crates/ax-detect/src/coll.rs:51:27: replace - with / in shift_confidence
+crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with ""
+crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with "xyzzy"
+crates/ax-detect/src/coll.rs:62:9: replace <impl Detector for CusumDetector>::detect with ()
+crates/ax-detect/src/coll.rs:64:16: delete ! in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:74:28: replace < with == in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:74:28: replace < with > in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:74:28: replace < with <= in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with true in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with false in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:81:30: replace > with == in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:81:30: replace > with < in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:87:18: replace == with != in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:92:72: replace - with + in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:92:72: replace - with / in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:93:22: replace > with == in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:93:22: replace > with < in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:95:42: replace + with - in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:95:42: replace + with * in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:95:35: replace - with + in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:95:35: replace - with / in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/coll.rs:113:12: delete ! in <impl Detector for CusumDetector>::detect
+crates/ax-detect/src/ctx.rs:24:9: replace SeasonalDetector::scan_column -> bool with true
+crates/ax-detect/src/ctx.rs:24:9: replace SeasonalDetector::scan_column -> bool with false
+crates/ax-detect/src/ctx.rs:38:30: replace < with == in SeasonalDetector::scan_column
+crates/ax-detect/src/ctx.rs:38:30: replace < with > in SeasonalDetector::scan_column
+crates/ax-detect/src/ctx.rs:38:30: replace < with <= in SeasonalDetector::scan_column
+crates/ax-detect/src/ctx.rs:48:25: replace <= with > in SeasonalDetector::scan_column
+crates/ax-detect/src/ctx.rs:73:9: replace <impl Detector for SeasonalDetector>::id -> &'static str with ""
+crates/ax-detect/src/ctx.rs:73:9: replace <impl Detector for SeasonalDetector>::id -> &'static str with "xyzzy"
+crates/ax-detect/src/ctx.rs:79:9: replace <impl Detector for SeasonalDetector>::detect with ()
+crates/ax-detect/src/ctx.rs:79:27: replace < with == in <impl Detector for SeasonalDetector>::detect
+crates/ax-detect/src/ctx.rs:79:27: replace < with > in <impl Detector for SeasonalDetector>::detect
+crates/ax-detect/src/ctx.rs:79:27: replace < with <= in <impl Detector for SeasonalDetector>::detect
+crates/ax-detect/src/ctx.rs:87:12: delete ! in <impl Detector for SeasonalDetector>::detect
+crates/ax-detect/src/ctx.rs:102:5: replace scan_all -> bool with true
+crates/ax-detect/src/ctx.rs:102:5: replace scan_all -> bool with false
+crates/ax-detect/src/ctx.rs:105:22: replace |= with &= in scan_all
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with None
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 0.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 0.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 0.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, 1.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, -1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, -1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((0.0, -1.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 0.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 0.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 0.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, 1.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, -1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, -1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((1.0, -1.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 0.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 0.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 0.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, 1.0, -1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, -1.0, 0.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, -1.0, 1.0))
+crates/ax-detect/src/robustz.rs:20:5: replace center_scale -> Option<(f64, f64, f64)> with Some((-1.0, -1.0, -1.0))
+crates/ax-detect/src/robustz.rs:22:12: replace > with == in center_scale
+crates/ax-detect/src/robustz.rs:22:12: replace > with < in center_scale
+crates/ax-detect/src/robustz.rs:22:12: replace > with >= in center_scale
+crates/ax-detect/src/robustz.rs:26:21: replace match guard sd > 0.0 with true in center_scale
+crates/ax-detect/src/robustz.rs:26:21: replace match guard sd > 0.0 with false in center_scale
+crates/ax-detect/src/robustz.rs:26:24: replace > with == in center_scale
+crates/ax-detect/src/robustz.rs:26:24: replace > with < in center_scale
+crates/ax-detect/src/robustz.rs:26:24: replace > with >= in center_scale
+crates/ax-detect/src/robustz.rs:34:5: replace score -> f64 with 0.0
+crates/ax-detect/src/robustz.rs:34:5: replace score -> f64 with 1.0
+crates/ax-detect/src/robustz.rs:34:5: replace score -> f64 with -1.0
+crates/ax-detect/src/robustz.rs:34:23: replace / with % in score
+crates/ax-detect/src/robustz.rs:34:23: replace / with * in score
+crates/ax-detect/src/robustz.rs:34:8: replace * with + in score
+crates/ax-detect/src/robustz.rs:34:8: replace * with / in score
+crates/ax-detect/src/robustz.rs:34:13: replace - with + in score
+crates/ax-detect/src/robustz.rs:34:13: replace - with / in score
+crates/ax-detect/src/robustz.rs:41:5: replace confidence -> f64 with 0.0
+crates/ax-detect/src/robustz.rs:41:5: replace confidence -> f64 with 1.0
+crates/ax-detect/src/robustz.rs:41:5: replace confidence -> f64 with -1.0
+crates/ax-detect/src/robustz.rs:41:23: replace - with + in confidence
+crates/ax-detect/src/robustz.rs:41:23: replace - with / in confidence
+crates/ax-detect/src/robustz.rs:42:9: replace / with % in confidence
+crates/ax-detect/src/robustz.rs:42:9: replace / with * in confidence
+crates/ax-detect/src/robustz.rs:42:16: replace + with - in confidence
+crates/ax-detect/src/robustz.rs:42:16: replace + with * in confidence
+crates/ax-detect/src/robustz.rs:42:19: delete - in confidence

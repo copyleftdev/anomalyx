@@ -19,4 +19,14 @@ exclude_re = [
     "replace < with <= in <impl Detector for Chi2Detector>::detect",
     "replace > with >= in <impl Detector for PsiDetector>::detect",
     "replace < with <= in <impl Detector for MahalanobisDetector>::detect",
+    "replace > with >= in <impl Detector for CusumDetector>::detect",
+
+    # CUSUM uses only |S_k|, so negating the accumulation (`+=` → `-=`) leaves
+    # every magnitude — and thus the chosen change point — identical. Equivalent.
+    # (literal string: `\+` escapes the regex metacharacter `+`)
+    'replace \+= with -= in cusum_changepoint',
+    # The split index runs 1..n; admitting split == n (`<` → `<=`) only adds a
+    # point whose CUSUM is exactly 0 (the full-sum constraint), which can never
+    # be the arg-max once any earlier split has been seen. Equivalent.
+    "replace < with <= in cusum_changepoint",
 ]

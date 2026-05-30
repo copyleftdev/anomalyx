@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/coll.rs
++++ replace == with != in <impl Detector for CusumDetector>::detect
+@@ -79,17 +79,17 @@
+             let mean = det::mean(&xs).unwrap_or(0.0);
+             let sigma = match det::std_dev(&xs) {
+                 Some(s) if s > 0.0 => s,
+                 _ => continue, // constant column: no shift possible
+             };
+             applicable = true;
+ 
+             let m = cusum_changepoint(&xs, mean);
+-            if m == 0 {
++            if m != /* ~ changed by cargo-mutants ~ */ 0 {
+                 continue;
+             }
+             let mean_l = det::mean(&xs[..m]).unwrap_or(0.0);
+             let mean_r = det::mean(&xs[m..]).unwrap_or(0.0);
+             let shift = standardized_shift(mean_l, mean_r, sigma, m, n - m);
+             if shift > cfg.coll_threshold {
+                 let start = pairs[m].0;
+                 let end = pairs[n - 1].0 + 1;
