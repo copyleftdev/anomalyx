@@ -1,5 +1,9 @@
 # anomalyx
 
+[![crates.io](https://img.shields.io/crates/v/anomalyx.svg)](https://crates.io/crates/anomalyx)
+[![CI](https://github.com/copyleftdev/anomalyx/actions/workflows/ci.yml/badge.svg)](https://github.com/copyleftdev/anomalyx/actions/workflows/ci.yml)
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+
 Contract-first anomaly detection over arbitrary corpora — a CLI built on the
 thesis of [*AI Tools Need Contracts, Not Prompts*][article]: **the executable is
 the contract.** Point a normalizer at any supported format, run a battery of
