@@ -1,0 +1,205 @@
+
+*** crates/ax-validate/src/lib.rs:68:21: replace >= with < in parse
+
+*** mutation diff:
+--- crates/ax-validate/src/lib.rs
++++ replace >= with < in parse
+@@ -60,17 +60,17 @@
+     let autocorr = certified("Autocorrelation");
+     let nobs = certified("Number of Observations") as usize;
+ 
+     // Data starts after the all-dashes separator line.
+     let sep = lines
+         .iter()
+         .position(|l| {
+             let t = l.trim();
+-            t.len() >= 3 && t.bytes().all(|b| b == b'-')
++            t.len() < /* ~ changed by cargo-mutants ~ */ 3 && t.bytes().all(|b| b == b'-')
+         })
+         .unwrap_or_else(|| panic!("{name}: no dashed separator before data"));
+     let data: Vec<f64> = lines[sep + 1..]
+         .iter()
+         .filter_map(|l| l.trim().parse::<f64>().ok())
+         .collect();
+ 
+     assert_eq!(
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-validate@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh bytemuck v1.25.0
+       Fresh linux-raw-sys v0.12.1
+       Fresh rawpointer v0.2.1
+       Fresh itoa v1.0.18
+       Fresh memchr v2.8.1
+       Fresh bitflags v2.11.1
+       Fresh typenum v1.20.1
+       Fresh once_cell v1.21.4
+       Fresh fastrand v2.4.1
+       Fresh wait-timeout v0.2.1
+       Fresh bit-vec v0.8.0
+       Fresh fnv v1.0.7
+       Fresh quick-error v1.2.3
+       Fresh unarray v0.1.4
+       Fresh getrandom v0.2.17
+       Fresh safe_arch v0.7.4
+       Fresh bit-set v0.8.0
+       Fresh regex-syntax v0.8.10
+       Fresh libm v0.2.16
+       Fresh proc-macro2 v1.0.106
+       Fresh zerocopy v0.8.50
+       Fresh rand_core v0.6.4
+       Fresh serde_core v1.0.228
+       Fresh getrandom v0.3.4
+       Fresh wide v0.7.33
+       Fresh paste v1.0.15
+       Fresh zmij v1.0.21
+       Fresh rustix v1.1.4
+       Fresh getrandom v0.4.2
+       Fresh num-traits v0.2.19
+       Fresh quote v1.0.45
+       Fresh ppv-lite86 v0.2.21
+       Fresh rand_core v0.9.5
+       Fresh matrixmultiply v0.3.10
+       Fresh serde_json v1.0.150
+       Fresh tempfile v3.27.0
+       Fresh syn v2.0.117
+       Fresh rand_chacha v0.3.1
+       Fresh approx v0.5.1
+       Fresh num-integer v0.1.46
+       Fresh num-complex v0.4.6
+       Fresh rusty-fork v0.3.1
+       Fresh rand_chacha v0.9.0
+       Fresh rand_xorshift v0.4.0
+       Fresh rand v0.9.4
+       Fresh rand v0.8.6
+       Fresh thiserror-impl v2.0.18
+       Fresh serde_derive v1.0.228
+       Fresh simba v0.9.1
+       Fresh num-rational v0.4.2
+       Fresh proptest v1.11.0
+       Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
+       Fresh rand_distr v0.4.3
+       Fresh nalgebra v0.33.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-core)
+       Fresh statrs v0.18.0
+       Dirty ax-validate v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-validate): the file `crates/ax-validate/src/lib.rs` has changed (1780166612.104042303s, 1s after last build at 1780166611.031178499s)
+   Compiling ax-validate v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-validate)
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-detect)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_validate --edition=2021 crates/ax-validate/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=8dd33fcae660dc0f -C extra-filename=-b987d94684d67244 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_detect-f72ce03fa945c1a3.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_validate --edition=2021 crates/ax-validate/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0843e1dc6ff541ae -C extra-filename=-fe1c0017f6e171e9 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rmeta`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name nist_strd --edition=2021 crates/ax-validate/tests/nist_strd.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=da6cbaabeb762024 -C extra-filename=-f3a69ffb2599eee8 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_detect-f72ce03fa945c1a3.rlib --extern ax_validate=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_validate-fe1c0017f6e171e9.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name stress --edition=2021 crates/ax-validate/tests/stress.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=00993bed4ff6a23c -C extra-filename=-4f3fe83af789cb08 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_detect-f72ce03fa945c1a3.rlib --extern ax_validate=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_validate-fe1c0017f6e171e9.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/ax_validate-b987d94684d67244`
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/nist_strd-f3a69ffb2599eee8`
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/stress-4f3fe83af789cb08`
+
+*** result: Success
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --verbose --package=ax-validate@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh bytemuck v1.25.0
+       Fresh getrandom v0.2.17
+       Fresh safe_arch v0.7.4
+       Fresh linux-raw-sys v0.12.1
+       Fresh rawpointer v0.2.1
+       Fresh memchr v2.8.1
+       Fresh bitflags v2.11.1
+       Fresh itoa v1.0.18
+       Fresh fastrand v2.4.1
+       Fresh once_cell v1.21.4
+       Fresh typenum v1.20.1
+       Fresh wait-timeout v0.2.1
+       Fresh quick-error v1.2.3
+       Fresh fnv v1.0.7
+       Fresh bit-vec v0.8.0
+       Fresh regex-syntax v0.8.10
+       Fresh unarray v0.1.4
+       Fresh libm v0.2.16
+       Fresh proc-macro2 v1.0.106
+       Fresh zerocopy v0.8.50
+       Fresh rand_core v0.6.4
+       Fresh serde_core v1.0.228
+       Fresh getrandom v0.3.4
+       Fresh wide v0.7.33
+       Fresh paste v1.0.15
+       Fresh zmij v1.0.21
+       Fresh getrandom v0.4.2
+       Fresh bit-set v0.8.0
+       Fresh num-traits v0.2.19
+       Fresh quote v1.0.45
+       Fresh ppv-lite86 v0.2.21
+       Fresh rand_core v0.9.5
+       Fresh matrixmultiply v0.3.10
+       Fresh rustix v1.1.4
+       Fresh serde_json v1.0.150
+       Fresh syn v2.0.117
+       Fresh rand_chacha v0.3.1
+       Fresh num-complex v0.4.6
+       Fresh approx v0.5.1
+       Fresh num-integer v0.1.46
+       Fresh tempfile v3.27.0
+       Fresh rand v0.9.4
+       Fresh rand_xorshift v0.4.0
+       Fresh rand_chacha v0.9.0
+       Fresh serde_derive v1.0.228
+       Fresh rand v0.8.6
+       Fresh thiserror-impl v2.0.18
+       Fresh simba v0.9.1
+       Fresh num-rational v0.4.2
+       Fresh rusty-fork v0.3.1
+       Fresh thiserror v2.0.18
+       Fresh serde v1.0.228
+       Fresh rand_distr v0.4.3
+       Fresh proptest v1.11.0
+       Fresh nalgebra v0.33.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-core)
+       Fresh statrs v0.18.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-detect)
+       Fresh ax-validate v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-validate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/ax_validate-b987d94684d67244`
+
+running 2 tests
+test tests::correct_digits_behaves ... ok
+test tests::every_dataset_parses_with_the_certified_count ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/nist_strd-f3a69ffb2599eee8`
+
+running 4 tests
+test numacc1_is_exact ... ok
+test certified_mean_matches_to_full_precision ... ok
+test certified_std_dev_matches ... ok
+test compensated_reductions_beat_the_naive_formula ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/stress-4f3fe83af789cb08`
+
+running 4 tests
+test point_detector_recovers_injected_outliers_exactly ... ok
+test detector_means_reproduce_certified_via_the_record_model ... ok
+test det_sum_is_permutation_invariant_on_real_nist_data ... ok
+test large_scan_is_byte_identical_across_runs ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+
+   Doc-tests ax_validate
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name ax_validate --test crates/ax-validate/src/lib.rs --test-run-directory /tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/crates/ax-validate --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_core-152e3833fb2b7c67.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_detect-f72ce03fa945c1a3.rlib --extern ax_validate=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libax_validate-fe1c0017f6e171e9.rlib --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libproptest-2eb516ea2f78c98c.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-5HLDXb.tmp/target/debug/deps -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human`
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+*** result: Success

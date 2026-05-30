@@ -1,0 +1,21 @@
+--- crates/ax-validate/src/lib.rs
++++ replace == with != in correct_digits
+@@ -124,17 +124,17 @@
+     if computed == certified {
+         return f64::INFINITY;
+     }
+     let rel = if certified != 0.0 {
+         ((computed - certified) / certified).abs()
+     } else {
+         computed.abs()
+     };
+-    if rel == 0.0 {
++    if rel != /* ~ changed by cargo-mutants ~ */ 0.0 {
+         f64::INFINITY
+     } else {
+         -rel.log10()
+     }
+ }
+ 
+ /// The textbook one-pass ("sum of squares") variance, kept here precisely to
+ /// demonstrate what anomalyx deliberately does *not* do: on data with a large

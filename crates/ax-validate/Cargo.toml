@@ -1,0 +1,16 @@
+[package]
+name = "ax-validate"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "anomalyx validation harness: NIST StRD certified-value checks and rigorous stress tests"
+
+[dependencies]
+ax-core = { workspace = true }
+
+[dev-dependencies]
+ax-detect = { workspace = true }
+proptest = { workspace = true }
+serde_json = { workspace = true }

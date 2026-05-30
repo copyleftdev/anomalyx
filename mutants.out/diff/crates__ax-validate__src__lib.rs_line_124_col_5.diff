@@ -1,0 +1,33 @@
+--- crates/ax-validate/src/lib.rs
++++ replace correct_digits -> f64 with 0.0
+@@ -116,29 +116,17 @@
+ pub fn datasets() -> Vec<Strd> {
+     DATASETS.iter().map(|(n, t)| parse(n, t)).collect()
+ }
+ 
+ /// NIST's "log relative error": the number of correct significant digits in
+ /// `computed` relative to `certified`. Higher is better; an exact match is
+ /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.
+ pub fn correct_digits(computed: f64, certified: f64) -> f64 {
+-    if computed == certified {
+-        return f64::INFINITY;
+-    }
+-    let rel = if certified != 0.0 {
+-        ((computed - certified) / certified).abs()
+-    } else {
+-        computed.abs()
+-    };
+-    if rel == 0.0 {
+-        f64::INFINITY
+-    } else {
+-        -rel.log10()
+-    }
++    0.0 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// The textbook one-pass ("sum of squares") variance, kept here precisely to
+ /// demonstrate what anomalyx deliberately does *not* do: on data with a large
+ /// mean and small spread it suffers catastrophic cancellation. Contrast with
+ /// [`ax_core::det::variance`], which is two-pass and compensated.
+ pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {
+     let n = xs.len() as f64;

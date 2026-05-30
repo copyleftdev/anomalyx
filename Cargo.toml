@@ -5,6 +5,7 @@ members = [
     "crates/ax-normalize",
     "crates/ax-detect",
     "crates/ax-cli",
+    "crates/ax-validate",
 ]
 
 [workspace.package]

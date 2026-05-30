@@ -90,6 +90,25 @@ part no crate provides: the executable contract — the envelope, the taxonomy +
 explainable detector registry, cross-corpus drift orchestration, and the
 determinism guarantees.
 
+## Validation against NIST
+
+Beyond unit/property tests, the math core is checked against the **NIST
+Statistical Reference Datasets (StRD)** — the canonical, certified-to-15-digits
+truth for univariate statistics. The datasets are vendored under
+`crates/ax-validate/data/strd/` (offline, reproducible) and scored by NIST's own
+log-relative-error (number of correct significant digits):
+
+- `det::mean` reproduces every certified mean to **≥15 digits**; `det::std_dev`
+  to **≥13** on well-conditioned data.
+- On the `NumAcc3`/`NumAcc4` precision torture tests (mean ≈ 1e6–1e7, spread 0.1)
+  the compensated two-pass holds **8–9 correct digits** where the textbook
+  one-pass variance gets **zero** — a checked demonstration that the determinism
+  design is load-bearing, not decorative.
+
+Stress tests add ground-truth anomaly recovery (planted outliers flagged with
+no false positives/negatives), order-independence on real 5000-point data, and
+byte-identical reproducibility on a 40k-row scan.
+
 ## The strong gates
 
 Two load-bearing test gates, run by `scripts/gates.sh`:

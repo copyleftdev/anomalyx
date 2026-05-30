@@ -1,60 +1,18 @@
-crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 0
-crates/ax-detect/src/coll.rs:25:5: replace cusum_changepoint -> usize with 1
-crates/ax-detect/src/coll.rs:27:20: delete - in cusum_changepoint
-crates/ax-detect/src/coll.rs:30:11: replace += with *= in cusum_changepoint
-crates/ax-detect/src/coll.rs:30:16: replace - with + in cusum_changepoint
-crates/ax-detect/src/coll.rs:30:16: replace - with / in cusum_changepoint
-crates/ax-detect/src/coll.rs:31:23: replace + with - in cusum_changepoint
-crates/ax-detect/src/coll.rs:31:23: replace + with * in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:22: replace && with || in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:18: replace < with == in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:18: replace < with > in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:33: replace > with == in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:33: replace > with < in cusum_changepoint
-crates/ax-detect/src/coll.rs:32:33: replace > with >= in cusum_changepoint
-crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 0.0
-crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with 1.0
-crates/ax-detect/src/coll.rs:44:5: replace standardized_shift -> f64 with -1.0
-crates/ax-detect/src/coll.rs:44:20: replace * with + in standardized_shift
-crates/ax-detect/src/coll.rs:44:20: replace * with / in standardized_shift
-crates/ax-detect/src/coll.rs:44:39: replace + with - in standardized_shift
-crates/ax-detect/src/coll.rs:44:39: replace + with * in standardized_shift
-crates/ax-detect/src/coll.rs:44:27: replace / with % in standardized_shift
-crates/ax-detect/src/coll.rs:44:27: replace / with * in standardized_shift
-crates/ax-detect/src/coll.rs:44:45: replace / with % in standardized_shift
-crates/ax-detect/src/coll.rs:44:45: replace / with * in standardized_shift
-crates/ax-detect/src/coll.rs:45:29: replace / with % in standardized_shift
-crates/ax-detect/src/coll.rs:45:29: replace / with * in standardized_shift
-crates/ax-detect/src/coll.rs:45:13: replace - with + in standardized_shift
-crates/ax-detect/src/coll.rs:45:13: replace - with / in standardized_shift
-crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 0.0
-crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with 1.0
-crates/ax-detect/src/coll.rs:51:5: replace shift_confidence -> f64 with -1.0
-crates/ax-detect/src/coll.rs:51:9: replace / with % in shift_confidence
-crates/ax-detect/src/coll.rs:51:9: replace / with * in shift_confidence
-crates/ax-detect/src/coll.rs:51:16: replace + with - in shift_confidence
-crates/ax-detect/src/coll.rs:51:16: replace + with * in shift_confidence
-crates/ax-detect/src/coll.rs:51:19: delete - in shift_confidence
-crates/ax-detect/src/coll.rs:51:27: replace - with + in shift_confidence
-crates/ax-detect/src/coll.rs:51:27: replace - with / in shift_confidence
-crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with ""
-crates/ax-detect/src/coll.rs:56:9: replace <impl Detector for CusumDetector>::id -> &'static str with "xyzzy"
-crates/ax-detect/src/coll.rs:62:9: replace <impl Detector for CusumDetector>::detect with ()
-crates/ax-detect/src/coll.rs:64:16: delete ! in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:74:28: replace < with == in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:74:28: replace < with > in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:74:28: replace < with <= in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with true in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:81:28: replace match guard s > 0.0 with false in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:81:30: replace > with == in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:81:30: replace > with < in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:87:18: replace == with != in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:92:72: replace - with + in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:92:72: replace - with / in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:93:22: replace > with == in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:93:22: replace > with < in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:95:42: replace + with - in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:95:42: replace + with * in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:95:35: replace - with + in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:95:35: replace - with / in <impl Detector for CusumDetector>::detect
-crates/ax-detect/src/coll.rs:113:12: delete ! in <impl Detector for CusumDetector>::detect
+crates/ax-validate/src/lib.rs:68:26: replace && with || in parse
+crates/ax-validate/src/lib.rs:68:21: replace >= with < in parse
+crates/ax-validate/src/lib.rs:68:49: replace == with != in parse
+crates/ax-validate/src/lib.rs:73:36: replace + with - in parse
+crates/ax-validate/src/lib.rs:73:36: replace + with * in parse
+crates/ax-validate/src/lib.rs:76:21: delete ! in parse
+crates/ax-validate/src/lib.rs:117:5: replace datasets -> Vec<Strd> with vec![]
+crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 0.0
+crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with 1.0
+crates/ax-validate/src/lib.rs:124:5: replace correct_digits -> f64 with -1.0
+crates/ax-validate/src/lib.rs:124:17: replace == with != in correct_digits
+crates/ax-validate/src/lib.rs:127:28: replace != with == in correct_digits
+crates/ax-validate/src/lib.rs:128:33: replace / with % in correct_digits
+crates/ax-validate/src/lib.rs:128:33: replace / with * in correct_digits
+crates/ax-validate/src/lib.rs:128:20: replace - with + in correct_digits
+crates/ax-validate/src/lib.rs:128:20: replace - with / in correct_digits
+crates/ax-validate/src/lib.rs:132:12: replace == with != in correct_digits
+crates/ax-validate/src/lib.rs:135:9: delete - in correct_digits

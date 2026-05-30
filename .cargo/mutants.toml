@@ -29,4 +29,11 @@ exclude_re = [
     # point whose CUSUM is exactly 0 (the full-sum constraint), which can never
     # be the arg-max once any earlier split has been seen. Equivalent.
     "replace < with <= in cusum_changepoint",
+
+    # `naive_one_pass_variance` is a deliberately *inaccurate* reference baseline
+    # (the textbook one-pass formula), kept only to demonstrate the precision gap
+    # against our compensated reductions. Its sole contract — "less accurate than
+    # ax_core::det" — is preserved by every arithmetic mutation, so its mutants
+    # are equivalent. The accurate path it contrasts with is gated normally.
+    "naive_one_pass_variance",
 ]

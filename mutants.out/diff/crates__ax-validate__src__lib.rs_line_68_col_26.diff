@@ -1,0 +1,21 @@
+--- crates/ax-validate/src/lib.rs
++++ replace && with || in parse
+@@ -60,17 +60,17 @@
+     let autocorr = certified("Autocorrelation");
+     let nobs = certified("Number of Observations") as usize;
+ 
+     // Data starts after the all-dashes separator line.
+     let sep = lines
+         .iter()
+         .position(|l| {
+             let t = l.trim();
+-            t.len() >= 3 && t.bytes().all(|b| b == b'-')
++            t.len() >= 3 || /* ~ changed by cargo-mutants ~ */ t.bytes().all(|b| b == b'-')
+         })
+         .unwrap_or_else(|| panic!("{name}: no dashed separator before data"));
+     // Strict parse: every non-blank line after the separator must be numeric.
+     // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)
+     let data: Vec<f64> = lines[sep + 1..]
+         .iter()
+         .map(|l| l.trim())
+         .filter(|l| !l.is_empty())

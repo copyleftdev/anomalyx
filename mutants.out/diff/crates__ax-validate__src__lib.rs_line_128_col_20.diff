@@ -1,0 +1,21 @@
+--- crates/ax-validate/src/lib.rs
++++ replace - with + in correct_digits
+@@ -120,17 +120,17 @@
+ /// NIST's "log relative error": the number of correct significant digits in
+ /// `computed` relative to `certified`. Higher is better; an exact match is
+ /// reported as `f64::INFINITY`. This is the standard StRD accuracy metric.
+ pub fn correct_digits(computed: f64, certified: f64) -> f64 {
+     if computed == certified {
+         return f64::INFINITY;
+     }
+     let rel = if certified != 0.0 {
+-        ((computed - certified) / certified).abs()
++        ((computed + /* ~ changed by cargo-mutants ~ */ certified) / certified).abs()
+     } else {
+         computed.abs()
+     };
+     if rel == 0.0 {
+         f64::INFINITY
+     } else {
+         -rel.log10()
+     }

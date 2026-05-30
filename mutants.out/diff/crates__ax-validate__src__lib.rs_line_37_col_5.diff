@@ -1,0 +1,81 @@
+--- crates/ax-validate/src/lib.rs
++++ replace parse -> Strd with Default::default()
+@@ -29,77 +29,17 @@
+ /// Parses the standard NIST StRD univariate `.dat` layout: a documentation
+ /// header carrying the certified values (each on a line keyed by a trailing
+ /// `label:` token), an all-dashes separator, then one observation per line.
+ ///
+ /// Panics on a malformed file — these are vendored fixtures, so a parse failure
+ /// is a build-time bug to fix, not a runtime condition to handle.
+ pub fn parse(name: &str, text: &str) -> Strd {
+     // `str::lines` already strips the `\r` of CRLF endings.
+-    let lines: Vec<&str> = text.lines().collect();
+-
+-    // The certified value is the first whitespace token after the final colon
+-    // on the line carrying `keyword` (e.g. "... ybar:  -177.4350  (exact)").
+-    let certified = |keyword: &str| -> f64 {
+-        let line = lines
+-            .iter()
+-            .find(|l| l.contains(keyword))
+-            .unwrap_or_else(|| panic!("{name}: no line containing '{keyword}'"));
+-        let after_colon = line
+-            .rsplit(':')
+-            .next()
+-            .unwrap_or_else(|| panic!("{name}: no ':' on '{keyword}' line"));
+-        after_colon
+-            .split_whitespace()
+-            .next()
+-            .unwrap_or_else(|| panic!("{name}: no value after '{keyword}:'"))
+-            .parse()
+-            .unwrap_or_else(|e| panic!("{name}: bad '{keyword}' value: {e}"))
+-    };
+-
+-    let mean = certified("Sample Mean");
+-    let std = certified("Standard Deviation");
+-    let autocorr = certified("Autocorrelation");
+-    let nobs = certified("Number of Observations") as usize;
+-
+-    // Data starts after the all-dashes separator line.
+-    let sep = lines
+-        .iter()
+-        .position(|l| {
+-            let t = l.trim();
+-            t.len() >= 3 && t.bytes().all(|b| b == b'-')
+-        })
+-        .unwrap_or_else(|| panic!("{name}: no dashed separator before data"));
+-    // Strict parse: every non-blank line after the separator must be numeric.
+-    // (A lenient `filter_map(...ok())` would mask a mis-detected separator.)
+-    let data: Vec<f64> = lines[sep + 1..]
+-        .iter()
+-        .map(|l| l.trim())
+-        .filter(|l| !l.is_empty())
+-        .map(|l| {
+-            l.parse::<f64>()
+-                .unwrap_or_else(|_| panic!("{name}: non-numeric data line {l:?}"))
+-        })
+-        .collect();
+-
+-    assert_eq!(
+-        data.len(),
+-        nobs,
+-        "{name}: parsed {} observations, certified {nobs}",
+-        data.len()
+-    );
+-
+-    Strd {
+-        name: name.to_string(),
+-        mean,
+-        std,
+-        autocorr,
+-        nobs,
+-        data,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// The NIST StRD univariate datasets, vendored and embedded. Ordered roughly by
+ /// numerical difficulty; the `NumAcc*` set is purpose-built to break naïve
+ /// statistics code.
+ pub const DATASETS: &[(&str, &str)] = &[
+     ("PiDigits", include_str!("../data/strd/PiDigits.dat")),
+     ("Lottery", include_str!("../data/strd/Lottery.dat")),

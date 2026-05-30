@@ -1,0 +1,21 @@
+--- crates/ax-validate/src/lib.rs
++++ delete - in correct_digits
+@@ -127,17 +127,17 @@
+     let rel = if certified != 0.0 {
+         ((computed - certified) / certified).abs()
+     } else {
+         computed.abs()
+     };
+     if rel == 0.0 {
+         f64::INFINITY
+     } else {
+-        -rel.log10()
++         /* ~ changed by cargo-mutants ~ */rel.log10()
+     }
+ }
+ 
+ /// The textbook one-pass ("sum of squares") variance, kept here precisely to
+ /// demonstrate what anomalyx deliberately does *not* do: on data with a large
+ /// mean and small spread it suffers catastrophic cancellation. Contrast with
+ /// [`ax_core::det::variance`], which is two-pass and compensated.
+ pub fn naive_one_pass_variance(xs: &[f64]) -> f64 {

@@ -1,0 +1,21 @@
+--- crates/ax-validate/src/lib.rs
++++ replace == with != in parse
+@@ -60,17 +60,17 @@
+     let autocorr = certified("Autocorrelation");
+     let nobs = certified("Number of Observations") as usize;
+ 
+     // Data starts after the all-dashes separator line.
+     let sep = lines
+         .iter()
+         .position(|l| {
+             let t = l.trim();
+-            t.len() >= 3 && t.bytes().all(|b| b == b'-')
++            t.len() >= 3 && t.bytes().all(|b| b != /* ~ changed by cargo-mutants ~ */ b'-')
+         })
+         .unwrap_or_else(|| panic!("{name}: no dashed separator before data"));
+     let data: Vec<f64> = lines[sep + 1..]
+         .iter()
+         .filter_map(|l| l.trim().parse::<f64>().ok())
+         .collect();
+ 
+     assert_eq!(
