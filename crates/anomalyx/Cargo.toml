@@ -1,5 +1,5 @@
 [package]
-name = "ax-cli"
+name = "anomalyx"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

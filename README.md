@@ -64,9 +64,11 @@ crates/
                 behind the default-on `polars` feature — all lowered to the same
                 RecordSet so detectors never see a Polars type)
   ax-detect     Detector trait + registry; detection math assembled from
-                statrs / (future) smartcore / augurs, not reinvented
-  ax-cli        the four-verb surface
+                statrs, not reinvented
+  anomalyx      the four-verb CLI surface (the installable crate / binary)
 ```
+
+Install: `cargo install anomalyx`.
 
 ## Anomaly taxonomy
 

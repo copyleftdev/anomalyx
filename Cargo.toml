@@ -4,7 +4,7 @@ members = [
     "crates/ax-core",
     "crates/ax-normalize",
     "crates/ax-detect",
-    "crates/ax-cli",
+    "crates/anomalyx",
     "crates/ax-validate",
 ]
 
