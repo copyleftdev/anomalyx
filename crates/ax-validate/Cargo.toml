@@ -6,6 +6,7 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "anomalyx validation harness: NIST StRD certified-value checks and rigorous stress tests"
+publish = false
 
 [dependencies]
 ax-core = { workspace = true }

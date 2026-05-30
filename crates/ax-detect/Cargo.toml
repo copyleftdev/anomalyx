@@ -6,6 +6,8 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "anomalyx detector registry: point, distributional, structural, multivariate and cadence families"
+keywords = ["anomaly-detection", "outlier", "drift", "mahalanobis", "statistics"]
+categories = ["science", "mathematics"]
 
 [dependencies]
 ax-core = { workspace = true }

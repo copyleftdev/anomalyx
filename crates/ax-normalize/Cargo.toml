@@ -6,6 +6,8 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "anomalyx normalization: any input format -> the ax-core RecordSet"
+keywords = ["csv", "parquet", "arrow", "normalization", "dataframe"]
+categories = ["parsing", "encoding"]
 
 [dependencies]
 ax-core = { workspace = true }

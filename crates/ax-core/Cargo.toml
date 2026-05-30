@@ -6,6 +6,8 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "anomalyx contract core: typed record model, anomaly taxonomy, deterministic reductions, and the tq1 output envelope"
+keywords = ["anomaly-detection", "statistics", "outlier", "deterministic", "data"]
+categories = ["science", "mathematics"]
 
 [dependencies]
 serde = { workspace = true }
