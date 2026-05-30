@@ -72,4 +72,14 @@ mod tests {
         assert_eq!(d.get(1), Some("b"));
         assert_eq!(d.get(9), None);
     }
+
+    #[test]
+    fn is_empty_and_as_slice_track_contents() {
+        let mut d = Dict::new();
+        assert!(d.is_empty());
+        d.intern("a");
+        d.intern("b");
+        assert!(!d.is_empty());
+        assert_eq!(d.as_slice(), &["a".to_string(), "b".to_string()]);
+    }
 }

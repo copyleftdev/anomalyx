@@ -38,44 +38,44 @@
        Fresh linux-raw-sys v0.12.1
        Fresh bitflags v2.11.1
        Fresh autocfg v1.5.1
-       Fresh once_cell v1.21.4
        Fresh fastrand v2.4.1
+       Fresh once_cell v1.21.4
        Fresh wait-timeout v0.2.1
        Fresh memchr v2.8.1
        Fresh itoa v1.0.18
-       Fresh bit-vec v0.8.0
        Fresh fnv v1.0.7
+       Fresh bit-vec v0.8.0
        Fresh quick-error v1.2.3
        Fresh unarray v0.1.4
        Fresh regex-syntax v0.8.10
-       Fresh proc-macro2 v1.0.106
        Fresh bit-set v0.8.0
-       Fresh quote v1.0.45
+       Fresh proc-macro2 v1.0.106
        Fresh getrandom v0.3.4
-       Fresh zerocopy v0.8.50
-       Fresh serde_core v1.0.228
        Fresh getrandom v0.4.2
+       Fresh serde_core v1.0.228
+       Fresh zerocopy v0.8.50
        Fresh rustix v1.1.4
        Fresh zmij v1.0.21
-       Fresh syn v2.0.117
+       Fresh quote v1.0.45
        Fresh rand_core v0.9.5
        Fresh tempfile v3.27.0
        Fresh ppv-lite86 v0.2.21
-       Fresh num-traits v0.2.19
        Fresh serde_json v1.0.150
-       Fresh serde_derive v1.0.228
-       Fresh thiserror-impl v2.0.18
-       Fresh rusty-fork v0.3.1
-       Fresh rand_chacha v0.9.0
+       Fresh num-traits v0.2.19
+       Fresh syn v2.0.117
        Fresh rand_xorshift v0.4.0
        Fresh rand v0.9.4
-       Fresh serde v1.0.228
-       Fresh thiserror v2.0.18
+       Fresh rusty-fork v0.3.1
+       Fresh rand_chacha v0.9.0
+       Fresh thiserror-impl v2.0.18
+       Fresh serde_derive v1.0.228
        Fresh proptest v1.11.0
-       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core): the file `crates/ax-core/src/finding.rs` has changed (1780155791.822453966s, 314022163ns after last build at 1780155791.508431803s)
-   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core)
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
+       Fresh thiserror v2.0.18
+       Fresh serde v1.0.228
+       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/crates/ax-core): the file `crates/ax-core/src/finding.rs` has changed (1780156236.291826526s, 264018635ns after last build at 1780156236.027807891s)
+   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/crates/ax-core)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
 error[E0277]: the trait bound `Severity: Default` is not satisfied
   --> crates/ax-core/src/finding.rs:75:9
    |
@@ -104,11 +104,11 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `ax-core` (lib) due to 1 previous error
 
 Caused by:
-  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta` (exit status: 1)
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta` (exit status: 1)
 warning: build failed, waiting for other jobs to finish...
 error: could not compile `ax-core` (lib test) due to 1 previous error
 
 Caused by:
-  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib` (exit status: 1)
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib` (exit status: 1)
 
 *** result: Failure(101)

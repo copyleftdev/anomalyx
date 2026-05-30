@@ -235,11 +235,50 @@ mod tests {
     }
 
     #[test]
+    fn exit_codes_are_committed() {
+        assert_eq!(ExitCode::Clean.code(), 0);
+        assert_eq!(ExitCode::Anomalies.code(), 1);
+        assert_eq!(ExitCode::Error.code(), 2);
+    }
+
+    #[test]
     fn empty_is_clean() {
         let env = EnvelopeBuilder::new("v", "-", "csv", 0).build();
         assert_eq!(env.exit, ExitCode::Clean.code());
         assert_eq!(env.summary.total, 0);
         assert_eq!(env.summary.max_severity, None);
+    }
+
+    #[test]
+    fn by_class_counts_only_matching_class() {
+        let env = EnvelopeBuilder::new("v", "-", "csv", 3)
+            .findings(vec![
+                finding(0.9, AnomalyClass::Point, "a"),
+                finding(0.9, AnomalyClass::Point, "b"),
+                finding(0.9, AnomalyClass::Structural, "c"),
+            ])
+            .build();
+        let count = |class: AnomalyClass| {
+            env.summary
+                .by_class
+                .iter()
+                .find(|cc| cc.class == class)
+                .map(|cc| cc.count)
+                .unwrap()
+        };
+        assert_eq!(count(AnomalyClass::Point), 2);
+        assert_eq!(count(AnomalyClass::Structural), 1);
+        assert_eq!(count(AnomalyClass::Cadence), 0);
+    }
+
+    #[test]
+    fn row_encodes_confidence_and_score_as_numbers() {
+        let env = EnvelopeBuilder::new("v", "-", "csv", 1)
+            .findings(vec![finding(0.77, AnomalyClass::Point, "a")])
+            .build();
+        // columns: [detector, class, handle, confidence, severity, score, reason]
+        assert_eq!(env.rows[0][3].as_f64(), Some(0.77));
+        assert_eq!(env.rows[0][5].as_f64(), Some(0.77));
     }
 
     #[test]

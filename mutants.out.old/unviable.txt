@@ -1,1 +1,0 @@
-crates/ax-detect/src/point.rs:33:9: replace <impl Detector for PointDetector>::class -> AnomalyClass with Default::default()

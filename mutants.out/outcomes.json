@@ -8,7 +8,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 4.607516015,
+          "duration": 4.758021941,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -20,7 +20,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101243749,
+          "duration": 0.101350483,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -65,13 +65,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_17_col_5.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_17_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127856,
+          "duration": 0.30132155,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -83,8 +83,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101113454,
-          "process_status": "Success",
+          "duration": 0.051044325,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -128,13 +130,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_17_col_5_001.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_17_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251386404,
+          "duration": 0.25120191,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -146,8 +148,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101053852,
-          "process_status": "Success",
+          "duration": 0.051033604,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -191,13 +195,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_17_col_5_002.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_17_col_5_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201205942,
+          "duration": 0.251263121,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -209,8 +213,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101205817,
-          "process_status": "Success",
+          "duration": 0.050996183,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -254,13 +260,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_17_col_5_003.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_17_col_5_003.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201219921,
+          "duration": 0.251165438,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -272,8 +278,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101151866,
-          "process_status": "Success",
+          "duration": 0.050968922,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -323,7 +331,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301311709,
+          "duration": 0.301267349,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -335,7 +343,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051028564,
+          "duration": 0.051131658,
           "process_status": {
             "Failure": 101
           },
@@ -388,7 +396,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201252563,
+          "duration": 0.251191399,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -400,7 +408,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051005494,
+          "duration": 0.050996954,
           "process_status": {
             "Failure": 101
           },
@@ -453,7 +461,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251320112,
+          "duration": 0.251346014,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -465,7 +473,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05091375,
+          "duration": 0.05117049,
           "process_status": {
             "Failure": 101
           },
@@ -512,13 +520,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_31_col_21.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_31_col_21.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.30133525,
+          "duration": 0.301437415,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -530,8 +538,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.151254596,
-          "process_status": "Success",
+          "duration": 0.051105257,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -575,13 +585,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_31_col_21_001.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_31_col_21_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251308742,
+          "duration": 0.251310093,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -593,8 +603,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101242418,
-          "process_status": "Success",
+          "duration": 0.05116742,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -638,13 +650,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_32_col_22.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_32_col_22.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251194427,
+          "duration": 0.251332404,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -656,8 +668,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101147385,
-          "process_status": "Success",
+          "duration": 0.050998984,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -701,13 +715,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_33_col_18.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_33_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251319792,
+          "duration": 0.251198099,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -719,8 +733,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101104924,
-          "process_status": "Success",
+          "duration": 0.051013674,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -764,13 +780,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_33_col_18_001.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_33_col_18_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251388165,
+          "duration": 0.251294483,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -782,8 +798,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101076913,
-          "process_status": "Success",
+          "duration": 0.051078446,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -833,7 +851,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251219519,
+          "duration": 0.251255162,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -845,7 +863,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050975582,
+          "duration": 0.051054165,
           "process_status": {
             "Failure": 101
           },
@@ -898,7 +916,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251309872,
+          "duration": 0.25124562,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -910,7 +928,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050970332,
+          "duration": 0.051112677,
           "process_status": {
             "Failure": 101
           },
@@ -963,7 +981,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251214498,
+          "duration": 0.251378156,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -975,7 +993,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051075816,
+          "duration": 0.051108677,
           "process_status": {
             "Failure": 101
           },
@@ -1028,7 +1046,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251167496,
+          "duration": 0.251315414,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1040,7 +1058,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051041524,
+          "duration": 0.050972923,
           "process_status": {
             "Failure": 101
           },
@@ -1087,13 +1105,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_35_col_18.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_35_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251210228,
+          "duration": 0.251419218,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1105,8 +1123,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101214348,
-          "process_status": "Success",
+          "duration": 0.051074526,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -1150,13 +1170,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_35_col_18_001.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_35_col_18_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251286891,
+          "duration": 0.251245211,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1168,8 +1188,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101186827,
-          "process_status": "Success",
+          "duration": 0.050993573,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -1219,7 +1241,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25124698,
+          "duration": 0.251353585,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1231,7 +1253,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051065766,
+          "duration": 0.051157889,
           "process_status": {
             "Failure": 101
           },
@@ -1284,7 +1306,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25126336,
+          "duration": 0.25123131,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1296,7 +1318,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051046515,
+          "duration": 0.051131108,
           "process_status": {
             "Failure": 101
           },
@@ -1349,7 +1371,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251306401,
+          "duration": 0.251277572,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1361,7 +1383,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051140028,
+          "duration": 0.051088627,
           "process_status": {
             "Failure": 101
           },
@@ -1414,7 +1436,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251316992,
+          "duration": 0.251199819,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1426,7 +1448,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051084636,
+          "duration": 0.05120264,
           "process_status": {
             "Failure": 101
           },
@@ -1473,13 +1495,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__det.rs_line_39_col_9.log",
       "diff_path": "diff/crates__ax-core__src__det.rs_line_39_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127958,
+          "duration": 0.251343255,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1491,8 +1513,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101121254,
-          "process_status": "Success",
+          "duration": 0.051030694,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -1542,7 +1566,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251311161,
+          "duration": 0.251259211,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1554,7 +1578,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051160769,
+          "duration": 0.051018243,
           "process_status": {
             "Failure": 101
           },
@@ -1607,7 +1631,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251220249,
+          "duration": 0.301239558,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1619,7 +1643,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051098677,
+          "duration": 0.051080186,
           "process_status": {
             "Failure": 101
           },
@@ -1672,7 +1696,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251275901,
+          "duration": 0.251285303,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1684,7 +1708,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051157128,
+          "duration": 0.051053725,
           "process_status": {
             "Failure": 101
           },
@@ -1737,7 +1761,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201327365,
+          "duration": 0.25121516,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1749,7 +1773,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051007083,
+          "duration": 0.051085677,
           "process_status": {
             "Failure": 101
           },
@@ -1802,7 +1826,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251326902,
+          "duration": 0.251352404,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1814,7 +1838,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050944622,
+          "duration": 0.051063315,
           "process_status": {
             "Failure": 101
           },
@@ -1867,7 +1891,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127823,
+          "duration": 0.251269561,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1879,7 +1903,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051159558,
+          "duration": 0.051141778,
           "process_status": {
             "Failure": 101
           },
@@ -1932,7 +1956,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201201031,
+          "duration": 0.251194639,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1944,7 +1968,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051102867,
+          "duration": 0.051006794,
           "process_status": {
             "Failure": 101
           },
@@ -1972,7 +1996,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -1983,7 +2007,7 @@
               "column": 5
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 40
             }
           },
@@ -1997,7 +2021,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301391472,
+          "duration": 0.301380283,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2009,7 +2033,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051111077,
+          "duration": 0.051104998,
           "process_status": {
             "Failure": 101
           },
@@ -2037,7 +2061,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2048,7 +2072,7 @@
               "column": 5
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 40
             }
           },
@@ -2062,7 +2086,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251349393,
+          "duration": 0.251262602,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2074,7 +2098,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051063596,
+          "duration": 0.051010554,
           "process_status": {
             "Failure": 101
           },
@@ -2102,7 +2126,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2113,7 +2137,7 @@
               "column": 5
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 40
             }
           },
@@ -2127,7 +2151,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25126064,
+          "duration": 0.251407577,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2139,7 +2163,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051157008,
+          "duration": 0.051035664,
           "process_status": {
             "Failure": 101
           },
@@ -2167,7 +2191,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2178,7 +2202,7 @@
               "column": 5
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 40
             }
           },
@@ -2192,7 +2216,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251359134,
+          "duration": 0.251343645,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2204,7 +2228,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051073016,
+          "duration": 0.051091617,
           "process_status": {
             "Failure": 101
           },
@@ -2232,7 +2256,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2257,7 +2281,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.30134974,
+          "duration": 0.301359802,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2269,7 +2293,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050966711,
+          "duration": 0.051101987,
           "process_status": {
             "Failure": 101
           },
@@ -2297,7 +2321,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2322,7 +2346,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251362864,
+          "duration": 0.251244271,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2334,7 +2358,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051051945,
+          "duration": 0.051083126,
           "process_status": {
             "Failure": 101
           },
@@ -2362,7 +2386,7 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
@@ -2387,7 +2411,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251293171,
+          "duration": 0.251246121,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2399,7 +2423,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051065336,
+          "duration": 0.051114868,
           "process_status": {
             "Failure": 101
           },
@@ -2415,7 +2439,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:50: replace * with + in variance",
+          "name": "crates/ax-core/src/det.rs:64:23: replace - with + in variance",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -2427,402 +2451,278 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 59,
-              "column": 50
-            },
-            "end": {
-              "line": 59,
-              "column": 51
-            }
-          },
-          "replacement": "+",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_50.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_50.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251361273,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.051132768,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:50: replace * with / in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 50
-            },
-            "end": {
-              "line": 59,
-              "column": 51
-            }
-          },
-          "replacement": "/",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_50_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_50_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251304292,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.101254949,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:45: replace - with + in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 45
-            },
-            "end": {
-              "line": 59,
-              "column": 46
-            }
-          },
-          "replacement": "+",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_45.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_45.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251304521,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.101206827,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:45: replace - with / in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 45
-            },
-            "end": {
-              "line": 59,
-              "column": 46
-            }
-          },
-          "replacement": "/",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_45_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_45_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251339733,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.051076626,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:55: replace - with + in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 55
-            },
-            "end": {
-              "line": 59,
-              "column": 56
-            }
-          },
-          "replacement": "+",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_55.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_55.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251318292,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.101135935,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:59:55: replace - with / in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 59,
-              "column": 55
-            },
-            "end": {
-              "line": 59,
-              "column": 56
-            }
-          },
-          "replacement": "/",
-          "genre": "BinaryOperator"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_59_col_55_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_59_col_55_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.25127386,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.051073815,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:60:23: replace / with % in variance",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "variance",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 50,
-                "column": 1
-              },
-              "end": {
-                "line": 61,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 60,
+              "line": 64,
               "column": 23
             },
             "end": {
-              "line": 60,
+              "line": 64,
+              "column": 24
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_64_col_23.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_64_col_23.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251269102,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051059575,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:64:23: replace - with / in variance",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "variance",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1
+              },
+              "end": {
+                "line": 69,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 64,
+              "column": 23
+            },
+            "end": {
+              "line": 64,
+              "column": 24
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_64_col_23_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_64_col_23_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251267612,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051130038,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:65:15: replace * with + in variance",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "variance",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1
+              },
+              "end": {
+                "line": 69,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 65,
+              "column": 15
+            },
+            "end": {
+              "line": 65,
+              "column": 16
+            }
+          },
+          "replacement": "+",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_15.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_15.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251318504,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051009894,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:65:15: replace * with / in variance",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "variance",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1
+              },
+              "end": {
+                "line": 69,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 65,
+              "column": 15
+            },
+            "end": {
+              "line": 65,
+              "column": 16
+            }
+          },
+          "replacement": "/",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_15_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_15_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251337914,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051092416,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:68:23: replace / with % in variance",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "variance",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 50,
+                "column": 1
+              },
+              "end": {
+                "line": 69,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 68,
+              "column": 23
+            },
+            "end": {
+              "line": 68,
               "column": 24
             }
           },
@@ -2831,12 +2731,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_60_col_23.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_60_col_23.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_68_col_23.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_68_col_23.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251317022,
+          "duration": 0.251281873,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2848,7 +2748,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051144088,
+          "duration": 0.051085716,
           "process_status": {
             "Failure": 101
           },
@@ -2864,7 +2764,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:60:23: replace / with * in variance",
+          "name": "crates/ax-core/src/det.rs:68:23: replace / with * in variance",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -2876,18 +2776,18 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 60,
+              "line": 68,
               "column": 23
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 24
             }
           },
@@ -2895,13 +2795,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_60_col_23_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_60_col_23_001.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_68_col_23_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_68_col_23_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251290961,
+          "duration": 0.251279392,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2913,8 +2813,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101223178,
-          "process_status": "Success",
+          "duration": 0.051078846,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -2927,7 +2829,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:60:28: replace - with + in variance",
+          "name": "crates/ax-core/src/det.rs:68:28: replace - with + in variance",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -2939,18 +2841,18 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 60,
+              "line": 68,
               "column": 28
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 29
             }
           },
@@ -2959,12 +2861,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_60_col_28.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_60_col_28.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_68_col_28.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_68_col_28.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251280161,
+          "duration": 0.2514891,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -2976,7 +2878,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051121787,
+          "duration": 0.051021674,
           "process_status": {
             "Failure": 101
           },
@@ -2992,7 +2894,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:60:28: replace - with / in variance",
+          "name": "crates/ax-core/src/det.rs:68:28: replace - with / in variance",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3004,18 +2906,18 @@
                 "column": 1
               },
               "end": {
-                "line": 61,
+                "line": 69,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 60,
+              "line": 68,
               "column": 28
             },
             "end": {
-              "line": 60,
+              "line": 68,
               "column": 29
             }
           },
@@ -3024,12 +2926,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_60_col_28_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_60_col_28_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_68_col_28_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_68_col_28_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251234749,
+          "duration": 0.251369146,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3041,7 +2943,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051069495,
+          "duration": 0.051036045,
           "process_status": {
             "Failure": 101
           },
@@ -3057,7 +2959,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with None",
+          "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with None",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3065,22 +2967,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 63,
+                "line": 71,
                 "column": 1
               },
               "end": {
-                "line": 66,
+                "line": 74,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 65,
+              "line": 73,
               "column": 5
             },
             "end": {
-              "line": 65,
+              "line": 73,
               "column": 32
             }
           },
@@ -3088,13 +2990,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_5.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_5.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_73_col_5.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_73_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251222248,
+          "duration": 0.251369215,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3106,8 +3008,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101208707,
-          "process_status": "Success",
+          "duration": 0.051034264,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -3120,7 +3024,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(0.0)",
+          "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(0.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3128,22 +3032,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 63,
+                "line": 71,
                 "column": 1
               },
               "end": {
-                "line": 66,
+                "line": 74,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 65,
+              "line": 73,
               "column": 5
             },
             "end": {
-              "line": 65,
+              "line": 73,
               "column": 32
             }
           },
@@ -3151,13 +3055,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_5_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_5_001.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_73_col_5_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_73_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251283551,
+          "duration": 0.251459669,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3169,8 +3073,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101215357,
-          "process_status": "Success",
+          "duration": 0.051104517,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -3183,7 +3089,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(1.0)",
+          "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3191,22 +3097,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 63,
+                "line": 71,
                 "column": 1
               },
               "end": {
-                "line": 66,
+                "line": 74,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 65,
+              "line": 73,
               "column": 5
             },
             "end": {
-              "line": 65,
+              "line": 73,
               "column": 32
             }
           },
@@ -3214,13 +3120,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_5_002.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_5_002.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_73_col_5_002.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_73_col_5_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251307392,
+          "duration": 0.251338884,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3232,8 +3138,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101125855,
-          "process_status": "Success",
+          "duration": 0.051141648,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -3246,7 +3154,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(-1.0)",
+          "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(-1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3254,22 +3162,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 63,
+                "line": 71,
                 "column": 1
               },
               "end": {
-                "line": 66,
+                "line": 74,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 65,
+              "line": 73,
               "column": 5
             },
             "end": {
-              "line": 65,
+              "line": 73,
               "column": 32
             }
           },
@@ -3277,13 +3185,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_65_col_5_003.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_65_col_5_003.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_73_col_5_003.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_73_col_5_003.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251359214,
+          "duration": 0.251361855,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3295,8 +3203,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101110174,
-          "process_status": "Success",
+          "duration": 0.051134798,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -3309,7 +3219,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with None",
+          "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with None",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3317,22 +3227,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 72,
+              "line": 80,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 56
             }
           },
@@ -3341,12 +3251,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_72_col_5.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_72_col_5.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_80_col_5.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_80_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301409342,
+          "duration": 0.30131814,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3358,7 +3268,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051137228,
+          "duration": 0.051145138,
           "process_status": {
             "Failure": 101
           },
@@ -3374,7 +3284,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(0.0)",
+          "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(0.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3382,22 +3292,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 72,
+              "line": 80,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 56
             }
           },
@@ -3406,12 +3316,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_72_col_5_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_72_col_5_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_80_col_5_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_80_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251323802,
+          "duration": 0.251292013,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3423,7 +3333,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051141188,
+          "duration": 0.051149869,
           "process_status": {
             "Failure": 101
           },
@@ -3439,7 +3349,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(1.0)",
+          "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3447,22 +3357,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 72,
+              "line": 80,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 56
             }
           },
@@ -3471,12 +3381,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_72_col_5_002.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_72_col_5_002.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_80_col_5_002.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_80_col_5_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251338463,
+          "duration": 0.251333654,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3488,7 +3398,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051116707,
+          "duration": 0.051121018,
           "process_status": {
             "Failure": 101
           },
@@ -3504,7 +3414,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(-1.0)",
+          "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(-1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3512,22 +3422,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 72,
+              "line": 80,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 56
             }
           },
@@ -3536,12 +3446,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_72_col_5_003.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_72_col_5_003.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_80_col_5_003.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_80_col_5_003.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251382244,
+          "duration": 0.25121513,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3553,7 +3463,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051063325,
+          "duration": 0.05118138,
           "process_status": {
             "Failure": 101
           },
@@ -3569,7 +3479,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:79:10: replace == with != in quantile",
+          "name": "crates/ax-core/src/det.rs:87:10: replace == with != in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3577,22 +3487,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 79,
+              "line": 87,
               "column": 10
             },
             "end": {
-              "line": 79,
+              "line": 87,
               "column": 12
             }
           },
@@ -3601,12 +3511,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_79_col_10.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_79_col_10.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_87_col_10.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_87_col_10.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301348129,
+          "duration": 0.301428454,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3618,7 +3528,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051115527,
+          "duration": 0.051079866,
           "process_status": {
             "Failure": 101
           },
@@ -3634,7 +3544,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:82:17: replace * with + in quantile",
+          "name": "crates/ax-core/src/det.rs:90:17: replace * with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3642,22 +3552,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 82,
+              "line": 90,
               "column": 17
             },
             "end": {
-              "line": 82,
+              "line": 90,
               "column": 18
             }
           },
@@ -3666,12 +3576,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_82_col_17.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_82_col_17.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_90_col_17.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_90_col_17.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251366544,
+          "duration": 0.251352564,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3683,7 +3593,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051123508,
+          "duration": 0.051117537,
           "process_status": {
             "Failure": 101
           },
@@ -3699,7 +3609,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:82:17: replace * with / in quantile",
+          "name": "crates/ax-core/src/det.rs:90:17: replace * with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3707,22 +3617,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 82,
+              "line": 90,
               "column": 17
             },
             "end": {
-              "line": 82,
+              "line": 90,
               "column": 18
             }
           },
@@ -3731,12 +3641,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_82_col_17_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_82_col_17_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_90_col_17_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_90_col_17_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251232779,
+          "duration": 0.251208979,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3748,7 +3658,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051173799,
+          "duration": 0.050969543,
           "process_status": {
             "Failure": 101
           },
@@ -3764,7 +3674,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:82:22: replace - with + in quantile",
+          "name": "crates/ax-core/src/det.rs:90:22: replace - with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3772,22 +3682,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 82,
+              "line": 90,
               "column": 22
             },
             "end": {
-              "line": 82,
+              "line": 90,
               "column": 23
             }
           },
@@ -3796,12 +3706,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_82_col_22.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_82_col_22.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_90_col_22.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_90_col_22.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251290311,
+          "duration": 0.2512235,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3813,7 +3723,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051078076,
+          "duration": 0.051007654,
           "process_status": {
             "Failure": 101
           },
@@ -3829,7 +3739,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:82:22: replace - with / in quantile",
+          "name": "crates/ax-core/src/det.rs:90:22: replace - with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3837,22 +3747,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 82,
+              "line": 90,
               "column": 22
             },
             "end": {
-              "line": 82,
+              "line": 90,
               "column": 23
             }
           },
@@ -3861,12 +3771,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_82_col_22_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_82_col_22_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_90_col_22_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_90_col_22_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251318832,
+          "duration": 0.251251662,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3878,7 +3788,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051094936,
+          "duration": 0.051166179,
           "process_status": {
             "Failure": 101
           },
@@ -3894,7 +3804,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:85:11: replace == with != in quantile",
+          "name": "crates/ax-core/src/det.rs:93:11: replace == with != in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3902,22 +3812,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 85,
+              "line": 93,
               "column": 11
             },
             "end": {
-              "line": 85,
+              "line": 93,
               "column": 13
             }
           },
@@ -3926,12 +3836,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_85_col_11.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_85_col_11.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_93_col_11.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_93_col_11.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251288381,
+          "duration": 0.251377396,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -3943,7 +3853,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051028254,
+          "duration": 0.051009244,
           "process_status": {
             "Failure": 101
           },
@@ -3959,7 +3869,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:88:20: replace - with + in quantile",
+          "name": "crates/ax-core/src/det.rs:96:20: replace - with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -3967,22 +3877,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 88,
+              "line": 96,
               "column": 20
             },
             "end": {
-              "line": 88,
+              "line": 96,
               "column": 21
             }
           },
@@ -3991,12 +3901,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_88_col_20.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_88_col_20.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_96_col_20.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_96_col_20.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251190188,
+          "duration": 0.251248241,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4008,7 +3918,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051106017,
+          "duration": 0.051027805,
           "process_status": {
             "Failure": 101
           },
@@ -4024,7 +3934,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:88:20: replace - with / in quantile",
+          "name": "crates/ax-core/src/det.rs:96:20: replace - with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4032,22 +3942,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 88,
+              "line": 96,
               "column": 20
             },
             "end": {
-              "line": 88,
+              "line": 96,
               "column": 21
             }
           },
@@ -4056,12 +3966,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_88_col_20_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_88_col_20_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_96_col_20_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_96_col_20_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251197938,
+          "duration": 0.251345284,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4073,7 +3983,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051007563,
+          "duration": 0.051133588,
           "process_status": {
             "Failure": 101
           },
@@ -4089,7 +3999,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:36: replace + with - in quantile",
+          "name": "crates/ax-core/src/det.rs:97:36: replace + with - in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4097,22 +4007,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 36
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 37
             }
           },
@@ -4121,12 +4031,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_36.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_36.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_36.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_36.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251236379,
+          "duration": 0.251332614,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4138,7 +4048,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051067166,
+          "duration": 0.051154669,
           "process_status": {
             "Failure": 101
           },
@@ -4154,7 +4064,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:36: replace + with * in quantile",
+          "name": "crates/ax-core/src/det.rs:97:36: replace + with * in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4162,22 +4072,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 36
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 37
             }
           },
@@ -4186,12 +4096,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_36_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_36_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_36_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_36_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251210078,
+          "duration": 0.251306073,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4203,7 +4113,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05118028,
+          "duration": 0.051077556,
           "process_status": {
             "Failure": 101
           },
@@ -4219,7 +4129,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:21: replace * with + in quantile",
+          "name": "crates/ax-core/src/det.rs:97:21: replace * with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4227,22 +4137,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 21
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 22
             }
           },
@@ -4251,12 +4161,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_21.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_21.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_21.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_21.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251320482,
+          "duration": 0.251319283,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4268,7 +4178,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051026984,
+          "duration": 0.051031964,
           "process_status": {
             "Failure": 101
           },
@@ -4284,7 +4194,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:21: replace * with / in quantile",
+          "name": "crates/ax-core/src/det.rs:97:21: replace * with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4292,22 +4202,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 21
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 22
             }
           },
@@ -4316,12 +4226,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_21_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_21_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_21_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_21_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251282121,
+          "duration": 0.251280042,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4333,7 +4243,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051151099,
+          "duration": 0.051231402,
           "process_status": {
             "Failure": 101
           },
@@ -4349,7 +4259,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:28: replace - with + in quantile",
+          "name": "crates/ax-core/src/det.rs:97:28: replace - with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4357,22 +4267,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 28
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 29
             }
           },
@@ -4381,12 +4291,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_28.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_28.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_28.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_28.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251320782,
+          "duration": 0.251236981,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4398,7 +4308,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051072516,
+          "duration": 0.051034554,
           "process_status": {
             "Failure": 101
           },
@@ -4414,7 +4324,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:28: replace - with / in quantile",
+          "name": "crates/ax-core/src/det.rs:97:28: replace - with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4422,22 +4332,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 28
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 29
             }
           },
@@ -4446,12 +4356,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_28_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_28_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_28_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_28_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25125023,
+          "duration": 0.251303973,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4463,7 +4373,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051049445,
+          "duration": 0.051052405,
           "process_status": {
             "Failure": 101
           },
@@ -4479,7 +4389,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:49: replace * with + in quantile",
+          "name": "crates/ax-core/src/det.rs:97:49: replace * with + in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4487,22 +4397,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 49
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 50
             }
           },
@@ -4511,12 +4421,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_49.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_49.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_49.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_49.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251346973,
+          "duration": 0.25122191,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4528,7 +4438,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051151219,
+          "duration": 0.051020284,
           "process_status": {
             "Failure": 101
           },
@@ -4544,7 +4454,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:89:49: replace * with / in quantile",
+          "name": "crates/ax-core/src/det.rs:97:49: replace * with / in quantile",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4552,22 +4462,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 68,
+                "line": 76,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 98,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 89,
+              "line": 97,
               "column": 49
             },
             "end": {
-              "line": 89,
+              "line": 97,
               "column": 50
             }
           },
@@ -4576,12 +4486,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_89_col_49_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_89_col_49_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_97_col_49_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_97_col_49_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251395795,
+          "duration": 0.251252251,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4593,7 +4503,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051128978,
+          "duration": 0.051010394,
           "process_status": {
             "Failure": 101
           },
@@ -4609,7 +4519,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with None",
+          "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with None",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4617,22 +4527,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 92,
+                "line": 100,
                 "column": 1
               },
               "end": {
-                "line": 95,
+                "line": 103,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 94,
+              "line": 102,
               "column": 5
             },
             "end": {
-              "line": 94,
+              "line": 102,
               "column": 22
             }
           },
@@ -4641,12 +4551,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_94_col_5.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_94_col_5.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_5.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251208698,
+          "duration": 0.251196329,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4658,7 +4568,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051072575,
+          "duration": 0.051009464,
           "process_status": {
             "Failure": 101
           },
@@ -4674,7 +4584,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(0.0)",
+          "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(0.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4682,202 +4592,7 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 92,
-                "column": 1
-              },
-              "end": {
-                "line": 95,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 94,
-              "column": 5
-            },
-            "end": {
-              "line": 94,
-              "column": 22
-            }
-          },
-          "replacement": "Some(0.0)",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_94_col_5_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_94_col_5_001.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.25123915,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.051084606,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(1.0)",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "median",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 92,
-                "column": 1
-              },
-              "end": {
-                "line": 95,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 94,
-              "column": 5
-            },
-            "end": {
-              "line": 94,
-              "column": 22
-            }
-          },
-          "replacement": "Some(1.0)",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_94_col_5_002.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_94_col_5_002.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.25127549,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.051137018,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(-1.0)",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "median",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 92,
-                "column": 1
-              },
-              "end": {
-                "line": 95,
-                "column": 2
-              }
-            }
-          },
-          "span": {
-            "start": {
-              "line": 94,
-              "column": 5
-            },
-            "end": {
-              "line": 94,
-              "column": 22
-            }
-          },
-          "replacement": "Some(-1.0)",
-          "genre": "FnValue"
-        }
-      },
-      "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_94_col_5_003.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_94_col_5_003.diff",
-      "phase_results": [
-        {
-          "phase": "Build",
-          "duration": 0.251298792,
-          "process_status": "Success",
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--no-run",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        },
-        {
-          "phase": "Test",
-          "duration": 0.101110084,
-          "process_status": {
-            "Failure": 101
-          },
-          "argv": [
-            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
-            "test",
-            "--verbose",
-            "--package=ax-core@0.1.0"
-          ]
-        }
-      ]
-    },
-    {
-      "scenario": {
-        "Mutant": {
-          "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with None",
-          "package": "ax-core",
-          "file": "crates/ax-core/src/det.rs",
-          "function": {
-            "function_name": "mad",
-            "return_type": "-> Option<f64>",
-            "span": {
-              "start": {
-                "line": 97,
+                "line": 100,
                 "column": 1
               },
               "end": {
@@ -4888,11 +4603,206 @@
           },
           "span": {
             "start": {
-              "line": 100,
+              "line": 102,
               "column": 5
             },
             "end": {
               "line": 102,
+              "column": 22
+            }
+          },
+          "replacement": "Some(0.0)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_5_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251256861,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051045635,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(1.0)",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "median",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 100,
+                "column": 1
+              },
+              "end": {
+                "line": 103,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 102,
+              "column": 5
+            },
+            "end": {
+              "line": 102,
+              "column": 22
+            }
+          },
+          "replacement": "Some(1.0)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_5_002.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251364085,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051136468,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(-1.0)",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "median",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 100,
+                "column": 1
+              },
+              "end": {
+                "line": 103,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 102,
+              "column": 5
+            },
+            "end": {
+              "line": 102,
+              "column": 22
+            }
+          },
+          "replacement": "Some(-1.0)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_5_003.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_5_003.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.25122475,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.050988173,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-core@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with None",
+          "package": "ax-core",
+          "file": "crates/ax-core/src/det.rs",
+          "function": {
+            "function_name": "mad",
+            "return_type": "-> Option<f64>",
+            "span": {
+              "start": {
+                "line": 105,
+                "column": 1
+              },
+              "end": {
+                "line": 111,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 108,
+              "column": 5
+            },
+            "end": {
+              "line": 110,
               "column": 37
             }
           },
@@ -4901,12 +4811,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_100_col_5.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_100_col_5.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_108_col_5.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_108_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301313659,
+          "duration": 0.301340382,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4918,7 +4828,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051076555,
+          "duration": 0.051113377,
           "process_status": {
             "Failure": 101
           },
@@ -4934,7 +4844,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(0.0)",
+          "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(0.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -4942,22 +4852,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 100,
+              "line": 108,
               "column": 5
             },
             "end": {
-              "line": 102,
+              "line": 110,
               "column": 37
             }
           },
@@ -4965,13 +4875,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_100_col_5_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_100_col_5_001.diff",
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-core__src__det.rs_line_108_col_5_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_108_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251236329,
+          "duration": 0.251334564,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -4983,8 +4893,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101226858,
-          "process_status": "Success",
+          "duration": 0.051073816,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -4997,7 +4909,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(1.0)",
+          "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5005,22 +4917,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 100,
+              "line": 108,
               "column": 5
             },
             "end": {
-              "line": 102,
+              "line": 110,
               "column": 37
             }
           },
@@ -5029,12 +4941,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_100_col_5_002.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_100_col_5_002.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_108_col_5_002.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_108_col_5_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251356834,
+          "duration": 0.251262362,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5046,7 +4958,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051162099,
+          "duration": 0.051149259,
           "process_status": {
             "Failure": 101
           },
@@ -5062,7 +4974,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(-1.0)",
+          "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(-1.0)",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5070,22 +4982,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 100,
+              "line": 108,
               "column": 5
             },
             "end": {
-              "line": 102,
+              "line": 110,
               "column": 37
             }
           },
@@ -5094,12 +5006,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_100_col_5_003.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_100_col_5_003.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_108_col_5_003.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_108_col_5_003.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251360923,
+          "duration": 0.25123297,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5111,7 +5023,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051181979,
+          "duration": 0.051025324,
           "process_status": {
             "Failure": 101
           },
@@ -5127,7 +5039,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:101:46: replace - with + in mad",
+          "name": "crates/ax-core/src/det.rs:109:46: replace - with + in mad",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5135,22 +5047,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 101,
+              "line": 109,
               "column": 46
             },
             "end": {
-              "line": 101,
+              "line": 109,
               "column": 47
             }
           },
@@ -5159,12 +5071,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_101_col_46.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_101_col_46.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_109_col_46.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_109_col_46.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.30134027,
+          "duration": 0.301503297,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5176,7 +5088,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051182269,
+          "duration": 0.051140979,
           "process_status": {
             "Failure": 101
           },
@@ -5192,7 +5104,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:101:46: replace - with / in mad",
+          "name": "crates/ax-core/src/det.rs:109:46: replace - with / in mad",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5200,22 +5112,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 101,
+              "line": 109,
               "column": 46
             },
             "end": {
-              "line": 101,
+              "line": 109,
               "column": 47
             }
           },
@@ -5224,12 +5136,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_101_col_46_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_101_col_46_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_109_col_46_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_109_col_46_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251220319,
+          "duration": 0.251242831,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5241,7 +5153,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051023074,
+          "duration": 0.051154579,
           "process_status": {
             "Failure": 101
           },
@@ -5257,7 +5169,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:102:33: replace * with + in mad",
+          "name": "crates/ax-core/src/det.rs:110:33: replace * with + in mad",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5265,22 +5177,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 102,
+              "line": 110,
               "column": 33
             },
             "end": {
-              "line": 102,
+              "line": 110,
               "column": 34
             }
           },
@@ -5289,12 +5201,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_33.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_33.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_110_col_33.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_110_col_33.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251224899,
+          "duration": 0.251317423,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5306,7 +5218,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051110197,
+          "duration": 0.051167929,
           "process_status": {
             "Failure": 101
           },
@@ -5322,7 +5234,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-core/src/det.rs:102:33: replace * with / in mad",
+          "name": "crates/ax-core/src/det.rs:110:33: replace * with / in mad",
           "package": "ax-core",
           "file": "crates/ax-core/src/det.rs",
           "function": {
@@ -5330,22 +5242,22 @@
             "return_type": "-> Option<f64>",
             "span": {
               "start": {
-                "line": 97,
+                "line": 105,
                 "column": 1
               },
               "end": {
-                "line": 103,
+                "line": 111,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 102,
+              "line": 110,
               "column": 33
             },
             "end": {
-              "line": 102,
+              "line": 110,
               "column": 34
             }
           },
@@ -5354,12 +5266,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-core__src__det.rs_line_102_col_33_001.log",
-      "diff_path": "diff/crates__ax-core__src__det.rs_line_102_col_33_001.diff",
+      "log_path": "log/crates__ax-core__src__det.rs_line_110_col_33_001.log",
+      "diff_path": "diff/crates__ax-core__src__det.rs_line_110_col_33_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251220229,
+          "duration": 0.251351405,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5371,7 +5283,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051097957,
+          "duration": 0.051068165,
           "process_status": {
             "Failure": 101
           },
@@ -5424,7 +5336,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301372841,
+          "duration": 0.301426544,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5436,7 +5348,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05120388,
+          "duration": 0.051147828,
           "process_status": {
             "Failure": 101
           },
@@ -5489,7 +5401,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.20115853,
+          "duration": 0.251376335,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5501,7 +5413,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051140898,
+          "duration": 0.051127408,
           "process_status": {
             "Failure": 101
           },
@@ -5554,7 +5466,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301400282,
+          "duration": 0.301368243,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5566,7 +5478,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051043065,
+          "duration": 0.051111947,
           "process_status": {
             "Failure": 101
           },
@@ -5619,7 +5531,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251351644,
+          "duration": 0.251384516,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5631,7 +5543,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051158309,
+          "duration": 0.051157009,
           "process_status": {
             "Failure": 101
           },
@@ -5684,7 +5596,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251233929,
+          "duration": 0.251327854,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5696,7 +5608,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05117196,
+          "duration": 0.051027974,
           "process_status": {
             "Failure": 101
           },
@@ -5749,7 +5661,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251339802,
+          "duration": 0.251378265,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5761,7 +5673,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051084446,
+          "duration": 0.051101177,
           "process_status": {
             "Failure": 101
           },
@@ -5814,7 +5726,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251188948,
+          "duration": 0.251362925,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5826,7 +5738,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051138808,
+          "duration": 0.051126468,
           "process_status": {
             "Failure": 101
           },
@@ -5873,13 +5785,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__dict.rs_line_46_col_9.log",
       "diff_path": "diff/crates__ax-core__src__dict.rs_line_46_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251319462,
+          "duration": 0.251444368,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5891,8 +5803,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101140615,
-          "process_status": "Success",
+          "duration": 0.051109307,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -5936,13 +5850,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__dict.rs_line_46_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__dict.rs_line_46_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201201921,
+          "duration": 0.251380176,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -5954,8 +5868,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101205027,
-          "process_status": "Success",
+          "duration": 0.051156339,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -5999,13 +5915,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__dict.rs_line_51_col_9.log",
       "diff_path": "diff/crates__ax-core__src__dict.rs_line_51_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251248669,
+          "duration": 0.251361505,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6017,8 +5933,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101207037,
-          "process_status": "Success",
+          "duration": 0.051171639,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6062,13 +5980,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__dict.rs_line_51_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__dict.rs_line_51_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251284691,
+          "duration": 0.301445486,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6080,8 +5998,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101121634,
-          "process_status": "Success",
+          "duration": 0.051146199,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6125,13 +6045,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__dict.rs_line_51_col_9_002.log",
       "diff_path": "diff/crates__ax-core__src__dict.rs_line_51_col_9_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251324703,
+          "duration": 0.251388886,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6143,8 +6063,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101225798,
-          "process_status": "Success",
+          "duration": 0.051104217,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6194,7 +6116,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151171343,
+          "duration": 0.151098301,
           "process_status": {
             "Failure": 101
           },
@@ -6242,13 +6164,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__envelope.rs_line_31_col_9.log",
       "diff_path": "diff/crates__ax-core__src__envelope.rs_line_31_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251317812,
+          "duration": 0.301451595,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6260,8 +6182,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101105544,
-          "process_status": "Success",
+          "duration": 0.051157689,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6305,13 +6229,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__envelope.rs_line_31_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__envelope.rs_line_31_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251334322,
+          "duration": 0.251325804,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6323,8 +6247,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101152915,
-          "process_status": "Success",
+          "duration": 0.05118017,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6368,13 +6294,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__envelope.rs_line_31_col_9_002.log",
       "diff_path": "diff/crates__ax-core__src__envelope.rs_line_31_col_9_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251306131,
+          "duration": 0.251300683,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6386,8 +6312,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101152425,
-          "process_status": "Success",
+          "duration": 0.051136178,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6437,7 +6365,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151197284,
+          "duration": 0.201298816,
           "process_status": {
             "Failure": 101
           },
@@ -6491,7 +6419,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151132151,
+          "duration": 0.201391139,
           "process_status": {
             "Failure": 101
           },
@@ -6545,7 +6473,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151130451,
+          "duration": 0.201397979,
           "process_status": {
             "Failure": 101
           },
@@ -6593,13 +6521,13 @@
           "genre": "BinaryOperator"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__envelope.rs_line_170_col_64.log",
       "diff_path": "diff/crates__ax-core__src__envelope.rs_line_170_col_64.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25124093,
+          "duration": 0.251376916,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6611,8 +6539,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101203337,
-          "process_status": "Success",
+          "duration": 0.051162779,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6662,7 +6592,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251349864,
+          "duration": 0.301428015,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6674,7 +6604,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051023374,
+          "duration": 0.051111888,
           "process_status": {
             "Failure": 101
           },
@@ -6727,7 +6657,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251307142,
+          "duration": 0.251182879,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6739,7 +6669,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051140938,
+          "duration": 0.051130118,
           "process_status": {
             "Failure": 101
           },
@@ -6792,7 +6722,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251214558,
+          "duration": 0.251191339,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6804,7 +6734,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051140039,
+          "duration": 0.051052916,
           "process_status": {
             "Failure": 101
           },
@@ -6851,13 +6781,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__envelope.rs_line_216_col_5.log",
       "diff_path": "diff/crates__ax-core__src__envelope.rs_line_216_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25126676,
+          "duration": 0.301424434,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6869,8 +6799,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101144215,
-          "process_status": "Success",
+          "duration": 0.05116564,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6914,13 +6846,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_36_col_9.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_36_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.351345397,
+          "duration": 0.35137913,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6932,8 +6864,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101231809,
-          "process_status": "Success",
+          "duration": 0.051084077,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -6977,13 +6911,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_36_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_36_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25124617,
+          "duration": 0.25123835,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -6995,8 +6929,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101137385,
-          "process_status": "Success",
+          "duration": 0.051093407,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7046,7 +6982,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127033,
+          "duration": 0.251320063,
           "process_status": {
             "Failure": 101
           },
@@ -7094,13 +7030,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_76_col_18.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_76_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301473295,
+          "duration": 0.351498335,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7112,8 +7048,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101227468,
-          "process_status": "Success",
+          "duration": 0.051024364,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7163,7 +7101,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251414735,
+          "duration": 0.251369316,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7175,7 +7113,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051058385,
+          "duration": 0.051202931,
           "process_status": {
             "Failure": 101
           },
@@ -7222,13 +7160,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_77_col_18.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_77_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251366513,
+          "duration": 0.251253772,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7240,8 +7178,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101215507,
-          "process_status": "Success",
+          "duration": 0.051065056,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7285,13 +7225,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_77_col_18_001.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_77_col_18_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251302262,
+          "duration": 0.251467769,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7303,8 +7243,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101220788,
-          "process_status": "Success",
+          "duration": 0.051069656,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7348,13 +7290,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_78_col_18.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_78_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251273031,
+          "duration": 0.251354614,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7366,8 +7308,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.10127072,
-          "process_status": "Success",
+          "duration": 0.051167969,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7411,13 +7355,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_78_col_18_001.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_78_col_18_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251283281,
+          "duration": 0.251299173,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7429,8 +7373,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101143405,
-          "process_status": "Success",
+          "duration": 0.05121051,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7474,13 +7420,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_79_col_18.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_79_col_18.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251321632,
+          "duration": 0.251344784,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7492,8 +7438,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101122245,
-          "process_status": "Success",
+          "duration": 0.051160479,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7537,13 +7485,13 @@
           "genre": "MatchArmGuard"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__finding.rs_line_79_col_18_001.log",
       "diff_path": "diff/crates__ax-core__src__finding.rs_line_79_col_18_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251286201,
+          "duration": 0.251391316,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7555,8 +7503,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.10127536,
-          "process_status": "Success",
+          "duration": 0.051013314,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -7606,7 +7556,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127706,
+          "duration": 0.251256582,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7618,7 +7568,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051102046,
+          "duration": 0.051126378,
           "process_status": {
             "Failure": 101
           },
@@ -7671,7 +7621,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251341783,
+          "duration": 0.251355774,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7683,7 +7633,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051161229,
+          "duration": 0.051245082,
           "process_status": {
             "Failure": 101
           },
@@ -7736,7 +7686,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251318492,
+          "duration": 0.251363775,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7748,7 +7698,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05118754,
+          "duration": 0.051144239,
           "process_status": {
             "Failure": 101
           },
@@ -7801,7 +7751,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251346523,
+          "duration": 0.251391166,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7813,7 +7763,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05118267,
+          "duration": 0.051032274,
           "process_status": {
             "Failure": 101
           },
@@ -7866,7 +7816,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301532697,
+          "duration": 0.301388223,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7878,7 +7828,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051150289,
+          "duration": 0.051135268,
           "process_status": {
             "Failure": 101
           },
@@ -7931,7 +7881,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25124394,
+          "duration": 0.251324723,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -7943,7 +7893,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051159579,
+          "duration": 0.051070116,
           "process_status": {
             "Failure": 101
           },
@@ -7996,7 +7946,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251302051,
+          "duration": 0.301414904,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8008,7 +7958,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051104276,
+          "duration": 0.051129088,
           "process_status": {
             "Failure": 101
           },
@@ -8061,7 +8011,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151150552,
+          "duration": 0.15106319,
           "process_status": {
             "Failure": 101
           },
@@ -8115,7 +8065,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.30134092,
+          "duration": 0.301334431,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8127,7 +8077,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051084716,
+          "duration": 0.051141469,
           "process_status": {
             "Failure": 101
           },
@@ -8180,7 +8130,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251290651,
+          "duration": 0.251308463,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8192,7 +8142,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051086327,
+          "duration": 0.051100786,
           "process_status": {
             "Failure": 101
           },
@@ -8245,7 +8195,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.30136327,
+          "duration": 0.30128519,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8257,7 +8207,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051083096,
+          "duration": 0.051082066,
           "process_status": {
             "Failure": 101
           },
@@ -8310,7 +8260,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251325042,
+          "duration": 0.251346244,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8322,7 +8272,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101112024,
+          "duration": 0.051209911,
           "process_status": {
             "Failure": 101
           },
@@ -8375,7 +8325,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201356137,
+          "duration": 0.201274154,
           "process_status": {
             "Failure": 101
           },
@@ -8429,7 +8379,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.351508303,
+          "duration": 0.351499084,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8441,7 +8391,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051088206,
+          "duration": 0.051093946,
           "process_status": {
             "Failure": 101
           },
@@ -8494,7 +8444,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251296071,
+          "duration": 0.251247631,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8506,7 +8456,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051117527,
+          "duration": 0.051095277,
           "process_status": {
             "Failure": 101
           },
@@ -8559,7 +8509,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251305782,
+          "duration": 0.251343204,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8571,7 +8521,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051097576,
+          "duration": 0.051076226,
           "process_status": {
             "Failure": 101
           },
@@ -8624,7 +8574,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251210618,
+          "duration": 0.251338174,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8636,7 +8586,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051085836,
+          "duration": 0.051153658,
           "process_status": {
             "Failure": 101
           },
@@ -8689,7 +8639,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301408642,
+          "duration": 0.301370563,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8701,7 +8651,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051122018,
+          "duration": 0.051136938,
           "process_status": {
             "Failure": 101
           },
@@ -8748,13 +8698,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__record.rs_line_45_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__record.rs_line_45_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251205538,
+          "duration": 0.251291193,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8766,8 +8716,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101245119,
-          "process_status": "Success",
+          "duration": 0.051116618,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -8817,7 +8769,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251322242,
+          "duration": 0.30130483,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8829,7 +8781,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051052645,
+          "duration": 0.101246919,
           "process_status": {
             "Failure": 101
           },
@@ -8882,7 +8834,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251352454,
+          "duration": 0.251267252,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8894,7 +8846,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051126068,
+          "duration": 0.051146229,
           "process_status": {
             "Failure": 101
           },
@@ -8941,13 +8893,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__record.rs_line_53_col_9.log",
       "diff_path": "diff/crates__ax-core__src__record.rs_line_53_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25125483,
+          "duration": 0.251258822,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -8959,8 +8911,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101210968,
-          "process_status": "Success",
+          "duration": 0.051137419,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -9004,13 +8958,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__record.rs_line_53_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__record.rs_line_53_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251334293,
+          "duration": 0.251388836,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9022,8 +8976,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101234899,
-          "process_status": "Success",
+          "duration": 0.051056595,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -9073,7 +9029,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251322062,
+          "duration": 0.251323904,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9085,7 +9041,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051110597,
+          "duration": 0.051124458,
           "process_status": {
             "Failure": 101
           },
@@ -9138,7 +9094,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251328013,
+          "duration": 0.251371755,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9150,7 +9106,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051266233,
+          "duration": 0.051161449,
           "process_status": {
             "Failure": 101
           },
@@ -9203,7 +9159,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251178107,
+          "duration": 0.301382933,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9215,7 +9171,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050960061,
+          "duration": 0.051113318,
           "process_status": {
             "Failure": 101
           },
@@ -9268,7 +9224,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251340623,
+          "duration": 0.251411807,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9280,7 +9236,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051161789,
+          "duration": 0.051130248,
           "process_status": {
             "Failure": 101
           },
@@ -9333,7 +9289,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251403145,
+          "duration": 0.301400204,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9345,7 +9301,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051122918,
+          "duration": 0.051157519,
           "process_status": {
             "Failure": 101
           },
@@ -9398,7 +9354,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151264617,
+          "duration": 0.151180384,
           "process_status": {
             "Failure": 101
           },
@@ -9452,7 +9408,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251429797,
+          "duration": 0.251339354,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9464,7 +9420,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051118157,
+          "duration": 0.051121808,
           "process_status": {
             "Failure": 101
           },
@@ -9517,7 +9473,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201292015,
+          "duration": 0.2011418,
           "process_status": {
             "Failure": 101
           },
@@ -9571,7 +9527,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251404845,
+          "duration": 0.301378953,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9583,7 +9539,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051140018,
+          "duration": 0.051107678,
           "process_status": {
             "Failure": 101
           },
@@ -9636,7 +9592,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251343373,
+          "duration": 0.251237441,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9648,7 +9604,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051108327,
+          "duration": 0.051073556,
           "process_status": {
             "Failure": 101
           },
@@ -9701,7 +9657,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251289631,
+          "duration": 0.251292383,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9713,7 +9669,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051156229,
+          "duration": 0.051148029,
           "process_status": {
             "Failure": 101
           },
@@ -9766,7 +9722,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201281354,
+          "duration": 0.251258031,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9778,7 +9734,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051103947,
+          "duration": 0.051121847,
           "process_status": {
             "Failure": 101
           },
@@ -9831,7 +9787,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251273891,
+          "duration": 0.301380583,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9843,7 +9799,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051159129,
+          "duration": 0.051072826,
           "process_status": {
             "Failure": 101
           },
@@ -9896,7 +9852,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251454337,
+          "duration": 0.25122699,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9908,7 +9864,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05118616,
+          "duration": 0.051095456,
           "process_status": {
             "Failure": 101
           },
@@ -9955,13 +9911,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_55_col_9.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_55_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251192807,
+          "duration": 0.301460866,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -9973,8 +9929,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101154745,
-          "process_status": "Success",
+          "duration": 0.05117033,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10018,13 +9976,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_55_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_55_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251359873,
+          "duration": 0.251338884,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10036,8 +9994,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101042471,
-          "process_status": "Success",
+          "duration": 0.05119189,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10087,7 +10047,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201207511,
+          "duration": 0.201228253,
           "process_status": {
             "Failure": 101
           },
@@ -10135,13 +10095,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_71_col_13.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_71_col_13.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251285741,
+          "duration": 0.251381105,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10153,8 +10113,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101084883,
-          "process_status": "Success",
+          "duration": 0.051147109,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10198,13 +10160,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_71_col_13_001.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_71_col_13_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251496238,
+          "duration": 0.25122849,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10216,8 +10178,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101143645,
-          "process_status": "Success",
+          "duration": 0.051096437,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10261,13 +10225,13 @@
           "genre": "MatchArm"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_80_col_13.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_80_col_13.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251330482,
+          "duration": 0.301398563,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10279,8 +10243,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101127454,
-          "process_status": "Success",
+          "duration": 0.051074326,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10324,13 +10290,13 @@
           "genre": "MatchArm"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_81_col_13.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_81_col_13.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251299112,
+          "duration": 0.251397086,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10342,8 +10308,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101170706,
-          "process_status": "Success",
+          "duration": 0.051123708,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10387,13 +10355,13 @@
           "genre": "MatchArm"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_82_col_13.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_82_col_13.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251270871,
+          "duration": 0.251343194,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10405,8 +10373,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101197077,
-          "process_status": "Success",
+          "duration": 0.051124728,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10450,13 +10420,13 @@
           "genre": "MatchArm"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_83_col_13.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_83_col_13.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251358364,
+          "duration": 0.251260942,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10468,8 +10438,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101180587,
-          "process_status": "Success",
+          "duration": 0.051164749,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10519,7 +10491,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151224735,
+          "duration": 0.201324157,
           "process_status": {
             "Failure": 101
           },
@@ -10573,7 +10545,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251319252,
+          "duration": 0.251289743,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10585,7 +10557,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051106167,
+          "duration": 0.05119034,
           "process_status": {
             "Failure": 101
           },
@@ -10638,7 +10610,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251316262,
+          "duration": 0.251356575,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10650,7 +10622,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051133918,
+          "duration": 0.051076396,
           "process_status": {
             "Failure": 101
           },
@@ -10703,7 +10675,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201232442,
+          "duration": 0.251286383,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10715,7 +10687,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051076476,
+          "duration": 0.051071796,
           "process_status": {
             "Failure": 101
           },
@@ -10768,7 +10740,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251327233,
+          "duration": 0.251312083,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10780,7 +10752,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051129358,
+          "duration": 0.051144529,
           "process_status": {
             "Failure": 101
           },
@@ -10833,7 +10805,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251383465,
+          "duration": 0.251399626,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10845,7 +10817,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051211041,
+          "duration": 0.051026645,
           "process_status": {
             "Failure": 101
           },
@@ -10892,13 +10864,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_119_col_9.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_119_col_9.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.25127186,
+          "duration": 0.251285863,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10910,8 +10882,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101185876,
-          "process_status": "Success",
+          "duration": 0.051141049,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10955,13 +10929,13 @@
           "genre": "FnValue"
         }
       },
-      "summary": "MissedMutant",
+      "summary": "CaughtMutant",
       "log_path": "log/crates__ax-core__src__value.rs_line_119_col_9_001.log",
       "diff_path": "diff/crates__ax-core__src__value.rs_line_119_col_9_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251338632,
+          "duration": 0.251238971,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -10973,8 +10947,10 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101173296,
-          "process_status": "Success",
+          "duration": 0.051140858,
+          "process_status": {
+            "Failure": 101
+          },
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
             "test",
@@ -10985,13 +10961,13 @@
       ]
     }
   ],
-  "total_mutants": 172,
-  "missed": 53,
-  "caught": 108,
+  "total_mutants": 170,
+  "missed": 0,
+  "caught": 159,
   "timeout": 0,
   "unviable": 11,
   "success": 0,
-  "start_time": "2026-05-30T15:42:32.662667813Z",
-  "end_time": "2026-05-30T15:43:31.509708537Z",
+  "start_time": "2026-05-30T15:49:58.5369104Z",
+  "end_time": "2026-05-30T15:50:55.578183588Z",
   "cargo_mutants_version": "27.0.0"
 }

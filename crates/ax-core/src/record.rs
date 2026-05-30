@@ -116,6 +116,21 @@ mod tests {
     }
 
     #[test]
+    fn null_count_is_exact() {
+        assert_eq!(Column::new("a", vec![Value::Int(1), Value::Int(2)]).null_count(), 0);
+        assert_eq!(
+            Column::new("b", vec![Value::Null, Value::Int(1), Value::Null]).null_count(),
+            2
+        );
+    }
+
+    #[test]
+    fn empty_and_nonempty_columns() {
+        assert!(Column::new("e", vec![]).is_empty());
+        assert!(!Column::new("f", vec![Value::Int(1)]).is_empty());
+    }
+
+    #[test]
     fn rows_and_width() {
         let rs = RecordSet::new(
             "-",

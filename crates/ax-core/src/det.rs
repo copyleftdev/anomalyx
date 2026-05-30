@@ -56,7 +56,15 @@ pub fn variance(xs: &[f64]) -> Option<f64> {
         return None;
     }
     let m = mean(xs)?;
-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();
+    // Compute the deviation once: writing `(x - m) * (x - m)` would let a single
+    // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².
+    let sq: Vec<f64> = xs
+        .iter()
+        .map(|x| {
+            let d = x - m;
+            d * d
+        })
+        .collect();
     Some(det_sum(&sq) / (n - 1) as f64)
 }
 
@@ -107,11 +115,52 @@ mod tests {
     use super::*;
 
     #[test]
+    fn finite_drops_non_finite_keeps_order() {
+        let xs = [1.0, f64::NAN, 2.0, f64::INFINITY, -f64::INFINITY, 3.0];
+        assert_eq!(finite(&xs), vec![1.0, 2.0, 3.0]);
+    }
+
+    #[test]
+    fn det_sum_exact_value() {
+        assert_eq!(det_sum(&[1.0, 2.0, 3.0, 4.0]), 10.0);
+        assert_eq!(det_sum(&[]), 0.0);
+    }
+
+    #[test]
+    fn det_sum_compensation_recovers_small_term() {
+        // Naive left-to-right summation loses the 1.0; compensated summation
+        // (and the |sum| >= |x| branch) recovers it exactly.
+        assert_eq!(det_sum(&[1e16, 1.0, -1e16]), 1.0);
+        assert_eq!(det_sum(&[-1e16, 1e16, 1.0]), 1.0);
+    }
+
+    #[test]
+    fn det_sum_else_branch_compensation_is_exact() {
+        // 0.1+0.2+0.3 in f64 carries a rounding error the else-branch
+        // (|sum| < |x|) compensation cancels, landing exactly on 0.6_f64. A
+        // wrong sign/operator in that compensation lands one ULP away.
+        assert_eq!(det_sum(&[0.1, 0.2, 0.3]), 0.6);
+        assert!(0.1 + 0.2 + 0.3 != 0.6, "precondition: naive sum is not exact");
+    }
+
+    #[test]
     fn det_sum_is_permutation_invariant() {
         let a = [1.0, 2.0, 3.0, 1e16, -1e16, 4.0];
         let mut b = a;
         b.reverse();
         assert_eq!(det_sum(&a).to_bits(), det_sum(&b).to_bits());
+    }
+
+    #[test]
+    fn variance_and_std_exact() {
+        assert_eq!(variance(&[2.0, 4.0, 6.0]), Some(4.0));
+        assert_eq!(std_dev(&[2.0, 4.0, 6.0]), Some(2.0));
+    }
+
+    #[test]
+    fn mad_of_spread_is_nonzero_exact() {
+        // median 3; abs deviations [2,1,0,1,2] → median 1; ×1.4826.
+        assert_eq!(mad(&[1.0, 2.0, 3.0, 4.0, 5.0]), Some(1.4826));
     }
 
     #[test]

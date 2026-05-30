@@ -1,14 +1,26 @@
+crates/ax-core/src/det.rs:17:5: replace finite -> Vec<f64> with vec![]
+crates/ax-core/src/det.rs:17:5: replace finite -> Vec<f64> with vec![0.0]
+crates/ax-core/src/det.rs:17:5: replace finite -> Vec<f64> with vec![1.0]
+crates/ax-core/src/det.rs:17:5: replace finite -> Vec<f64> with vec![-1.0]
 crates/ax-core/src/det.rs:26:5: replace det_sum -> f64 with 0.0
 crates/ax-core/src/det.rs:26:5: replace det_sum -> f64 with 1.0
 crates/ax-core/src/det.rs:26:5: replace det_sum -> f64 with -1.0
+crates/ax-core/src/det.rs:31:21: replace + with - in det_sum
+crates/ax-core/src/det.rs:31:21: replace + with * in det_sum
+crates/ax-core/src/det.rs:32:22: replace >= with < in det_sum
+crates/ax-core/src/det.rs:33:18: replace += with -= in det_sum
+crates/ax-core/src/det.rs:33:18: replace += with *= in det_sum
 crates/ax-core/src/det.rs:33:31: replace + with - in det_sum
 crates/ax-core/src/det.rs:33:31: replace + with * in det_sum
 crates/ax-core/src/det.rs:33:26: replace - with + in det_sum
 crates/ax-core/src/det.rs:33:26: replace - with / in det_sum
+crates/ax-core/src/det.rs:35:18: replace += with -= in det_sum
+crates/ax-core/src/det.rs:35:18: replace += with *= in det_sum
 crates/ax-core/src/det.rs:35:29: replace + with - in det_sum
 crates/ax-core/src/det.rs:35:29: replace + with * in det_sum
 crates/ax-core/src/det.rs:35:24: replace - with + in det_sum
 crates/ax-core/src/det.rs:35:24: replace - with / in det_sum
+crates/ax-core/src/det.rs:39:9: replace + with - in det_sum
 crates/ax-core/src/det.rs:39:9: replace + with * in det_sum
 crates/ax-core/src/det.rs:44:5: replace mean -> Option<f64> with None
 crates/ax-core/src/det.rs:44:5: replace mean -> Option<f64> with Some(0.0)
@@ -23,43 +35,50 @@ crates/ax-core/src/det.rs:54:5: replace variance -> Option<f64> with Some(-1.0)
 crates/ax-core/src/det.rs:55:10: replace < with == in variance
 crates/ax-core/src/det.rs:55:10: replace < with > in variance
 crates/ax-core/src/det.rs:55:10: replace < with <= in variance
-crates/ax-core/src/det.rs:59:50: replace * with + in variance
-crates/ax-core/src/det.rs:59:45: replace - with / in variance
-crates/ax-core/src/det.rs:59:55: replace - with / in variance
-crates/ax-core/src/det.rs:60:23: replace / with % in variance
-crates/ax-core/src/det.rs:60:28: replace - with + in variance
-crates/ax-core/src/det.rs:60:28: replace - with / in variance
-crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with None
-crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(0.0)
-crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(1.0)
-crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(-1.0)
-crates/ax-core/src/det.rs:79:10: replace == with != in quantile
-crates/ax-core/src/det.rs:82:17: replace * with + in quantile
-crates/ax-core/src/det.rs:82:17: replace * with / in quantile
-crates/ax-core/src/det.rs:82:22: replace - with + in quantile
-crates/ax-core/src/det.rs:82:22: replace - with / in quantile
-crates/ax-core/src/det.rs:85:11: replace == with != in quantile
-crates/ax-core/src/det.rs:88:20: replace - with + in quantile
-crates/ax-core/src/det.rs:88:20: replace - with / in quantile
-crates/ax-core/src/det.rs:89:36: replace + with - in quantile
-crates/ax-core/src/det.rs:89:36: replace + with * in quantile
-crates/ax-core/src/det.rs:89:21: replace * with + in quantile
-crates/ax-core/src/det.rs:89:21: replace * with / in quantile
-crates/ax-core/src/det.rs:89:28: replace - with + in quantile
-crates/ax-core/src/det.rs:89:28: replace - with / in quantile
-crates/ax-core/src/det.rs:89:49: replace * with + in quantile
-crates/ax-core/src/det.rs:89:49: replace * with / in quantile
-crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with None
-crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(0.0)
-crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(1.0)
-crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(-1.0)
-crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with None
-crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(1.0)
-crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(-1.0)
-crates/ax-core/src/det.rs:101:46: replace - with + in mad
-crates/ax-core/src/det.rs:101:46: replace - with / in mad
-crates/ax-core/src/det.rs:102:33: replace * with + in mad
-crates/ax-core/src/det.rs:102:33: replace * with / in mad
+crates/ax-core/src/det.rs:64:23: replace - with + in variance
+crates/ax-core/src/det.rs:64:23: replace - with / in variance
+crates/ax-core/src/det.rs:65:15: replace * with + in variance
+crates/ax-core/src/det.rs:65:15: replace * with / in variance
+crates/ax-core/src/det.rs:68:23: replace / with % in variance
+crates/ax-core/src/det.rs:68:23: replace / with * in variance
+crates/ax-core/src/det.rs:68:28: replace - with + in variance
+crates/ax-core/src/det.rs:68:28: replace - with / in variance
+crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with None
+crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(0.0)
+crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(1.0)
+crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(-1.0)
+crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with None
+crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(0.0)
+crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(1.0)
+crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(-1.0)
+crates/ax-core/src/det.rs:87:10: replace == with != in quantile
+crates/ax-core/src/det.rs:90:17: replace * with + in quantile
+crates/ax-core/src/det.rs:90:17: replace * with / in quantile
+crates/ax-core/src/det.rs:90:22: replace - with + in quantile
+crates/ax-core/src/det.rs:90:22: replace - with / in quantile
+crates/ax-core/src/det.rs:93:11: replace == with != in quantile
+crates/ax-core/src/det.rs:96:20: replace - with + in quantile
+crates/ax-core/src/det.rs:96:20: replace - with / in quantile
+crates/ax-core/src/det.rs:97:36: replace + with - in quantile
+crates/ax-core/src/det.rs:97:36: replace + with * in quantile
+crates/ax-core/src/det.rs:97:21: replace * with + in quantile
+crates/ax-core/src/det.rs:97:21: replace * with / in quantile
+crates/ax-core/src/det.rs:97:28: replace - with + in quantile
+crates/ax-core/src/det.rs:97:28: replace - with / in quantile
+crates/ax-core/src/det.rs:97:49: replace * with + in quantile
+crates/ax-core/src/det.rs:97:49: replace * with / in quantile
+crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with None
+crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(0.0)
+crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(1.0)
+crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(-1.0)
+crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with None
+crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(0.0)
+crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(1.0)
+crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(-1.0)
+crates/ax-core/src/det.rs:109:46: replace - with + in mad
+crates/ax-core/src/det.rs:109:46: replace - with / in mad
+crates/ax-core/src/det.rs:110:33: replace * with + in mad
+crates/ax-core/src/det.rs:110:33: replace * with / in mad
 crates/ax-core/src/dict.rs:27:9: replace Dict::intern -> u32 with 0
 crates/ax-core/src/dict.rs:27:9: replace Dict::intern -> u32 with 1
 crates/ax-core/src/dict.rs:38:9: replace Dict::get -> Option<&str> with None
@@ -67,10 +86,29 @@ crates/ax-core/src/dict.rs:38:9: replace Dict::get -> Option<&str> with Some("")
 crates/ax-core/src/dict.rs:38:9: replace Dict::get -> Option<&str> with Some("xyzzy")
 crates/ax-core/src/dict.rs:42:9: replace Dict::len -> usize with 0
 crates/ax-core/src/dict.rs:42:9: replace Dict::len -> usize with 1
+crates/ax-core/src/dict.rs:46:9: replace Dict::is_empty -> bool with true
+crates/ax-core/src/dict.rs:46:9: replace Dict::is_empty -> bool with false
+crates/ax-core/src/dict.rs:51:9: replace Dict::as_slice -> &[String] with Vec::leak(Vec::new())
+crates/ax-core/src/dict.rs:51:9: replace Dict::as_slice -> &[String] with Vec::leak(vec![String::new()])
+crates/ax-core/src/dict.rs:51:9: replace Dict::as_slice -> &[String] with Vec::leak(vec!["xyzzy".into()])
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 0
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 1
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with -1
+crates/ax-core/src/envelope.rs:170:64: replace == with != in EnvelopeBuilder::build
 crates/ax-core/src/envelope.rs:202:5: replace severity_token -> &'static str with ""
 crates/ax-core/src/envelope.rs:202:5: replace severity_token -> &'static str with "xyzzy"
 crates/ax-core/src/envelope.rs:212:5: replace json_u32 -> serde_json::Value with Default::default()
+crates/ax-core/src/envelope.rs:216:5: replace json_f64 -> serde_json::Value with Default::default()
+crates/ax-core/src/finding.rs:36:9: replace AnomalyClass::token -> &'static str with ""
+crates/ax-core/src/finding.rs:36:9: replace AnomalyClass::token -> &'static str with "xyzzy"
+crates/ax-core/src/finding.rs:76:18: replace match guard c >= 0.95 with true in Severity::from_confidence
 crates/ax-core/src/finding.rs:76:18: replace match guard c >= 0.95 with false in Severity::from_confidence
+crates/ax-core/src/finding.rs:77:18: replace match guard c >= 0.85 with true in Severity::from_confidence
+crates/ax-core/src/finding.rs:77:18: replace match guard c >= 0.85 with false in Severity::from_confidence
+crates/ax-core/src/finding.rs:78:18: replace match guard c >= 0.65 with true in Severity::from_confidence
+crates/ax-core/src/finding.rs:78:18: replace match guard c >= 0.65 with false in Severity::from_confidence
+crates/ax-core/src/finding.rs:79:18: replace match guard c >= 0.40 with true in Severity::from_confidence
+crates/ax-core/src/finding.rs:79:18: replace match guard c >= 0.40 with false in Severity::from_confidence
 crates/ax-core/src/finding.rs:76:20: replace >= with < in Severity::from_confidence
 crates/ax-core/src/finding.rs:77:20: replace >= with < in Severity::from_confidence
 crates/ax-core/src/finding.rs:78:20: replace >= with < in Severity::from_confidence
@@ -87,8 +125,11 @@ crates/ax-core/src/record.rs:36:9: replace Column::numeric -> Vec<f64> with vec!
 crates/ax-core/src/record.rs:36:9: replace Column::numeric -> Vec<f64> with vec![1.0]
 crates/ax-core/src/record.rs:36:9: replace Column::numeric -> Vec<f64> with vec![-1.0]
 crates/ax-core/src/record.rs:45:9: replace Column::null_count -> usize with 0
+crates/ax-core/src/record.rs:45:9: replace Column::null_count -> usize with 1
 crates/ax-core/src/record.rs:49:9: replace Column::len -> usize with 0
 crates/ax-core/src/record.rs:49:9: replace Column::len -> usize with 1
+crates/ax-core/src/record.rs:53:9: replace Column::is_empty -> bool with true
+crates/ax-core/src/record.rs:53:9: replace Column::is_empty -> bool with false
 crates/ax-core/src/record.rs:86:9: replace RecordSet::rows -> usize with 0
 crates/ax-core/src/record.rs:86:9: replace RecordSet::rows -> usize with 1
 crates/ax-core/src/record.rs:90:9: replace RecordSet::width -> usize with 0
@@ -101,8 +142,18 @@ crates/ax-core/src/value.rs:40:9: replace Value::as_f64 -> Option<f64> with Some
 crates/ax-core/src/value.rs:40:9: replace Value::as_f64 -> Option<f64> with Some(-1.0)
 crates/ax-core/src/value.rs:49:9: replace Value::is_null -> bool with true
 crates/ax-core/src/value.rs:49:9: replace Value::is_null -> bool with false
+crates/ax-core/src/value.rs:55:9: replace Value::canonical -> String with String::new()
+crates/ax-core/src/value.rs:55:9: replace Value::canonical -> String with "xyzzy".into()
+crates/ax-core/src/value.rs:71:13: replace Value::total_cmp::rank -> u8 with 0
+crates/ax-core/src/value.rs:71:13: replace Value::total_cmp::rank -> u8 with 1
+crates/ax-core/src/value.rs:80:13: delete match arm (Value::Bool(a), Value::Bool(b)) in Value::total_cmp
+crates/ax-core/src/value.rs:81:13: delete match arm (Value::Int(a), Value::Int(b)) in Value::total_cmp
+crates/ax-core/src/value.rs:82:13: delete match arm (Value::Float(a), Value::Float(b)) in Value::total_cmp
+crates/ax-core/src/value.rs:83:13: delete match arm (Value::Str(a), Value::Str(b)) in Value::total_cmp
 crates/ax-core/src/value.rs:111:13: delete match arm (Unknown, x) |(x, Unknown) in ColType::unify
 crates/ax-core/src/value.rs:113:13: delete match arm (Int, Float) |(Float, Int) in ColType::unify
 crates/ax-core/src/value.rs:112:23: replace match guard a == b with true in ColType::unify
 crates/ax-core/src/value.rs:112:23: replace match guard a == b with false in ColType::unify
 crates/ax-core/src/value.rs:112:25: replace == with != in ColType::unify
+crates/ax-core/src/value.rs:119:9: replace ColType::is_numeric -> bool with true
+crates/ax-core/src/value.rs:119:9: replace ColType::is_numeric -> bool with false

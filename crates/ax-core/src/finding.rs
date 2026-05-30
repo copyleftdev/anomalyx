@@ -216,6 +216,38 @@ mod tests {
     }
 
     #[test]
+    fn class_tokens_are_exact() {
+        assert_eq!(AnomalyClass::Point.token(), "point");
+        assert_eq!(AnomalyClass::Distributional.token(), "distributional");
+        assert_eq!(AnomalyClass::Cadence.token(), "cadence");
+        // every class has a distinct, non-empty token
+        let mut seen = std::collections::HashSet::new();
+        for c in AnomalyClass::ALL {
+            assert!(!c.token().is_empty());
+            assert!(seen.insert(c.token()), "duplicate token {}", c.token());
+        }
+    }
+
+    #[test]
+    fn severity_buckets_are_exact_at_boundaries() {
+        let cases = [
+            (0.96, Severity::Critical),
+            (0.95, Severity::Critical),
+            (0.90, Severity::High),
+            (0.85, Severity::High),
+            (0.70, Severity::Medium),
+            (0.65, Severity::Medium),
+            (0.50, Severity::Low),
+            (0.40, Severity::Low),
+            (0.30, Severity::Info),
+            (0.0, Severity::Info),
+        ];
+        for (c, want) in cases {
+            assert_eq!(Severity::from_confidence(c), want, "confidence {c}");
+        }
+    }
+
+    #[test]
     fn severity_is_monotonic_in_confidence() {
         let mut prev = Severity::Info;
         for c in [0.0, 0.4, 0.65, 0.85, 0.95, 1.0] {

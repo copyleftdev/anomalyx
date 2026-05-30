@@ -32,46 +32,46 @@
        Fresh linux-raw-sys v0.12.1
        Fresh bitflags v2.11.1
        Fresh autocfg v1.5.1
-       Fresh once_cell v1.21.4
        Fresh fastrand v2.4.1
+       Fresh once_cell v1.21.4
        Fresh wait-timeout v0.2.1
+       Fresh fnv v1.0.7
        Fresh memchr v2.8.1
        Fresh bit-vec v0.8.0
        Fresh itoa v1.0.18
        Fresh quick-error v1.2.3
-       Fresh fnv v1.0.7
        Fresh unarray v0.1.4
        Fresh regex-syntax v0.8.10
        Fresh proc-macro2 v1.0.106
        Fresh getrandom v0.3.4
-       Fresh serde_core v1.0.228
        Fresh rustix v1.1.4
        Fresh getrandom v0.4.2
-       Fresh zerocopy v0.8.50
-       Fresh zmij v1.0.21
        Fresh bit-set v0.8.0
        Fresh quote v1.0.45
        Fresh rand_core v0.9.5
+       Fresh serde_core v1.0.228
+       Fresh zerocopy v0.8.50
+       Fresh zmij v1.0.21
        Fresh tempfile v3.27.0
+       Fresh syn v2.0.117
        Fresh ppv-lite86 v0.2.21
        Fresh serde_json v1.0.150
-       Fresh num-traits v0.2.19
-       Fresh syn v2.0.117
        Fresh rand_xorshift v0.4.0
-       Fresh rand v0.9.4
-       Fresh rand_chacha v0.9.0
        Fresh rusty-fork v0.3.1
-       Fresh thiserror-impl v2.0.18
+       Fresh num-traits v0.2.19
+       Fresh rand v0.9.4
        Fresh serde_derive v1.0.228
-       Fresh proptest v1.11.0
-       Fresh serde v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh rand_chacha v0.9.0
        Fresh thiserror v2.0.18
-       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core): couldn't read metadata for file `target/debug/deps/libax_core-152e3833fb2b7c67.rlib`
-   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core)
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
-  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/ax_core-5ab5d1a675507000`
+       Fresh serde v1.0.228
+       Fresh proptest v1.11.0
+       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/crates/ax-core): couldn't read metadata for file `target/debug/deps/libax_core-152e3833fb2b7c67.rlib`
+   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/crates/ax-core)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/ax_core-5ab5d1a675507000`
 
 *** result: Success
 
@@ -79,64 +79,82 @@
        Fresh libc v0.2.186
        Fresh cfg-if v1.0.4
        Fresh unicode-ident v1.0.24
-       Fresh autocfg v1.5.1
        Fresh linux-raw-sys v0.12.1
+       Fresh autocfg v1.5.1
        Fresh bitflags v2.11.1
        Fresh once_cell v1.21.4
        Fresh fastrand v2.4.1
        Fresh wait-timeout v0.2.1
-       Fresh memchr v2.8.1
        Fresh fnv v1.0.7
-       Fresh quick-error v1.2.3
-       Fresh itoa v1.0.18
        Fresh bit-vec v0.8.0
-       Fresh unarray v0.1.4
+       Fresh quick-error v1.2.3
+       Fresh memchr v2.8.1
+       Fresh itoa v1.0.18
        Fresh regex-syntax v0.8.10
+       Fresh unarray v0.1.4
        Fresh proc-macro2 v1.0.106
-       Fresh getrandom v0.3.4
-       Fresh rustix v1.1.4
-       Fresh getrandom v0.4.2
-       Fresh zerocopy v0.8.50
-       Fresh serde_core v1.0.228
-       Fresh zmij v1.0.21
        Fresh bit-set v0.8.0
        Fresh quote v1.0.45
+       Fresh getrandom v0.3.4
+       Fresh rustix v1.1.4
+       Fresh zerocopy v0.8.50
+       Fresh getrandom v0.4.2
+       Fresh serde_core v1.0.228
+       Fresh zmij v1.0.21
+       Fresh syn v2.0.117
        Fresh rand_core v0.9.5
        Fresh ppv-lite86 v0.2.21
        Fresh tempfile v3.27.0
        Fresh num-traits v0.2.19
        Fresh serde_json v1.0.150
-       Fresh syn v2.0.117
-       Fresh rand_chacha v0.9.0
-       Fresh rand v0.9.4
+       Fresh thiserror-impl v2.0.18
+       Fresh serde_derive v1.0.228
        Fresh rand_xorshift v0.4.0
        Fresh rusty-fork v0.3.1
-       Fresh serde_derive v1.0.228
-       Fresh thiserror-impl v2.0.18
-       Fresh proptest v1.11.0
+       Fresh rand_chacha v0.9.0
+       Fresh rand v0.9.4
        Fresh thiserror v2.0.18
        Fresh serde v1.0.228
-       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core)
+       Fresh proptest v1.11.0
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/crates/ax-core)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
-     Running `/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/ax_core-5ab5d1a675507000`
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-gRVjMp.tmp/target/debug/deps/ax_core-5ab5d1a675507000`
 
-running 18 tests
+running 36 tests
+test det::tests::det_sum_compensation_recovers_small_term ... ok
+test det::tests::det_sum_else_branch_compensation_is_exact ... ok
 test det::tests::det_sum_is_permutation_invariant ... ok
-test det::tests::quantile_endpoints_and_middle ... ok
-test dict::tests::intern_is_idempotent_and_ordered ... ok
-test det::tests::variance_needs_two ... ok
-test envelope::tests::empty_is_clean ... ok
-test det::tests::mean_of_empty_is_none ... ok
+test det::tests::det_sum_exact_value ... ok
+test det::tests::finite_drops_non_finite_keeps_order ... ok
 test det::tests::mad_of_constant_is_zero ... ok
-test envelope::tests::findings_set_anomalies_exit_and_max_severity ... ok
+test det::tests::mad_of_spread_is_nonzero_exact ... ok
+test det::tests::mean_of_empty_is_none ... ok
+test det::tests::quantile_endpoints_and_middle ... ok
+test det::tests::variance_and_std_exact ... ok
+test det::tests::variance_needs_two ... ok
+test dict::tests::intern_is_idempotent_and_ordered ... ok
+test dict::tests::is_empty_and_as_slice_track_contents ... ok
+test envelope::tests::by_class_counts_only_matching_class ... ok
+test envelope::tests::empty_is_clean ... ok
+test envelope::tests::exit_codes_are_committed ... ok
 test envelope::tests::build_is_order_independent ... ok
+test envelope::tests::findings_set_anomalies_exit_and_max_severity ... ok
+test envelope::tests::row_encodes_confidence_and_score_as_numbers ... ok
+test finding::tests::class_tokens_are_exact ... ok
 test finding::tests::confidence_is_clamped ... ok
 test finding::tests::handle_rejects_garbage ... ok
+test finding::tests::severity_buckets_are_exact_at_boundaries ... ok
 test finding::tests::severity_is_monotonic_in_confidence ... ok
-test record::tests::numeric_skips_nulls_and_strings ... ok
 test finding::tests::handle_roundtrips ... FAILED
-test value::tests::null_is_not_numeric_zero ... ok
+test record::tests::empty_and_nonempty_columns ... ok
+test record::tests::null_count_is_exact ... ok
+test record::tests::numeric_skips_nulls_and_strings ... ok
 test record::tests::rows_and_width ... ok
+test value::tests::canonical_forms_are_exact_and_disjoint ... ok
+test value::tests::is_numeric_classification ... ok
+test value::tests::null_is_not_numeric_zero ... ok
+test value::tests::total_cmp_orders_across_variants_by_rank ... ok
+test value::tests::total_cmp_orders_within_variant ... ok
 test value::tests::unify_is_commutative_and_idempotent ... ok
 test value::tests::unify_widens_int_float ... ok
 
@@ -144,7 +162,7 @@ failures:
 
 ---- finding::tests::handle_roundtrips stdout ----
 
-thread 'finding::tests::handle_roundtrips' (1015277) panicked at crates/ax-core/src/finding.rs:208:13:
+thread 'finding::tests::handle_roundtrips' (1163337) panicked at crates/ax-core/src/finding.rs:208:13:
 assertion `left == right` failed: roundtrip failed for col:status
   left: None
  right: Some(Column { name: "status" })
@@ -154,7 +172,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 failures:
     finding::tests::handle_roundtrips
 
-test result: FAILED. 17 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: FAILED. 35 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass `-p ax-core --lib`
 

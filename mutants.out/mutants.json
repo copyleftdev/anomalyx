@@ -960,7 +960,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with None\n@@ -46,23 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with None\n@@ -46,31 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n-    // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n-    let sq: Vec<f64> = xs\n-        .iter()\n-        .map(|x| {\n-            let d = x - m;\n-            d * d\n-        })\n-        .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -968,7 +968,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -983,7 +983,7 @@
     "span": {
       "end": {
         "column": 40,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 5,
@@ -992,7 +992,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(0.0)\n@@ -46,23 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(0.0)\n@@ -46,31 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n-    // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n-    let sq: Vec<f64> = xs\n-        .iter()\n-        .map(|x| {\n-            let d = x - m;\n-            d * d\n-        })\n-        .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1000,7 +1000,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1015,7 +1015,7 @@
     "span": {
       "end": {
         "column": 40,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 5,
@@ -1024,7 +1024,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(1.0)\n@@ -46,23 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(1.0)\n@@ -46,31 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n-    // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n-    let sq: Vec<f64> = xs\n-        .iter()\n-        .map(|x| {\n-            let d = x - m;\n-            d * d\n-        })\n-        .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1032,7 +1032,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1047,7 +1047,7 @@
     "span": {
       "end": {
         "column": 40,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 5,
@@ -1056,7 +1056,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(-1.0)\n@@ -46,23 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace variance -> Option<f64> with Some(-1.0)\n@@ -46,31 +46,17 @@\n     }\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n-    let n = xs.len();\n-    if n < 2 {\n-        return None;\n-    }\n-    let m = mean(xs)?;\n-    // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n-    // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n-    let sq: Vec<f64> = xs\n-        .iter()\n-        .map(|x| {\n-            let d = x - m;\n-            d * d\n-        })\n-        .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1064,7 +1064,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1079,7 +1079,7 @@
     "span": {
       "end": {
         "column": 40,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 5,
@@ -1088,7 +1088,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with == in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n == /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with == in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n == /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1096,7 +1096,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1120,7 +1120,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with > in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n > /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with > in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n > /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1128,7 +1128,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1152,7 +1152,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with <= in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n <= /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace < with <= in variance\n@@ -47,17 +47,17 @@\n     Some(det_sum(xs) / xs.len() as f64)\n }\n \n /// Sample variance (Bessel-corrected, denominator `n - 1`).\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n-    if n < 2 {\n+    if n <= /* ~ changed by cargo-mutants ~ */ 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1160,7 +1160,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1184,7 +1184,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x - m) + /* ~ changed by cargo-mutants ~ */ (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in variance\n@@ -56,17 +56,17 @@\n         return None;\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n-            let d = x - m;\n+            let d = x + /* ~ changed by cargo-mutants ~ */ m;\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1192,7 +1192,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1201,22 +1201,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:50: replace * with + in variance",
+    "name": "crates/ax-core/src/det.rs:64:23: replace - with + in variance",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
-        "column": 51,
-        "line": 59
+        "column": 24,
+        "line": 64
       },
       "start": {
-        "column": 50,
-        "line": 59
+        "column": 23,
+        "line": 64
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x - m) / /* ~ changed by cargo-mutants ~ */ (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in variance\n@@ -56,17 +56,17 @@\n         return None;\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n-            let d = x - m;\n+            let d = x / /* ~ changed by cargo-mutants ~ */ m;\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1224,7 +1224,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1233,22 +1233,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:50: replace * with / in variance",
+    "name": "crates/ax-core/src/det.rs:64:23: replace - with / in variance",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
-        "column": 51,
-        "line": 59
+        "column": 24,
+        "line": 64
       },
       "start": {
-        "column": 50,
-        "line": 59
+        "column": 23,
+        "line": 64
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x + /* ~ changed by cargo-mutants ~ */ m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in variance\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n-            d * d\n+            d + /* ~ changed by cargo-mutants ~ */ d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1256,7 +1256,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1265,22 +1265,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:45: replace - with + in variance",
+    "name": "crates/ax-core/src/det.rs:65:15: replace * with + in variance",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
-        "column": 46,
-        "line": 59
+        "column": 16,
+        "line": 65
       },
       "start": {
-        "column": 45,
-        "line": 59
+        "column": 15,
+        "line": 65
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x / /* ~ changed by cargo-mutants ~ */ m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in variance\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n-            d * d\n+            d / /* ~ changed by cargo-mutants ~ */ d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1288,7 +1288,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1297,22 +1297,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:45: replace - with / in variance",
+    "name": "crates/ax-core/src/det.rs:65:15: replace * with / in variance",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
-        "column": 46,
-        "line": 59
+        "column": 16,
+        "line": 65
       },
       "start": {
-        "column": 45,
-        "line": 59
+        "column": 15,
+        "line": 65
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x + /* ~ changed by cargo-mutants ~ */ m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace / with % in variance\n@@ -60,17 +60,17 @@\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n             d * d\n         })\n         .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) % /* ~ changed by cargo-mutants ~ */ (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1320,7 +1320,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1329,86 +1329,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:55: replace - with + in variance",
-    "package": "ax-core",
-    "replacement": "+",
-    "span": {
-      "end": {
-        "column": 56,
-        "line": 59
-      },
-      "start": {
-        "column": 55,
-        "line": 59
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in variance\n@@ -51,17 +51,17 @@\n ///\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n-    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n+    let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x / /* ~ changed by cargo-mutants ~ */ m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n",
-    "file": "crates/ax-core/src/det.rs",
-    "function": {
-      "function_name": "variance",
-      "return_type": "-> Option<f64>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 61
-        },
-        "start": {
-          "column": 1,
-          "line": 50
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:59:55: replace - with / in variance",
-    "package": "ax-core",
-    "replacement": "/",
-    "span": {
-      "end": {
-        "column": 56,
-        "line": 59
-      },
-      "start": {
-        "column": 55,
-        "line": 59
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace / with % in variance\n@@ -52,17 +52,17 @@\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) % /* ~ changed by cargo-mutants ~ */ (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
-    "file": "crates/ax-core/src/det.rs",
-    "function": {
-      "function_name": "variance",
-      "return_type": "-> Option<f64>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 61
-        },
-        "start": {
-          "column": 1,
-          "line": 50
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:60:23: replace / with % in variance",
+    "name": "crates/ax-core/src/det.rs:68:23: replace / with % in variance",
     "package": "ax-core",
     "replacement": "%",
     "span": {
       "end": {
         "column": 24,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 23,
-        "line": 60
+        "line": 68
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace / with * in variance\n@@ -52,17 +52,17 @@\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) * /* ~ changed by cargo-mutants ~ */ (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace / with * in variance\n@@ -60,17 +60,17 @@\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n             d * d\n         })\n         .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) * /* ~ changed by cargo-mutants ~ */ (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1416,7 +1352,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1425,22 +1361,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:60:23: replace / with * in variance",
+    "name": "crates/ax-core/src/det.rs:68:23: replace / with * in variance",
     "package": "ax-core",
     "replacement": "*",
     "span": {
       "end": {
         "column": 24,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 23,
-        "line": 60
+        "line": 68
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in variance\n@@ -52,17 +52,17 @@\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) / (n + /* ~ changed by cargo-mutants ~ */ 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in variance\n@@ -60,17 +60,17 @@\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n             d * d\n         })\n         .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) / (n + /* ~ changed by cargo-mutants ~ */ 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1448,7 +1384,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1457,22 +1393,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:60:28: replace - with + in variance",
+    "name": "crates/ax-core/src/det.rs:68:28: replace - with + in variance",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 29,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 28,
-        "line": 60
+        "line": 68
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in variance\n@@ -52,17 +52,17 @@\n /// Returns `None` for fewer than two values, where sample variance is undefined.\n pub fn variance(xs: &[f64]) -> Option<f64> {\n     let n = xs.len();\n     if n < 2 {\n         return None;\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) / (n / /* ~ changed by cargo-mutants ~ */ 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in variance\n@@ -60,17 +60,17 @@\n     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².\n     let sq: Vec<f64> = xs\n         .iter()\n         .map(|x| {\n             let d = x - m;\n             d * d\n         })\n         .collect();\n-    Some(det_sum(&sq) / (n - 1) as f64)\n+    Some(det_sum(&sq) / (n / /* ~ changed by cargo-mutants ~ */ 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "variance",
@@ -1480,7 +1416,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 61
+          "line": 69
         },
         "start": {
           "column": 1,
@@ -1489,22 +1425,22 @@
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:60:28: replace - with / in variance",
+    "name": "crates/ax-core/src/det.rs:68:28: replace - with / in variance",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 29,
-        "line": 60
+        "line": 68
       },
       "start": {
         "column": 28,
-        "line": 60
+        "line": 68
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with None\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with None\n@@ -65,17 +65,17 @@\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "std_dev",
@@ -1512,31 +1448,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 66
+          "line": 74
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 71
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with None",
+    "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with None",
     "package": "ax-core",
     "replacement": "None",
     "span": {
       "end": {
         "column": 32,
-        "line": 65
+        "line": 73
       },
       "start": {
         "column": 5,
-        "line": 65
+        "line": 73
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(0.0)\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(0.0)\n@@ -65,17 +65,17 @@\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "std_dev",
@@ -1544,31 +1480,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 66
+          "line": 74
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 71
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(0.0)",
+    "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(0.0)",
     "package": "ax-core",
     "replacement": "Some(0.0)",
     "span": {
       "end": {
         "column": 32,
-        "line": 65
+        "line": 73
       },
       "start": {
         "column": 5,
-        "line": 65
+        "line": 73
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(1.0)\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(1.0)\n@@ -65,17 +65,17 @@\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "std_dev",
@@ -1576,31 +1512,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 66
+          "line": 74
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 71
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(1.0)",
+    "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(1.0)",
     "package": "ax-core",
     "replacement": "Some(1.0)",
     "span": {
       "end": {
         "column": 32,
-        "line": 65
+        "line": 73
       },
       "start": {
         "column": 5,
-        "line": 65
+        "line": 73
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(-1.0)\n@@ -57,17 +57,17 @@\n     }\n     let m = mean(xs)?;\n     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace std_dev -> Option<f64> with Some(-1.0)\n@@ -65,17 +65,17 @@\n             d * d\n         })\n         .collect();\n     Some(det_sum(&sq) / (n - 1) as f64)\n }\n \n /// Sample standard deviation. `None` for fewer than two values.\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n-    variance(xs).map(f64::sqrt)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "std_dev",
@@ -1608,31 +1544,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 66
+          "line": 74
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 71
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:65:5: replace std_dev -> Option<f64> with Some(-1.0)",
+    "name": "crates/ax-core/src/det.rs:73:5: replace std_dev -> Option<f64> with Some(-1.0)",
     "package": "ax-core",
     "replacement": "Some(-1.0)",
     "span": {
       "end": {
         "column": 32,
-        "line": 65
+        "line": 73
       },
       "start": {
         "column": 5,
-        "line": 65
+        "line": 73
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with None\n@@ -64,34 +64,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with None\n@@ -72,34 +72,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1640,31 +1576,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with None",
+    "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with None",
     "package": "ax-core",
     "replacement": "None",
     "span": {
       "end": {
         "column": 56,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 5,
-        "line": 72
+        "line": 80
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(0.0)\n@@ -64,34 +64,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(0.0)\n@@ -72,34 +72,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1672,31 +1608,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(0.0)",
+    "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(0.0)",
     "package": "ax-core",
     "replacement": "Some(0.0)",
     "span": {
       "end": {
         "column": 56,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 5,
-        "line": 72
+        "line": 80
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(1.0)\n@@ -64,34 +64,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(1.0)\n@@ -72,34 +72,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1704,31 +1640,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(1.0)",
+    "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(1.0)",
     "package": "ax-core",
     "replacement": "Some(1.0)",
     "span": {
       "end": {
         "column": 56,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 5,
-        "line": 72
+        "line": 80
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(-1.0)\n@@ -64,34 +64,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace quantile -> Option<f64> with Some(-1.0)\n@@ -72,34 +72,17 @@\n pub fn std_dev(xs: &[f64]) -> Option<f64> {\n     variance(xs).map(f64::sqrt)\n }\n \n /// Quantile via linear interpolation (the \"type 7\" / NumPy default method).\n ///\n /// `q` is clamped to `[0, 1]`. Returns `None` for an empty slice.\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n-    if xs.is_empty() {\n-        return None;\n-    }\n-    let q = q.clamp(0.0, 1.0);\n-    let mut sorted: Vec<f64> = xs.to_vec();\n-    sorted.sort_by(|a, b| a.total_cmp(b));\n-    let n = sorted.len();\n-    if n == 1 {\n-        return Some(sorted[0]);\n-    }\n-    let pos = q * (n - 1) as f64;\n-    let lo = pos.floor() as usize;\n-    let hi = pos.ceil() as usize;\n-    if lo == hi {\n-        return Some(sorted[lo]);\n-    }\n-    let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1736,31 +1672,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:72:5: replace quantile -> Option<f64> with Some(-1.0)",
+    "name": "crates/ax-core/src/det.rs:80:5: replace quantile -> Option<f64> with Some(-1.0)",
     "package": "ax-core",
     "replacement": "Some(-1.0)",
     "span": {
       "end": {
         "column": 56,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 5,
-        "line": 72
+        "line": 80
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace == with != in quantile\n@@ -71,17 +71,17 @@\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n-    if n == 1 {\n+    if n != /* ~ changed by cargo-mutants ~ */ 1 {\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace == with != in quantile\n@@ -79,17 +79,17 @@\n pub fn quantile(xs: &[f64], q: f64) -> Option<f64> {\n     if xs.is_empty() {\n         return None;\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n-    if n == 1 {\n+    if n != /* ~ changed by cargo-mutants ~ */ 1 {\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1768,31 +1704,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:79:10: replace == with != in quantile",
+    "name": "crates/ax-core/src/det.rs:87:10: replace == with != in quantile",
     "package": "ax-core",
     "replacement": "!=",
     "span": {
       "end": {
         "column": 12,
-        "line": 79
+        "line": 87
       },
       "start": {
         "column": 10,
-        "line": 79
+        "line": 87
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -74,17 +74,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q + /* ~ changed by cargo-mutants ~ */ (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -82,17 +82,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q + /* ~ changed by cargo-mutants ~ */ (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1800,31 +1736,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:82:17: replace * with + in quantile",
+    "name": "crates/ax-core/src/det.rs:90:17: replace * with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 18,
-        "line": 82
+        "line": 90
       },
       "start": {
         "column": 17,
-        "line": 82
+        "line": 90
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -74,17 +74,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q / /* ~ changed by cargo-mutants ~ */ (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -82,17 +82,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q / /* ~ changed by cargo-mutants ~ */ (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1832,31 +1768,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:82:17: replace * with / in quantile",
+    "name": "crates/ax-core/src/det.rs:90:17: replace * with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 18,
-        "line": 82
+        "line": 90
       },
       "start": {
         "column": 17,
-        "line": 82
+        "line": 90
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -74,17 +74,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q * (n + /* ~ changed by cargo-mutants ~ */ 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -82,17 +82,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q * (n + /* ~ changed by cargo-mutants ~ */ 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1864,31 +1800,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:82:22: replace - with + in quantile",
+    "name": "crates/ax-core/src/det.rs:90:22: replace - with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 23,
-        "line": 82
+        "line": 90
       },
       "start": {
         "column": 22,
-        "line": 82
+        "line": 90
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -74,17 +74,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q * (n / /* ~ changed by cargo-mutants ~ */ 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -82,17 +82,17 @@\n     }\n     let q = q.clamp(0.0, 1.0);\n     let mut sorted: Vec<f64> = xs.to_vec();\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n-    let pos = q * (n - 1) as f64;\n+    let pos = q * (n / /* ~ changed by cargo-mutants ~ */ 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1896,31 +1832,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:82:22: replace - with / in quantile",
+    "name": "crates/ax-core/src/det.rs:90:22: replace - with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 23,
-        "line": 82
+        "line": 90
       },
       "start": {
         "column": 22,
-        "line": 82
+        "line": 90
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace == with != in quantile\n@@ -77,17 +77,17 @@\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n-    if lo == hi {\n+    if lo != /* ~ changed by cargo-mutants ~ */ hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace == with != in quantile\n@@ -85,17 +85,17 @@\n     sorted.sort_by(|a, b| a.total_cmp(b));\n     let n = sorted.len();\n     if n == 1 {\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n-    if lo == hi {\n+    if lo != /* ~ changed by cargo-mutants ~ */ hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1928,31 +1864,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:85:11: replace == with != in quantile",
+    "name": "crates/ax-core/src/det.rs:93:11: replace == with != in quantile",
     "package": "ax-core",
     "replacement": "!=",
     "span": {
       "end": {
         "column": 13,
-        "line": 85
+        "line": 93
       },
       "start": {
         "column": 11,
-        "line": 85
+        "line": 93
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -80,17 +80,17 @@\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n-    let frac = pos - lo as f64;\n+    let frac = pos + /* ~ changed by cargo-mutants ~ */ lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -88,17 +88,17 @@\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n-    let frac = pos - lo as f64;\n+    let frac = pos + /* ~ changed by cargo-mutants ~ */ lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1960,31 +1896,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:88:20: replace - with + in quantile",
+    "name": "crates/ax-core/src/det.rs:96:20: replace - with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 21,
-        "line": 88
+        "line": 96
       },
       "start": {
         "column": 20,
-        "line": 88
+        "line": 96
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -80,17 +80,17 @@\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n-    let frac = pos - lo as f64;\n+    let frac = pos / /* ~ changed by cargo-mutants ~ */ lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -88,17 +88,17 @@\n         return Some(sorted[0]);\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n-    let frac = pos - lo as f64;\n+    let frac = pos / /* ~ changed by cargo-mutants ~ */ lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -1992,31 +1928,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:88:20: replace - with / in quantile",
+    "name": "crates/ax-core/src/det.rs:96:20: replace - with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 21,
-        "line": 88
+        "line": 96
       },
       "start": {
         "column": 20,
-        "line": 88
+        "line": 96
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace + with - in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) - /* ~ changed by cargo-mutants ~ */ sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace + with - in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) - /* ~ changed by cargo-mutants ~ */ sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2024,31 +1960,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:36: replace + with - in quantile",
+    "name": "crates/ax-core/src/det.rs:97:36: replace + with - in quantile",
     "package": "ax-core",
     "replacement": "-",
     "span": {
       "end": {
         "column": 37,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 36,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace + with * in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) * /* ~ changed by cargo-mutants ~ */ sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace + with * in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) * /* ~ changed by cargo-mutants ~ */ sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2056,31 +1992,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:36: replace + with * in quantile",
+    "name": "crates/ax-core/src/det.rs:97:36: replace + with * in quantile",
     "package": "ax-core",
     "replacement": "*",
     "span": {
       "end": {
         "column": 37,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 36,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] + /* ~ changed by cargo-mutants ~ */ (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] + /* ~ changed by cargo-mutants ~ */ (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2088,31 +2024,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:21: replace * with + in quantile",
+    "name": "crates/ax-core/src/det.rs:97:21: replace * with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 22,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 21,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] / /* ~ changed by cargo-mutants ~ */ (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] / /* ~ changed by cargo-mutants ~ */ (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2120,31 +2056,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:21: replace * with / in quantile",
+    "name": "crates/ax-core/src/det.rs:97:21: replace * with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 22,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 21,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 + /* ~ changed by cargo-mutants ~ */ frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 + /* ~ changed by cargo-mutants ~ */ frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2152,31 +2088,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:28: replace - with + in quantile",
+    "name": "crates/ax-core/src/det.rs:97:28: replace - with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 29,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 28,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 / /* ~ changed by cargo-mutants ~ */ frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 / /* ~ changed by cargo-mutants ~ */ frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2184,31 +2120,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:28: replace - with / in quantile",
+    "name": "crates/ax-core/src/det.rs:97:28: replace - with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 29,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 28,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) + sorted[hi] + /* ~ changed by cargo-mutants ~ */ frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) + sorted[hi] + /* ~ changed by cargo-mutants ~ */ frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2216,31 +2152,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:49: replace * with + in quantile",
+    "name": "crates/ax-core/src/det.rs:97:49: replace * with + in quantile",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 50,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 49,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -81,17 +81,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) + sorted[hi] / /* ~ changed by cargo-mutants ~ */ frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in quantile\n@@ -89,17 +89,17 @@\n     }\n     let pos = q * (n - 1) as f64;\n     let lo = pos.floor() as usize;\n     let hi = pos.ceil() as usize;\n     if lo == hi {\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n-    Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n+    Some(sorted[lo] * (1.0 - frac) + sorted[hi] / /* ~ changed by cargo-mutants ~ */ frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "quantile",
@@ -2248,31 +2184,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 98
         },
         "start": {
           "column": 1,
-          "line": 68
+          "line": 76
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:89:49: replace * with / in quantile",
+    "name": "crates/ax-core/src/det.rs:97:49: replace * with / in quantile",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 50,
-        "line": 89
+        "line": 97
       },
       "start": {
         "column": 49,
-        "line": 89
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with None\n@@ -86,17 +86,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with None\n@@ -94,17 +94,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "median",
@@ -2280,130 +2216,34 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 95
+          "line": 103
         },
         "start": {
           "column": 1,
-          "line": 92
+          "line": 100
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with None",
+    "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with None",
     "package": "ax-core",
     "replacement": "None",
     "span": {
       "end": {
         "column": 22,
-        "line": 94
+        "line": 102
       },
       "start": {
         "column": 5,
-        "line": 94
+        "line": 102
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(0.0)\n@@ -86,17 +86,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(0.0)\n@@ -94,17 +94,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "median",
-      "return_type": "-> Option<f64>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 95
-        },
-        "start": {
-          "column": 1,
-          "line": 92
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(0.0)",
-    "package": "ax-core",
-    "replacement": "Some(0.0)",
-    "span": {
-      "end": {
-        "column": 22,
-        "line": 94
-      },
-      "start": {
-        "column": 5,
-        "line": 94
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(1.0)\n@@ -86,17 +86,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
-    "file": "crates/ax-core/src/det.rs",
-    "function": {
-      "function_name": "median",
-      "return_type": "-> Option<f64>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 95
-        },
-        "start": {
-          "column": 1,
-          "line": 92
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(1.0)",
-    "package": "ax-core",
-    "replacement": "Some(1.0)",
-    "span": {
-      "end": {
-        "column": 22,
-        "line": 94
-      },
-      "start": {
-        "column": 5,
-        "line": 94
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(-1.0)\n@@ -86,17 +86,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
-    "file": "crates/ax-core/src/det.rs",
-    "function": {
-      "function_name": "median",
-      "return_type": "-> Option<f64>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 95
-        },
-        "start": {
-          "column": 1,
-          "line": 92
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:94:5: replace median -> Option<f64> with Some(-1.0)",
-    "package": "ax-core",
-    "replacement": "Some(-1.0)",
-    "span": {
-      "end": {
-        "column": 22,
-        "line": 94
-      },
-      "start": {
-        "column": 5,
-        "line": 94
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with None\n@@ -92,19 +92,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
-    "file": "crates/ax-core/src/det.rs",
-    "function": {
-      "function_name": "mad",
       "return_type": "-> Option<f64>",
       "span": {
         "end": {
@@ -2412,27 +2252,123 @@
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 100
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with None",
+    "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(0.0)",
+    "package": "ax-core",
+    "replacement": "Some(0.0)",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 102
+      },
+      "start": {
+        "column": 5,
+        "line": 102
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(1.0)\n@@ -94,17 +94,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
+    "file": "crates/ax-core/src/det.rs",
+    "function": {
+      "function_name": "median",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 103
+        },
+        "start": {
+          "column": 1,
+          "line": 100
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(1.0)",
+    "package": "ax-core",
+    "replacement": "Some(1.0)",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 102
+      },
+      "start": {
+        "column": 5,
+        "line": 102
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace median -> Option<f64> with Some(-1.0)\n@@ -94,17 +94,17 @@\n         return Some(sorted[lo]);\n     }\n     let frac = pos - lo as f64;\n     Some(sorted[lo] * (1.0 - frac) + sorted[hi] * frac)\n }\n \n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n-    quantile(xs, 0.5)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n",
+    "file": "crates/ax-core/src/det.rs",
+    "function": {
+      "function_name": "median",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 103
+        },
+        "start": {
+          "column": 1,
+          "line": 100
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/det.rs:102:5: replace median -> Option<f64> with Some(-1.0)",
+    "package": "ax-core",
+    "replacement": "Some(-1.0)",
+    "span": {
+      "end": {
+        "column": 22,
+        "line": 102
+      },
+      "start": {
+        "column": 5,
+        "line": 102
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with None\n@@ -100,19 +100,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
+    "file": "crates/ax-core/src/det.rs",
+    "function": {
+      "function_name": "mad",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 111
+        },
+        "start": {
+          "column": 1,
+          "line": 105
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with None",
     "package": "ax-core",
     "replacement": "None",
     "span": {
       "end": {
         "column": 37,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 5,
-        "line": 100
+        "line": 108
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(0.0)\n@@ -92,19 +92,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(0.0)\n@@ -100,19 +100,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2440,31 +2376,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(0.0)",
+    "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(0.0)",
     "package": "ax-core",
     "replacement": "Some(0.0)",
     "span": {
       "end": {
         "column": 37,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 5,
-        "line": 100
+        "line": 108
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(1.0)\n@@ -92,19 +92,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(1.0)\n@@ -100,19 +100,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2472,31 +2408,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(1.0)",
+    "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(1.0)",
     "package": "ax-core",
     "replacement": "Some(1.0)",
     "span": {
       "end": {
         "column": 37,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 5,
-        "line": 100
+        "line": 108
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(-1.0)\n@@ -92,19 +92,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace mad -> Option<f64> with Some(-1.0)\n@@ -100,19 +100,17 @@\n /// Median (the 0.5 quantile).\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n-    let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2504,31 +2440,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-core/src/det.rs:100:5: replace mad -> Option<f64> with Some(-1.0)",
+    "name": "crates/ax-core/src/det.rs:108:5: replace mad -> Option<f64> with Some(-1.0)",
     "package": "ax-core",
     "replacement": "Some(-1.0)",
     "span": {
       "end": {
         "column": 37,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 5,
-        "line": 100
+        "line": 108
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in mad\n@@ -93,17 +93,17 @@\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n+    let dev: Vec<f64> = xs.iter().map(|x| (x + /* ~ changed by cargo-mutants ~ */ med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with + in mad\n@@ -101,17 +101,17 @@\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n+    let dev: Vec<f64> = xs.iter().map(|x| (x + /* ~ changed by cargo-mutants ~ */ med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2536,31 +2472,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:101:46: replace - with + in mad",
+    "name": "crates/ax-core/src/det.rs:109:46: replace - with + in mad",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 47,
-        "line": 101
+        "line": 109
       },
       "start": {
         "column": 46,
-        "line": 101
+        "line": 109
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in mad\n@@ -93,17 +93,17 @@\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n+    let dev: Vec<f64> = xs.iter().map(|x| (x / /* ~ changed by cargo-mutants ~ */ med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace - with / in mad\n@@ -101,17 +101,17 @@\n pub fn median(xs: &[f64]) -> Option<f64> {\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n+    let dev: Vec<f64> = xs.iter().map(|x| (x / /* ~ changed by cargo-mutants ~ */ med).abs()).collect();\n     median(&dev).map(|m| 1.4826 * m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2568,31 +2504,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:101:46: replace - with / in mad",
+    "name": "crates/ax-core/src/det.rs:109:46: replace - with / in mad",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 47,
-        "line": 101
+        "line": 109
       },
       "start": {
         "column": 46,
-        "line": 101
+        "line": 109
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in mad\n@@ -94,17 +94,17 @@\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    median(&dev).map(|m| 1.4826 + /* ~ changed by cargo-mutants ~ */ m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with + in mad\n@@ -102,17 +102,17 @@\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    median(&dev).map(|m| 1.4826 + /* ~ changed by cargo-mutants ~ */ m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2600,31 +2536,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:102:33: replace * with + in mad",
+    "name": "crates/ax-core/src/det.rs:110:33: replace * with + in mad",
     "package": "ax-core",
     "replacement": "+",
     "span": {
       "end": {
         "column": 34,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 33,
-        "line": 102
+        "line": 110
       }
     }
   },
   {
-    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in mad\n@@ -94,17 +94,17 @@\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    median(&dev).map(|m| 1.4826 / /* ~ changed by cargo-mutants ~ */ m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn det_sum_is_permutation_invariant() {\n",
+    "diff": "--- crates/ax-core/src/det.rs\n+++ replace * with / in mad\n@@ -102,17 +102,17 @@\n     quantile(xs, 0.5)\n }\n \n /// Median absolute deviation, scaled to be a consistent estimator of σ for\n /// normal data (factor `1.4826`). `None` for an empty slice.\n pub fn mad(xs: &[f64]) -> Option<f64> {\n     let med = median(xs)?;\n     let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();\n-    median(&dev).map(|m| 1.4826 * m)\n+    median(&dev).map(|m| 1.4826 / /* ~ changed by cargo-mutants ~ */ m)\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn finite_drops_non_finite_keeps_order() {\n",
     "file": "crates/ax-core/src/det.rs",
     "function": {
       "function_name": "mad",
@@ -2632,26 +2568,26 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 103
+          "line": 111
         },
         "start": {
           "column": 1,
-          "line": 97
+          "line": 105
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-core/src/det.rs:102:33: replace * with / in mad",
+    "name": "crates/ax-core/src/det.rs:110:33: replace * with / in mad",
     "package": "ax-core",
     "replacement": "/",
     "span": {
       "end": {
         "column": 34,
-        "line": 102
+        "line": 110
       },
       "start": {
         "column": 33,
-        "line": 102
+        "line": 110
       }
     }
   },

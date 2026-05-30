@@ -14,8 +14,8 @@
          return None;
      }
      let m = mean(xs)?;
-     let sq: Vec<f64> = xs.iter().map(|x| (x - m) * (x - m)).collect();
-     Some(det_sum(&sq) / (n - 1) as f64)
- }
- 
- /// Sample standard deviation. `None` for fewer than two values.
+     // Compute the deviation once: writing `(x - m) * (x - m)` would let a single
+     // sign flip become an equivalent mutant, since Σ(x+m)(x−m) == Σ(x−m)².
+     let sq: Vec<f64> = xs
+         .iter()
+         .map(|x| {

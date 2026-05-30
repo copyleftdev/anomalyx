@@ -130,6 +130,52 @@ mod tests {
     }
 
     #[test]
+    fn canonical_forms_are_exact_and_disjoint() {
+        assert_eq!(Value::Bool(true).canonical(), "b:true");
+        assert_eq!(Value::Int(7).canonical(), "i:7");
+        assert_eq!(Value::Float(1.5).canonical(), "f:1.5");
+        assert_eq!(Value::Str("x".into()).canonical(), "s:x");
+        // null is distinct from the string "null"
+        assert_ne!(Value::Null.canonical(), Value::Str("null".into()).canonical());
+    }
+
+    #[test]
+    fn total_cmp_orders_within_variant() {
+        assert_eq!(Value::Bool(false).total_cmp(&Value::Bool(true)), Ordering::Less);
+        assert_eq!(Value::Int(1).total_cmp(&Value::Int(2)), Ordering::Less);
+        assert_eq!(Value::Float(1.0).total_cmp(&Value::Float(2.0)), Ordering::Less);
+        assert_eq!(Value::Str("a".into()).total_cmp(&Value::Str("b".into())), Ordering::Less);
+    }
+
+    #[test]
+    fn total_cmp_orders_across_variants_by_rank() {
+        // Null < Bool < Int < Float < Str
+        let ordered = [
+            Value::Null,
+            Value::Bool(true),
+            Value::Int(0),
+            Value::Float(0.0),
+            Value::Str(String::new()),
+        ];
+        for i in 0..ordered.len() {
+            for j in 0..ordered.len() {
+                let expected = i.cmp(&j);
+                assert_eq!(ordered[i].total_cmp(&ordered[j]), expected, "i={i} j={j}");
+            }
+        }
+    }
+
+    #[test]
+    fn is_numeric_classification() {
+        assert!(ColType::Int.is_numeric());
+        assert!(ColType::Float.is_numeric());
+        assert!(ColType::Bool.is_numeric());
+        assert!(!ColType::Str.is_numeric());
+        assert!(!ColType::Unknown.is_numeric());
+        assert!(!ColType::Mixed.is_numeric());
+    }
+
+    #[test]
     fn unify_widens_int_float() {
         assert_eq!(ColType::Int.unify(ColType::Float), ColType::Float);
         assert_eq!(ColType::Unknown.unify(ColType::Str), ColType::Str);
