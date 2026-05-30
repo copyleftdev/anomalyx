@@ -16,5 +16,19 @@ cd "$(dirname "$0")/.."
 echo "==> fmt";     cargo fmt --all --check
 echo "==> clippy";  cargo clippy --workspace --all-targets -- -D warnings
 echo "==> test";    cargo nextest run --workspace 2>/dev/null || cargo test --workspace
-echo "==> mutants"; cargo mutants --workspace ${MUTANTS_ARGS:-}
-echo "==> all gates green"
+
+# Mutation gate: ZERO surviving (missed) mutants. cargo-mutants also exits
+# non-zero on timeouts, but the only timeouts are loop-bound mutations that hang
+# (detected, not survivors), so we gate on missed.txt and tolerate timeouts.
+echo "==> mutants"
+rm -rf mutants.out
+set +e
+cargo mutants --workspace ${MUTANTS_ARGS:-}
+set -e
+if [ ! -f mutants.out/missed.txt ]; then
+    echo "mutants: no results (baseline or usage error)"; exit 1
+fi
+if [ -s mutants.out/missed.txt ]; then
+    echo "mutants: SURVIVING mutants found:"; cat mutants.out/missed.txt; exit 1
+fi
+echo "==> all gates green (0 surviving mutants)"

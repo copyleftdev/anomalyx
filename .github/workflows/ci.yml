@@ -44,7 +44,26 @@ jobs:
         with:
           tool: cargo-mutants
       - name: Mutation testing
-        run: cargo mutants --workspace
+        # The gate is ZERO SURVIVING (missed) mutants. `cargo mutants` also
+        # returns non-zero on timeouts — but the only timeouts here are
+        # loop-bound mutations in ks_statistic that hang (e.g. `i += 1` → `i *= 1`),
+        # which means they are *detected*, not survivors. So we gate explicitly on
+        # missed.txt and tolerate the timeout exit code, while still failing on a
+        # baseline/usage error (which leaves no results behind).
+        run: |
+          set +e
+          cargo mutants --workspace
+          echo "cargo-mutants exit code: $?"
+          if [ ! -f mutants.out/missed.txt ]; then
+            echo "::error::cargo-mutants produced no results (baseline or usage error)"
+            exit 1
+          fi
+          if [ -s mutants.out/missed.txt ]; then
+            echo "::error::surviving (missed) mutants found:"
+            cat mutants.out/missed.txt
+            exit 1
+          fi
+          echo "0 surviving mutants (timeouts are detected loop-bound mutations)"
       - name: Upload mutants report
         if: always()
         uses: actions/upload-artifact@v4
