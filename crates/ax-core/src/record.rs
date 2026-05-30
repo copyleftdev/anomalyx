@@ -117,7 +117,10 @@ mod tests {
 
     #[test]
     fn null_count_is_exact() {
-        assert_eq!(Column::new("a", vec![Value::Int(1), Value::Int(2)]).null_count(), 0);
+        assert_eq!(
+            Column::new("a", vec![Value::Int(1), Value::Int(2)]).null_count(),
+            0
+        );
         assert_eq!(
             Column::new("b", vec![Value::Null, Value::Int(1), Value::Null]).null_count(),
             2

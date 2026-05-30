@@ -69,6 +69,8 @@ mod tests {
         assert!(matches!(infer_scalar("42"), Value::Int(42)));
         assert!(matches!(infer_scalar("3.14"), Value::Float(_)));
         assert!(matches!(infer_scalar("true"), Value::Bool(true)));
+        assert!(matches!(infer_scalar("false"), Value::Bool(false)));
+        assert!(matches!(infer_scalar("False"), Value::Bool(false)));
         assert!(matches!(infer_scalar("hello"), Value::Str(_)));
         // textual inf/nan are NOT numeric values
         assert!(matches!(infer_scalar("inf"), Value::Str(_)));
@@ -77,11 +79,26 @@ mod tests {
 
     #[test]
     fn json_scalar_conversion() {
-        assert!(matches!(json_to_value(&serde_json::json!(null)), Value::Null));
-        assert!(matches!(json_to_value(&serde_json::json!(7)), Value::Int(7)));
-        assert!(matches!(json_to_value(&serde_json::json!(1.5)), Value::Float(_)));
-        assert!(matches!(json_to_value(&serde_json::json!(true)), Value::Bool(true)));
-        assert!(matches!(json_to_value(&serde_json::json!("s")), Value::Str(_)));
+        assert!(matches!(
+            json_to_value(&serde_json::json!(null)),
+            Value::Null
+        ));
+        assert!(matches!(
+            json_to_value(&serde_json::json!(7)),
+            Value::Int(7)
+        ));
+        assert!(matches!(
+            json_to_value(&serde_json::json!(1.5)),
+            Value::Float(_)
+        ));
+        assert!(matches!(
+            json_to_value(&serde_json::json!(true)),
+            Value::Bool(true)
+        ));
+        assert!(matches!(
+            json_to_value(&serde_json::json!("s")),
+            Value::Str(_)
+        ));
         // nested preserved as canonical string
         assert!(matches!(
             json_to_value(&serde_json::json!({"k": 1})),

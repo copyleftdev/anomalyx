@@ -60,7 +60,9 @@ impl Detector for PointDetector {
 
 impl PointDetector {
     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {
-        let Some(center) = det::median(xs) else { return };
+        let Some(center) = det::median(xs) else {
+            return;
+        };
         let mad = det::mad(xs).unwrap_or(0.0);
 
         // Choose a robust scale; fall back to σ when MAD collapses.
@@ -76,7 +78,9 @@ impl PointDetector {
 
         // Iterate the original cells so row indices in handles are correct.
         for (row, cell) in col.cells.iter().enumerate() {
-            let Some(x) = numeric_cell(cell) else { continue };
+            let Some(x) = numeric_cell(cell) else {
+                continue;
+            };
             let modz = modified_score(x, center, scale, k);
             if modz <= cfg.point_threshold {
                 continue;
@@ -226,7 +230,11 @@ mod tests {
         // A column with exactly point_min_n (=8) finite values must be scanned,
         // not skipped. Catches `len < min_n` → `len <= min_n`.
         let report = run(&[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 100.0]);
-        assert_eq!(report.findings.len(), 1, "the 100.0 outlier must be flagged");
+        assert_eq!(
+            report.findings.len(),
+            1,
+            "the 100.0 outlier must be flagged"
+        );
         assert!(report.absent.is_empty(), "8 values is enough to assess");
     }
 
@@ -242,7 +250,10 @@ mod tests {
             report.findings[0].handle,
             Handle::Cell { row: 8, .. }
         ));
-        assert!(report.findings[0].score > 100.0, "MAD-scaled score is large");
+        assert!(
+            report.findings[0].score > 100.0,
+            "MAD-scaled score is large"
+        );
     }
 
     #[test]

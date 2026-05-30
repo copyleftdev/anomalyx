@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ replace == with != in cmd_scan
+@@ -99,17 +99,17 @@
+     let mut builder =
+         EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);
+     for a in report.absent {
+         builder = builder.absent(a.detector, a.reason);
+     }
+     let env = builder.build();
+ 
+     println!("{}", serde_json::to_string(&env).expect("envelope serializes"));
+-    Ok(if env.exit == ExitCode::Anomalies.code() {
++    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {
+         ExitCode::Anomalies
+     } else {
+         ExitCode::Clean
+     })
+ }
+ 
+ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
+     let handle_str = rest

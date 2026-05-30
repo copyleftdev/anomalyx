@@ -80,11 +80,9 @@ fn read_ndjson(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {
         if line.trim().is_empty() {
             continue;
         }
-        let val: serde_json::Value = serde_json::from_str(line).map_err(|e| {
-            AxError::Parse {
-                format: fmt.token().to_string(),
-                message: format!("line {}: {e}", lineno + 1),
-            }
+        let val: serde_json::Value = serde_json::from_str(line).map_err(|e| AxError::Parse {
+            format: fmt.token().to_string(),
+            message: format!("line {}: {e}", lineno + 1),
         })?;
         builder.push_value(val);
     }

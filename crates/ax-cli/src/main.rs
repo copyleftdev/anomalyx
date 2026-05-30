@@ -96,14 +96,17 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
     let registry = Registry::default_set();
     let report = registry.run(&rs, &cfg);
 
-    let mut builder =
-        EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);
+    let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())
+        .findings(report.findings);
     for a in report.absent {
         builder = builder.absent(a.detector, a.reason);
     }
     let env = builder.build();
 
-    println!("{}", serde_json::to_string(&env).expect("envelope serializes"));
+    println!(
+        "{}",
+        serde_json::to_string(&env).expect("envelope serializes")
+    );
     Ok(if env.exit == ExitCode::Anomalies.code() {
         ExitCode::Anomalies
     } else {
@@ -115,8 +118,7 @@ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
     let handle_str = rest
         .first()
         .ok_or_else(|| AxError::Config("explain requires a <HANDLE> argument".into()))?;
-    let handle =
-        Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;
+    let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;
 
     let (source, bytes) = read_input(rest.get(1))?;
     let rs = ax_normalize::normalize(&source, &bytes)?;
@@ -138,7 +140,10 @@ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
         "evidence": evidence,
         "findings": findings,
     });
-    println!("{}", serde_json::to_string(&out).expect("explain serializes"));
+    println!(
+        "{}",
+        serde_json::to_string(&out).expect("explain serializes")
+    );
     Ok(ExitCode::Clean)
 }
 
@@ -203,7 +208,10 @@ mod tests {
     #[test]
     fn resolve_cell_ok() {
         let rs = corpus();
-        let h = Handle::Cell { column: "x".into(), row: 1 };
+        let h = Handle::Cell {
+            column: "x".into(),
+            row: 1,
+        };
         let ev = resolve_handle(&rs, &h).unwrap();
         assert_eq!(ev["value"], serde_json::json!({"t": "int", "v": 2}));
     }
@@ -211,7 +219,10 @@ mod tests {
     #[test]
     fn resolve_out_of_range_is_unresolved() {
         let rs = corpus();
-        let h = Handle::Cell { column: "x".into(), row: 99 };
+        let h = Handle::Cell {
+            column: "x".into(),
+            row: 99,
+        };
         assert!(matches!(
             resolve_handle(&rs, &h),
             Err(AxError::UnresolvedHandle(_))
@@ -221,11 +232,74 @@ mod tests {
     #[test]
     fn resolve_missing_column_is_unresolved() {
         let rs = corpus();
-        let h = Handle::Column { name: "nope".into() };
+        let h = Handle::Column {
+            name: "nope".into(),
+        };
         assert!(matches!(
             resolve_handle(&rs, &h),
             Err(AxError::UnresolvedHandle(_))
         ));
+    }
+
+    #[test]
+    fn resolve_range_valid_and_invalid() {
+        let rs = corpus(); // 3 rows
+                           // valid [0,2)
+        let ok = resolve_handle(
+            &rs,
+            &Handle::Range {
+                column: "x".into(),
+                start: 0,
+                end: 2,
+            },
+        )
+        .unwrap();
+        assert_eq!(ok["values"].as_array().unwrap().len(), 2);
+        // empty/inverted range start >= end
+        assert!(resolve_handle(
+            &rs,
+            &Handle::Range {
+                column: "x".into(),
+                start: 2,
+                end: 2
+            }
+        )
+        .is_err());
+        assert!(resolve_handle(
+            &rs,
+            &Handle::Range {
+                column: "x".into(),
+                start: 3,
+                end: 1
+            }
+        )
+        .is_err());
+        // end past column length
+        assert!(resolve_handle(
+            &rs,
+            &Handle::Range {
+                column: "x".into(),
+                start: 0,
+                end: 4
+            }
+        )
+        .is_err());
+        // exact end == len is valid
+        assert!(resolve_handle(
+            &rs,
+            &Handle::Range {
+                column: "x".into(),
+                start: 0,
+                end: 3
+            }
+        )
+        .is_ok());
+    }
+
+    #[test]
+    fn usage_is_nonempty_and_documents_verbs() {
+        let u = usage();
+        assert!(u.contains("describe") && u.contains("scan") && u.contains("explain"));
     }
 
     #[test]

@@ -1,0 +1,5 @@
+crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
+crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()
+crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with "xyzzy".into()
+crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()
+crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with "xyzzy".into()

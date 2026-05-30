@@ -50,7 +50,10 @@ mod tests {
     fn describe_is_valid_json_with_protocol() {
         let v: serde_json::Value = serde_json::from_str(&describe_json()).unwrap();
         assert_eq!(v["protocol"], PROTOCOL);
-        assert!(v["detectors"].as_array().unwrap().contains(&serde_json::json!("point.modz")));
+        assert!(v["detectors"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("point.modz")));
         assert_eq!(v["exit_codes"]["anomalies"], 1);
     }
 }

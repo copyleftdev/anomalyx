@@ -47,8 +47,10 @@ mod tests {
         let b = DetectConfig::default();
         assert_eq!(a.version(), b.version());
 
-        let mut c = DetectConfig::default();
-        c.point_threshold = 4.0;
+        let c = DetectConfig {
+            point_threshold: 4.0,
+            ..DetectConfig::default()
+        };
         assert_ne!(a.version(), c.version());
     }
 }

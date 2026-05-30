@@ -136,15 +136,27 @@ mod tests {
         assert_eq!(Value::Float(1.5).canonical(), "f:1.5");
         assert_eq!(Value::Str("x".into()).canonical(), "s:x");
         // null is distinct from the string "null"
-        assert_ne!(Value::Null.canonical(), Value::Str("null".into()).canonical());
+        assert_ne!(
+            Value::Null.canonical(),
+            Value::Str("null".into()).canonical()
+        );
     }
 
     #[test]
     fn total_cmp_orders_within_variant() {
-        assert_eq!(Value::Bool(false).total_cmp(&Value::Bool(true)), Ordering::Less);
+        assert_eq!(
+            Value::Bool(false).total_cmp(&Value::Bool(true)),
+            Ordering::Less
+        );
         assert_eq!(Value::Int(1).total_cmp(&Value::Int(2)), Ordering::Less);
-        assert_eq!(Value::Float(1.0).total_cmp(&Value::Float(2.0)), Ordering::Less);
-        assert_eq!(Value::Str("a".into()).total_cmp(&Value::Str("b".into())), Ordering::Less);
+        assert_eq!(
+            Value::Float(1.0).total_cmp(&Value::Float(2.0)),
+            Ordering::Less
+        );
+        assert_eq!(
+            Value::Str("a".into()).total_cmp(&Value::Str("b".into())),
+            Ordering::Less
+        );
     }
 
     #[test]

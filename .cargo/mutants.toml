@@ -1,0 +1,12 @@
+# cargo-mutants configuration for the strong mutation gate.
+#
+# The default gate is 0 survivors. Entries below are EQUIVALENT mutants —
+# mutations that cannot change observable behavior for any input — documented
+# individually so the exclusion is auditable, not a blanket suppression.
+
+exclude_re = [
+    # `t < c` vs `t <= c` where t,c are byte indices of '\t' and ',' in the same
+    # string. They index distinct characters, so they are never equal; `<=` is
+    # behaviorally identical to `<`. Provably equivalent, not a test gap.
+    "replace < with <= in Format::sniff",
+]

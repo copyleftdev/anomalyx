@@ -100,6 +100,9 @@ mod tests {
     fn schema_is_valid_json_and_pins_protocol() {
         let v: serde_json::Value = serde_json::from_str(&envelope_schema()).unwrap();
         assert_eq!(v["properties"]["protocol"]["const"], PROTOCOL);
-        assert_eq!(v["properties"]["exit"]["enum"], serde_json::json!([0, 1, 2]));
+        assert_eq!(
+            v["properties"]["exit"]["enum"],
+            serde_json::json!([0, 1, 2])
+        );
     }
 }

@@ -70,13 +70,15 @@ pub struct Registry {
 
 impl Registry {
     pub fn new() -> Self {
-        Registry { detectors: Vec::new() }
+        Registry {
+            detectors: Vec::new(),
+        }
     }
 
     /// The default detector set for this protocol version.
     pub fn default_set() -> Self {
         let mut r = Registry::new();
-        r.register(Box::new(PointDetector::default()));
+        r.register(Box::new(PointDetector));
         r
     }
 
@@ -117,10 +119,23 @@ mod tests {
         let rs = RecordSet::new(
             "-",
             "test",
-            vec![Column::new("x", vec![Value::Int(1), Value::Int(2), Value::Int(3)])],
+            vec![Column::new(
+                "x",
+                vec![Value::Int(1), Value::Int(2), Value::Int(3)],
+            )],
         );
         let report = reg.run(&rs, &DetectConfig::default());
         // a tight, normal column yields no point anomalies
         assert!(report.is_clean());
+    }
+
+    #[test]
+    fn registry_run_surfaces_findings_and_is_not_clean() {
+        let mut cells: Vec<Value> = (0..12).map(|i| Value::Int(10 + i % 3)).collect();
+        cells.push(Value::Int(100_000)); // unmistakable outlier
+        let rs = RecordSet::new("-", "test", vec![Column::new("x", cells)]);
+        let report = Registry::default_set().run(&rs, &DetectConfig::default());
+        assert!(!report.is_clean(), "the outlier must produce a finding");
+        assert_eq!(report.findings.len(), 1);
     }
 }

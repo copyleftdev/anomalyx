@@ -140,7 +140,9 @@ mod tests {
         // (|sum| < |x|) compensation cancels, landing exactly on 0.6_f64. A
         // wrong sign/operator in that compensation lands one ULP away.
         assert_eq!(det_sum(&[0.1, 0.2, 0.3]), 0.6);
-        assert!(0.1 + 0.2 + 0.3 != 0.6, "precondition: naive sum is not exact");
+        // precondition: naive left-to-right summation is NOT exact here.
+        let naive = std::hint::black_box([0.1, 0.2, 0.3]).iter().sum::<f64>();
+        assert_ne!(naive, 0.6);
     }
 
     #[test]

@@ -121,8 +121,12 @@ impl Handle {
     pub fn parse(s: &str) -> Option<Handle> {
         let (kind, rest) = s.split_once(':')?;
         match kind {
-            "col" => Some(Handle::Column { name: rest.to_string() }),
-            "dist" => Some(Handle::Dist { column: rest.to_string() }),
+            "col" => Some(Handle::Column {
+                name: rest.to_string(),
+            }),
+            "dist" => Some(Handle::Dist {
+                column: rest.to_string(),
+            }),
             "cell" => {
                 let (column, row) = rest.rsplit_once(':')?;
                 Some(Handle::Cell {
@@ -198,10 +202,21 @@ mod tests {
     #[test]
     fn handle_roundtrips() {
         let cases = [
-            Handle::Column { name: "status".into() },
-            Handle::Cell { column: "amount".into(), row: 42 },
-            Handle::Range { column: "ts".into(), start: 3, end: 9 },
-            Handle::Dist { column: "score".into() },
+            Handle::Column {
+                name: "status".into(),
+            },
+            Handle::Cell {
+                column: "amount".into(),
+                row: 42,
+            },
+            Handle::Range {
+                column: "ts".into(),
+                start: 3,
+                end: 9,
+            },
+            Handle::Dist {
+                column: "score".into(),
+            },
         ];
         for h in cases {
             let s = h.canonical();
@@ -259,7 +274,14 @@ mod tests {
 
     #[test]
     fn confidence_is_clamped() {
-        let f = Finding::new("d", AnomalyClass::Point, Handle::Column { name: "x".into() }, 5.0, 9.0, "r");
+        let f = Finding::new(
+            "d",
+            AnomalyClass::Point,
+            Handle::Column { name: "x".into() },
+            5.0,
+            9.0,
+            "r",
+        );
         assert_eq!(f.confidence, 1.0);
         assert_eq!(f.severity, Severity::Critical);
     }

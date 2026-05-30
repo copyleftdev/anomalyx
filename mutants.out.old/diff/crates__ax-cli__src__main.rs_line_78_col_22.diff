@@ -1,0 +1,21 @@
+--- crates/ax-cli/src/main.rs
++++ replace != with == in read_input
+@@ -70,17 +70,17 @@
+      \x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\n\
+      \n\
+      EXIT: 0 clean · 1 anomalies found · 2 error"
+ }
+ 
+ /// Reads the input corpus: a path argument, or stdin when absent or `-`.
+ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+     match path {
+-        Some(p) if p != "-" => {
++        Some(p) if p == /* ~ changed by cargo-mutants ~ */ "-" => {
+             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+             Ok((p.clone(), bytes))
+         }
+         _ => {
+             let mut buf = Vec::new();
+             std::io::stdin()
+                 .read_to_end(&mut buf)
+                 .map_err(|e| AxError::Io(format!("stdin: {e}")))?;

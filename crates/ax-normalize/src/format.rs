@@ -63,11 +63,12 @@ impl Format {
             _ => {
                 // Tabular: prefer TSV if a tab appears before any comma on line 1.
                 let line = trimmed.lines().next()?;
+                // Indices of '\t' and ',' are positions of distinct characters,
+                // so they are never equal; `<` is the only meaningful test.
                 match (line.find('\t'), line.find(',')) {
                     (Some(t), Some(c)) if t < c => Some(Format::Tsv),
                     (Some(_), None) => Some(Format::Tsv),
-                    (_, Some(_)) => Some(Format::Csv),
-                    _ => Some(Format::Csv), // single column, comma-free header
+                    _ => Some(Format::Csv), // comma-first, or single comma-free column
                 }
             }
         }
@@ -87,17 +88,38 @@ mod tests {
     use super::*;
 
     #[test]
+    fn format_tokens_are_exact() {
+        assert_eq!(Format::Csv.token(), "csv");
+        assert_eq!(Format::Tsv.token(), "tsv");
+        assert_eq!(Format::Ndjson.token(), "ndjson");
+        assert_eq!(Format::Json.token(), "json");
+    }
+
+    #[test]
     fn extension_detection() {
         assert_eq!(Format::from_extension("a/b.csv"), Some(Format::Csv));
+        assert_eq!(Format::from_extension("x.tsv"), Some(Format::Tsv));
+        assert_eq!(Format::from_extension("x.tab"), Some(Format::Tsv));
+        assert_eq!(Format::from_extension("x.json"), Some(Format::Json));
         assert_eq!(Format::from_extension("x.JSONL"), Some(Format::Ndjson));
         assert_eq!(Format::from_extension("x.parquet"), None);
         assert_eq!(Format::from_extension("noext"), None);
     }
 
     #[test]
+    fn sniff_uses_delimiter_order_when_both_present() {
+        // tab before comma → TSV; comma before tab → CSV.
+        assert_eq!(Format::sniff(b"a\tb,c\n1\t2,3"), Some(Format::Tsv));
+        assert_eq!(Format::sniff(b"a,b\tc\n1,2\t3"), Some(Format::Csv));
+    }
+
+    #[test]
     fn sniff_json_vs_ndjson() {
         assert_eq!(Format::sniff(b"[{\"a\":1}]"), Some(Format::Json));
-        assert_eq!(Format::sniff(b"{\"a\":1}\n{\"a\":2}\n"), Some(Format::Ndjson));
+        assert_eq!(
+            Format::sniff(b"{\"a\":1}\n{\"a\":2}\n"),
+            Some(Format::Ndjson)
+        );
         assert_eq!(Format::sniff(b"{\"a\":1}"), Some(Format::Json));
     }
 
@@ -110,7 +132,10 @@ mod tests {
     #[test]
     fn resolve_prefers_extension_then_sniff() {
         // extension wins even if content looks like something else
-        assert_eq!(Format::resolve("data.csv", b"{\"a\":1}").unwrap(), Format::Csv);
+        assert_eq!(
+            Format::resolve("data.csv", b"{\"a\":1}").unwrap(),
+            Format::Csv
+        );
         // no extension → sniff
         assert_eq!(Format::resolve("-", b"a,b\n1,2").unwrap(), Format::Csv);
         assert!(Format::resolve("-", &[0xff, 0xfe, 0x00]).is_err());
