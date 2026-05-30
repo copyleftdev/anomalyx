@@ -25,8 +25,7 @@ pub fn describe_json() -> String {
             "scan": "Normalize input (file or stdin) and emit a tq1 anomaly envelope.",
             "explain": "Resolve a finding handle to its underlying evidence."
         },
-        "input_formats": ["csv", "tsv", "ndjson", "json"],
-        "planned_formats": ["parquet", "arrow"],
+        "input_formats": ["csv", "tsv", "ndjson", "json", "parquet", "arrow"],
         "anomaly_classes": classes,
         "detectors": detectors,
         "finding_columns": FINDING_COLUMNS,

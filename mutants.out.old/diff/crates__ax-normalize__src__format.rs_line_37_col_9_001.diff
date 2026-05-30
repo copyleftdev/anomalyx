@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/format.rs
++++ replace Format::is_binary -> bool with false
+@@ -29,17 +29,17 @@
+             Format::Json => "json",
+             Format::Parquet => "parquet",
+             Format::Arrow => "arrow",
+         }
+     }
+ 
+     /// Whether this format is binary columnar (read via the Polars backbone).
+     pub fn is_binary(self) -> bool {
+-        matches!(self, Format::Parquet | Format::Arrow)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Picks a format from a file extension, if recognized.
+     pub fn from_extension(path: &str) -> Option<Format> {
+         let ext = path.rsplit('.').next()?.to_ascii_lowercase();
+         match ext.as_str() {
+             "csv" => Some(Format::Csv),
+             "tsv" | "tab" => Some(Format::Tsv),

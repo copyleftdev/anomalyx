@@ -1,0 +1,31 @@
+--- crates/ax-normalize/src/lib.rs
++++ replace read_json -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])
+@@ -108,27 +108,17 @@
+         builder.push_value(val);
+     }
+     Ok(builder.finish())
+ }
+ 
+ /// Reads a single JSON document: an array of records, a lone object (one row),
+ /// or a scalar/array (one `value` cell).
+ fn read_json(bytes: &[u8], fmt: Format) -> Result<Vec<Column>, AxError> {
+-    let val: serde_json::Value = serde_json::from_slice(bytes).map_err(|e| parse_err(fmt, e))?;
+-    let mut builder = TableBuilder::new();
+-    match val {
+-        serde_json::Value::Array(items) => {
+-            for item in items {
+-                builder.push_value(item);
+-            }
+-        }
+-        other => builder.push_value(other),
+-    }
+-    Ok(builder.finish())
++    Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ const VALUE_COL: &str = "value";
+ 
+ /// Accumulates JSON records into columns with a stable, sorted key-union order.
+ /// Missing keys fill with [`Value::Null`] so every column ends equal length.
+ struct TableBuilder {
+     order: Vec<String>,

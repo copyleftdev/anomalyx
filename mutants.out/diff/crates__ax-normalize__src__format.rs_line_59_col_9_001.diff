@@ -1,0 +1,58 @@
+--- crates/ax-normalize/src/format.rs
++++ replace Format::sniff -> Option<Format> with Some(Default::default())
+@@ -51,54 +51,17 @@
+         }
+     }
+ 
+     /// Sniffs a format from leading content. Binary magic numbers are checked
+     /// first (they are not valid UTF-8); then textual sniffing. `None` if
+     /// nothing matches.
+     pub fn sniff(bytes: &[u8]) -> Option<Format> {
+         // Parquet files begin (and end) with the 4-byte magic "PAR1".
+-        if bytes.starts_with(b"PAR1") {
+-            return Some(Format::Parquet);
+-        }
+-        // Arrow IPC files begin with "ARROW1".
+-        if bytes.starts_with(b"ARROW1") {
+-            return Some(Format::Arrow);
+-        }
+-        let text = std::str::from_utf8(bytes).ok()?;
+-        let trimmed = text.trim_start();
+-        let first = trimmed.chars().next()?;
+-        match first {
+-            '[' => Some(Format::Json),
+-            '{' => {
+-                // One object → json; multiple object-lines → ndjson.
+-                let object_lines = trimmed
+-                    .lines()
+-                    .filter(|l| !l.trim().is_empty())
+-                    .take(3)
+-                    .filter(|l| l.trim_start().starts_with('{'))
+-                    .count();
+-                if object_lines >= 2 {
+-                    Some(Format::Ndjson)
+-                } else {
+-                    Some(Format::Json)
+-                }
+-            }
+-            _ => {
+-                // Tabular: prefer TSV if a tab appears before any comma on line 1.
+-                let line = trimmed.lines().next()?;
+-                // Indices of '\t' and ',' are positions of distinct characters,
+-                // so they are never equal; `<` is the only meaningful test.
+-                match (line.find('\t'), line.find(',')) {
+-                    (Some(t), Some(c)) if t < c => Some(Format::Tsv),
+-                    (Some(_), None) => Some(Format::Tsv),
+-                    _ => Some(Format::Csv), // comma-first, or single comma-free column
+-                }
+-            }
+-        }
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Resolves the format for `source`/`bytes`: extension first, then sniff.
+     pub fn resolve(source: &str, bytes: &[u8]) -> Result<Format, AxError> {
+         if let Some(f) = Format::from_extension(source) {
+             return Ok(f);
+         }
+         Format::sniff(bytes).ok_or_else(|| AxError::UnknownFormat(source.to_string()))

@@ -1,0 +1,30 @@
+--- crates/ax-normalize/src/format.rs
++++ replace Format::from_extension -> Option<Format> with None
+@@ -34,26 +34,17 @@
+ 
+     /// Whether this format is binary columnar (read via the Polars backbone).
+     pub fn is_binary(self) -> bool {
+         matches!(self, Format::Parquet | Format::Arrow)
+     }
+ 
+     /// Picks a format from a file extension, if recognized.
+     pub fn from_extension(path: &str) -> Option<Format> {
+-        let ext = path.rsplit('.').next()?.to_ascii_lowercase();
+-        match ext.as_str() {
+-            "csv" => Some(Format::Csv),
+-            "tsv" | "tab" => Some(Format::Tsv),
+-            "ndjson" | "jsonl" => Some(Format::Ndjson),
+-            "json" => Some(Format::Json),
+-            "parquet" | "pq" => Some(Format::Parquet),
+-            "arrow" | "ipc" | "feather" => Some(Format::Arrow),
+-            _ => None,
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Sniffs a format from leading content. Binary magic numbers are checked
+     /// first (they are not valid UTF-8); then textual sniffing. `None` if
+     /// nothing matches.
+     pub fn sniff(bytes: &[u8]) -> Option<Format> {
+         // Parquet files begin (and end) with the 4-byte magic "PAR1".
+         if bytes.starts_with(b"PAR1") {

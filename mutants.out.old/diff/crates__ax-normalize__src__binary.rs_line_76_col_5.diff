@@ -1,0 +1,25 @@
+--- crates/ax-normalize/src/binary.rs
++++ replace finite_float -> Value with Default::default()
+@@ -68,21 +68,17 @@
+         AnyValue::String(s) => Value::Str(s.to_string()),
+         AnyValue::StringOwned(s) => Value::Str(s.to_string()),
+         other => Value::Str(other.to_string()),
+     }
+ }
+ 
+ /// A finite float becomes `Float`; NaN/±∞ become `Null` (honest absence).
+ fn finite_float(f: f64) -> Value {
+-    if f.is_finite() {
+-        Value::Float(f)
+-    } else {
+-        Value::Null
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {
+     AxError::Parse {
+         format: fmt.token().to_string(),
+         message: e.to_string(),
+     }
+ }

@@ -13,9 +13,17 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 csv = "1"
-# Polars/Arrow backbone for binary columnar formats lands behind the RecordSet
-# boundary in the next slice (Parquet, Arrow IPC) — text formats are handled
-# here with a fully-deterministic reader.
+# Polars/Arrow backbone for binary columnar formats (Parquet, Arrow IPC), behind
+# the RecordSet boundary and the default-on `polars` feature. Text formats never
+# touch it; `--no-default-features` yields a lean text-only normalizer.
+polars = { version = "0.53", default-features = false, features = [
+    "parquet",
+    "ipc",
+], optional = true }
+
+[features]
+default = ["polars"]
+polars = ["dep:polars"]
 
 [dev-dependencies]
 proptest = { workspace = true }

@@ -1,0 +1,25 @@
+--- crates/ax-normalize/src/lib.rs
++++ replace TableBuilder::finish -> Vec<Column> with vec![Default::default()]
+@@ -179,21 +179,17 @@
+         for (name, &i) in &self.index {
+             let cell = row.remove(name).unwrap_or(Value::Null);
+             self.cols[i].push(cell);
+         }
+         self.rows += 1;
+     }
+ 
+     fn finish(self) -> Vec<Column> {
+-        self.order
+-            .into_iter()
+-            .zip(self.cols)
+-            .map(|(name, cells)| Column::new(name, cells))
+-            .collect()
++        vec![Default::default()] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {
+     AxError::Parse {
+         format: fmt.token().to_string(),
+         message: e.to_string(),
+     }

@@ -1,0 +1,24 @@
+--- crates/ax-normalize/src/lib.rs
++++ replace parse_err -> AxError with Default::default()
+@@ -188,20 +188,17 @@
+             .into_iter()
+             .zip(self.cols)
+             .map(|(name, cells)| Column::new(name, cells))
+             .collect()
+     }
+ }
+ 
+ fn parse_err(fmt: Format, e: impl std::fmt::Display) -> AxError {
+-    AxError::Parse {
+-        format: fmt.token().to_string(),
+-        message: e.to_string(),
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::ColType;
+ 
+     #[test]

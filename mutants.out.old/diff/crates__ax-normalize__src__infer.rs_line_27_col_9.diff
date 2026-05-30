@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/infer.rs
++++ delete match arm "true" | "TRUE" | "True" in infer_scalar
+@@ -19,17 +19,17 @@
+     if let Ok(f) = raw.parse::<f64>() {
+         // Reject the textual forms `inf`/`nan` that `f64::parse` accepts but
+         // that are not meaningful data values; keep them as strings instead.
+         if f.is_finite() {
+             return Value::Float(f);
+         }
+     }
+     match raw {
+-        "true" | "TRUE" | "True" => return Value::Bool(true),
++         /* ~ changed by cargo-mutants ~ */
+         "false" | "FALSE" | "False" => return Value::Bool(false),
+         _ => {}
+     }
+     Value::Str(raw.to_string())
+ }
+ 
+ /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not
+ /// flattened here — they are preserved as their canonical JSON string and typed

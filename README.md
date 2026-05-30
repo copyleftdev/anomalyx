@@ -51,9 +51,10 @@ crates/
   ax-core       contract types: RecordSet, anomaly taxonomy, tq1 envelope,
                 handles, deterministic reductions  (no heavy deps — the contract
                 stays engine-independent and the mutation gate stays fast)
-  ax-normalize  any input format → RecordSet  (CSV/TSV/NDJSON/JSON today;
-                Polars/Arrow backbone for Parquet/Arrow IPC lands behind the
-                same boundary)
+  ax-normalize  any input format → RecordSet  (CSV/TSV/NDJSON/JSON via a lean
+                deterministic reader; Parquet/Arrow IPC via the Polars backbone,
+                behind the default-on `polars` feature — all lowered to the same
+                RecordSet so detectors never see a Polars type)
   ax-detect     Detector trait + registry; detection math assembled from
                 statrs / (future) smartcore / augurs, not reinvented
   ax-cli        the four-verb surface

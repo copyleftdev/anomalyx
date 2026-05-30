@@ -1,0 +1,23 @@
+--- crates/ax-normalize/src/binary.rs
++++ delete match arm Format::Parquet in read
+@@ -11,19 +11,17 @@
+ use ax_core::{AxError, Column, Value};
+ use polars::prelude::*;
+ use std::io::Cursor;
+ 
+ /// Reads a binary `fmt` into columns. Only [`Format::Parquet`] and
+ /// [`Format::Arrow`] are handled; anything else is a programming error.
+ pub fn read(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
+     let df = match fmt {
+-        Format::Parquet => ParquetReader::new(Cursor::new(bytes.to_vec()))
+-            .finish()
+-            .map_err(|e| parse_err(fmt, e))?,
++         /* ~ changed by cargo-mutants ~ */
+         Format::Arrow => IpcReader::new(Cursor::new(bytes.to_vec()))
+             .finish()
+             .map_err(|e| parse_err(fmt, e))?,
+         _ => {
+             return Err(AxError::UnknownFormat(format!(
+                 "{} is not a binary format",
+                 fmt.token()
+             )))

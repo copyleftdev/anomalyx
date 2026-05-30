@@ -1,0 +1,39 @@
+--- crates/ax-normalize/src/infer.rs
++++ replace infer_scalar -> Value with Default::default()
+@@ -5,35 +5,17 @@
+ use ax_core::Value;
+ 
+ /// Infers a [`Value`] from a raw textual cell (CSV/TSV).
+ ///
+ /// Order matters: empty → `Null`; then integer, then float, then bool, else the
+ /// trimmed string. Quoting/whitespace handling is the CSV reader's job; this
+ /// sees the already-unquoted field.
+ pub fn infer_scalar(raw: &str) -> Value {
+-    if raw.is_empty() {
+-        return Value::Null;
+-    }
+-    if let Ok(i) = raw.parse::<i64>() {
+-        return Value::Int(i);
+-    }
+-    if let Ok(f) = raw.parse::<f64>() {
+-        // Reject the textual forms `inf`/`nan` that `f64::parse` accepts but
+-        // that are not meaningful data values; keep them as strings instead.
+-        if f.is_finite() {
+-            return Value::Float(f);
+-        }
+-    }
+-    match raw {
+-        "true" | "TRUE" | "True" => return Value::Bool(true),
+-        "false" | "FALSE" | "False" => return Value::Bool(false),
+-        _ => {}
+-    }
+-    Value::Str(raw.to_string())
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not
+ /// flattened here — they are preserved as their canonical JSON string and typed
+ /// as `Str`, so a structural detector can still see them without the normalizer
+ /// inventing a shape.
+ pub fn json_to_value(j: &serde_json::Value) -> Value {
+     use serde_json::Value as J;

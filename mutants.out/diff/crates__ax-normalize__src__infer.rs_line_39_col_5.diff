@@ -1,0 +1,41 @@
+--- crates/ax-normalize/src/infer.rs
++++ replace json_to_value -> Value with Default::default()
+@@ -31,37 +31,17 @@
+     Value::Str(raw.to_string())
+ }
+ 
+ /// Converts a JSON scalar to a [`Value`]. Nested objects/arrays are not
+ /// flattened here — they are preserved as their canonical JSON string and typed
+ /// as `Str`, so a structural detector can still see them without the normalizer
+ /// inventing a shape.
+ pub fn json_to_value(j: &serde_json::Value) -> Value {
+-    use serde_json::Value as J;
+-    match j {
+-        J::Null => Value::Null,
+-        J::Bool(b) => Value::Bool(*b),
+-        J::Number(n) => {
+-            if let Some(i) = n.as_i64() {
+-                Value::Int(i)
+-            } else if let Some(f) = n.as_f64() {
+-                if f.is_finite() {
+-                    Value::Float(f)
+-                } else {
+-                    Value::Null
+-                }
+-            } else {
+-                // u64 too large for i64
+-                Value::Str(n.to_string())
+-            }
+-        }
+-        J::String(s) => Value::Str(s.clone()),
+-        J::Array(_) | J::Object(_) => Value::Str(j.to_string()),
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     fn scalar_inference_precedence() {

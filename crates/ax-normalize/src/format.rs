@@ -13,6 +13,10 @@ pub enum Format {
     Ndjson,
     /// A single JSON document (array of objects, object, or array of scalars).
     Json,
+    /// Apache Parquet (binary columnar). Requires the `polars` feature to read.
+    Parquet,
+    /// Apache Arrow IPC / Feather file (binary columnar). Requires `polars`.
+    Arrow,
 }
 
 impl Format {
@@ -23,7 +27,14 @@ impl Format {
             Format::Tsv => "tsv",
             Format::Ndjson => "ndjson",
             Format::Json => "json",
+            Format::Parquet => "parquet",
+            Format::Arrow => "arrow",
         }
+    }
+
+    /// Whether this format is binary columnar (read via the Polars backbone).
+    pub fn is_binary(self) -> bool {
+        matches!(self, Format::Parquet | Format::Arrow)
     }
 
     /// Picks a format from a file extension, if recognized.
@@ -34,13 +45,24 @@ impl Format {
             "tsv" | "tab" => Some(Format::Tsv),
             "ndjson" | "jsonl" => Some(Format::Ndjson),
             "json" => Some(Format::Json),
+            "parquet" | "pq" => Some(Format::Parquet),
+            "arrow" | "ipc" | "feather" => Some(Format::Arrow),
             _ => None,
         }
     }
 
-    /// Sniffs a format from leading content. Used when there is no usable
-    /// extension (e.g. stdin). Returns `None` if nothing matches.
+    /// Sniffs a format from leading content. Binary magic numbers are checked
+    /// first (they are not valid UTF-8); then textual sniffing. `None` if
+    /// nothing matches.
     pub fn sniff(bytes: &[u8]) -> Option<Format> {
+        // Parquet files begin (and end) with the 4-byte magic "PAR1".
+        if bytes.starts_with(b"PAR1") {
+            return Some(Format::Parquet);
+        }
+        // Arrow IPC files begin with "ARROW1".
+        if bytes.starts_with(b"ARROW1") {
+            return Some(Format::Arrow);
+        }
         let text = std::str::from_utf8(bytes).ok()?;
         let trimmed = text.trim_start();
         let first = trimmed.chars().next()?;
@@ -93,6 +115,28 @@ mod tests {
         assert_eq!(Format::Tsv.token(), "tsv");
         assert_eq!(Format::Ndjson.token(), "ndjson");
         assert_eq!(Format::Json.token(), "json");
+        assert_eq!(Format::Parquet.token(), "parquet");
+        assert_eq!(Format::Arrow.token(), "arrow");
+    }
+
+    #[test]
+    fn binary_classification() {
+        assert!(Format::Parquet.is_binary());
+        assert!(Format::Arrow.is_binary());
+        assert!(!Format::Csv.is_binary());
+        assert!(!Format::Json.is_binary());
+    }
+
+    #[test]
+    fn binary_extensions_and_magic() {
+        assert_eq!(Format::from_extension("x.parquet"), Some(Format::Parquet));
+        assert_eq!(Format::from_extension("x.feather"), Some(Format::Arrow));
+        assert_eq!(Format::from_extension("x.ipc"), Some(Format::Arrow));
+        // magic numbers win for extensionless input
+        assert_eq!(Format::sniff(b"PAR1\x00\x01rest"), Some(Format::Parquet));
+        assert_eq!(Format::sniff(b"ARROW1\x00\x00rest"), Some(Format::Arrow));
+        // a CSV that merely mentions PAR1 later is still CSV
+        assert_eq!(Format::sniff(b"a,b\nPAR1,2"), Some(Format::Csv));
     }
 
     #[test]
@@ -102,7 +146,7 @@ mod tests {
         assert_eq!(Format::from_extension("x.tab"), Some(Format::Tsv));
         assert_eq!(Format::from_extension("x.json"), Some(Format::Json));
         assert_eq!(Format::from_extension("x.JSONL"), Some(Format::Ndjson));
-        assert_eq!(Format::from_extension("x.parquet"), None);
+        assert_eq!(Format::from_extension("x.xlsx"), None);
         assert_eq!(Format::from_extension("noext"), None);
     }
 

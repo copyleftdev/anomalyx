@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/format.rs
++++ replace >= with < in Format::sniff
+@@ -71,17 +71,17 @@
+             '{' => {
+                 // One object → json; multiple object-lines → ndjson.
+                 let object_lines = trimmed
+                     .lines()
+                     .filter(|l| !l.trim().is_empty())
+                     .take(3)
+                     .filter(|l| l.trim_start().starts_with('{'))
+                     .count();
+-                if object_lines >= 2 {
++                if object_lines < /* ~ changed by cargo-mutants ~ */ 2 {
+                     Some(Format::Ndjson)
+                 } else {
+                     Some(Format::Json)
+                 }
+             }
+             _ => {
+                 // Tabular: prefer TSV if a tab appears before any comma on line 1.
+                 let line = trimmed.lines().next()?;

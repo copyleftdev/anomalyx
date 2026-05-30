@@ -1,0 +1,39 @@
+--- crates/ax-normalize/src/lib.rs
++++ replace TableBuilder::push_value with ()
+@@ -157,35 +157,17 @@
+         self.index.insert(name.to_string(), i);
+         self.cols.push(vec![Value::Null; self.rows]);
+         i
+     }
+ 
+     /// Adds one record. Objects contribute their fields; anything else goes to
+     /// the synthetic `value` column.
+     fn push_value(&mut self, val: serde_json::Value) {
+-        let mut row: BTreeMap<String, Value> = BTreeMap::new();
+-        match val {
+-            serde_json::Value::Object(map) => {
+-                for (k, v) in map {
+-                    row.insert(k, infer::json_to_value(&v));
+-                }
+-            }
+-            other => {
+-                row.insert(VALUE_COL.to_string(), infer::json_to_value(&other));
+-            }
+-        }
+-        for k in row.keys() {
+-            self.ensure(k);
+-        }
+-        for (name, &i) in &self.index {
+-            let cell = row.remove(name).unwrap_or(Value::Null);
+-            self.cols[i].push(cell);
+-        }
+-        self.rows += 1;
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn finish(self) -> Vec<Column> {
+         self.order
+             .into_iter()
+             .zip(self.cols)
+             .map(|(name, cells)| Column::new(name, cells))
+             .collect()

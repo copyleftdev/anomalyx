@@ -14,10 +14,30 @@
 use ax_core::{AxError, Column, RecordSet, Value};
 use std::collections::BTreeMap;
 
+#[cfg(feature = "polars")]
+pub mod binary;
 pub mod format;
 pub mod infer;
 
 pub use format::Format;
+
+/// Reads a binary columnar format (Parquet/Arrow) into columns. Behind the
+/// `polars` feature; without it, binary formats fail cleanly (honest absence)
+/// rather than the crate silently mis-handling them.
+fn read_binary(fmt: Format, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
+    #[cfg(feature = "polars")]
+    {
+        binary::read(fmt, bytes)
+    }
+    #[cfg(not(feature = "polars"))]
+    {
+        let _ = bytes;
+        Err(AxError::Config(format!(
+            "{} requires the 'polars' feature, which was not built",
+            fmt.token()
+        )))
+    }
+}
 
 /// Normalizes `bytes` from logical `source` into a [`RecordSet`], resolving the
 /// format by extension then content sniff.
@@ -33,6 +53,7 @@ pub fn normalize_as(source: &str, bytes: &[u8], fmt: Format) -> Result<RecordSet
         Format::Tsv => read_delimited(bytes, b'\t', fmt)?,
         Format::Ndjson => read_ndjson(bytes, fmt)?,
         Format::Json => read_json(bytes, fmt)?,
+        Format::Parquet | Format::Arrow => read_binary(fmt, bytes)?,
     };
     Ok(RecordSet::new(source, fmt.token(), columns))
 }

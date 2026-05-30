@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/format.rs
++++ delete match arm "arrow" | "ipc" | "feather" in Format::from_extension
+@@ -41,17 +41,17 @@
+     pub fn from_extension(path: &str) -> Option<Format> {
+         let ext = path.rsplit('.').next()?.to_ascii_lowercase();
+         match ext.as_str() {
+             "csv" => Some(Format::Csv),
+             "tsv" | "tab" => Some(Format::Tsv),
+             "ndjson" | "jsonl" => Some(Format::Ndjson),
+             "json" => Some(Format::Json),
+             "parquet" | "pq" => Some(Format::Parquet),
+-            "arrow" | "ipc" | "feather" => Some(Format::Arrow),
++             /* ~ changed by cargo-mutants ~ */
+             _ => None,
+         }
+     }
+ 
+     /// Sniffs a format from leading content. Binary magic numbers are checked
+     /// first (they are not valid UTF-8); then textual sniffing. `None` if
+     /// nothing matches.
+     pub fn sniff(bytes: &[u8]) -> Option<Format> {
