@@ -129,4 +129,12 @@ $ ./scripts/gates.sh          # fmt · clippy -D warnings · tests · mutants==0
 ```
 
 Current status: workspace builds clean, `clippy -D warnings` passes, all tests
-green, and every crate passes the 0-survivor mutation gate.
+green, and every crate passes the 0-survivor mutation gate. CI runs the same
+gates on every push (`.github/workflows/ci.yml`).
+
+## License
+
+Licensed under either of [Apache License, Version 2.0](LICENSE-APACHE) or
+[MIT license](LICENSE-MIT) at your option. Unless you explicitly state
+otherwise, any contribution intentionally submitted for inclusion in this work
+shall be dual licensed as above, without any additional terms or conditions.
