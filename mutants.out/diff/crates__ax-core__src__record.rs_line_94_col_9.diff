@@ -1,0 +1,21 @@
+--- crates/ax-core/src/record.rs
++++ replace RecordSet::column -> Option<&Column> with None
+@@ -86,17 +86,17 @@
+         self.columns.first().map_or(0, Column::len)
+     }
+ 
+     pub fn width(&self) -> usize {
+         self.columns.len()
+     }
+ 
+     pub fn column(&self, name: &str) -> Option<&Column> {
+-        self.columns.iter().find(|c| c.name == name)
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]

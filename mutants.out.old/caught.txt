@@ -1,0 +1,45 @@
+crates/ax-detect/src/config.rs:33:9: replace DetectConfig::version -> String with String::new()
+crates/ax-detect/src/config.rs:33:9: replace DetectConfig::version -> String with "xyzzy".into()
+crates/ax-detect/src/point.rs:29:9: replace <impl Detector for PointDetector>::id -> &'static str with ""
+crates/ax-detect/src/point.rs:29:9: replace <impl Detector for PointDetector>::id -> &'static str with "xyzzy"
+crates/ax-detect/src/point.rs:37:9: replace <impl Detector for PointDetector>::detect with ()
+crates/ax-detect/src/point.rs:39:16: delete ! in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:43:25: replace < with == in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:43:25: replace < with > in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:43:25: replace < with <= in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:46:24: replace += with -= in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:46:24: replace += with *= in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:49:23: replace == with != in <impl Detector for PointDetector>::detect
+crates/ax-detect/src/point.rs:63:9: replace PointDetector::scan_column with ()
+crates/ax-detect/src/point.rs:67:33: replace > with == in PointDetector::scan_column
+crates/ax-detect/src/point.rs:67:33: replace > with < in PointDetector::scan_column
+crates/ax-detect/src/point.rs:67:33: replace > with >= in PointDetector::scan_column
+crates/ax-detect/src/point.rs:71:29: replace match guard sd > 0.0 with true in PointDetector::scan_column
+crates/ax-detect/src/point.rs:71:29: replace match guard sd > 0.0 with false in PointDetector::scan_column
+crates/ax-detect/src/point.rs:71:32: replace > with == in PointDetector::scan_column
+crates/ax-detect/src/point.rs:71:32: replace > with < in PointDetector::scan_column
+crates/ax-detect/src/point.rs:71:32: replace > with >= in PointDetector::scan_column
+crates/ax-detect/src/point.rs:81:21: replace <= with > in PointDetector::scan_column
+crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with None
+crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(0.0)
+crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(1.0)
+crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(-1.0)
+crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with 0.0
+crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with 1.0
+crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with -1.0
+crates/ax-detect/src/point.rs:117:23: replace / with % in modified_score
+crates/ax-detect/src/point.rs:117:23: replace / with * in modified_score
+crates/ax-detect/src/point.rs:117:8: replace * with + in modified_score
+crates/ax-detect/src/point.rs:117:8: replace * with / in modified_score
+crates/ax-detect/src/point.rs:117:13: replace - with + in modified_score
+crates/ax-detect/src/point.rs:117:13: replace - with / in modified_score
+crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with 0.0
+crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with 1.0
+crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with -1.0
+crates/ax-detect/src/point.rs:126:23: replace - with + in confidence_from_modz
+crates/ax-detect/src/point.rs:126:23: replace - with / in confidence_from_modz
+crates/ax-detect/src/point.rs:127:9: replace / with % in confidence_from_modz
+crates/ax-detect/src/point.rs:127:9: replace / with * in confidence_from_modz
+crates/ax-detect/src/point.rs:127:16: replace + with - in confidence_from_modz
+crates/ax-detect/src/point.rs:127:16: replace + with * in confidence_from_modz
+crates/ax-detect/src/point.rs:127:19: delete - in confidence_from_modz

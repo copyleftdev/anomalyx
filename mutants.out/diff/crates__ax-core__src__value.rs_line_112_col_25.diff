@@ -1,0 +1,21 @@
+--- crates/ax-core/src/value.rs
++++ replace == with != in ColType::unify
+@@ -104,17 +104,17 @@
+     /// Least-upper-bound when folding cell types into a column type.
+     ///
+     /// `Unknown` is the identity; `Int`+`Float` widen to `Float`; any other
+     /// disagreement is `Mixed` (itself a structural anomaly signal, not an error).
+     pub fn unify(self, other: ColType) -> ColType {
+         use ColType::*;
+         match (self, other) {
+             (Unknown, x) | (x, Unknown) => x,
+-            (a, b) if a == b => a,
++            (a, b) if a != /* ~ changed by cargo-mutants ~ */ b => a,
+             (Int, Float) | (Float, Int) => Float,
+             _ => Mixed,
+         }
+     }
+ 
+     pub fn is_numeric(self) -> bool {
+         matches!(self, ColType::Int | ColType::Float | ColType::Bool)
+     }

@@ -1,0 +1,21 @@
+--- crates/ax-core/src/value.rs
++++ delete match arm (Value::Float(a), Value::Float(b)) in Value::total_cmp
+@@ -74,17 +74,17 @@
+                 Value::Int(_) => 2,
+                 Value::Float(_) => 3,
+                 Value::Str(_) => 4,
+             }
+         }
+         match (self, other) {
+             (Value::Bool(a), Value::Bool(b)) => a.cmp(b),
+             (Value::Int(a), Value::Int(b)) => a.cmp(b),
+-            (Value::Float(a), Value::Float(b)) => a.total_cmp(b),
++             /* ~ changed by cargo-mutants ~ */
+             (Value::Str(a), Value::Str(b)) => a.cmp(b),
+             _ => rank(self).cmp(&rank(other)),
+         }
+     }
+ }
+ 
+ /// The inferred logical type of a column.
+ #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

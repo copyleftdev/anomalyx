@@ -1,0 +1,114 @@
+
+*** crates/ax-core/src/value.rs:25:9: replace Value::col_type -> ColType with Default::default()
+
+*** mutation diff:
+--- crates/ax-core/src/value.rs
++++ replace Value::col_type -> ColType with Default::default()
+@@ -17,23 +17,17 @@
+     Int(i64),
+     Float(f64),
+     Str(String),
+ }
+ 
+ impl Value {
+     /// The column type this value contributes.
+     pub fn col_type(&self) -> ColType {
+-        match self {
+-            Value::Null => ColType::Unknown,
+-            Value::Bool(_) => ColType::Bool,
+-            Value::Int(_) => ColType::Int,
+-            Value::Float(_) => ColType::Float,
+-            Value::Str(_) => ColType::Str,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Numeric projection used by statistical detectors.
+     ///
+     /// `Int` and `Float` map to their `f64` value; `Bool` maps to `0.0`/`1.0`;
+     /// `Null` and `Str` are non-numeric and return `None`. Honest absence: a
+     /// `Null` never becomes a `0.0` that would skew a mean.
+     pub fn as_f64(&self) -> Option<f64> {
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-core@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh unicode-ident v1.0.24
+       Fresh bitflags v2.11.1
+       Fresh autocfg v1.5.1
+       Fresh linux-raw-sys v0.12.1
+       Fresh once_cell v1.21.4
+       Fresh fastrand v2.4.1
+       Fresh wait-timeout v0.2.1
+       Fresh fnv v1.0.7
+       Fresh itoa v1.0.18
+       Fresh memchr v2.8.1
+       Fresh quick-error v1.2.3
+       Fresh bit-vec v0.8.0
+       Fresh unarray v0.1.4
+       Fresh regex-syntax v0.8.10
+       Fresh bit-set v0.8.0
+       Fresh proc-macro2 v1.0.106
+       Fresh getrandom v0.3.4
+       Fresh serde_core v1.0.228
+       Fresh rustix v1.1.4
+       Fresh zerocopy v0.8.50
+       Fresh getrandom v0.4.2
+       Fresh zmij v1.0.21
+       Fresh quote v1.0.45
+       Fresh rand_core v0.9.5
+       Fresh tempfile v3.27.0
+       Fresh ppv-lite86 v0.2.21
+       Fresh serde_json v1.0.150
+       Fresh num-traits v0.2.19
+       Fresh syn v2.0.117
+       Fresh rusty-fork v0.3.1
+       Fresh rand_chacha v0.9.0
+       Fresh rand v0.9.4
+       Fresh rand_xorshift v0.4.0
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh proptest v1.11.0
+       Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
+       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core): the file `crates/ax-core/src/value.rs` has changed (1780155804.112321383s, 1s after last build at 1780155803.847302678s)
+   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/crates/ax-core)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
+error[E0277]: the trait bound `ColType: Default` is not satisfied
+  --> crates/ax-core/src/value.rs:25:9
+   |
+25 |         Default::default() /* ~ changed by cargo-mutants ~ */
+   |         ^^^^^^^^^^^^^^^^^^ unsatisfied trait bound
+   |
+help: the trait `Default` is not implemented for `ColType`
+  --> crates/ax-core/src/value.rs:86:1
+   |
+86 | pub enum ColType {
+   | ^^^^^^^^^^^^^^^^
+
+error[E0277]: the trait bound `value::ColType: Default` is not satisfied
+  --> crates/ax-core/src/value.rs:25:9
+   |
+25 |         Default::default() /* ~ changed by cargo-mutants ~ */
+   |         ^^^^^^^^^^^^^^^^^^ unsatisfied trait bound
+   |
+help: the trait `Default` is not implemented for `value::ColType`
+  --> crates/ax-core/src/value.rs:86:1
+   |
+86 | pub enum ColType {
+   | ^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `ax-core` (lib) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `ax-core` (lib test) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-dFShKK.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib` (exit status: 1)
+
+*** result: Failure(101)

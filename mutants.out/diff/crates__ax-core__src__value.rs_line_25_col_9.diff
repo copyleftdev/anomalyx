@@ -1,0 +1,27 @@
+--- crates/ax-core/src/value.rs
++++ replace Value::col_type -> ColType with Default::default()
+@@ -17,23 +17,17 @@
+     Int(i64),
+     Float(f64),
+     Str(String),
+ }
+ 
+ impl Value {
+     /// The column type this value contributes.
+     pub fn col_type(&self) -> ColType {
+-        match self {
+-            Value::Null => ColType::Unknown,
+-            Value::Bool(_) => ColType::Bool,
+-            Value::Int(_) => ColType::Int,
+-            Value::Float(_) => ColType::Float,
+-            Value::Str(_) => ColType::Str,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Numeric projection used by statistical detectors.
+     ///
+     /// `Int` and `Float` map to their `f64` value; `Bool` maps to `0.0`/`1.0`;
+     /// `Null` and `Str` are non-numeric and return `None`. Honest absence: a
+     /// `Null` never becomes a `0.0` that would skew a mean.
+     pub fn as_f64(&self) -> Option<f64> {

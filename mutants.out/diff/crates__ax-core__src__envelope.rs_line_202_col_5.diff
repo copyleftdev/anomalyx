@@ -1,0 +1,27 @@
+--- crates/ax-core/src/envelope.rs
++++ replace severity_token -> &'static str with ""
+@@ -194,23 +194,17 @@
+             absent: self.absent,
+             summary,
+             exit: exit.code(),
+         }
+     }
+ }
+ 
+ fn severity_token(s: Severity) -> &'static str {
+-    match s {
+-        Severity::Info => "info",
+-        Severity::Low => "low",
+-        Severity::Medium => "medium",
+-        Severity::High => "high",
+-        Severity::Critical => "critical",
+-    }
++    "" /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn json_u32(v: u32) -> serde_json::Value {
+     serde_json::Value::from(v)
+ }
+ 
+ fn json_f64(v: f64) -> serde_json::Value {
+     serde_json::Number::from_f64(v)

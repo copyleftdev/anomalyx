@@ -1,0 +1,21 @@
+--- crates/ax-core/src/value.rs
++++ replace Value::is_null -> bool with true
+@@ -41,17 +41,17 @@
+             Value::Int(i) => Some(*i as f64),
+             Value::Float(f) => Some(*f),
+             Value::Bool(b) => Some(if *b { 1.0 } else { 0.0 }),
+             Value::Null | Value::Str(_) => None,
+         }
+     }
+ 
+     pub fn is_null(&self) -> bool {
+-        matches!(self, Value::Null)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Canonical string form, used for categorical/frequency detectors and as
+     /// the basis for stable evidence handles.
+     pub fn canonical(&self) -> String {
+         match self {
+             Value::Null => "\u{0}null".to_string(),
+             Value::Bool(b) => format!("b:{b}"),

@@ -1,0 +1,23 @@
+--- crates/ax-core/src/det.rs
++++ replace mad -> Option<f64> with None
+@@ -92,19 +92,17 @@
+ /// Median (the 0.5 quantile).
+ pub fn median(xs: &[f64]) -> Option<f64> {
+     quantile(xs, 0.5)
+ }
+ 
+ /// Median absolute deviation, scaled to be a consistent estimator of σ for
+ /// normal data (factor `1.4826`). `None` for an empty slice.
+ pub fn mad(xs: &[f64]) -> Option<f64> {
+-    let med = median(xs)?;
+-    let dev: Vec<f64> = xs.iter().map(|x| (x - med).abs()).collect();
+-    median(&dev).map(|m| 1.4826 * m)
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     fn det_sum_is_permutation_invariant() {

@@ -1,0 +1,21 @@
+--- crates/ax-core/src/finding.rs
++++ delete match arm "dist" in Handle::parse
+@@ -117,17 +117,17 @@
+     }
+ 
+     /// Parses the canonical form. Returns `None` on any malformed handle so the
+     /// CLI can fail cleanly rather than guess (honest absence).
+     pub fn parse(s: &str) -> Option<Handle> {
+         let (kind, rest) = s.split_once(':')?;
+         match kind {
+             "col" => Some(Handle::Column { name: rest.to_string() }),
+-            "dist" => Some(Handle::Dist { column: rest.to_string() }),
++             /* ~ changed by cargo-mutants ~ */
+             "cell" => {
+                 let (column, row) = rest.rsplit_once(':')?;
+                 Some(Handle::Cell {
+                     column: column.to_string(),
+                     row: row.parse().ok()?,
+                 })
+             }
+             "range" => {

@@ -1,0 +1,21 @@
+--- crates/ax-core/src/envelope.rs
++++ replace ExitCode::code -> i32 with -1
+@@ -23,17 +23,17 @@
+     /// Anomalies found.
+     Anomalies = 1,
+     /// The tool could not complete (bad input, unresolved handle, …).
+     Error = 2,
+ }
+ 
+ impl ExitCode {
+     pub fn code(self) -> i32 {
+-        self as i32
++        -1 /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ /// A detector that declined to run, with a machine-readable reason. Recorded so
+ /// absence is *explicit* — an unavailable detector contributes nothing and says
+ /// so, rather than implying the data looked fine.
+ #[derive(Debug, Clone, Serialize)]
+ pub struct Absence {

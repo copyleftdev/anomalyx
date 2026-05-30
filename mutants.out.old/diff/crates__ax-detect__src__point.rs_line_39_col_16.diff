@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/point.rs
++++ delete ! in <impl Detector for PointDetector>::detect
+@@ -31,17 +31,17 @@
+ 
+     fn class(&self) -> AnomalyClass {
+         AnomalyClass::Point
+     }
+ 
+     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {
+         let mut applicable = 0usize;
+         for col in &rs.columns {
+-            if !col.ty.is_numeric() {
++            if  /* ~ changed by cargo-mutants ~ */col.ty.is_numeric() {
+                 continue;
+             }
+             let xs = col.numeric();
+             if xs.len() < cfg.point_min_n {
+                 continue;
+             }
+             applicable += 1;
+             self.scan_column(col, &xs, cfg, out);

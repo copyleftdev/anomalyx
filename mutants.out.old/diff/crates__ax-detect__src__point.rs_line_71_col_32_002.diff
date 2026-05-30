@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/point.rs
++++ replace > with >= in PointDetector::scan_column
+@@ -63,17 +63,17 @@
+         let Some(center) = det::median(xs) else { return };
+         let mad = det::mad(xs).unwrap_or(0.0);
+ 
+         // Choose a robust scale; fall back to σ when MAD collapses.
+         let (scale, k) = if mad > 0.0 {
+             (mad, MODZ_K)
+         } else {
+             match det::std_dev(xs) {
+-                Some(sd) if sd > 0.0 => (sd, 1.0),
++                Some(sd) if sd >= /* ~ changed by cargo-mutants ~ */ 0.0 => (sd, 1.0),
+                 // Constant column: no point can deviate. Honest non-finding.
+                 _ => return,
+             }
+         };
+ 
+         // Iterate the original cells so row indices in handles are correct.
+         for (row, cell) in col.cells.iter().enumerate() {
+             let Some(x) = numeric_cell(cell) else { continue };

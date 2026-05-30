@@ -1,0 +1,21 @@
+--- crates/ax-core/src/dict.rs
++++ replace Dict::get -> Option<&str> with None
+@@ -30,17 +30,17 @@
+         let i = self.table.len() as u32;
+         self.table.push(s.to_string());
+         self.index.insert(s.to_string(), i);
+         i
+     }
+ 
+     /// Resolves an index back to its string, if present.
+     pub fn get(&self, i: u32) -> Option<&str> {
+-        self.table.get(i as usize).map(String::as_str)
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn len(&self) -> usize {
+         self.table.len()
+     }
+ 
+     pub fn is_empty(&self) -> bool {
+         self.table.is_empty()

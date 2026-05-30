@@ -1,0 +1,21 @@
+--- crates/ax-core/src/det.rs
++++ replace + with - in det_sum
+@@ -31,17 +31,17 @@
+         let t = sum + x;
+         if sum.abs() >= x.abs() {
+             comp += (sum - t) + x;
+         } else {
+             comp += (x - t) + sum;
+         }
+         sum = t;
+     }
+-    sum + comp
++    sum - /* ~ changed by cargo-mutants ~ */ comp
+ }
+ 
+ /// Arithmetic mean, or `None` if `xs` is empty.
+ pub fn mean(xs: &[f64]) -> Option<f64> {
+     if xs.is_empty() {
+         return None;
+     }
+     Some(det_sum(xs) / xs.len() as f64)

@@ -1,0 +1,22 @@
+--- crates/ax-core/src/finding.rs
++++ replace Finding::with_col_type -> Self with Default::default()
+@@ -181,18 +181,17 @@
+             severity: Severity::from_confidence(confidence),
+             score,
+             reason: reason.into(),
+             col_type: None,
+         }
+     }
+ 
+     pub fn with_col_type(mut self, ty: ColType) -> Self {
+-        self.col_type = Some(ty);
+-        self
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]

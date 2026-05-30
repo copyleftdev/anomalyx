@@ -1,0 +1,27 @@
+--- crates/ax-core/src/dict.rs
++++ replace Dict::intern -> u32 with 1
+@@ -19,23 +19,17 @@
+ 
+ impl Dict {
+     pub fn new() -> Self {
+         Dict::default()
+     }
+ 
+     /// Returns the index for `s`, assigning the next index on first sight.
+     pub fn intern(&mut self, s: &str) -> u32 {
+-        if let Some(&i) = self.index.get(s) {
+-            return i;
+-        }
+-        let i = self.table.len() as u32;
+-        self.table.push(s.to_string());
+-        self.index.insert(s.to_string(), i);
+-        i
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Resolves an index back to its string, if present.
+     pub fn get(&self, i: u32) -> Option<&str> {
+         self.table.get(i as usize).map(String::as_str)
+     }
+ 
+     pub fn len(&self) -> usize {

@@ -1,0 +1,21 @@
+--- crates/ax-core/src/dict.rs
++++ replace <impl Serialize for Dict>::serialize -> Result<S::Ok, S::Error> with Ok(Default::default())
+@@ -49,17 +49,17 @@
+     /// The backing table, for serialization into the envelope's `dict` field.
+     pub fn as_slice(&self) -> &[String] {
+         &self.table
+     }
+ }
+ 
+ impl Serialize for Dict {
+     fn serialize<S: serde::Serializer>(&self, s: S) -> Result<S::Ok, S::Error> {
+-        self.table.serialize(s)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]

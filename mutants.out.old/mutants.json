@@ -1,0 +1,1474 @@
+[
+  {
+    "diff": "--- crates/ax-detect/src/config.rs\n+++ replace DetectConfig::version -> String with String::new()\n@@ -25,20 +25,17 @@\n         }\n     }\n }\n \n impl DetectConfig {\n     /// A stable, human-legible fingerprint of the settings that affect output.\n     /// Deterministic: no wall-clock, no environment.\n     pub fn version(&self) -> String {\n-        format!(\n-            \"anomalyx-cfg/1;pt={:.4};ptn={}\",\n-            self.point_threshold, self.point_min_n\n-        )\n+        String::new() /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
+    "file": "crates/ax-detect/src/config.rs",
+    "function": {
+      "function_name": "DetectConfig::version",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 37
+        },
+        "start": {
+          "column": 5,
+          "line": 30
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/config.rs:33:9: replace DetectConfig::version -> String with String::new()",
+    "package": "ax-detect",
+    "replacement": "String::new()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 36
+      },
+      "start": {
+        "column": 9,
+        "line": 33
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/config.rs\n+++ replace DetectConfig::version -> String with \"xyzzy\".into()\n@@ -25,20 +25,17 @@\n         }\n     }\n }\n \n impl DetectConfig {\n     /// A stable, human-legible fingerprint of the settings that affect output.\n     /// Deterministic: no wall-clock, no environment.\n     pub fn version(&self) -> String {\n-        format!(\n-            \"anomalyx-cfg/1;pt={:.4};ptn={}\",\n-            self.point_threshold, self.point_min_n\n-        )\n+        \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n",
+    "file": "crates/ax-detect/src/config.rs",
+    "function": {
+      "function_name": "DetectConfig::version",
+      "return_type": "-> String",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 37
+        },
+        "start": {
+          "column": 5,
+          "line": 30
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/config.rs:33:9: replace DetectConfig::version -> String with \"xyzzy\".into()",
+    "package": "ax-detect",
+    "replacement": "\"xyzzy\".into()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 36
+      },
+      "start": {
+        "column": 9,
+        "line": 33
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace <impl Detector for PointDetector>::id -> &'static str with \"\"\n@@ -21,17 +21,17 @@\n /// comparable to a standard z-score for normal data.\n const MODZ_K: f64 = 0.6745;\n \n #[derive(Debug, Default, Clone)]\n pub struct PointDetector;\n \n impl Detector for PointDetector {\n     fn id(&self) -> &'static str {\n-        \"point.modz\"\n+        \"\" /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Point\n     }\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::id",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 30
+        },
+        "start": {
+          "column": 5,
+          "line": 28
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:29:9: replace <impl Detector for PointDetector>::id -> &'static str with \"\"",
+    "package": "ax-detect",
+    "replacement": "\"\"",
+    "span": {
+      "end": {
+        "column": 21,
+        "line": 29
+      },
+      "start": {
+        "column": 9,
+        "line": 29
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace <impl Detector for PointDetector>::id -> &'static str with \"xyzzy\"\n@@ -21,17 +21,17 @@\n /// comparable to a standard z-score for normal data.\n const MODZ_K: f64 = 0.6745;\n \n #[derive(Debug, Default, Clone)]\n pub struct PointDetector;\n \n impl Detector for PointDetector {\n     fn id(&self) -> &'static str {\n-        \"point.modz\"\n+        \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Point\n     }\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::id",
+      "return_type": "-> &'static str",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 30
+        },
+        "start": {
+          "column": 5,
+          "line": 28
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:29:9: replace <impl Detector for PointDetector>::id -> &'static str with \"xyzzy\"",
+    "package": "ax-detect",
+    "replacement": "\"xyzzy\"",
+    "span": {
+      "end": {
+        "column": 21,
+        "line": 29
+      },
+      "start": {
+        "column": 9,
+        "line": 29
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace <impl Detector for PointDetector>::class -> AnomalyClass with Default::default()\n@@ -25,17 +25,17 @@\n pub struct PointDetector;\n \n impl Detector for PointDetector {\n     fn id(&self) -> &'static str {\n         \"point.modz\"\n     }\n \n     fn class(&self) -> AnomalyClass {\n-        AnomalyClass::Point\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::class",
+      "return_type": "-> AnomalyClass",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 34
+        },
+        "start": {
+          "column": 5,
+          "line": 32
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:33:9: replace <impl Detector for PointDetector>::class -> AnomalyClass with Default::default()",
+    "package": "ax-detect",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 28,
+        "line": 33
+      },
+      "start": {
+        "column": 9,
+        "line": 33
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace <impl Detector for PointDetector>::detect with ()\n@@ -29,37 +29,17 @@\n         \"point.modz\"\n     }\n \n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Point\n     }\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n-        let mut applicable = 0usize;\n-        for col in &rs.columns {\n-            if !col.ty.is_numeric() {\n-                continue;\n-            }\n-            let xs = col.numeric();\n-            if xs.len() < cfg.point_min_n {\n-                continue;\n-            }\n-            applicable += 1;\n-            self.scan_column(col, &xs, cfg, out);\n-        }\n-        if applicable == 0 {\n-            out.mark_absent(\n-                self.id(),\n-                format!(\n-                    \"no numeric column with at least {} finite values\",\n-                    cfg.point_min_n\n-                ),\n-            );\n-        }\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n impl PointDetector {\n     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:37:9: replace <impl Detector for PointDetector>::detect with ()",
+    "package": "ax-detect",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 57
+      },
+      "start": {
+        "column": 9,
+        "line": 37
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ delete ! in <impl Detector for PointDetector>::detect\n@@ -31,17 +31,17 @@\n \n     fn class(&self) -> AnomalyClass {\n         AnomalyClass::Point\n     }\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n         for col in &rs.columns {\n-            if !col.ty.is_numeric() {\n+            if  /* ~ changed by cargo-mutants ~ */col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n             if xs.len() < cfg.point_min_n {\n                 continue;\n             }\n             applicable += 1;\n             self.scan_column(col, &xs, cfg, out);\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/ax-detect/src/point.rs:39:16: delete ! in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 17,
+        "line": 39
+      },
+      "start": {
+        "column": 16,
+        "line": 39
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace < with == in <impl Detector for PointDetector>::detect\n@@ -35,17 +35,17 @@\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n-            if xs.len() < cfg.point_min_n {\n+            if xs.len() == /* ~ changed by cargo-mutants ~ */ cfg.point_min_n {\n                 continue;\n             }\n             applicable += 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n         if applicable == 0 {\n             out.mark_absent(\n                 self.id(),\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:43:25: replace < with == in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 43
+      },
+      "start": {
+        "column": 25,
+        "line": 43
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace < with > in <impl Detector for PointDetector>::detect\n@@ -35,17 +35,17 @@\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n-            if xs.len() < cfg.point_min_n {\n+            if xs.len() > /* ~ changed by cargo-mutants ~ */ cfg.point_min_n {\n                 continue;\n             }\n             applicable += 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n         if applicable == 0 {\n             out.mark_absent(\n                 self.id(),\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:43:25: replace < with > in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": ">",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 43
+      },
+      "start": {
+        "column": 25,
+        "line": 43
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace < with <= in <impl Detector for PointDetector>::detect\n@@ -35,17 +35,17 @@\n \n     fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {\n         let mut applicable = 0usize;\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n-            if xs.len() < cfg.point_min_n {\n+            if xs.len() <= /* ~ changed by cargo-mutants ~ */ cfg.point_min_n {\n                 continue;\n             }\n             applicable += 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n         if applicable == 0 {\n             out.mark_absent(\n                 self.id(),\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:43:25: replace < with <= in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "<=",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 43
+      },
+      "start": {
+        "column": 25,
+        "line": 43
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace += with -= in <impl Detector for PointDetector>::detect\n@@ -38,17 +38,17 @@\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n             if xs.len() < cfg.point_min_n {\n                 continue;\n             }\n-            applicable += 1;\n+            applicable -= /* ~ changed by cargo-mutants ~ */ 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n         if applicable == 0 {\n             out.mark_absent(\n                 self.id(),\n                 format!(\n                     \"no numeric column with at least {} finite values\",\n                     cfg.point_min_n\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:46:24: replace += with -= in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "-=",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 46
+      },
+      "start": {
+        "column": 24,
+        "line": 46
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace += with *= in <impl Detector for PointDetector>::detect\n@@ -38,17 +38,17 @@\n         for col in &rs.columns {\n             if !col.ty.is_numeric() {\n                 continue;\n             }\n             let xs = col.numeric();\n             if xs.len() < cfg.point_min_n {\n                 continue;\n             }\n-            applicable += 1;\n+            applicable *= /* ~ changed by cargo-mutants ~ */ 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n         if applicable == 0 {\n             out.mark_absent(\n                 self.id(),\n                 format!(\n                     \"no numeric column with at least {} finite values\",\n                     cfg.point_min_n\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:46:24: replace += with *= in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "*=",
+    "span": {
+      "end": {
+        "column": 26,
+        "line": 46
+      },
+      "start": {
+        "column": 24,
+        "line": 46
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace == with != in <impl Detector for PointDetector>::detect\n@@ -41,17 +41,17 @@\n             }\n             let xs = col.numeric();\n             if xs.len() < cfg.point_min_n {\n                 continue;\n             }\n             applicable += 1;\n             self.scan_column(col, &xs, cfg, out);\n         }\n-        if applicable == 0 {\n+        if applicable != /* ~ changed by cargo-mutants ~ */ 0 {\n             out.mark_absent(\n                 self.id(),\n                 format!(\n                     \"no numeric column with at least {} finite values\",\n                     cfg.point_min_n\n                 ),\n             );\n         }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "<impl Detector for PointDetector>::detect",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 58
+        },
+        "start": {
+          "column": 5,
+          "line": 36
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:49:23: replace == with != in <impl Detector for PointDetector>::detect",
+    "package": "ax-detect",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 25,
+        "line": 49
+      },
+      "start": {
+        "column": 23,
+        "line": 49
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace PointDetector::scan_column with ()\n@@ -55,57 +55,17 @@\n                 ),\n             );\n         }\n     }\n }\n \n impl PointDetector {\n     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {\n-        let Some(center) = det::median(xs) else { return };\n-        let mad = det::mad(xs).unwrap_or(0.0);\n-\n-        // Choose a robust scale; fall back to σ when MAD collapses.\n-        let (scale, k) = if mad > 0.0 {\n-            (mad, MODZ_K)\n-        } else {\n-            match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n-                // Constant column: no point can deviate. Honest non-finding.\n-                _ => return,\n-            }\n-        };\n-\n-        // Iterate the original cells so row indices in handles are correct.\n-        for (row, cell) in col.cells.iter().enumerate() {\n-            let Some(x) = numeric_cell(cell) else { continue };\n-            let modz = modified_score(x, center, scale, k);\n-            if modz <= cfg.point_threshold {\n-                continue;\n-            }\n-            let confidence = confidence_from_modz(modz, cfg.point_threshold);\n-            let reason = format!(\n-                \"{} = {:.6}: modified z-score {:.3} exceeds {:.3} (center={:.6}, scale={:.6})\",\n-                col.name, x, modz, cfg.point_threshold, center, scale\n-            );\n-            out.push(\n-                Finding::new(\n-                    self.id(),\n-                    AnomalyClass::Point,\n-                    Handle::Cell {\n-                        column: col.name.clone(),\n-                        row,\n-                    },\n-                    confidence,\n-                    modz,\n-                    reason,\n-                )\n-                .with_col_type(col.ty),\n-            );\n-        }\n+        () /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// Finite numeric projection of a single cell (mirrors [`Value::as_f64`] but\n /// drops non-finite values so they never become findings).\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:63:9: replace PointDetector::scan_column with ()",
+    "package": "ax-detect",
+    "replacement": "()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 103
+      },
+      "start": {
+        "column": 9,
+        "line": 63
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with == in PointDetector::scan_column\n@@ -59,17 +59,17 @@\n }\n \n impl PointDetector {\n     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n-        let (scale, k) = if mad > 0.0 {\n+        let (scale, k) = if mad == /* ~ changed by cargo-mutants ~ */ 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n                 Some(sd) if sd > 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:67:33: replace > with == in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 67
+      },
+      "start": {
+        "column": 33,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with < in PointDetector::scan_column\n@@ -59,17 +59,17 @@\n }\n \n impl PointDetector {\n     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n-        let (scale, k) = if mad > 0.0 {\n+        let (scale, k) = if mad < /* ~ changed by cargo-mutants ~ */ 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n                 Some(sd) if sd > 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:67:33: replace > with < in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 67
+      },
+      "start": {
+        "column": 33,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with >= in PointDetector::scan_column\n@@ -59,17 +59,17 @@\n }\n \n impl PointDetector {\n     fn scan_column(&self, col: &Column, xs: &[f64], cfg: &DetectConfig, out: &mut Report) {\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n-        let (scale, k) = if mad > 0.0 {\n+        let (scale, k) = if mad >= /* ~ changed by cargo-mutants ~ */ 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n                 Some(sd) if sd > 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:67:33: replace > with >= in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 67
+      },
+      "start": {
+        "column": 33,
+        "line": 67
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace match guard sd > 0.0 with true in PointDetector::scan_column\n@@ -63,17 +63,17 @@\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n         let (scale, k) = if mad > 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n+                Some(sd) if true /* ~ changed by cargo-mutants ~ */ => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-detect/src/point.rs:71:29: replace match guard sd > 0.0 with true in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "true",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 71
+      },
+      "start": {
+        "column": 29,
+        "line": 71
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace match guard sd > 0.0 with false in PointDetector::scan_column\n@@ -63,17 +63,17 @@\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n         let (scale, k) = if mad > 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n+                Some(sd) if false /* ~ changed by cargo-mutants ~ */ => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "MatchArmGuard",
+    "name": "crates/ax-detect/src/point.rs:71:29: replace match guard sd > 0.0 with false in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "false",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 71
+      },
+      "start": {
+        "column": 29,
+        "line": 71
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with == in PointDetector::scan_column\n@@ -63,17 +63,17 @@\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n         let (scale, k) = if mad > 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n+                Some(sd) if sd == /* ~ changed by cargo-mutants ~ */ 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:71:32: replace > with == in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "==",
+    "span": {
+      "end": {
+        "column": 33,
+        "line": 71
+      },
+      "start": {
+        "column": 32,
+        "line": 71
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with < in PointDetector::scan_column\n@@ -63,17 +63,17 @@\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n         let (scale, k) = if mad > 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n+                Some(sd) if sd < /* ~ changed by cargo-mutants ~ */ 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:71:32: replace > with < in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": "<",
+    "span": {
+      "end": {
+        "column": 33,
+        "line": 71
+      },
+      "start": {
+        "column": 32,
+        "line": 71
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace > with >= in PointDetector::scan_column\n@@ -63,17 +63,17 @@\n         let Some(center) = det::median(xs) else { return };\n         let mad = det::mad(xs).unwrap_or(0.0);\n \n         // Choose a robust scale; fall back to σ when MAD collapses.\n         let (scale, k) = if mad > 0.0 {\n             (mad, MODZ_K)\n         } else {\n             match det::std_dev(xs) {\n-                Some(sd) if sd > 0.0 => (sd, 1.0),\n+                Some(sd) if sd >= /* ~ changed by cargo-mutants ~ */ 0.0 => (sd, 1.0),\n                 // Constant column: no point can deviate. Honest non-finding.\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:71:32: replace > with >= in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": ">=",
+    "span": {
+      "end": {
+        "column": 33,
+        "line": 71
+      },
+      "start": {
+        "column": 32,
+        "line": 71
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace <= with > in PointDetector::scan_column\n@@ -73,17 +73,17 @@\n                 _ => return,\n             }\n         };\n \n         // Iterate the original cells so row indices in handles are correct.\n         for (row, cell) in col.cells.iter().enumerate() {\n             let Some(x) = numeric_cell(cell) else { continue };\n             let modz = modified_score(x, center, scale, k);\n-            if modz <= cfg.point_threshold {\n+            if modz > /* ~ changed by cargo-mutants ~ */ cfg.point_threshold {\n                 continue;\n             }\n             let confidence = confidence_from_modz(modz, cfg.point_threshold);\n             let reason = format!(\n                 \"{} = {:.6}: modified z-score {:.3} exceeds {:.3} (center={:.6}, scale={:.6})\",\n                 col.name, x, modz, cfg.point_threshold, center, scale\n             );\n             out.push(\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "PointDetector::scan_column",
+      "return_type": "",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 104
+        },
+        "start": {
+          "column": 5,
+          "line": 62
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:81:21: replace <= with > in PointDetector::scan_column",
+    "package": "ax-detect",
+    "replacement": ">",
+    "span": {
+      "end": {
+        "column": 23,
+        "line": 81
+      },
+      "start": {
+        "column": 21,
+        "line": 81
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace numeric_cell -> Option<f64> with None\n@@ -102,17 +102,17 @@\n             );\n         }\n     }\n }\n \n /// Finite numeric projection of a single cell (mirrors [`Value::as_f64`] but\n /// drops non-finite values so they never become findings).\n fn numeric_cell(v: &Value) -> Option<f64> {\n-    v.as_f64().filter(|x| x.is_finite())\n+    None /* ~ changed by cargo-mutants ~ */\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n     (k * (x - center) / scale).abs()\n }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "numeric_cell",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 111
+        },
+        "start": {
+          "column": 1,
+          "line": 107
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with None",
+    "package": "ax-detect",
+    "replacement": "None",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 110
+      },
+      "start": {
+        "column": 5,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace numeric_cell -> Option<f64> with Some(0.0)\n@@ -102,17 +102,17 @@\n             );\n         }\n     }\n }\n \n /// Finite numeric projection of a single cell (mirrors [`Value::as_f64`] but\n /// drops non-finite values so they never become findings).\n fn numeric_cell(v: &Value) -> Option<f64> {\n-    v.as_f64().filter(|x| x.is_finite())\n+    Some(0.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n     (k * (x - center) / scale).abs()\n }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "numeric_cell",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 111
+        },
+        "start": {
+          "column": 1,
+          "line": 107
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(0.0)",
+    "package": "ax-detect",
+    "replacement": "Some(0.0)",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 110
+      },
+      "start": {
+        "column": 5,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace numeric_cell -> Option<f64> with Some(1.0)\n@@ -102,17 +102,17 @@\n             );\n         }\n     }\n }\n \n /// Finite numeric projection of a single cell (mirrors [`Value::as_f64`] but\n /// drops non-finite values so they never become findings).\n fn numeric_cell(v: &Value) -> Option<f64> {\n-    v.as_f64().filter(|x| x.is_finite())\n+    Some(1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n     (k * (x - center) / scale).abs()\n }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "numeric_cell",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 111
+        },
+        "start": {
+          "column": 1,
+          "line": 107
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(1.0)",
+    "package": "ax-detect",
+    "replacement": "Some(1.0)",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 110
+      },
+      "start": {
+        "column": 5,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace numeric_cell -> Option<f64> with Some(-1.0)\n@@ -102,17 +102,17 @@\n             );\n         }\n     }\n }\n \n /// Finite numeric projection of a single cell (mirrors [`Value::as_f64`] but\n /// drops non-finite values so they never become findings).\n fn numeric_cell(v: &Value) -> Option<f64> {\n-    v.as_f64().filter(|x| x.is_finite())\n+    Some(-1.0) /* ~ changed by cargo-mutants ~ */\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n     (k * (x - center) / scale).abs()\n }\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "numeric_cell",
+      "return_type": "-> Option<f64>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 111
+        },
+        "start": {
+          "column": 1,
+          "line": 107
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:110:5: replace numeric_cell -> Option<f64> with Some(-1.0)",
+    "package": "ax-detect",
+    "replacement": "Some(-1.0)",
+    "span": {
+      "end": {
+        "column": 41,
+        "line": 110
+      },
+      "start": {
+        "column": 5,
+        "line": 110
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace modified_score -> f64 with 0.0\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    0.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with 0.0",
+    "package": "ax-detect",
+    "replacement": "0.0",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 117
+      },
+      "start": {
+        "column": 5,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace modified_score -> f64 with 1.0\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with 1.0",
+    "package": "ax-detect",
+    "replacement": "1.0",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 117
+      },
+      "start": {
+        "column": 5,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace modified_score -> f64 with -1.0\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    -1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:117:5: replace modified_score -> f64 with -1.0",
+    "package": "ax-detect",
+    "replacement": "-1.0",
+    "span": {
+      "end": {
+        "column": 37,
+        "line": 117
+      },
+      "start": {
+        "column": 5,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace / with % in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k * (x - center) % /* ~ changed by cargo-mutants ~ */ scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:23: replace / with % in modified_score",
+    "package": "ax-detect",
+    "replacement": "%",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 117
+      },
+      "start": {
+        "column": 23,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace / with * in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k * (x - center) * /* ~ changed by cargo-mutants ~ */ scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:23: replace / with * in modified_score",
+    "package": "ax-detect",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 117
+      },
+      "start": {
+        "column": 23,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace * with + in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k + /* ~ changed by cargo-mutants ~ */ (x - center) / scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:8: replace * with + in modified_score",
+    "package": "ax-detect",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 9,
+        "line": 117
+      },
+      "start": {
+        "column": 8,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace * with / in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k / /* ~ changed by cargo-mutants ~ */ (x - center) / scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:8: replace * with / in modified_score",
+    "package": "ax-detect",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 9,
+        "line": 117
+      },
+      "start": {
+        "column": 8,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace - with + in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k * (x + /* ~ changed by cargo-mutants ~ */ center) / scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:13: replace - with + in modified_score",
+    "package": "ax-detect",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 117
+      },
+      "start": {
+        "column": 13,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace - with / in modified_score\n@@ -109,17 +109,17 @@\n fn numeric_cell(v: &Value) -> Option<f64> {\n     v.as_f64().filter(|x| x.is_finite())\n }\n \n /// The (absolute) standardized deviation of `x` from `center` at the given\n /// `scale`, multiplied by the consistency constant `k`. Extracted so the exact\n /// arithmetic can be pinned by tests, not just its sign.\n fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {\n-    (k * (x - center) / scale).abs()\n+    (k * (x / /* ~ changed by cargo-mutants ~ */ center) / scale).abs()\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "modified_score",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 118
+        },
+        "start": {
+          "column": 1,
+          "line": 113
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:117:13: replace - with / in modified_score",
+    "package": "ax-detect",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 14,
+        "line": 117
+      },
+      "start": {
+        "column": 13,
+        "line": 117
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace confidence_from_modz -> f64 with 0.0\n@@ -118,18 +118,17 @@\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n-    let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    0.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with 0.0",
+    "package": "ax-detect",
+    "replacement": "0.0",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 127
+      },
+      "start": {
+        "column": 5,
+        "line": 126
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace confidence_from_modz -> f64 with 1.0\n@@ -118,18 +118,17 @@\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n-    let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with 1.0",
+    "package": "ax-detect",
+    "replacement": "1.0",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 127
+      },
+      "start": {
+        "column": 5,
+        "line": 126
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace confidence_from_modz -> f64 with -1.0\n@@ -118,18 +118,17 @@\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n-    let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    -1.0 /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-detect/src/point.rs:126:5: replace confidence_from_modz -> f64 with -1.0",
+    "package": "ax-detect",
+    "replacement": "-1.0",
+    "span": {
+      "end": {
+        "column": 34,
+        "line": 127
+      },
+      "start": {
+        "column": 5,
+        "line": 126
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace - with + in confidence_from_modz\n@@ -118,17 +118,17 @@\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n-    let excess = modz - threshold;\n+    let excess = modz + /* ~ changed by cargo-mutants ~ */ threshold;\n     1.0 / (1.0 + (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:126:23: replace - with + in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "+",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 126
+      },
+      "start": {
+        "column": 23,
+        "line": 126
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace - with / in confidence_from_modz\n@@ -118,17 +118,17 @@\n }\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n-    let excess = modz - threshold;\n+    let excess = modz / /* ~ changed by cargo-mutants ~ */ threshold;\n     1.0 / (1.0 + (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:126:23: replace - with / in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "/",
+    "span": {
+      "end": {
+        "column": 24,
+        "line": 126
+      },
+      "start": {
+        "column": 23,
+        "line": 126
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace / with % in confidence_from_modz\n@@ -119,17 +119,17 @@\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n     let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 % /* ~ changed by cargo-mutants ~ */ (1.0 + (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:127:9: replace / with % in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "%",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 127
+      },
+      "start": {
+        "column": 9,
+        "line": 127
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace / with * in confidence_from_modz\n@@ -119,17 +119,17 @@\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n     let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 * /* ~ changed by cargo-mutants ~ */ (1.0 + (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:127:9: replace / with * in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 127
+      },
+      "start": {
+        "column": 9,
+        "line": 127
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace + with - in confidence_from_modz\n@@ -119,17 +119,17 @@\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n     let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 / (1.0 - /* ~ changed by cargo-mutants ~ */ (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:127:16: replace + with - in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "-",
+    "span": {
+      "end": {
+        "column": 17,
+        "line": 127
+      },
+      "start": {
+        "column": 16,
+        "line": 127
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ replace + with * in confidence_from_modz\n@@ -119,17 +119,17 @@\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n     let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 / (1.0 * /* ~ changed by cargo-mutants ~ */ (-excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-detect/src/point.rs:127:16: replace + with * in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "*",
+    "span": {
+      "end": {
+        "column": 17,
+        "line": 127
+      },
+      "start": {
+        "column": 16,
+        "line": 127
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-detect/src/point.rs\n+++ delete - in confidence_from_modz\n@@ -119,17 +119,17 @@\n \n /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.\n ///\n /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the\n /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing\n /// in `modz`, which the property tests rely on.\n fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {\n     let excess = modz - threshold;\n-    1.0 / (1.0 + (-excess).exp())\n+    1.0 / (1.0 + ( /* ~ changed by cargo-mutants ~ */excess).exp())\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use proptest::prelude::*;\n \n     fn col(name: &str, xs: &[f64]) -> Column {\n",
+    "file": "crates/ax-detect/src/point.rs",
+    "function": {
+      "function_name": "confidence_from_modz",
+      "return_type": "-> f64",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 128
+        },
+        "start": {
+          "column": 1,
+          "line": 120
+        }
+      }
+    },
+    "genre": "UnaryOperator",
+    "name": "crates/ax-detect/src/point.rs:127:19: delete - in confidence_from_modz",
+    "package": "ax-detect",
+    "replacement": "",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 127
+      },
+      "start": {
+        "column": 19,
+        "line": 127
+      }
+    }
+  }
+]

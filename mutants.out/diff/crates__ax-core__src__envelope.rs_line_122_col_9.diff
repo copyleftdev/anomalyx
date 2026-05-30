@@ -1,0 +1,22 @@
+--- crates/ax-core/src/envelope.rs
++++ replace EnvelopeBuilder::findings -> Self with Default::default()
+@@ -114,18 +114,17 @@
+             format: format.into(),
+             rows_scanned,
+             findings: Vec::new(),
+             absent: Vec::new(),
+         }
+     }
+ 
+     pub fn findings(mut self, mut findings: Vec<Finding>) -> Self {
+-        self.findings.append(&mut findings);
+-        self
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn absent(mut self, detector: impl Into<String>, reason: impl Into<String>) -> Self {
+         self.absent.push(Absence {
+             detector: detector.into(),
+             reason: reason.into(),
+         });
+         self

@@ -1,0 +1,21 @@
+--- crates/ax-core/src/record.rs
++++ replace RecordSet::rows -> usize with 0
+@@ -78,17 +78,17 @@
+             source: source.into(),
+             format: format.into(),
+             columns,
+         }
+     }
+ 
+     /// Number of rows (length of the first column, or 0 if columnless).
+     pub fn rows(&self) -> usize {
+-        self.columns.first().map_or(0, Column::len)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn width(&self) -> usize {
+         self.columns.len()
+     }
+ 
+     pub fn column(&self, name: &str) -> Option<&Column> {
+         self.columns.iter().find(|c| c.name == name)

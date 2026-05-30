@@ -1,0 +1,21 @@
+--- crates/ax-core/src/value.rs
++++ delete match arm (Int, Float) |(Float, Int) in ColType::unify
+@@ -105,17 +105,17 @@
+     ///
+     /// `Unknown` is the identity; `Int`+`Float` widen to `Float`; any other
+     /// disagreement is `Mixed` (itself a structural anomaly signal, not an error).
+     pub fn unify(self, other: ColType) -> ColType {
+         use ColType::*;
+         match (self, other) {
+             (Unknown, x) | (x, Unknown) => x,
+             (a, b) if a == b => a,
+-            (Int, Float) | (Float, Int) => Float,
++             /* ~ changed by cargo-mutants ~ */
+             _ => Mixed,
+         }
+     }
+ 
+     pub fn is_numeric(self) -> bool {
+         matches!(self, ColType::Int | ColType::Float | ColType::Bool)
+     }
+ }

@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/point.rs
++++ replace <= with > in PointDetector::scan_column
+@@ -73,17 +73,17 @@
+                 _ => return,
+             }
+         };
+ 
+         // Iterate the original cells so row indices in handles are correct.
+         for (row, cell) in col.cells.iter().enumerate() {
+             let Some(x) = numeric_cell(cell) else { continue };
+             let modz = modified_score(x, center, scale, k);
+-            if modz <= cfg.point_threshold {
++            if modz > /* ~ changed by cargo-mutants ~ */ cfg.point_threshold {
+                 continue;
+             }
+             let confidence = confidence_from_modz(modz, cfg.point_threshold);
+             let reason = format!(
+                 "{} = {:.6}: modified z-score {:.3} exceeds {:.3} (center={:.6}, scale={:.6})",
+                 col.name, x, modz, cfg.point_threshold, center, scale
+             );
+             out.push(

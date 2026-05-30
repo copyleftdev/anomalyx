@@ -1,0 +1,21 @@
+--- crates/ax-detect/src/point.rs
++++ replace += with -= in <impl Detector for PointDetector>::detect
+@@ -38,17 +38,17 @@
+         for col in &rs.columns {
+             if !col.ty.is_numeric() {
+                 continue;
+             }
+             let xs = col.numeric();
+             if xs.len() < cfg.point_min_n {
+                 continue;
+             }
+-            applicable += 1;
++            applicable -= /* ~ changed by cargo-mutants ~ */ 1;
+             self.scan_column(col, &xs, cfg, out);
+         }
+         if applicable == 0 {
+             out.mark_absent(
+                 self.id(),
+                 format!(
+                     "no numeric column with at least {} finite values",
+                     cfg.point_min_n

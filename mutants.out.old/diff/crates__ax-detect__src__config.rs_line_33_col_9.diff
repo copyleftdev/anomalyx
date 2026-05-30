@@ -1,0 +1,24 @@
+--- crates/ax-detect/src/config.rs
++++ replace DetectConfig::version -> String with String::new()
+@@ -25,20 +25,17 @@
+         }
+     }
+ }
+ 
+ impl DetectConfig {
+     /// A stable, human-legible fingerprint of the settings that affect output.
+     /// Deterministic: no wall-clock, no environment.
+     pub fn version(&self) -> String {
+-        format!(
+-            "anomalyx-cfg/1;pt={:.4};ptn={}",
+-            self.point_threshold, self.point_min_n
+-        )
++        String::new() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]

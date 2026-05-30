@@ -1,0 +1,22 @@
+--- crates/ax-detect/src/point.rs
++++ replace confidence_from_modz -> f64 with 0.0
+@@ -118,18 +118,17 @@
+ }
+ 
+ /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.
+ ///
+ /// Logistic in the *excess* deviation `modz − threshold`: at the threshold the
+ /// confidence is 0.5 and it rises monotonically toward 1.0. Strictly increasing
+ /// in `modz`, which the property tests rely on.
+ fn confidence_from_modz(modz: f64, threshold: f64) -> f64 {
+-    let excess = modz - threshold;
+-    1.0 / (1.0 + (-excess).exp())
++    0.0 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use proptest::prelude::*;
+ 
+     fn col(name: &str, xs: &[f64]) -> Column {

@@ -77,7 +77,7 @@ impl PointDetector {
         // Iterate the original cells so row indices in handles are correct.
         for (row, cell) in col.cells.iter().enumerate() {
             let Some(x) = numeric_cell(cell) else { continue };
-            let modz = (k * (x - center) / scale).abs();
+            let modz = modified_score(x, center, scale, k);
             if modz <= cfg.point_threshold {
                 continue;
             }
@@ -108,6 +108,13 @@ impl PointDetector {
 /// drops non-finite values so they never become findings).
 fn numeric_cell(v: &Value) -> Option<f64> {
     v.as_f64().filter(|x| x.is_finite())
+}
+
+/// The (absolute) standardized deviation of `x` from `center` at the given
+/// `scale`, multiplied by the consistency constant `k`. Extracted so the exact
+/// arithmetic can be pinned by tests, not just its sign.
+fn modified_score(x: f64, center: f64, scale: f64, k: f64) -> f64 {
+    (k * (x - center) / scale).abs()
 }
 
 /// Maps a modified z-score to a calibrated confidence in `[0, 1]`.
@@ -194,6 +201,48 @@ mod tests {
         let report = run(&[1.0, 2.0, 100.0]); // below default min_n = 8
         assert!(report.is_clean());
         assert_eq!(report.absent.len(), 1);
+    }
+
+    #[test]
+    fn modified_score_exact_arithmetic() {
+        // Pins the formula |k·(x−center)/scale|, not just its sign. Catches any
+        // swap of the * , - , or / operators.
+        assert_eq!(modified_score(20.0, 10.0, 2.0, 0.5), 2.5);
+        assert_eq!(modified_score(0.0, 10.0, 2.0, 1.0), 5.0);
+        // negative deviation still yields a positive score
+        assert_eq!(modified_score(4.0, 10.0, 3.0, 1.0), 2.0);
+    }
+
+    #[test]
+    fn confidence_is_half_at_threshold() {
+        // excess == 0 ⇒ sigmoid(0) == 0.5 exactly. Catches `modz + threshold`
+        // and `modz / threshold` mutations, which both move this off 0.5.
+        assert_eq!(confidence_from_modz(3.5, 3.5), 0.5);
+        assert_eq!(confidence_from_modz(2.0, 2.0), 0.5);
+    }
+
+    #[test]
+    fn exactly_min_n_values_is_assessed() {
+        // A column with exactly point_min_n (=8) finite values must be scanned,
+        // not skipped. Catches `len < min_n` → `len <= min_n`.
+        let report = run(&[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 100.0]);
+        assert_eq!(report.findings.len(), 1, "the 100.0 outlier must be flagged");
+        assert!(report.absent.is_empty(), "8 values is enough to assess");
+    }
+
+    #[test]
+    fn robust_path_catches_what_sigma_path_misses() {
+        // With MAD, the lone 1000 is wildly anomalous. If the detector were
+        // forced down the mean/σ fallback, σ is so inflated by that same point
+        // that its z-score (~2.7) falls under threshold and nothing is flagged.
+        // So this asserts the robust (MAD) branch is actually taken.
+        let report = run(&[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 1000.0]);
+        assert_eq!(report.findings.len(), 1);
+        assert!(matches!(
+            report.findings[0].handle,
+            Handle::Cell { row: 8, .. }
+        ));
+        assert!(report.findings[0].score > 100.0, "MAD-scaled score is large");
     }
 
     #[test]

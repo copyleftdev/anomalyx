@@ -1,0 +1,21 @@
+--- crates/ax-core/src/envelope.rs
++++ replace json_u32 -> serde_json::Value with Default::default()
+@@ -204,17 +204,17 @@
+         Severity::Low => "low",
+         Severity::Medium => "medium",
+         Severity::High => "high",
+         Severity::Critical => "critical",
+     }
+ }
+ 
+ fn json_u32(v: u32) -> serde_json::Value {
+-    serde_json::Value::from(v)
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn json_f64(v: f64) -> serde_json::Value {
+     serde_json::Number::from_f64(v)
+         .map(serde_json::Value::Number)
+         .unwrap_or(serde_json::Value::Null)
+ }
+ 

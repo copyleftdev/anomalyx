@@ -1,0 +1,21 @@
+--- crates/ax-core/src/value.rs
++++ delete match arm (Value::Bool(a), Value::Bool(b)) in Value::total_cmp
+@@ -72,17 +72,17 @@
+                 Value::Null => 0,
+                 Value::Bool(_) => 1,
+                 Value::Int(_) => 2,
+                 Value::Float(_) => 3,
+                 Value::Str(_) => 4,
+             }
+         }
+         match (self, other) {
+-            (Value::Bool(a), Value::Bool(b)) => a.cmp(b),
++             /* ~ changed by cargo-mutants ~ */
+             (Value::Int(a), Value::Int(b)) => a.cmp(b),
+             (Value::Float(a), Value::Float(b)) => a.total_cmp(b),
+             (Value::Str(a), Value::Str(b)) => a.cmp(b),
+             _ => rank(self).cmp(&rank(other)),
+         }
+     }
+ }
+ 

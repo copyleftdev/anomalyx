@@ -1,0 +1,27 @@
+--- crates/ax-core/src/value.rs
++++ replace ColType::unify -> ColType with Default::default()
+@@ -101,23 +101,17 @@
+ }
+ 
+ impl ColType {
+     /// Least-upper-bound when folding cell types into a column type.
+     ///
+     /// `Unknown` is the identity; `Int`+`Float` widen to `Float`; any other
+     /// disagreement is `Mixed` (itself a structural anomaly signal, not an error).
+     pub fn unify(self, other: ColType) -> ColType {
+-        use ColType::*;
+-        match (self, other) {
+-            (Unknown, x) | (x, Unknown) => x,
+-            (a, b) if a == b => a,
+-            (Int, Float) | (Float, Int) => Float,
+-            _ => Mixed,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn is_numeric(self) -> bool {
+         matches!(self, ColType::Int | ColType::Float | ColType::Bool)
+     }
+ }
+ 
+ #[cfg(test)]

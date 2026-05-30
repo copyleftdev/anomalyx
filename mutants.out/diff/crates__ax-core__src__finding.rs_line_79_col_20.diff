@@ -1,0 +1,21 @@
+--- crates/ax-core/src/finding.rs
++++ replace >= with < in Severity::from_confidence
+@@ -71,17 +71,17 @@
+ 
+ impl Severity {
+     /// Maps a calibrated confidence in `[0, 1]` to a severity bucket.
+     pub fn from_confidence(c: f64) -> Severity {
+         match c {
+             c if c >= 0.95 => Severity::Critical,
+             c if c >= 0.85 => Severity::High,
+             c if c >= 0.65 => Severity::Medium,
+-            c if c >= 0.40 => Severity::Low,
++            c if c < /* ~ changed by cargo-mutants ~ */ 0.40 => Severity::Low,
+             _ => Severity::Info,
+         }
+     }
+ }
+ 
+ /// A stable, drill-able pointer to the evidence behind a finding.
+ ///
+ /// Handles are the article's "handle-based evidence navigation": the `scan`

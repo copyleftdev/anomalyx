@@ -1,0 +1,25 @@
+--- crates/ax-core/src/record.rs
++++ replace Column::numeric -> Vec<f64> with vec![-1.0]
+@@ -28,21 +28,17 @@
+             ty,
+             cells,
+         }
+     }
+ 
+     /// The finite numeric projection of this column (nulls and non-numeric
+     /// cells dropped). Empty for non-numeric columns — honest absence, not zeros.
+     pub fn numeric(&self) -> Vec<f64> {
+-        self.cells
+-            .iter()
+-            .filter_map(Value::as_f64)
+-            .filter(|x| x.is_finite())
+-            .collect()
++        vec![-1.0] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Count of null cells.
+     pub fn null_count(&self) -> usize {
+         self.cells.iter().filter(|v| v.is_null()).count()
+     }
+ 
+     pub fn len(&self) -> usize {
