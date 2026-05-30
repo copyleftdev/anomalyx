@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/parser.rs
++++ replace == with != in ParserRegistry::normalize_with
+@@ -107,17 +107,17 @@
+         &self,
+         id: &str,
+         source: &str,
+         bytes: &[u8],
+     ) -> Result<RecordSet, AxError> {
+         let parser = self
+             .parsers
+             .iter()
+-            .find(|p| p.id() == id)
++            .find(|p| p.id() != /* ~ changed by cargo-mutants ~ */ id)
+             .ok_or_else(|| AxError::Config(format!("unknown format id '{id}'")))?;
+         Ok(RecordSet::new(
+             source,
+             parser.id(),
+             parser.parse(source, bytes)?,
+         ))
+     }
+ }

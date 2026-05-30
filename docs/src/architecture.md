@@ -29,6 +29,16 @@ detector, the envelope, or the contract. That's what lets the text-only build
 drop Polars entirely, and what keeps `ax-core` — where the taxonomy and envelope
 live — a tiny, dependency-light crate that the mutation gate can sweep quickly.
 
+## Adding a format (the parser plugin system)
+
+`ax-normalize` is a parser-plugin registry. Each format is an independent
+`FormatParser` (`id`, `extensions`, content `sniff`, `parse`) living in its own
+file under `crates/ax-normalize/src/parsers/`. The `ParserRegistry` resolves a
+byte stream by file extension first, then by the highest-confidence sniff
+(deterministic: confidences are registered in descending order). Adding a format
+is a new `parsers/<fmt>.rs` plus one `register(...)` line in `default_registry` —
+no central `match` to edit. See the open `format` issues for the backlog.
+
 ## The detector contract
 
 A `Detector` is itself a contract. Given a `ScanContext { current, baseline }`

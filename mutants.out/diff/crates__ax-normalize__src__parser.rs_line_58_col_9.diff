@@ -1,0 +1,22 @@
+--- crates/ax-normalize/src/parser.rs
++++ replace ParserRegistry::register -> &mut Self with Box::leak(Box::new(Default::default()))
+@@ -50,18 +50,17 @@
+ impl ParserRegistry {
+     pub fn new() -> Self {
+         ParserRegistry {
+             parsers: Vec::new(),
+         }
+     }
+ 
+     pub fn register(&mut self, parser: Box<dyn FormatParser>) -> &mut Self {
+-        self.parsers.push(parser);
+-        self
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Registered parser ids, in order (handy for `describe`/tests).
+     pub fn ids(&self) -> Vec<&'static str> {
+         self.parsers.iter().map(|p| p.id()).collect()
+     }
+ 
+     /// The lower-cased final extension of `source`, if any.

@@ -8,7 +8,14 @@ exclude_re = [
     # `t < c` vs `t <= c` where t,c are byte indices of '\t' and ',' in the same
     # string. They index distinct characters, so they are never equal; `<=` is
     # behaviorally identical to `<`. Provably equivalent, not a test gap.
-    "replace < with <= in Format::sniff",
+    "replace < with <= in tab_before_comma",
+
+    # Parser sniff confidences are registered in strictly descending order
+    # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
+    # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`
+    # variants only differ on a tie, which is unreachable; equivalent mutants.
+    "replace > with == in ParserRegistry::resolve",
+    "replace > with >= in ParserRegistry::resolve",
 
     # Significance/threshold comparisons against a *continuous* statistic. The
     # `<`→`<=` (or `>`→`>=`) variants differ only when the statistic lands

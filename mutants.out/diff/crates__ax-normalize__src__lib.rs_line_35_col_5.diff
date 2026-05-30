@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/lib.rs
++++ replace normalize_with -> Result<RecordSet, AxError> with Ok(Default::default())
+@@ -27,17 +27,17 @@
+ /// Normalizes `bytes` from logical `source` into a [`RecordSet`], resolving the
+ /// format by extension then content sniff against the default parser registry.
+ pub fn normalize(source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {
+     ParserRegistry::default().normalize(source, bytes)
+ }
+ 
+ /// Normalizes with an explicitly chosen format `id` (skips detection).
+ pub fn normalize_with(id: &str, source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {
+-    ParserRegistry::default().normalize_with(id, source, bytes)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::{ColType, Value};
+ 
+     #[test]

@@ -1,0 +1,23 @@
+--- crates/ax-normalize/src/parser.rs
++++ replace ParserRegistry::normalize -> Result<RecordSet, AxError> with Ok(Default::default())
+@@ -92,19 +92,17 @@
+             }
+         }
+         best.map(|(_, p)| p)
+             .ok_or_else(|| AxError::UnknownFormat(source.to_string()))
+     }
+ 
+     /// Resolve, parse, and wrap into a [`RecordSet`] tagged with the parser id.
+     pub fn normalize(&self, source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {
+-        let parser = self.resolve(source, bytes)?;
+-        let columns = parser.parse(source, bytes)?;
+-        Ok(RecordSet::new(source, parser.id(), columns))
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Normalize with an explicitly chosen parser id (skips detection).
+     pub fn normalize_with(
+         &self,
+         id: &str,
+         source: &str,
+         bytes: &[u8],

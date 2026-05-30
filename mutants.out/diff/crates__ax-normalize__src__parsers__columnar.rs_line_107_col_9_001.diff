@@ -1,0 +1,24 @@
+--- crates/ax-normalize/src/parsers/columnar.rs
++++ replace <impl FormatParser for ArrowParser>::parse -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])
+@@ -99,20 +99,17 @@
+     fn extensions(&self) -> &'static [&'static str] {
+         &["arrow", "ipc", "feather"]
+     }
+     fn sniff(&self, bytes: &[u8]) -> Option<Confidence> {
+         // Arrow IPC files begin with "ARROW1".
+         bytes.starts_with(b"ARROW1").then_some(MAGIC)
+     }
+     fn parse(&self, _source: &str, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
+-        let df = IpcReader::new(Cursor::new(bytes.to_vec()))
+-            .finish()
+-            .map_err(|e| parse_err(self.id(), e))?;
+-        Ok(df_to_columns(&df))
++        Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::ColType;
+ 

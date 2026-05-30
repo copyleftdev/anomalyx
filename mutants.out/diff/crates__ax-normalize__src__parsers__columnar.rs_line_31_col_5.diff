@@ -1,0 +1,41 @@
+--- crates/ax-normalize/src/parsers/columnar.rs
++++ replace any_value_to_value -> Value with Default::default()
+@@ -23,37 +23,17 @@
+         })
+         .collect()
+ }
+ 
+ /// Maps one Polars `AnyValue` into the closed [`Value`] set. Integer widths fold
+ /// to `i64`; floats to `f64` (non-finite → `Null`); strings pass through; any
+ /// other logical type is preserved as its display string (honest, not dropped).
+ fn any_value_to_value(av: AnyValue) -> Value {
+-    match av {
+-        AnyValue::Null => Value::Null,
+-        AnyValue::Boolean(b) => Value::Bool(b),
+-        AnyValue::Int8(v) => Value::Int(v as i64),
+-        AnyValue::Int16(v) => Value::Int(v as i64),
+-        AnyValue::Int32(v) => Value::Int(v as i64),
+-        AnyValue::Int64(v) => Value::Int(v),
+-        AnyValue::UInt8(v) => Value::Int(v as i64),
+-        AnyValue::UInt16(v) => Value::Int(v as i64),
+-        AnyValue::UInt32(v) => Value::Int(v as i64),
+-        // u64 can exceed i64; keep the exact value as a string rather than wrap.
+-        AnyValue::UInt64(v) => match i64::try_from(v) {
+-            Ok(i) => Value::Int(i),
+-            Err(_) => Value::Str(v.to_string()),
+-        },
+-        AnyValue::Float32(v) => finite_float(v as f64),
+-        AnyValue::Float64(v) => finite_float(v),
+-        AnyValue::String(s) => Value::Str(s.to_string()),
+-        AnyValue::StringOwned(s) => Value::Str(s.to_string()),
+-        other => Value::Str(other.to_string()),
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// A finite float becomes `Float`; NaN/±∞ become `Null` (honest absence).
+ fn finite_float(f: f64) -> Value {
+     if f.is_finite() {
+         Value::Float(f)
+     } else {
+         Value::Null

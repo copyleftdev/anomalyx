@@ -1,0 +1,30 @@
+--- crates/ax-normalize/src/parser.rs
++++ replace ParserRegistry::normalize_with -> Result<RecordSet, AxError> with Ok(Default::default())
+@@ -104,26 +104,17 @@
+ 
+     /// Normalize with an explicitly chosen parser id (skips detection).
+     pub fn normalize_with(
+         &self,
+         id: &str,
+         source: &str,
+         bytes: &[u8],
+     ) -> Result<RecordSet, AxError> {
+-        let parser = self
+-            .parsers
+-            .iter()
+-            .find(|p| p.id() == id)
+-            .ok_or_else(|| AxError::Config(format!("unknown format id '{id}'")))?;
+-        Ok(RecordSet::new(
+-            source,
+-            parser.id(),
+-            parser.parse(source, bytes)?,
+-        ))
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Default for ParserRegistry {
+     fn default() -> Self {
+         crate::parsers::default_registry()
+     }
+ }

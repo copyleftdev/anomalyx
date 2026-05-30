@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/parsers/delimited.rs
++++ replace <impl FormatParser for CsvParser>::extensions -> &'static[&'static str] with Vec::leak(vec!["xyzzy"])
+@@ -76,17 +76,17 @@
+ #[derive(Debug, Default, Clone)]
+ pub struct CsvParser;
+ 
+ impl FormatParser for CsvParser {
+     fn id(&self) -> &'static str {
+         "csv"
+     }
+     fn extensions(&self) -> &'static [&'static str] {
+-        &["csv"]
++        Vec::leak(vec!["xyzzy"]) /* ~ changed by cargo-mutants ~ */
+     }
+     fn sniff(&self, bytes: &[u8]) -> Option<Confidence> {
+         // Fallback: claim any non-JSON UTF-8 text at the lowest confidence.
+         tabular_first_line(bytes).map(|_| FALLBACK)
+     }
+     fn parse(&self, _source: &str, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
+         read_delimited(bytes, b',', self.id())
+     }

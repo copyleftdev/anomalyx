@@ -1,0 +1,28 @@
+--- crates/ax-normalize/src/parsers/columnar.rs
++++ replace df_to_columns -> Vec<Column> with vec![]
+@@ -9,24 +9,17 @@
+ 
+ use crate::parser::{Confidence, FormatParser, MAGIC};
+ use ax_core::{AxError, Column, Value};
+ use polars::prelude::*;
+ use std::io::Cursor;
+ 
+ /// Lowers a Polars `DataFrame` to `Column`s, preserving column order.
+ fn df_to_columns(df: &DataFrame) -> Vec<Column> {
+-    df.columns()
+-        .iter()
+-        .map(|col| {
+-            let series = col.as_materialized_series();
+-            let cells: Vec<Value> = series.iter().map(any_value_to_value).collect();
+-            Column::new(col.name().as_str(), cells)
+-        })
+-        .collect()
++    vec![] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Maps one Polars `AnyValue` into the closed [`Value`] set. Integer widths fold
+ /// to `i64`; floats to `f64` (non-finite → `Null`); strings pass through; any
+ /// other logical type is preserved as its display string (honest, not dropped).
+ fn any_value_to_value(av: AnyValue) -> Value {
+     match av {
+         AnyValue::Null => Value::Null,

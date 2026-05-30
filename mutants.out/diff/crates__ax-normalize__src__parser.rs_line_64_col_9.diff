@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/parser.rs
++++ replace ParserRegistry::ids -> Vec<&'static str> with vec![]
+@@ -56,17 +56,17 @@
+ 
+     pub fn register(&mut self, parser: Box<dyn FormatParser>) -> &mut Self {
+         self.parsers.push(parser);
+         self
+     }
+ 
+     /// Registered parser ids, in order (handy for `describe`/tests).
+     pub fn ids(&self) -> Vec<&'static str> {
+-        self.parsers.iter().map(|p| p.id()).collect()
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// The lower-cased final extension of `source`, if any.
+     fn extension(source: &str) -> Option<String> {
+         source.rsplit('.').next().map(|e| e.to_ascii_lowercase())
+     }
+ 
+     /// Resolves the parser for `source`/`bytes`: a matching file extension wins;

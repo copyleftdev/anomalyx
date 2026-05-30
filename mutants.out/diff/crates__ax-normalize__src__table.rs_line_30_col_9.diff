@@ -1,0 +1,28 @@
+--- crates/ax-normalize/src/table.rs
++++ replace TableBuilder::ensure -> usize with 0
+@@ -22,24 +22,17 @@
+ 
+ impl TableBuilder {
+     pub fn new() -> Self {
+         TableBuilder::default()
+     }
+ 
+     /// Ensures a column exists, back-filling it with `Null` for prior rows.
+     fn ensure(&mut self, name: &str) -> usize {
+-        if let Some(&i) = self.index.get(name) {
+-            return i;
+-        }
+-        let i = self.order.len();
+-        self.order.push(name.to_string());
+-        self.index.insert(name.to_string(), i);
+-        self.cols.push(vec![Value::Null; self.rows]);
+-        i
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     /// Adds one record. Objects contribute their fields; anything else goes to
+     /// the synthetic [`VALUE_COL`] column.
+     pub fn push_value(&mut self, val: serde_json::Value) {
+         let mut row: BTreeMap<String, Value> = BTreeMap::new();
+         match val {
+             serde_json::Value::Object(map) => {

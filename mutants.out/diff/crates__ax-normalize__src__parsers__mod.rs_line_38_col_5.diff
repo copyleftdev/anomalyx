@@ -1,0 +1,22 @@
+--- crates/ax-normalize/src/parsers/mod.rs
++++ replace register_binary with ()
+@@ -30,18 +30,10 @@
+     r.register(Box::new(CsvParser));
+     r
+ }
+ 
+ /// Binary columnar parsers register only with the `polars` feature. Without it,
+ /// a Parquet/Arrow file resolves to no parser and is reported as an unknown
+ /// format — the build genuinely cannot read it.
+ fn register_binary(r: &mut ParserRegistry) {
+-    #[cfg(feature = "polars")]
+-    {
+-        r.register(Box::new(ParquetParser));
+-        r.register(Box::new(ArrowParser));
+-    }
+-    #[cfg(not(feature = "polars"))]
+-    {
+-        let _ = r;
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }

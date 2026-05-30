@@ -1,0 +1,21 @@
+--- crates/ax-normalize/src/parsers/columnar.rs
++++ replace <impl FormatParser for ParquetParser>::id -> &'static str with ""
+@@ -67,17 +67,17 @@
+     }
+ }
+ 
+ #[derive(Debug, Default, Clone)]
+ pub struct ParquetParser;
+ 
+ impl FormatParser for ParquetParser {
+     fn id(&self) -> &'static str {
+-        "parquet"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+     fn extensions(&self) -> &'static [&'static str] {
+         &["parquet", "pq"]
+     }
+     fn sniff(&self, bytes: &[u8]) -> Option<Confidence> {
+         // Parquet files begin (and end) with the 4-byte magic "PAR1".
+         bytes.starts_with(b"PAR1").then_some(MAGIC)
+     }
