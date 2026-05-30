@@ -15,7 +15,7 @@
 use ax_core::envelope::{EnvelopeBuilder, ExitCode, PROTOCOL};
 use ax_core::finding::Handle;
 use ax_core::{AxError, RecordSet, Value};
-use ax_detect::{DetectConfig, Registry};
+use ax_detect::{DetectConfig, Registry, ScanContext};
 use std::io::Read;
 use std::process::ExitCode as ProcExit;
 
@@ -64,12 +64,32 @@ fn usage() -> &'static str {
     "anomalyx — contract-first anomaly detection\n\
      \n\
      USAGE:\n\
-     \x20 anomalyx describe            Protocol metadata\n\
-     \x20 anomalyx schema              JSON Schema of scan output\n\
-     \x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\n\
-     \x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\n\
+     \x20 anomalyx describe                         Protocol metadata\n\
+     \x20 anomalyx schema                           JSON Schema of scan output\n\
+     \x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\n\
+     \x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\n\
      \n\
+     With --baseline, distributional drift and schema-diff are compared against B.\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
+}
+
+/// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the
+/// remaining positional arguments. Fails cleanly if the flag has no value.
+fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {
+    let mut baseline = None;
+    let mut positional = Vec::new();
+    let mut it = args.iter();
+    while let Some(arg) = it.next() {
+        if arg == "--baseline" {
+            let value = it
+                .next()
+                .ok_or_else(|| AxError::Config("--baseline requires a path".into()))?;
+            baseline = Some(value.clone());
+        } else {
+            positional.push(arg.clone());
+        }
+    }
+    Ok((baseline, positional))
 }
 
 /// Reads the input corpus: a path argument, or stdin when absent or `-`.
@@ -89,15 +109,35 @@ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
     }
 }
 
+/// Normalizes the optional baseline corpus from its path.
+fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {
+    match path {
+        Some(p) => {
+            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+            Ok(Some(ax_normalize::normalize(p, &bytes)?))
+        }
+        None => Ok(None),
+    }
+}
+
 fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
-    let (source, bytes) = read_input(rest.first())?;
+    let (baseline_path, positional) = split_baseline(rest)?;
+    let (source, bytes) = read_input(positional.first())?;
     let rs = ax_normalize::normalize(&source, &bytes)?;
+    let baseline = load_baseline(&baseline_path)?;
+
     let cfg = DetectConfig::default();
-    let registry = Registry::default_set();
-    let report = registry.run(&rs, &cfg);
+    let ctx = match &baseline {
+        Some(b) => ScanContext::compared(b, &rs),
+        None => ScanContext::single(&rs),
+    };
+    let report = Registry::default_set().run(&ctx, &cfg);
 
     let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())
         .findings(report.findings);
+    if let Some(b) = &baseline {
+        builder = builder.baseline(b.source.clone());
+    }
     for a in report.absent {
         builder = builder.absent(a.detector, a.reason);
     }
@@ -115,19 +155,25 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
 }
 
 fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
-    let handle_str = rest
+    let (baseline_path, positional) = split_baseline(rest)?;
+    let handle_str = positional
         .first()
         .ok_or_else(|| AxError::Config("explain requires a <HANDLE> argument".into()))?;
     let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;
 
-    let (source, bytes) = read_input(rest.get(1))?;
+    let (source, bytes) = read_input(positional.get(1))?;
     let rs = ax_normalize::normalize(&source, &bytes)?;
+    let baseline = load_baseline(&baseline_path)?;
 
     let evidence = resolve_handle(&rs, &handle)?;
 
     // Re-run detection and attach any findings that point at this handle.
     let cfg = DetectConfig::default();
-    let report = Registry::default_set().run(&rs, &cfg);
+    let ctx = match &baseline {
+        Some(b) => ScanContext::compared(b, &rs),
+        None => ScanContext::single(&rs),
+    };
+    let report = Registry::default_set().run(&ctx, &cfg);
     let findings: Vec<_> = report
         .findings
         .into_iter()
@@ -305,5 +351,28 @@ mod tests {
     #[test]
     fn unknown_command_errors() {
         assert!(run(&["frobnicate".to_string()]).is_err());
+    }
+
+    fn strings(xs: &[&str]) -> Vec<String> {
+        xs.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn split_baseline_extracts_flag_and_positionals() {
+        let (b, pos) = split_baseline(&strings(&["--baseline", "base.csv", "cur.csv"])).unwrap();
+        assert_eq!(b, Some("base.csv".to_string()));
+        assert_eq!(pos, strings(&["cur.csv"]));
+    }
+
+    #[test]
+    fn split_baseline_none_when_absent() {
+        let (b, pos) = split_baseline(&strings(&["cur.csv"])).unwrap();
+        assert_eq!(b, None);
+        assert_eq!(pos, strings(&["cur.csv"]));
+    }
+
+    #[test]
+    fn split_baseline_errors_without_value() {
+        assert!(split_baseline(&strings(&["--baseline"])).is_err());
     }
 }

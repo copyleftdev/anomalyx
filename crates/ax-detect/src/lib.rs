@@ -14,10 +14,43 @@ use ax_core::envelope::Absence;
 use ax_core::{AnomalyClass, Finding, RecordSet};
 
 pub mod config;
+pub mod dist;
 pub mod point;
+pub mod structural;
 
 pub use config::DetectConfig;
+pub use dist::{Chi2Detector, KsDetector, PsiDetector};
 pub use point::PointDetector;
+pub use structural::SchemaDetector;
+
+/// The corpus (or pair of corpora) under assessment.
+///
+/// Single-corpus detectors (point, structural shape checks) read `current`.
+/// Drift detectors (distributional, schema-diff) require `baseline`; when it is
+/// `None` they declare honest [`Absence`] rather than inventing a comparison.
+#[derive(Debug, Clone, Copy)]
+pub struct ScanContext<'a> {
+    pub current: &'a RecordSet,
+    pub baseline: Option<&'a RecordSet>,
+}
+
+impl<'a> ScanContext<'a> {
+    /// A single-corpus context (no baseline).
+    pub fn single(current: &'a RecordSet) -> Self {
+        ScanContext {
+            current,
+            baseline: None,
+        }
+    }
+
+    /// A baseline-vs-current context.
+    pub fn compared(baseline: &'a RecordSet, current: &'a RecordSet) -> Self {
+        ScanContext {
+            current,
+            baseline: Some(baseline),
+        }
+    }
+}
 
 /// What a detector emits into the shared report. Detectors push findings and,
 /// when they cannot meaningfully run, mark themselves absent with a reason.
@@ -57,8 +90,8 @@ pub trait Detector {
     /// The taxonomy class this detector produces.
     fn class(&self) -> AnomalyClass;
 
-    /// Assess `rs`, pushing findings and/or an absence into `out`.
-    fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report);
+    /// Assess `ctx`, pushing findings and/or an absence into `out`.
+    fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report);
 }
 
 /// An ordered set of detectors. Order is fixed at registration, so output is
@@ -75,10 +108,16 @@ impl Registry {
         }
     }
 
-    /// The default detector set for this protocol version.
+    /// The default detector set for this protocol version. Single-corpus
+    /// detectors run always; drift detectors run when a baseline is present and
+    /// otherwise report honest absence.
     pub fn default_set() -> Self {
         let mut r = Registry::new();
         r.register(Box::new(PointDetector));
+        r.register(Box::new(SchemaDetector));
+        r.register(Box::new(KsDetector));
+        r.register(Box::new(PsiDetector));
+        r.register(Box::new(Chi2Detector));
         r
     }
 
@@ -91,11 +130,11 @@ impl Registry {
         self.detectors.iter().map(|d| d.id()).collect()
     }
 
-    /// Runs every detector against `rs` and returns the merged report.
-    pub fn run(&self, rs: &RecordSet, cfg: &DetectConfig) -> Report {
+    /// Runs every detector against `ctx` and returns the merged report.
+    pub fn run(&self, ctx: &ScanContext, cfg: &DetectConfig) -> Report {
         let mut out = Report::new();
         for d in &self.detectors {
-            d.detect(rs, cfg, &mut out);
+            d.detect(ctx, cfg, &mut out);
         }
         out
     }
@@ -113,29 +152,59 @@ mod tests {
     use ax_core::{Column, Value};
 
     #[test]
-    fn registry_runs_registered_detectors() {
+    fn report_is_clean_only_without_findings() {
+        let mut r = Report::new();
+        assert!(r.is_clean());
+        r.push(Finding::new(
+            "d",
+            AnomalyClass::Point,
+            ax_core::Handle::Column { name: "x".into() },
+            0.9,
+            1.0,
+            "r",
+        ));
+        assert!(!r.is_clean());
+    }
+
+    #[test]
+    fn registry_registers_the_default_detector_set() {
         let reg = Registry::default_set();
-        assert_eq!(reg.ids(), vec!["point.modz"]);
+        assert_eq!(
+            reg.ids(),
+            vec![
+                "point.modz",
+                "struct.schema",
+                "dist.ks",
+                "dist.psi",
+                "dist.chi2"
+            ]
+        );
+    }
+
+    #[test]
+    fn single_corpus_clean_numeric_has_no_point_findings() {
         let rs = RecordSet::new(
             "-",
             "test",
             vec![Column::new(
                 "x",
-                vec![Value::Int(1), Value::Int(2), Value::Int(3)],
+                (0..12).map(|i| Value::Int(10 + i % 3)).collect(),
             )],
         );
-        let report = reg.run(&rs, &DetectConfig::default());
-        // a tight, normal column yields no point anomalies
-        assert!(report.is_clean());
+        let report =
+            Registry::default_set().run(&ScanContext::single(&rs), &DetectConfig::default());
+        // point detector finds nothing; drift detectors are honestly absent
+        assert!(report.findings.is_empty());
+        assert!(report.absent.iter().any(|a| a.detector == "dist.ks"));
     }
 
     #[test]
-    fn registry_run_surfaces_findings_and_is_not_clean() {
+    fn registry_run_surfaces_point_finding() {
         let mut cells: Vec<Value> = (0..12).map(|i| Value::Int(10 + i % 3)).collect();
         cells.push(Value::Int(100_000)); // unmistakable outlier
         let rs = RecordSet::new("-", "test", vec![Column::new("x", cells)]);
-        let report = Registry::default_set().run(&rs, &DetectConfig::default());
-        assert!(!report.is_clean(), "the outlier must produce a finding");
-        assert_eq!(report.findings.len(), 1);
+        let report =
+            Registry::default_set().run(&ScanContext::single(&rs), &DetectConfig::default());
+        assert!(report.findings.iter().any(|f| f.detector == "point.modz"));
     }
 }

@@ -12,10 +12,10 @@
 //! exactly what the property tests pin down.
 
 use crate::config::DetectConfig;
-use crate::{Detector, Report};
+use crate::{Detector, Report, ScanContext};
 use ax_core::det;
 use ax_core::finding::Handle;
-use ax_core::{AnomalyClass, Column, Finding, RecordSet, Value};
+use ax_core::{AnomalyClass, Column, Finding, Value};
 
 /// Iglewicz–Hoaglin scale constant: `1/Φ⁻¹(0.75)`, makes the modified z-score
 /// comparable to a standard z-score for normal data.
@@ -33,9 +33,9 @@ impl Detector for PointDetector {
         AnomalyClass::Point
     }
 
-    fn detect(&self, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) {
+    fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
         let mut applicable = 0usize;
-        for col in &rs.columns {
+        for col in &ctx.current.columns {
             if !col.ty.is_numeric() {
                 continue;
             }
@@ -141,9 +141,13 @@ mod tests {
     }
 
     fn run(xs: &[f64]) -> Report {
-        let rs = RecordSet::new("-", "test", vec![col("x", xs)]);
+        let rs = ax_core::RecordSet::new("-", "test", vec![col("x", xs)]);
         let mut out = Report::new();
-        PointDetector.detect(&rs, &DetectConfig::default(), &mut out);
+        PointDetector.detect(
+            &ScanContext::single(&rs),
+            &DetectConfig::default(),
+            &mut out,
+        );
         out
     }
 
@@ -185,7 +189,7 @@ mod tests {
 
     #[test]
     fn non_numeric_corpus_marks_absent() {
-        let rs = RecordSet::new(
+        let rs = ax_core::RecordSet::new(
             "-",
             "test",
             vec![Column::new(
@@ -194,7 +198,11 @@ mod tests {
             )],
         );
         let mut out = Report::new();
-        PointDetector.detect(&rs, &DetectConfig::default(), &mut out);
+        PointDetector.detect(
+            &ScanContext::single(&rs),
+            &DetectConfig::default(),
+            &mut out,
+        );
         assert!(out.is_clean());
         assert_eq!(out.absent.len(), 1);
         assert_eq!(out.absent[0].detector, "point.modz");

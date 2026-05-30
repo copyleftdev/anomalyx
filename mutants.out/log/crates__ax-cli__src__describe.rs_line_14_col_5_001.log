@@ -66,27 +66,27 @@
        Fresh typenum v1.20.1
        Fresh csv-core v0.1.13
        Fresh ryu v1.0.23
-       Fresh num-traits v0.2.19
        Fresh proc-macro2 v1.0.106
+       Fresh num-traits v0.2.19
        Fresh libc v0.2.186
        Fresh zerocopy v0.8.50
        Fresh serde_core v1.0.228
-       Fresh wide v0.7.33
        Fresh paste v1.0.15
+       Fresh wide v0.7.33
        Fresh zmij v1.0.21
        Fresh matrixmultiply v0.3.10
        Fresh quote v1.0.45
        Fresh getrandom v0.2.17
        Fresh ppv-lite86 v0.2.21
-       Fresh num-complex v0.4.6
        Fresh approx v0.5.1
+       Fresh num-complex v0.4.6
        Fresh num-integer v0.1.46
        Fresh serde_json v1.0.150
        Fresh csv v1.4.0
        Fresh syn v2.0.117
        Fresh rand_core v0.6.4
-       Fresh num-rational v0.4.2
        Fresh simba v0.9.1
+       Fresh num-rational v0.4.2
        Fresh rand_chacha v0.3.1
        Fresh thiserror-impl v2.0.18
        Fresh serde_derive v1.0.228
@@ -94,15 +94,15 @@
        Fresh serde v1.0.228
        Fresh thiserror v2.0.18
        Fresh rand_distr v0.4.3
-       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-core)
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-core)
        Fresh nalgebra v0.33.3
-       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-normalize)
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-normalize)
        Fresh statrs v0.18.0
-       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-detect)
-       Dirty ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-cli): the file `crates/ax-cli/src/describe.rs` has changed (1780156525.242479057s, 1s after last build at 1780156524.975203417s)
-   Compiling ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-cli)
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d3927f35017454c5 -C extra-filename=-8f0171a50ea70bc5 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
-     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=01d915f6d0412c5a -C extra-filename=-5914b7fee172b307 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-detect)
+       Dirty ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli): the file `crates/ax-cli/src/describe.rs` has changed (1780158693.053246136s, 1s after last build at 1780158692.788227428s)
+   Compiling ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=01d915f6d0412c5a -C extra-filename=-5914b7fee172b307 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d3927f35017454c5 -C extra-filename=-8f0171a50ea70bc5 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
 warning: unused imports: `ExitCode`, `FINDING_COLUMNS`, and `PROTOCOL`
  --> crates/ax-cli/src/describe.rs:9:25
   |
@@ -133,9 +133,9 @@ warning: unused imports: `ExitCode` and `FINDING_COLUMNS`
 
 warning: `ax-cli` (bin "anomalyx") generated 3 warnings (run `cargo fix --bin "anomalyx" -p ax-cli` to apply 3 suggestions)
 warning: `ax-cli` (bin "anomalyx" test) generated 3 warnings (2 duplicates) (run `cargo fix --bin "anomalyx" -p ax-cli --tests` to apply 1 suggestion)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
-  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
-  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/cli-5571611048a0cfed`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/cli-5571611048a0cfed`
 
 *** result: Success
 
@@ -144,47 +144,47 @@ warning: `ax-cli` (bin "anomalyx" test) generated 3 warnings (2 duplicates) (run
        Fresh libm v0.2.16
        Fresh unicode-ident v1.0.24
        Fresh cfg-if v1.0.4
-       Fresh bytemuck v1.25.0
        Fresh memchr v2.8.1
+       Fresh bytemuck v1.25.0
        Fresh itoa v1.0.18
        Fresh rawpointer v0.2.1
        Fresh typenum v1.20.1
        Fresh ryu v1.0.23
-       Fresh num-traits v0.2.19
        Fresh proc-macro2 v1.0.106
+       Fresh num-traits v0.2.19
        Fresh safe_arch v0.7.4
        Fresh csv-core v0.1.13
        Fresh libc v0.2.186
        Fresh quote v1.0.45
        Fresh zerocopy v0.8.50
        Fresh serde_core v1.0.228
-       Fresh num-integer v0.1.46
-       Fresh num-complex v0.4.6
-       Fresh approx v0.5.1
        Fresh paste v1.0.15
+       Fresh approx v0.5.1
        Fresh wide v0.7.33
        Fresh zmij v1.0.21
+       Fresh num-integer v0.1.46
+       Fresh num-complex v0.4.6
        Fresh matrixmultiply v0.3.10
-       Fresh syn v2.0.117
        Fresh getrandom v0.2.17
+       Fresh syn v2.0.117
        Fresh ppv-lite86 v0.2.21
        Fresh num-rational v0.4.2
-       Fresh serde_json v1.0.150
        Fresh simba v0.9.1
+       Fresh serde_json v1.0.150
        Fresh csv v1.4.0
        Fresh rand_core v0.6.4
        Fresh thiserror-impl v2.0.18
        Fresh serde_derive v1.0.228
        Fresh rand_chacha v0.3.1
-       Fresh thiserror v2.0.18
        Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
        Fresh rand v0.8.6
-       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-core)
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-core)
        Fresh rand_distr v0.4.3
-       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-normalize)
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-normalize)
        Fresh nalgebra v0.33.3
        Fresh statrs v0.18.0
-       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-detect)
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-detect)
 warning: unused imports: `ExitCode`, `FINDING_COLUMNS`, and `PROTOCOL`
  --> crates/ax-cli/src/describe.rs:9:25
   |
@@ -213,19 +213,22 @@ warning: unused imports: `ExitCode` and `FINDING_COLUMNS`
   |
   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
-       Fresh ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/crates/ax-cli)
+       Fresh ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli)
 warning: `ax-cli` (bin "anomalyx") generated 3 warnings (run `cargo fix --bin "anomalyx" -p ax-cli` to apply 3 suggestions)
 warning: `ax-cli` (bin "anomalyx" test) generated 3 warnings (2 duplicates) (run `cargo fix --bin "anomalyx" -p ax-cli --tests` to apply 1 suggestion)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
-     Running `/tmp/claude-1000/cargo-mutants-anomalyx-vvl9d8.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
 
-running 8 tests
-test describe::tests::describe_is_valid_json_with_protocol ... FAILED
+running 11 tests
 test tests::resolve_missing_column_is_unresolved ... ok
+test describe::tests::describe_is_valid_json_with_protocol ... FAILED
 test tests::resolve_cell_ok ... ok
-test tests::unknown_command_errors ... ok
-test tests::resolve_range_valid_and_invalid ... ok
 test tests::resolve_out_of_range_is_unresolved ... ok
+test tests::split_baseline_errors_without_value ... ok
+test tests::resolve_range_valid_and_invalid ... ok
+test tests::split_baseline_extracts_flag_and_positionals ... ok
+test tests::split_baseline_none_when_absent ... ok
+test tests::unknown_command_errors ... ok
 test tests::usage_is_nonempty_and_documents_verbs ... ok
 test schema::tests::schema_is_valid_json_and_pins_protocol ... ok
 
@@ -233,7 +236,7 @@ failures:
 
 ---- describe::tests::describe_is_valid_json_with_protocol stdout ----
 
-thread 'describe::tests::describe_is_valid_json_with_protocol' (1226040) panicked at crates/ax-cli/src/describe.rs:23:75:
+thread 'describe::tests::describe_is_valid_json_with_protocol' (1494588) panicked at crates/ax-cli/src/describe.rs:23:75:
 called `Result::unwrap()` on an `Err` value: Error("expected value", line: 1, column: 1)
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
@@ -241,7 +244,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 failures:
     describe::tests::describe_is_valid_json_with_protocol
 
-test result: FAILED. 7 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: FAILED. 10 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
 error: test failed, to rerun pass `-p ax-cli --bin anomalyx`
 

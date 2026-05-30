@@ -123,6 +123,63 @@ fn explain_bad_handle_exits_error() {
 }
 
 #[test]
+fn scan_baseline_mode_detects_drift() {
+    let dir = std::env::temp_dir();
+    let base = dir.join("anomalyx_base.csv");
+    let cur = dir.join("anomalyx_cur.csv");
+    // 24 rows each; a hard distribution shift in `amount`.
+    let mut b = String::from("amount\n");
+    let mut c = String::from("amount\n");
+    for i in 0..24 {
+        b.push_str(&format!("{}\n", 10 + i % 5));
+        c.push_str(&format!("{}\n", 900 + i % 5));
+    }
+    std::fs::write(&base, &b).unwrap();
+    std::fs::write(&cur, &c).unwrap();
+    let o = run(
+        &[
+            "scan",
+            "--baseline",
+            base.to_str().unwrap(),
+            cur.to_str().unwrap(),
+        ],
+        b"",
+    );
+    let _ = std::fs::remove_file(&base);
+    let _ = std::fs::remove_file(&cur);
+    assert_eq!(o.code, 1, "stderr: {}", o.stderr);
+    let v: serde_json::Value = serde_json::from_str(&o.stdout).unwrap();
+    assert_eq!(v["baseline"].as_str().unwrap(), base.to_str().unwrap());
+    // KS and PSI should both fire on the shifted column.
+    let detectors: Vec<&str> = v["dict"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter_map(|s| s.as_str())
+        .collect();
+    assert!(detectors.contains(&"dist.ks"));
+    assert!(detectors.contains(&"dist.psi"));
+}
+
+#[test]
+fn scan_without_baseline_marks_distributional_absent() {
+    let o = run(&["scan"], CLEAN);
+    assert_eq!(o.code, 0);
+    let v: serde_json::Value = serde_json::from_str(&o.stdout).unwrap();
+    assert!(
+        v.get("baseline").is_none(),
+        "no baseline field in single mode"
+    );
+    let absent: Vec<&str> = v["absent"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|a| a["detector"].as_str().unwrap())
+        .collect();
+    assert!(absent.contains(&"dist.ks"));
+}
+
+#[test]
 fn no_args_exits_error() {
     let o = run(&[], b"");
     assert_eq!(o.code, 2);

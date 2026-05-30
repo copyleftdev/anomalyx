@@ -8,7 +8,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 7.312319252,
+          "duration": 7.511887056,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -20,7 +20,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051035334,
+          "duration": 0.101145856,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -71,7 +71,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201088488,
+          "duration": 0.25118201,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -83,7 +83,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101073853,
+          "duration": 0.051057515,
           "process_status": {
             "Failure": 101
           },
@@ -136,7 +136,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151042739,
+          "duration": 0.150974417,
           "process_status": {
             "Failure": 101
           },
@@ -165,7 +165,7 @@
                 "column": 1
               },
               "end": {
-                "line": 73,
+                "line": 74,
                 "column": 2
               }
             }
@@ -176,7 +176,7 @@
               "column": 5
             },
             "end": {
-              "line": 72,
+              "line": 73,
               "column": 50
             }
           },
@@ -190,7 +190,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.301418154,
+          "duration": 0.351349259,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -202,7 +202,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050945822,
+          "duration": 0.050977322,
           "process_status": {
             "Failure": 101
           },
@@ -230,7 +230,7 @@
                 "column": 1
               },
               "end": {
-                "line": 73,
+                "line": 74,
                 "column": 2
               }
             }
@@ -241,7 +241,7 @@
               "column": 5
             },
             "end": {
-              "line": 72,
+              "line": 73,
               "column": 50
             }
           },
@@ -255,7 +255,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.20115876,
+          "duration": 0.201245095,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -267,7 +267,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051005043,
+          "duration": 0.051073056,
           "process_status": {
             "Failure": 101
           },
@@ -283,7 +283,657 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((None, vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251143908,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.050997214,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((None, vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251179019,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051155179,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((None, vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_002.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251168808,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051118878,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_003.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_003.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.25119819,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051057436,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_004.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_004.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251167629,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051065276,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_005.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_005.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.201078358,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051045175,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_006.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_006.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251253052,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051071716,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_007.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_007.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251115667,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051095967,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 79,
+              "column": 5
+            },
+            "end": {
+              "line": 92,
+              "column": 31
+            }
+          },
+          "replacement": "Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_79_col_5_008.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_79_col_5_008.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251302054,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051049626,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "split_baseline",
+            "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+            "span": {
+              "start": {
+                "line": 76,
+                "column": 1
+              },
+              "end": {
+                "line": 93,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 83,
+              "column": 16
+            },
+            "end": {
+              "line": 83,
+              "column": 18
+            }
+          },
+          "replacement": "!=",
+          "genre": "BinaryOperator"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_83_col_16.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_83_col_16.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251283423,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051023804,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -291,22 +941,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -315,12 +965,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251240991,
+          "duration": 0.251141718,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -332,7 +982,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051069746,
+          "duration": 0.051020404,
           "process_status": {
             "Failure": 101
           },
@@ -348,7 +998,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -356,22 +1006,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -380,12 +1030,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201046296,
+          "duration": 0.201053017,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -397,7 +1047,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050993733,
+          "duration": 0.051055805,
           "process_status": {
             "Failure": 101
           },
@@ -413,7 +1063,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -421,22 +1071,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -445,12 +1095,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5_002.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5_002.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201094968,
+          "duration": 0.251119847,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -462,7 +1112,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051085117,
+          "duration": 0.051049756,
           "process_status": {
             "Failure": 101
           },
@@ -478,7 +1128,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -486,22 +1136,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -510,12 +1160,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5_003.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5_003.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_003.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_003.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201071108,
+          "duration": 0.251110727,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -527,7 +1177,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051009204,
+          "duration": 0.051065316,
           "process_status": {
             "Failure": 101
           },
@@ -543,7 +1193,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -551,22 +1201,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -575,12 +1225,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5_004.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5_004.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_004.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_004.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.20114614,
+          "duration": 0.251113107,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -592,7 +1242,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051056596,
+          "duration": 0.051010304,
           "process_status": {
             "Failure": 101
           },
@@ -608,7 +1258,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
+          "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -616,22 +1266,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 77,
+              "line": 97,
               "column": 5
             },
             "end": {
-              "line": 89,
+              "line": 109,
               "column": 6
             }
           },
@@ -640,12 +1290,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_77_col_5_005.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_77_col_5_005.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_97_col_5_005.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_97_col_5_005.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201061587,
+          "duration": 0.251164489,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -657,7 +1307,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051012524,
+          "duration": 0.101164637,
           "process_status": {
             "Failure": 101
           },
@@ -673,7 +1323,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with true in read_input",
+          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with true in read_input",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -681,22 +1331,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 78,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 78,
+              "line": 98,
               "column": 28
             }
           },
@@ -705,12 +1355,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_78_col_20.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_78_col_20.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251133087,
+          "duration": 0.251148038,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -722,7 +1372,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051071086,
+          "duration": 0.051023644,
           "process_status": {
             "Failure": 101
           },
@@ -738,7 +1388,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with false in read_input",
+          "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with false in read_input",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -746,22 +1396,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 78,
+              "line": 98,
               "column": 20
             },
             "end": {
-              "line": 78,
+              "line": 98,
               "column": 28
             }
           },
@@ -770,12 +1420,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_78_col_20_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_78_col_20_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_20_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_20_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201056437,
+          "duration": 0.251143118,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -787,7 +1437,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050990033,
+          "duration": 0.050943381,
           "process_status": {
             "Failure": 101
           },
@@ -803,7 +1453,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:78:22: replace != with == in read_input",
+          "name": "crates/ax-cli/src/main.rs:98:22: replace != with == in read_input",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -811,22 +1461,22 @@
             "return_type": "-> Result<(String, Vec<u8>), AxError>",
             "span": {
               "start": {
-                "line": 75,
+                "line": 95,
                 "column": 1
               },
               "end": {
-                "line": 90,
+                "line": 110,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 78,
+              "line": 98,
               "column": 22
             },
             "end": {
-              "line": 78,
+              "line": 98,
               "column": 24
             }
           },
@@ -835,12 +1485,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_78_col_22.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_78_col_22.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_98_col_22.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_98_col_22.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201068828,
+          "duration": 0.251105637,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -852,7 +1502,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101094834,
+          "duration": 0.051040255,
           "process_status": {
             "Failure": 101
           },
@@ -868,7 +1518,126 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:93:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
+          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "load_baseline",
+            "return_type": "-> Result<Option<RecordSet>, AxError>",
+            "span": {
+              "start": {
+                "line": 112,
+                "column": 1
+              },
+              "end": {
+                "line": 121,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 114,
+              "column": 5
+            },
+            "end": {
+              "line": 120,
+              "column": 6
+            }
+          },
+          "replacement": "Ok(None)",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "CaughtMutant",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.251132168,
+          "process_status": "Success",
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        },
+        {
+          "phase": "Test",
+          "duration": 0.051056906,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
+          "package": "ax-cli",
+          "file": "crates/ax-cli/src/main.rs",
+          "function": {
+            "function_name": "load_baseline",
+            "return_type": "-> Result<Option<RecordSet>, AxError>",
+            "span": {
+              "start": {
+                "line": 112,
+                "column": 1
+              },
+              "end": {
+                "line": 121,
+                "column": 2
+              }
+            }
+          },
+          "span": {
+            "start": {
+              "line": 114,
+              "column": 5
+            },
+            "end": {
+              "line": 120,
+              "column": 6
+            }
+          },
+          "replacement": "Ok(Some(Default::default()))",
+          "genre": "FnValue"
+        }
+      },
+      "summary": "Unviable",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_114_col_5_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_114_col_5_001.diff",
+      "phase_results": [
+        {
+          "phase": "Build",
+          "duration": 0.150970477,
+          "process_status": {
+            "Failure": 101
+          },
+          "argv": [
+            "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--no-run",
+            "--verbose",
+            "--package=ax-cli@0.1.0"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "Mutant": {
+          "name": "crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -876,22 +1645,22 @@
             "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 92,
+                "line": 123,
                 "column": 1
               },
               "end": {
-                "line": 112,
+                "line": 155,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 93,
+              "line": 124,
               "column": 5
             },
             "end": {
-              "line": 111,
+              "line": 154,
               "column": 7
             }
           },
@@ -900,12 +1669,12 @@
         }
       },
       "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_93_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_93_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_124_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_124_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.151032499,
+          "duration": 0.151019728,
           "process_status": {
             "Failure": 101
           },
@@ -922,7 +1691,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:107:20: replace == with != in cmd_scan",
+          "name": "crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -930,22 +1699,22 @@
             "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 92,
+                "line": 123,
                 "column": 1
               },
               "end": {
-                "line": 112,
+                "line": 155,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 107,
+              "line": 150,
               "column": 20
             },
             "end": {
-              "line": 107,
+              "line": 150,
               "column": 22
             }
           },
@@ -954,12 +1723,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_107_col_20.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_107_col_20.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_150_col_20.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_150_col_20.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201183242,
+          "duration": 0.251189689,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -971,7 +1740,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.101079944,
+          "duration": 0.101114585,
           "process_status": {
             "Failure": 101
           },
@@ -987,7 +1756,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:115:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
+          "name": "crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -995,22 +1764,22 @@
             "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 114,
+                "line": 157,
                 "column": 1
               },
               "end": {
-                "line": 143,
+                "line": 194,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 115,
+              "line": 158,
               "column": 5
             },
             "end": {
-              "line": 142,
+              "line": 193,
               "column": 24
             }
           },
@@ -1019,12 +1788,12 @@
         }
       },
       "summary": "Unviable",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_115_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_115_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_158_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_158_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.150982397,
+          "duration": 0.151007049,
           "process_status": {
             "Failure": 101
           },
@@ -1041,7 +1810,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:132:30: replace == with != in cmd_explain",
+          "name": "crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1049,22 +1818,22 @@
             "return_type": "-> Result<ExitCode, AxError>",
             "span": {
               "start": {
-                "line": 114,
+                "line": 157,
                 "column": 1
               },
               "end": {
-                "line": 143,
+                "line": 194,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 132,
+              "line": 180,
               "column": 30
             },
             "end": {
-              "line": 132,
+              "line": 180,
               "column": 32
             }
           },
@@ -1073,12 +1842,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_132_col_30.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_132_col_30.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_180_col_30.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_180_col_30.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201246104,
+          "duration": 0.251175209,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1090,7 +1859,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051015994,
+          "duration": 0.101226229,
           "process_status": {
             "Failure": 101
           },
@@ -1106,7 +1875,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
+          "name": "crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1114,22 +1883,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 148,
+              "line": 199,
               "column": 5
             },
             "end": {
-              "line": 184,
+              "line": 235,
               "column": 6
             }
           },
@@ -1138,12 +1907,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_148_col_5.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_148_col_5.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_199_col_5.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_199_col_5.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251147068,
+          "duration": 0.301252019,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1155,7 +1924,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051062886,
+          "duration": 0.051044315,
           "process_status": {
             "Failure": 101
           },
@@ -1171,7 +1940,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:173:31: replace || with && in resolve_handle",
+          "name": "crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1179,22 +1948,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 173,
+              "line": 224,
               "column": 31
             },
             "end": {
-              "line": 173,
+              "line": 224,
               "column": 33
             }
           },
@@ -1203,12 +1972,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_173_col_31.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_173_col_31.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_31.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_31.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251177718,
+          "duration": 0.301344002,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1220,7 +1989,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051043614,
+          "duration": 0.051142169,
           "process_status": {
             "Failure": 101
           },
@@ -1236,7 +2005,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:173:23: replace >= with < in resolve_handle",
+          "name": "crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1244,22 +2013,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 173,
+              "line": 224,
               "column": 23
             },
             "end": {
-              "line": 173,
+              "line": 224,
               "column": 25
             }
           },
@@ -1268,12 +2037,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_173_col_23.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_173_col_23.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_23.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_23.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201336777,
+          "duration": 0.25122343,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1285,7 +2054,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051008374,
+          "duration": 0.050958032,
           "process_status": {
             "Failure": 101
           },
@@ -1301,7 +2070,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:173:39: replace > with == in resolve_handle",
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1309,22 +2078,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 173,
+              "line": 224,
               "column": 39
             },
             "end": {
-              "line": 173,
+              "line": 224,
               "column": 40
             }
           },
@@ -1333,12 +2102,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_173_col_39.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_173_col_39.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201039476,
+          "duration": 0.251325065,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1350,7 +2119,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.05092714,
+          "duration": 0.051130358,
           "process_status": {
             "Failure": 101
           },
@@ -1366,7 +2135,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:173:39: replace > with < in resolve_handle",
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1374,22 +2143,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 173,
+              "line": 224,
               "column": 39
             },
             "end": {
-              "line": 173,
+              "line": 224,
               "column": 40
             }
           },
@@ -1398,12 +2167,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_173_col_39_001.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_173_col_39_001.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_001.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_001.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201081338,
+          "duration": 0.251269362,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1415,7 +2184,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.050960352,
+          "duration": 0.051073306,
           "process_status": {
             "Failure": 101
           },
@@ -1431,7 +2200,7 @@
     {
       "scenario": {
         "Mutant": {
-          "name": "crates/ax-cli/src/main.rs:173:39: replace > with >= in resolve_handle",
+          "name": "crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle",
           "package": "ax-cli",
           "file": "crates/ax-cli/src/main.rs",
           "function": {
@@ -1439,22 +2208,22 @@
             "return_type": "-> Result<serde_json::Value, AxError>",
             "span": {
               "start": {
-                "line": 145,
+                "line": 196,
                 "column": 1
               },
               "end": {
-                "line": 185,
+                "line": 236,
                 "column": 2
               }
             }
           },
           "span": {
             "start": {
-              "line": 173,
+              "line": 224,
               "column": 39
             },
             "end": {
-              "line": 173,
+              "line": 224,
               "column": 40
             }
           },
@@ -1463,12 +2232,12 @@
         }
       },
       "summary": "CaughtMutant",
-      "log_path": "log/crates__ax-cli__src__main.rs_line_173_col_39_002.log",
-      "diff_path": "diff/crates__ax-cli__src__main.rs_line_173_col_39_002.diff",
+      "log_path": "log/crates__ax-cli__src__main.rs_line_224_col_39_002.log",
+      "diff_path": "diff/crates__ax-cli__src__main.rs_line_224_col_39_002.diff",
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201072998,
+          "duration": 0.251192579,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1480,7 +2249,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051061665,
+          "duration": 0.051119028,
           "process_status": {
             "Failure": 101
           },
@@ -1533,7 +2302,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251157928,
+          "duration": 0.251317254,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1545,7 +2314,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051080716,
+          "duration": 0.051056906,
           "process_status": {
             "Failure": 101
           },
@@ -1598,7 +2367,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201179502,
+          "duration": 0.201088969,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1610,7 +2379,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051027354,
+          "duration": 0.051122618,
           "process_status": {
             "Failure": 101
           },
@@ -1638,7 +2407,7 @@
                 "column": 1
               },
               "end": {
-                "line": 93,
+                "line": 97,
                 "column": 2
               }
             }
@@ -1649,7 +2418,7 @@
               "column": 5
             },
             "end": {
-              "line": 92,
+              "line": 96,
               "column": 70
             }
           },
@@ -1663,7 +2432,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.251138587,
+          "duration": 0.301488888,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1675,7 +2444,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051071896,
+          "duration": 0.050962683,
           "process_status": {
             "Failure": 101
           },
@@ -1703,7 +2472,7 @@
                 "column": 1
               },
               "end": {
-                "line": 93,
+                "line": 97,
                 "column": 2
               }
             }
@@ -1714,7 +2483,7 @@
               "column": 5
             },
             "end": {
-              "line": 92,
+              "line": 96,
               "column": 70
             }
           },
@@ -1728,7 +2497,7 @@
       "phase_results": [
         {
           "phase": "Build",
-          "duration": 0.201044266,
+          "duration": 0.201090938,
           "process_status": "Success",
           "argv": [
             "/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
@@ -1740,7 +2509,7 @@
         },
         {
           "phase": "Test",
-          "duration": 0.051006874,
+          "duration": 0.051085976,
           "process_status": {
             "Failure": 101
           },
@@ -1754,13 +2523,13 @@
       ]
     }
   ],
-  "total_mutants": 27,
+  "total_mutants": 39,
   "missed": 0,
-  "caught": 24,
+  "caught": 35,
   "timeout": 0,
-  "unviable": 3,
+  "unviable": 4,
   "success": 0,
-  "start_time": "2026-05-30T15:55:11.613292611Z",
-  "end_time": "2026-05-30T15:55:26.108867931Z",
+  "start_time": "2026-05-30T16:31:14.936028278Z",
+  "end_time": "2026-05-30T16:31:33.971939571Z",
   "cargo_mutants_version": "27.0.0"
 }

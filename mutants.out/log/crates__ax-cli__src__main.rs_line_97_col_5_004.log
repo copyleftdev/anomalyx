@@ -1,0 +1,262 @@
+
+*** crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![0]))
+
+*** mutation diff:
+--- crates/ax-cli/src/main.rs
++++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![0]))
+@@ -89,29 +89,17 @@
+             positional.push(arg.clone());
+         }
+     }
+     Ok((baseline, positional))
+ }
+ 
+ /// Reads the input corpus: a path argument, or stdin when absent or `-`.
+ fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+-    match path {
+-        Some(p) if p != "-" => {
+-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+-            Ok((p.clone(), bytes))
+-        }
+-        _ => {
+-            let mut buf = Vec::new();
+-            std::io::stdin()
+-                .read_to_end(&mut buf)
+-                .map_err(|e| AxError::Io(format!("stdin: {e}")))?;
+-            Ok(("-".to_string(), buf))
+-        }
+-    }
++    Ok(("xyzzy".into(), vec![0])) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Normalizes the optional baseline corpus from its path.
+ fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {
+     match path {
+         Some(p) => {
+             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!("{p}: {e}")))?;
+             Ok(Some(ax_normalize::normalize(p, &bytes)?))
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-cli@0.1.0
+       Fresh autocfg v1.5.1
+       Fresh unicode-ident v1.0.24
+       Fresh cfg-if v1.0.4
+       Fresh memchr v2.8.1
+       Fresh bytemuck v1.25.0
+       Fresh itoa v1.0.18
+       Fresh libm v0.2.16
+       Fresh safe_arch v0.7.4
+       Fresh rawpointer v0.2.1
+       Fresh typenum v1.20.1
+       Fresh csv-core v0.1.13
+       Fresh ryu v1.0.23
+       Fresh num-traits v0.2.19
+       Fresh proc-macro2 v1.0.106
+       Fresh libc v0.2.186
+       Fresh zerocopy v0.8.50
+       Fresh serde_core v1.0.228
+       Fresh wide v0.7.33
+       Fresh zmij v1.0.21
+       Fresh paste v1.0.15
+       Fresh matrixmultiply v0.3.10
+       Fresh quote v1.0.45
+       Fresh getrandom v0.2.17
+       Fresh ppv-lite86 v0.2.21
+       Fresh num-integer v0.1.46
+       Fresh approx v0.5.1
+       Fresh num-complex v0.4.6
+       Fresh serde_json v1.0.150
+       Fresh csv v1.4.0
+       Fresh syn v2.0.117
+       Fresh rand_core v0.6.4
+       Fresh num-rational v0.4.2
+       Fresh simba v0.9.1
+       Fresh rand_chacha v0.3.1
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh rand v0.8.6
+       Fresh thiserror v2.0.18
+       Fresh serde v1.0.228
+       Fresh rand_distr v0.4.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-core)
+       Fresh nalgebra v0.33.3
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-normalize)
+       Fresh statrs v0.18.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-detect)
+       Dirty ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli): the file `crates/ax-cli/src/main.rs` has changed (1780158687.804250393s, 266393578ns after last build at 1780158687.537856815s)
+   Compiling ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=01d915f6d0412c5a -C extra-filename=-5914b7fee172b307 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name anomalyx --edition=2021 crates/ax-cli/src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=d3927f35017454c5 -C extra-filename=-8f0171a50ea70bc5 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps --extern ax_core=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_core-1d792e6226813f58.rlib --extern ax_detect=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_detect-399716f179ab183f.rlib --extern ax_normalize=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libax_normalize-ad1cbafb4bea42b0.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde-87f5ec849e622ab0.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/libserde_json-a28b92d783b9b64b.rlib`
+warning: unused import: `std::io::Read`
+  --> crates/ax-cli/src/main.rs:19:5
+   |
+19 | use std::io::Read;
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `path`
+  --> crates/ax-cli/src/main.rs:96:15
+   |
+96 | fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+   |               ^^^^ help: if this is intentional, prefix it with an underscore: `_path`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ax-cli` (bin "anomalyx") generated 2 warnings (run `cargo fix --bin "anomalyx" -p ax-cli` to apply 2 suggestions)
+warning: `ax-cli` (bin "anomalyx" test) generated 2 warnings (2 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
+  Executable `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/cli-5571611048a0cfed`
+
+*** result: Success
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --verbose --package=ax-cli@0.1.0
+       Fresh autocfg v1.5.1
+       Fresh libm v0.2.16
+       Fresh unicode-ident v1.0.24
+       Fresh cfg-if v1.0.4
+       Fresh bytemuck v1.25.0
+       Fresh memchr v2.8.1
+       Fresh itoa v1.0.18
+       Fresh num-traits v0.2.19
+       Fresh safe_arch v0.7.4
+       Fresh rawpointer v0.2.1
+       Fresh typenum v1.20.1
+       Fresh csv-core v0.1.13
+       Fresh ryu v1.0.23
+       Fresh proc-macro2 v1.0.106
+       Fresh libc v0.2.186
+       Fresh zerocopy v0.8.50
+       Fresh serde_core v1.0.228
+       Fresh num-complex v0.4.6
+       Fresh zmij v1.0.21
+       Fresh paste v1.0.15
+       Fresh num-integer v0.1.46
+       Fresh approx v0.5.1
+       Fresh wide v0.7.33
+       Fresh matrixmultiply v0.3.10
+       Fresh quote v1.0.45
+       Fresh getrandom v0.2.17
+       Fresh ppv-lite86 v0.2.21
+       Fresh serde_json v1.0.150
+       Fresh num-rational v0.4.2
+       Fresh simba v0.9.1
+       Fresh csv v1.4.0
+       Fresh syn v2.0.117
+       Fresh rand_core v0.6.4
+       Fresh rand_chacha v0.3.1
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh rand v0.8.6
+       Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
+       Fresh rand_distr v0.4.3
+       Fresh ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-core)
+       Fresh nalgebra v0.33.3
+       Fresh ax-normalize v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-normalize)
+       Fresh statrs v0.18.0
+       Fresh ax-detect v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-detect)
+warning: unused import: `std::io::Read`
+  --> crates/ax-cli/src/main.rs:19:5
+   |
+19 | use std::io::Read;
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `path`
+  --> crates/ax-cli/src/main.rs:96:15
+   |
+96 | fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {
+   |               ^^^^ help: if this is intentional, prefix it with an underscore: `_path`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+       Fresh ax-cli v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/crates/ax-cli)
+warning: `ax-cli` (bin "anomalyx") generated 2 warnings (run `cargo fix --bin "anomalyx" -p ax-cli` to apply 2 suggestions)
+warning: `ax-cli` (bin "anomalyx" test) generated 2 warnings (2 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/anomalyx-8f0171a50ea70bc5`
+
+running 11 tests
+test tests::resolve_missing_column_is_unresolved ... ok
+test tests::resolve_cell_ok ... ok
+test tests::resolve_out_of_range_is_unresolved ... ok
+test tests::split_baseline_errors_without_value ... ok
+test describe::tests::describe_is_valid_json_with_protocol ... ok
+test tests::split_baseline_extracts_flag_and_positionals ... ok
+test tests::resolve_range_valid_and_invalid ... ok
+test tests::split_baseline_none_when_absent ... ok
+test tests::unknown_command_errors ... ok
+test schema::tests::schema_is_valid_json_and_pins_protocol ... ok
+test tests::usage_is_nonempty_and_documents_verbs ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running `/tmp/claude-1000/cargo-mutants-anomalyx-L5lEO1.tmp/target/debug/deps/cli-5571611048a0cfed`
+
+running 12 tests
+test no_args_exits_error ... ok
+test describe_succeeds_and_emits_protocol ... ok
+test explain_bad_handle_exits_error ... ok
+test explain_resolves_a_cell_handle ... FAILED
+test unknown_command_exits_error ... ok
+test scan_dash_reads_stdin ... FAILED
+test scan_outlier_exits_one_with_a_finding ... FAILED
+test scan_without_baseline_marks_distributional_absent ... ok
+test scan_reads_from_a_file_path_not_stdin ... FAILED
+test scan_clean_exits_zero_with_no_rows ... ok
+test schema_succeeds_and_is_json ... ok
+test scan_baseline_mode_detects_drift ... FAILED
+
+failures:
+
+---- explain_resolves_a_cell_handle stdout ----
+
+thread 'explain_resolves_a_cell_handle' (1490921) panicked at crates/ax-cli/tests/cli.rs:109:5:
+assertion `left == right` failed: stderr: anomalyx: error: handle does not resolve against this corpus: cell:amount:8
+
+  left: 2
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- scan_dash_reads_stdin stdout ----
+
+thread 'scan_dash_reads_stdin' (1490929) panicked at crates/ax-cli/tests/cli.rs:103:5:
+assertion `left == right` failed: stderr: 
+  left: 0
+ right: 1
+
+---- scan_outlier_exits_one_with_a_finding stdout ----
+
+thread 'scan_outlier_exits_one_with_a_finding' (1490930) panicked at crates/ax-cli/tests/cli.rs:75:5:
+assertion `left == right` failed: stderr: 
+  left: 0
+ right: 1
+
+---- scan_reads_from_a_file_path_not_stdin stdout ----
+
+thread 'scan_reads_from_a_file_path_not_stdin' (1490932) panicked at crates/ax-cli/tests/cli.rs:96:5:
+assertion `left == right` failed: must read the file, stderr: 
+  left: 0
+ right: 1
+
+---- scan_baseline_mode_detects_drift stdout ----
+
+thread 'scan_baseline_mode_detects_drift' (1490923) panicked at crates/ax-cli/tests/cli.rs:147:5:
+assertion failed: detectors.contains(&"dist.ks")
+
+
+failures:
+    explain_resolves_a_cell_handle
+    scan_baseline_mode_detects_drift
+    scan_dash_reads_stdin
+    scan_outlier_exits_one_with_a_finding
+    scan_reads_from_a_file_path_not_stdin
+
+test result: FAILED. 7 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p ax-cli --test cli`
+
+*** result: Failure(101)

@@ -1,5 +1,8 @@
-crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
-crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()
-crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with "xyzzy".into()
-crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()
-crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with "xyzzy".into()
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 0
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 1
+crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with -1
+crates/ax-core/src/envelope.rs:182:64: replace == with != in EnvelopeBuilder::build
+crates/ax-core/src/envelope.rs:215:5: replace severity_token -> &'static str with ""
+crates/ax-core/src/envelope.rs:215:5: replace severity_token -> &'static str with "xyzzy"
+crates/ax-core/src/envelope.rs:225:5: replace json_u32 -> serde_json::Value with Default::default()
+crates/ax-core/src/envelope.rs:229:5: replace json_f64 -> serde_json::Value with Default::default()

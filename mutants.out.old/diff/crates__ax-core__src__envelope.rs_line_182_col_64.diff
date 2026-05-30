@@ -1,0 +1,21 @@
+--- crates/ax-core/src/envelope.rs
++++ replace == with != in EnvelopeBuilder::build
+@@ -174,17 +174,17 @@
+             ]);
+         }
+ 
+         let max_severity = self.findings.iter().map(|f| f.severity).max();
+         let by_class = AnomalyClass::ALL
+             .iter()
+             .map(|&class| ClassCount {
+                 class,
+-                count: self.findings.iter().filter(|f| f.class == class).count(),
++                count: self.findings.iter().filter(|f| f.class != /* ~ changed by cargo-mutants ~ */ class).count(),
+             })
+             .collect();
+         let summary = Summary {
+             total: self.findings.len(),
+             max_severity,
+             by_class,
+         };
+ 

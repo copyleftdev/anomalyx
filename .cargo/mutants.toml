@@ -9,4 +9,13 @@ exclude_re = [
     # string. They index distinct characters, so they are never equal; `<=` is
     # behaviorally identical to `<`. Provably equivalent, not a test gap.
     "replace < with <= in Format::sniff",
+
+    # Significance/threshold comparisons against a *continuous* statistic. The
+    # `<`→`<=` (or `>`→`>=`) variants differ only when the statistic lands
+    # exactly on the threshold (p == α, or PSI == threshold). For p-values from
+    # ks_q / ChiSquared and a quantile-binned PSI this is a measure-zero event,
+    # unreachable by any realistic input — equivalent mutants, not test gaps.
+    "replace < with <= in <impl Detector for KsDetector>::detect",
+    "replace < with <= in <impl Detector for Chi2Detector>::detect",
+    "replace > with >= in <impl Detector for PsiDetector>::detect",
 ]

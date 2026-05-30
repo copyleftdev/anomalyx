@@ -11,11 +11,15 @@ envelope an agent can trust — not pretty text it has to scrape.
 ## The four-verb contract
 
 ```text
-anomalyx describe          # protocol metadata: what this is, formats, detectors
-anomalyx schema            # JSON Schema of scan output (validate, don't guess)
-anomalyx scan [PATH]       # normalize + detect → dense tq1 envelope
-anomalyx explain <HANDLE>  # resolve a finding handle back to its evidence
+anomalyx describe                    # protocol metadata: what this is, formats, detectors
+anomalyx schema                      # JSON Schema of scan output (validate, don't guess)
+anomalyx scan [--baseline B] [PATH]  # normalize + detect → dense tq1 envelope
+anomalyx explain <HANDLE> [PATH]     # resolve a finding handle back to its evidence
 ```
+
+With `--baseline B`, the current corpus is compared against `B`: distributional
+drift and schema-diff detectors activate. Without it they report honest absence
+("no baseline provided"), and only single-corpus detectors run.
 
 Exit codes are part of the contract: **`0`** clean · **`1`** anomalies found ·
 **`2`** tool error.
@@ -61,9 +65,9 @@ Seven classes, so an agent reasons about the *kind* of deviation:
 
 | Class | Meaning | Status |
 |---|---|---|
-| `point` | value far from its column's distribution (modified z / MAD) | ✅ shipped |
-| `distributional` | the distribution shifted vs. a baseline (KS / PSI / KL / χ²) | ⏳ next |
-| `structural` | schema / type / cardinality violation | ⏳ next |
+| `point` | value far from its column's distribution (modified z / MAD) | ✅ `point.modz` |
+| `distributional` | the distribution shifted vs. a baseline (KS / PSI / χ²) | ✅ `dist.ks`, `dist.psi`, `dist.chi2` |
+| `structural` | schema / type / null-rate violation, baseline schema-diff | ✅ `struct.schema` |
 | `contextual` | anomalous only in context (seasonal) | ⏳ planned |
 | `collective` | a subsequence/group is jointly anomalous (change-point) | ⏳ planned |
 | `multivariate` | isolated in feature space (isolation forest / LOF / DBSCAN) | ⏳ planned |

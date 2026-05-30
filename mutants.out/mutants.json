@@ -1,6 +1,6 @@
 [
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace main -> ProcExit with Default::default()\n@@ -18,24 +18,17 @@\n use ax_detect::{DetectConfig, Registry};\n use std::io::Read;\n use std::process::ExitCode as ProcExit;\n \n mod describe;\n mod schema;\n \n fn main() -> ProcExit {\n-    let args: Vec<String> = std::env::args().skip(1).collect();\n-    match run(&args) {\n-        Ok(code) => ProcExit::from(code.code() as u8),\n-        Err(e) => {\n-            eprintln!(\"anomalyx: error: {e}\");\n-            ProcExit::from(ExitCode::Error.code() as u8)\n-        }\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n     let Some((cmd, rest)) = args.split_first() else {\n         eprintln!(\"{}\", usage());\n         return Ok(ExitCode::Error);\n     };\n     match cmd.as_str() {\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace main -> ProcExit with Default::default()\n@@ -18,24 +18,17 @@\n use ax_detect::{DetectConfig, Registry, ScanContext};\n use std::io::Read;\n use std::process::ExitCode as ProcExit;\n \n mod describe;\n mod schema;\n \n fn main() -> ProcExit {\n-    let args: Vec<String> = std::env::args().skip(1).collect();\n-    match run(&args) {\n-        Ok(code) => ProcExit::from(code.code() as u8),\n-        Err(e) => {\n-            eprintln!(\"anomalyx: error: {e}\");\n-            ProcExit::from(ExitCode::Error.code() as u8)\n-        }\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n     let Some((cmd, rest)) = args.split_first() else {\n         eprintln!(\"{}\", usage());\n         return Ok(ExitCode::Error);\n     };\n     match cmd.as_str() {\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "main",
@@ -32,7 +32,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace run -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -29,40 +29,17 @@\n         Err(e) => {\n             eprintln!(\"anomalyx: error: {e}\");\n             ProcExit::from(ExitCode::Error.code() as u8)\n         }\n     }\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n-    let Some((cmd, rest)) = args.split_first() else {\n-        eprintln!(\"{}\", usage());\n-        return Ok(ExitCode::Error);\n-    };\n-    match cmd.as_str() {\n-        \"describe\" => {\n-            println!(\"{}\", describe::describe_json());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"schema\" => {\n-            println!(\"{}\", schema::envelope_schema());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"scan\" => cmd_scan(rest),\n-        \"explain\" => cmd_explain(rest),\n-        \"-h\" | \"--help\" | \"help\" => {\n-            println!(\"{}\", usage());\n-            Ok(ExitCode::Clean)\n-        }\n-        other => Err(AxError::Config(format!(\n-            \"unknown command '{other}'\\n{}\",\n-            usage()\n-        ))),\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn usage() -> &'static str {\n     \"anomalyx — contract-first anomaly detection\\n\\\n      \\n\\\n      USAGE:\\n\\\n      \\x20 anomalyx describe            Protocol metadata\\n\\\n      \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace run -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -29,40 +29,17 @@\n         Err(e) => {\n             eprintln!(\"anomalyx: error: {e}\");\n             ProcExit::from(ExitCode::Error.code() as u8)\n         }\n     }\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n-    let Some((cmd, rest)) = args.split_first() else {\n-        eprintln!(\"{}\", usage());\n-        return Ok(ExitCode::Error);\n-    };\n-    match cmd.as_str() {\n-        \"describe\" => {\n-            println!(\"{}\", describe::describe_json());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"schema\" => {\n-            println!(\"{}\", schema::envelope_schema());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"scan\" => cmd_scan(rest),\n-        \"explain\" => cmd_explain(rest),\n-        \"-h\" | \"--help\" | \"help\" => {\n-            println!(\"{}\", usage());\n-            Ok(ExitCode::Clean)\n-        }\n-        other => Err(AxError::Config(format!(\n-            \"unknown command '{other}'\\n{}\",\n-            usage()\n-        ))),\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn usage() -> &'static str {\n     \"anomalyx — contract-first anomaly detection\\n\\\n      \\n\\\n      USAGE:\\n\\\n      \\x20 anomalyx describe                         Protocol metadata\\n\\\n      \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "run",
@@ -64,7 +64,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"\"\n@@ -56,25 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe            Protocol metadata\\n\\\n-     \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n-     \\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"\"\n@@ -56,26 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\\n\\\n-     \\n\\\n-     With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "usage",
@@ -72,7 +72,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 73
+          "line": 74
         },
         "start": {
           "column": 1,
@@ -87,7 +87,7 @@
     "span": {
       "end": {
         "column": 50,
-        "line": 72
+        "line": 73
       },
       "start": {
         "column": 5,
@@ -96,7 +96,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"xyzzy\"\n@@ -56,25 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe            Protocol metadata\\n\\\n-     \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n-     \\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"xyzzy\"\n@@ -56,26 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe                         Protocol metadata\\n\\\n-     \\x20 anomalyx schema                           JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [--baseline B] [PATH]       Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [--baseline B] [PATH]   Resolve a finding handle\\n\\\n-     \\n\\\n-     With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "usage",
@@ -104,7 +104,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 73
+          "line": 74
         },
         "start": {
           "column": 1,
@@ -119,7 +119,7 @@
     "span": {
       "end": {
         "column": 50,
-        "line": 72
+        "line": 73
       },
       "start": {
         "column": 5,
@@ -128,7 +128,327 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((None, vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((None, vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(String::new()), vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(String::new()), vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![String::new()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![String::new()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))\n@@ -71,30 +71,17 @@\n      \\n\\\n      With --baseline, distributional drift and schema-diff are compared against B.\\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n-    let mut baseline = None;\n-    let mut positional = Vec::new();\n-    let mut it = args.iter();\n-    while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n-            let value = it\n-                .next()\n-                .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n-            baseline = Some(value.clone());\n-        } else {\n-            positional.push(arg.clone());\n-        }\n-    }\n-    Ok((baseline, positional))\n+    Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+    "package": "ax-cli",
+    "replacement": "Ok((Some(\"xyzzy\".into()), vec![\"xyzzy\".into()]))",
+    "span": {
+      "end": {
+        "column": 31,
+        "line": 92
+      },
+      "start": {
+        "column": 5,
+        "line": 79
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in split_baseline\n@@ -75,17 +75,17 @@\n \n /// Extracts `--baseline <PATH>` from `args`, returning the baseline path and the\n /// remaining positional arguments. Fails cleanly if the flag has no value.\n fn split_baseline(args: &[String]) -> Result<(Option<String>, Vec<String>), AxError> {\n     let mut baseline = None;\n     let mut positional = Vec::new();\n     let mut it = args.iter();\n     while let Some(arg) = it.next() {\n-        if arg == \"--baseline\" {\n+        if arg != /* ~ changed by cargo-mutants ~ */ \"--baseline\" {\n             let value = it\n                 .next()\n                 .ok_or_else(|| AxError::Config(\"--baseline requires a path\".into()))?;\n             baseline = Some(value.clone());\n         } else {\n             positional.push(arg.clone());\n         }\n     }\n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "split_baseline",
+      "return_type": "-> Result<(Option<String>, Vec<String>), AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 93
+        },
+        "start": {
+          "column": 1,
+          "line": 76
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline",
+    "package": "ax-cli",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 18,
+        "line": 83
+      },
+      "start": {
+        "column": 16,
+        "line": 83
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -136,31 +456,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
     "package": "ax-cli",
     "replacement": "Ok((String::new(), vec![]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -168,31 +488,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
     "package": "ax-cli",
     "replacement": "Ok((String::new(), vec![0]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -200,31 +520,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
     "package": "ax-cli",
     "replacement": "Ok((String::new(), vec![1]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -232,31 +552,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
     "package": "ax-cli",
     "replacement": "Ok((\"xyzzy\".into(), vec![]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -264,31 +584,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
     "package": "ax-cli",
     "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))\n@@ -89,29 +89,17 @@\n             positional.push(arg.clone());\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n     match path {\n         Some(p) => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -296,31 +616,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
+    "name": "crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
     "package": "ax-cli",
     "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
     "span": {
       "end": {
         "column": 6,
-        "line": 89
+        "line": 109
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 97
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with true in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if true /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with true in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if true /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -328,31 +648,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "MatchArmGuard",
-    "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with true in read_input",
+    "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with true in read_input",
     "package": "ax-cli",
     "replacement": "true",
     "span": {
       "end": {
         "column": 28,
-        "line": 78
+        "line": 98
       },
       "start": {
         "column": 20,
-        "line": 78
+        "line": 98
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with false in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if false /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with false in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if false /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -360,31 +680,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "MatchArmGuard",
-    "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with false in read_input",
+    "name": "crates/ax-cli/src/main.rs:98:20: replace match guard p != \"-\" with false in read_input",
     "package": "ax-cli",
     "replacement": "false",
     "span": {
       "end": {
         "column": 28,
-        "line": 78
+        "line": 98
       },
       "start": {
         "column": 20,
-        "line": 78
+        "line": 98
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace != with == in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if p == /* ~ changed by cargo-mutants ~ */ \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace != with == in read_input\n@@ -90,17 +90,17 @@\n         }\n     }\n     Ok((baseline, positional))\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if p == /* ~ changed by cargo-mutants ~ */ \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "read_input",
@@ -392,31 +712,95 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 110
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 95
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:78:22: replace != with == in read_input",
+    "name": "crates/ax-cli/src/main.rs:98:22: replace != with == in read_input",
     "package": "ax-cli",
     "replacement": "==",
     "span": {
       "end": {
         "column": 24,
-        "line": 78
+        "line": 98
       },
       "start": {
         "column": 22,
-        "line": 78
+        "line": 98
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -85,35 +85,17 @@\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (source, bytes) = read_input(rest.first())?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let cfg = DetectConfig::default();\n-    let registry = Registry::default_set();\n-    let report = registry.run(&rs, &cfg);\n-\n-    let mut builder =\n-        EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);\n-    for a in report.absent {\n-        builder = builder.absent(a.detector, a.reason);\n-    }\n-    let env = builder.build();\n-\n-    println!(\"{}\", serde_json::to_string(&env).expect(\"envelope serializes\"));\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n-        ExitCode::Anomalies\n-    } else {\n-        ExitCode::Clean\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let handle_str = rest\n         .first()\n         .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n     let handle =\n         Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)\n@@ -106,23 +106,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(None) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let (source, bytes) = read_input(positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&baseline_path)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 121
+        },
+        "start": {
+          "column": 1,
+          "line": 112
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)",
+    "package": "ax-cli",
+    "replacement": "Ok(None)",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 120
+      },
+      "start": {
+        "column": 5,
+        "line": 114
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))\n@@ -106,23 +106,17 @@\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n /// Normalizes the optional baseline corpus from its path.\n fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {\n-    match path {\n-        Some(p) => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok(Some(ax_normalize::normalize(p, &bytes)?))\n-        }\n-        None => Ok(None),\n-    }\n+    Ok(Some(Default::default())) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let (source, bytes) = read_input(positional.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let baseline = load_baseline(&baseline_path)?;\n \n",
+    "file": "crates/ax-cli/src/main.rs",
+    "function": {
+      "function_name": "load_baseline",
+      "return_type": "-> Result<Option<RecordSet>, AxError>",
+      "span": {
+        "end": {
+          "column": 2,
+          "line": 121
+        },
+        "start": {
+          "column": 1,
+          "line": 112
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(Some(Default::default()))",
+    "package": "ax-cli",
+    "replacement": "Ok(Some(Default::default()))",
+    "span": {
+      "end": {
+        "column": 6,
+        "line": 120
+      },
+      "start": {
+        "column": 5,
+        "line": 114
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -116,47 +116,17 @@\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok(Some(ax_normalize::normalize(p, &bytes)?))\n         }\n         None => Ok(None),\n     }\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (baseline_path, positional) = split_baseline(rest)?;\n-    let (source, bytes) = read_input(positional.first())?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&baseline_path)?;\n-\n-    let cfg = DetectConfig::default();\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-\n-    let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())\n-        .findings(report.findings);\n-    if let Some(b) = &baseline {\n-        builder = builder.baseline(b.source.clone());\n-    }\n-    for a in report.absent {\n-        builder = builder.absent(a.detector, a.reason);\n-    }\n-    let env = builder.build();\n-\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&env).expect(\"envelope serializes\")\n-    );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n-        ExitCode::Anomalies\n-    } else {\n-        ExitCode::Clean\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n     let handle_str = positional\n         .first()\n         .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n     let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "cmd_scan",
@@ -424,31 +808,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 112
+          "line": 155
         },
         "start": {
           "column": 1,
-          "line": 92
+          "line": 123
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:93:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "name": "crates/ax-cli/src/main.rs:124:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
     "package": "ax-cli",
     "replacement": "Ok(Default::default())",
     "span": {
       "end": {
         "column": 7,
-        "line": 111
+        "line": 154
       },
       "start": {
         "column": 5,
-        "line": 93
+        "line": 124
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_scan\n@@ -99,17 +99,17 @@\n     let mut builder =\n         EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);\n     for a in report.absent {\n         builder = builder.absent(a.detector, a.reason);\n     }\n     let env = builder.build();\n \n     println!(\"{}\", serde_json::to_string(&env).expect(\"envelope serializes\"));\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n+    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let handle_str = rest\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_scan\n@@ -142,17 +142,17 @@\n         builder = builder.absent(a.detector, a.reason);\n     }\n     let env = builder.build();\n \n     println!(\n         \"{}\",\n         serde_json::to_string(&env).expect(\"envelope serializes\")\n     );\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n+    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (baseline_path, positional) = split_baseline(rest)?;\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "cmd_scan",
@@ -456,31 +840,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 112
+          "line": 155
         },
         "start": {
           "column": 1,
-          "line": 92
+          "line": 123
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:107:20: replace == with != in cmd_scan",
+    "name": "crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan",
     "package": "ax-cli",
     "replacement": "!=",
     "span": {
       "end": {
         "column": 22,
-        "line": 107
+        "line": 150
       },
       "start": {
         "column": 20,
-        "line": 107
+        "line": 150
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -107,44 +107,17 @@\n     Ok(if env.exit == ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let handle_str = rest\n-        .first()\n-        .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n-    let handle =\n-        Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n-\n-    let (source, bytes) = read_input(rest.get(1))?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-\n-    let evidence = resolve_handle(&rs, &handle)?;\n-\n-    // Re-run detection and attach any findings that point at this handle.\n-    let cfg = DetectConfig::default();\n-    let report = Registry::default_set().run(&rs, &cfg);\n-    let findings: Vec<_> = report\n-        .findings\n-        .into_iter()\n-        .filter(|f| f.handle == handle)\n-        .collect();\n-\n-    let out = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"handle\": handle_str,\n-        \"evidence\": evidence,\n-        \"findings\": findings,\n-    });\n-    println!(\"{}\", serde_json::to_string(&out).expect(\"explain serializes\"));\n-    Ok(ExitCode::Clean)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n     let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n     match handle {\n         Handle::Column { name } | Handle::Dist { column: name } => {\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -150,52 +150,17 @@\n     Ok(if env.exit == ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (baseline_path, positional) = split_baseline(rest)?;\n-    let handle_str = positional\n-        .first()\n-        .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n-    let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n-\n-    let (source, bytes) = read_input(positional.get(1))?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let baseline = load_baseline(&baseline_path)?;\n-\n-    let evidence = resolve_handle(&rs, &handle)?;\n-\n-    // Re-run detection and attach any findings that point at this handle.\n-    let cfg = DetectConfig::default();\n-    let ctx = match &baseline {\n-        Some(b) => ScanContext::compared(b, &rs),\n-        None => ScanContext::single(&rs),\n-    };\n-    let report = Registry::default_set().run(&ctx, &cfg);\n-    let findings: Vec<_> = report\n-        .findings\n-        .into_iter()\n-        .filter(|f| f.handle == handle)\n-        .collect();\n-\n-    let out = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"handle\": handle_str,\n-        \"evidence\": evidence,\n-        \"findings\": findings,\n-    });\n-    println!(\n-        \"{}\",\n-        serde_json::to_string(&out).expect(\"explain serializes\")\n-    );\n-    Ok(ExitCode::Clean)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n     let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n     match handle {\n         Handle::Column { name } | Handle::Dist { column: name } => {\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "cmd_explain",
@@ -488,31 +872,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 143
+          "line": 194
         },
         "start": {
           "column": 1,
-          "line": 114
+          "line": 157
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:115:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
+    "name": "crates/ax-cli/src/main.rs:158:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
     "package": "ax-cli",
     "replacement": "Ok(Default::default())",
     "span": {
       "end": {
         "column": 24,
-        "line": 142
+        "line": 193
       },
       "start": {
         "column": 5,
-        "line": 115
+        "line": 158
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_explain\n@@ -124,17 +124,17 @@\n     let evidence = resolve_handle(&rs, &handle)?;\n \n     // Re-run detection and attach any findings that point at this handle.\n     let cfg = DetectConfig::default();\n     let report = Registry::default_set().run(&rs, &cfg);\n     let findings: Vec<_> = report\n         .findings\n         .into_iter()\n-        .filter(|f| f.handle == handle)\n+        .filter(|f| f.handle != /* ~ changed by cargo-mutants ~ */ handle)\n         .collect();\n \n     let out = serde_json::json!({\n         \"protocol\": PROTOCOL,\n         \"handle\": handle_str,\n         \"evidence\": evidence,\n         \"findings\": findings,\n     });\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_explain\n@@ -172,17 +172,17 @@\n     let ctx = match &baseline {\n         Some(b) => ScanContext::compared(b, &rs),\n         None => ScanContext::single(&rs),\n     };\n     let report = Registry::default_set().run(&ctx, &cfg);\n     let findings: Vec<_> = report\n         .findings\n         .into_iter()\n-        .filter(|f| f.handle == handle)\n+        .filter(|f| f.handle != /* ~ changed by cargo-mutants ~ */ handle)\n         .collect();\n \n     let out = serde_json::json!({\n         \"protocol\": PROTOCOL,\n         \"handle\": handle_str,\n         \"evidence\": evidence,\n         \"findings\": findings,\n     });\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "cmd_explain",
@@ -520,31 +904,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 143
+          "line": 194
         },
         "start": {
           "column": 1,
-          "line": 114
+          "line": 157
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:132:30: replace == with != in cmd_explain",
+    "name": "crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain",
     "package": "ax-cli",
     "replacement": "!=",
     "span": {
       "end": {
         "column": 32,
-        "line": 132
+        "line": 180
       },
       "start": {
         "column": 30,
-        "line": 132
+        "line": 180
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())\n@@ -140,53 +140,17 @@\n     });\n     println!(\"{}\", serde_json::to_string(&out).expect(\"explain serializes\"));\n     Ok(ExitCode::Clean)\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n-    match handle {\n-        Handle::Column { name } | Handle::Dist { column: name } => {\n-            let col = rs.column(name).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"column\",\n-                \"column\": col.name,\n-                \"type\": col.ty,\n-                \"len\": col.len(),\n-                \"nulls\": col.null_count(),\n-            }))\n-        }\n-        Handle::Cell { column, row } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"cell\",\n-                \"column\": col.name,\n-                \"row\": row,\n-                \"value\": value,\n-                \"column_type\": col.ty,\n-            }))\n-        }\n-        Handle::Range { column, start, end } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n-                return Err(unresolved());\n-            }\n-            Ok(serde_json::json!({\n-                \"kind\": \"range\",\n-                \"column\": col.name,\n-                \"start\": start,\n-                \"end\": end,\n-                \"values\": &col.cells[*start..*end],\n-            }))\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::Column;\n \n     fn corpus() -> RecordSet {\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())\n@@ -191,53 +191,17 @@\n         serde_json::to_string(&out).expect(\"explain serializes\")\n     );\n     Ok(ExitCode::Clean)\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n-    match handle {\n-        Handle::Column { name } | Handle::Dist { column: name } => {\n-            let col = rs.column(name).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"column\",\n-                \"column\": col.name,\n-                \"type\": col.ty,\n-                \"len\": col.len(),\n-                \"nulls\": col.null_count(),\n-            }))\n-        }\n-        Handle::Cell { column, row } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"cell\",\n-                \"column\": col.name,\n-                \"row\": row,\n-                \"value\": value,\n-                \"column_type\": col.ty,\n-            }))\n-        }\n-        Handle::Range { column, start, end } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n-                return Err(unresolved());\n-            }\n-            Ok(serde_json::json!({\n-                \"kind\": \"range\",\n-                \"column\": col.name,\n-                \"start\": start,\n-                \"end\": end,\n-                \"values\": &col.cells[*start..*end],\n-            }))\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::Column;\n \n     fn corpus() -> RecordSet {\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -552,31 +936,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
+    "name": "crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
     "package": "ax-cli",
     "replacement": "Ok(Default::default())",
     "span": {
       "end": {
         "column": 6,
-        "line": 184
+        "line": 235
       },
       "start": {
         "column": 5,
-        "line": 148
+        "line": 199
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace || with && in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace || with && in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -584,31 +968,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:31: replace || with && in resolve_handle",
+    "name": "crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle",
     "package": "ax-cli",
     "replacement": "&&",
     "span": {
       "end": {
         "column": 33,
-        "line": 173
+        "line": 224
       },
       "start": {
         "column": 31,
-        "line": 173
+        "line": 224
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start < /* ~ changed by cargo-mutants ~ */ *end || *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start < /* ~ changed by cargo-mutants ~ */ *end || *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -616,31 +1000,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:23: replace >= with < in resolve_handle",
+    "name": "crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle",
     "package": "ax-cli",
     "replacement": "<",
     "span": {
       "end": {
         "column": 25,
-        "line": 173
+        "line": 224
       },
       "start": {
         "column": 23,
-        "line": 173
+        "line": 224
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with == in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end == /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with == in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end == /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -648,31 +1032,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with == in resolve_handle",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle",
     "package": "ax-cli",
     "replacement": "==",
     "span": {
       "end": {
         "column": 40,
-        "line": 173
+        "line": 224
       },
       "start": {
         "column": 39,
-        "line": 173
+        "line": 224
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with < in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end < /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with < in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end < /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -680,31 +1064,31 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with < in resolve_handle",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle",
     "package": "ax-cli",
     "replacement": "<",
     "span": {
       "end": {
         "column": 40,
-        "line": 173
+        "line": 224
       },
       "start": {
         "column": 39,
-        "line": 173
+        "line": 224
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with >= in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end >= /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
+    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with >= in resolve_handle\n@@ -216,17 +216,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end >= /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
     "file": "crates/ax-cli/src/main.rs",
     "function": {
       "function_name": "resolve_handle",
@@ -712,26 +1096,26 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 236
         },
         "start": {
           "column": 1,
-          "line": 145
+          "line": 196
         }
       }
     },
     "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with >= in resolve_handle",
+    "name": "crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle",
     "package": "ax-cli",
     "replacement": ">=",
     "span": {
       "end": {
         "column": 40,
-        "line": 173
+        "line": 224
       },
       "start": {
         "column": 39,
-        "line": 173
+        "line": 224
       }
     }
   },
@@ -800,7 +1184,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with String::new()\n@@ -2,99 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with String::new()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
     "file": "crates/ax-cli/src/schema.rs",
     "function": {
       "function_name": "envelope_schema",
@@ -808,7 +1192,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 93
+          "line": 97
         },
         "start": {
           "column": 1,
@@ -823,7 +1207,7 @@
     "span": {
       "end": {
         "column": 70,
-        "line": 92
+        "line": 96
       },
       "start": {
         "column": 5,
@@ -832,7 +1216,7 @@
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with \"xyzzy\".into()\n@@ -2,99 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
+    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with \"xyzzy\".into()\n@@ -2,103 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"baseline\": {\n-                \"type\": \"string\",\n-                \"description\": \"Baseline corpus source; present only in compare mode (--baseline).\"\n-            },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
     "file": "crates/ax-cli/src/schema.rs",
     "function": {
       "function_name": "envelope_schema",
@@ -840,7 +1224,7 @@
       "span": {
         "end": {
           "column": 2,
-          "line": 93
+          "line": 97
         },
         "start": {
           "column": 1,
@@ -855,7 +1239,7 @@
     "span": {
       "end": {
         "column": 70,
-        "line": 92
+        "line": 96
       },
       "start": {
         "column": 5,

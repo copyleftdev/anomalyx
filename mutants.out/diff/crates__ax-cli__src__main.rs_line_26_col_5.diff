@@ -1,7 +1,7 @@
 --- crates/ax-cli/src/main.rs
 +++ replace main -> ProcExit with Default::default()
 @@ -18,24 +18,17 @@
- use ax_detect::{DetectConfig, Registry};
+ use ax_detect::{DetectConfig, Registry, ScanContext};
  use std::io::Read;
  use std::process::ExitCode as ProcExit;
  

@@ -1,865 +1,385 @@
 [
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace main -> ProcExit with Default::default()\n@@ -18,24 +18,17 @@\n use ax_detect::{DetectConfig, Registry};\n use std::io::Read;\n use std::process::ExitCode as ProcExit;\n \n mod describe;\n mod schema;\n \n fn main() -> ProcExit {\n-    let args: Vec<String> = std::env::args().skip(1).collect();\n-    match run(&args) {\n-        Ok(code) => ProcExit::from(code.code() as u8),\n-        Err(e) => {\n-            eprintln!(\"anomalyx: error: {e}\");\n-            ProcExit::from(ExitCode::Error.code() as u8)\n-        }\n-    }\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n     let Some((cmd, rest)) = args.split_first() else {\n         eprintln!(\"{}\", usage());\n         return Ok(ExitCode::Error);\n     };\n     match cmd.as_str() {\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace ExitCode::code -> i32 with 0\n@@ -23,17 +23,17 @@\n     /// Anomalies found.\n     Anomalies = 1,\n     /// The tool could not complete (bad input, unresolved handle, …).\n     Error = 2,\n }\n \n impl ExitCode {\n     pub fn code(self) -> i32 {\n-        self as i32\n+        0 /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// A detector that declined to run, with a machine-readable reason. Recorded so\n /// absence is *explicit* — an unavailable detector contributes nothing and says\n /// so, rather than implying the data looked fine.\n #[derive(Debug, Clone, Serialize)]\n pub struct Absence {\n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "main",
-      "return_type": "-> ProcExit",
+      "function_name": "ExitCode::code",
+      "return_type": "-> i32",
       "span": {
         "end": {
-          "column": 2,
-          "line": 34
+          "column": 6,
+          "line": 32
         },
         "start": {
-          "column": 1,
-          "line": 25
+          "column": 5,
+          "line": 30
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()",
-    "package": "ax-cli",
+    "name": "crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 0",
+    "package": "ax-core",
+    "replacement": "0",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 31
+      },
+      "start": {
+        "column": 9,
+        "line": 31
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace ExitCode::code -> i32 with 1\n@@ -23,17 +23,17 @@\n     /// Anomalies found.\n     Anomalies = 1,\n     /// The tool could not complete (bad input, unresolved handle, …).\n     Error = 2,\n }\n \n impl ExitCode {\n     pub fn code(self) -> i32 {\n-        self as i32\n+        1 /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// A detector that declined to run, with a machine-readable reason. Recorded so\n /// absence is *explicit* — an unavailable detector contributes nothing and says\n /// so, rather than implying the data looked fine.\n #[derive(Debug, Clone, Serialize)]\n pub struct Absence {\n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "ExitCode::code",
+      "return_type": "-> i32",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 32
+        },
+        "start": {
+          "column": 5,
+          "line": 30
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with 1",
+    "package": "ax-core",
+    "replacement": "1",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 31
+      },
+      "start": {
+        "column": 9,
+        "line": 31
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace ExitCode::code -> i32 with -1\n@@ -23,17 +23,17 @@\n     /// Anomalies found.\n     Anomalies = 1,\n     /// The tool could not complete (bad input, unresolved handle, …).\n     Error = 2,\n }\n \n impl ExitCode {\n     pub fn code(self) -> i32 {\n-        self as i32\n+        -1 /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n /// A detector that declined to run, with a machine-readable reason. Recorded so\n /// absence is *explicit* — an unavailable detector contributes nothing and says\n /// so, rather than implying the data looked fine.\n #[derive(Debug, Clone, Serialize)]\n pub struct Absence {\n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "ExitCode::code",
+      "return_type": "-> i32",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 32
+        },
+        "start": {
+          "column": 5,
+          "line": 30
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/envelope.rs:31:9: replace ExitCode::code -> i32 with -1",
+    "package": "ax-core",
+    "replacement": "-1",
+    "span": {
+      "end": {
+        "column": 20,
+        "line": 31
+      },
+      "start": {
+        "column": 9,
+        "line": 31
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace EnvelopeBuilder::baseline -> Self with Default::default()\n@@ -121,18 +121,17 @@\n             rows_scanned,\n             findings: Vec::new(),\n             absent: Vec::new(),\n         }\n     }\n \n     /// Records the baseline source for a compare-mode scan.\n     pub fn baseline(mut self, source: impl Into<String>) -> Self {\n-        self.baseline = Some(source.into());\n-        self\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n \n     pub fn findings(mut self, mut findings: Vec<Finding>) -> Self {\n         self.findings.append(&mut findings);\n         self\n     }\n \n     pub fn absent(mut self, detector: impl Into<String>, reason: impl Into<String>) -> Self {\n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "EnvelopeBuilder::baseline",
+      "return_type": "-> Self",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 131
+        },
+        "start": {
+          "column": 5,
+          "line": 127
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/envelope.rs:129:9: replace EnvelopeBuilder::baseline -> Self with Default::default()",
+    "package": "ax-core",
     "replacement": "Default::default()",
     "span": {
       "end": {
-        "column": 6,
-        "line": 33
+        "column": 13,
+        "line": 130
       },
       "start": {
-        "column": 5,
-        "line": 26
+        "column": 9,
+        "line": 129
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace run -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -29,40 +29,17 @@\n         Err(e) => {\n             eprintln!(\"anomalyx: error: {e}\");\n             ProcExit::from(ExitCode::Error.code() as u8)\n         }\n     }\n }\n \n fn run(args: &[String]) -> Result<ExitCode, AxError> {\n-    let Some((cmd, rest)) = args.split_first() else {\n-        eprintln!(\"{}\", usage());\n-        return Ok(ExitCode::Error);\n-    };\n-    match cmd.as_str() {\n-        \"describe\" => {\n-            println!(\"{}\", describe::describe_json());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"schema\" => {\n-            println!(\"{}\", schema::envelope_schema());\n-            Ok(ExitCode::Clean)\n-        }\n-        \"scan\" => cmd_scan(rest),\n-        \"explain\" => cmd_explain(rest),\n-        \"-h\" | \"--help\" | \"help\" => {\n-            println!(\"{}\", usage());\n-            Ok(ExitCode::Clean)\n-        }\n-        other => Err(AxError::Config(format!(\n-            \"unknown command '{other}'\\n{}\",\n-            usage()\n-        ))),\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn usage() -> &'static str {\n     \"anomalyx — contract-first anomaly detection\\n\\\n      \\n\\\n      USAGE:\\n\\\n      \\x20 anomalyx describe            Protocol metadata\\n\\\n      \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace EnvelopeBuilder::findings -> Self with Default::default()\n@@ -126,18 +126,17 @@\n \n     /// Records the baseline source for a compare-mode scan.\n     pub fn baseline(mut self, source: impl Into<String>) -> Self {\n         self.baseline = Some(source.into());\n         self\n     }\n \n     pub fn findings(mut self, mut findings: Vec<Finding>) -> Self {\n-        self.findings.append(&mut findings);\n-        self\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n \n     pub fn absent(mut self, detector: impl Into<String>, reason: impl Into<String>) -> Self {\n         self.absent.push(Absence {\n             detector: detector.into(),\n             reason: reason.into(),\n         });\n         self\n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "run",
-      "return_type": "-> Result<ExitCode, AxError>",
+      "function_name": "EnvelopeBuilder::findings",
+      "return_type": "-> Self",
       "span": {
         "end": {
-          "column": 2,
-          "line": 61
+          "column": 6,
+          "line": 136
         },
         "start": {
-          "column": 1,
-          "line": 36
+          "column": 5,
+          "line": 133
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())",
-    "package": "ax-cli",
-    "replacement": "Ok(Default::default())",
+    "name": "crates/ax-core/src/envelope.rs:134:9: replace EnvelopeBuilder::findings -> Self with Default::default()",
+    "package": "ax-core",
+    "replacement": "Default::default()",
     "span": {
       "end": {
-        "column": 6,
-        "line": 60
+        "column": 13,
+        "line": 135
       },
       "start": {
-        "column": 5,
-        "line": 37
+        "column": 9,
+        "line": 134
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"\"\n@@ -56,25 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe            Protocol metadata\\n\\\n-     \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n-     \\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace EnvelopeBuilder::absent -> Self with Default::default()\n@@ -131,21 +131,17 @@\n     }\n \n     pub fn findings(mut self, mut findings: Vec<Finding>) -> Self {\n         self.findings.append(&mut findings);\n         self\n     }\n \n     pub fn absent(mut self, detector: impl Into<String>, reason: impl Into<String>) -> Self {\n-        self.absent.push(Absence {\n-            detector: detector.into(),\n-            reason: reason.into(),\n-        });\n-        self\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n \n     /// Finalizes the envelope. Findings are sorted into a deterministic order\n     /// (severity desc, then class, then handle, then detector) so the output is\n     /// stable regardless of the order detectors ran or emitted in.\n     pub fn build(mut self) -> Envelope {\n         self.findings.sort_by(|a, b| {\n             b.severity\n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "usage",
+      "function_name": "EnvelopeBuilder::absent",
+      "return_type": "-> Self",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 144
+        },
+        "start": {
+          "column": 5,
+          "line": 138
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/envelope.rs:139:9: replace EnvelopeBuilder::absent -> Self with Default::default()",
+    "package": "ax-core",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 13,
+        "line": 143
+      },
+      "start": {
+        "column": 9,
+        "line": 139
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace EnvelopeBuilder::build -> Envelope with Default::default()\n@@ -142,77 +142,17 @@\n         });\n         self\n     }\n \n     /// Finalizes the envelope. Findings are sorted into a deterministic order\n     /// (severity desc, then class, then handle, then detector) so the output is\n     /// stable regardless of the order detectors ran or emitted in.\n     pub fn build(mut self) -> Envelope {\n-        self.findings.sort_by(|a, b| {\n-            b.severity\n-                .cmp(&a.severity)\n-                .then_with(|| a.class.token().cmp(b.class.token()))\n-                .then_with(|| a.handle.canonical().cmp(&b.handle.canonical()))\n-                .then_with(|| a.detector.cmp(&b.detector))\n-        });\n-\n-        let mut dict = Dict::new();\n-        let mut rows = Vec::with_capacity(self.findings.len());\n-        for f in &self.findings {\n-            let detector = dict.intern(&f.detector);\n-            let class = dict.intern(f.class.token());\n-            let handle = dict.intern(&f.handle.canonical());\n-            let severity = dict.intern(severity_token(f.severity));\n-            let reason = dict.intern(&f.reason);\n-            rows.push(vec![\n-                json_u32(detector),\n-                json_u32(class),\n-                json_u32(handle),\n-                json_f64(f.confidence),\n-                json_u32(severity),\n-                json_f64(f.score),\n-                json_u32(reason),\n-            ]);\n-        }\n-\n-        let max_severity = self.findings.iter().map(|f| f.severity).max();\n-        let by_class = AnomalyClass::ALL\n-            .iter()\n-            .map(|&class| ClassCount {\n-                class,\n-                count: self.findings.iter().filter(|f| f.class == class).count(),\n-            })\n-            .collect();\n-        let summary = Summary {\n-            total: self.findings.len(),\n-            max_severity,\n-            by_class,\n-        };\n-\n-        let exit = if self.findings.is_empty() {\n-            ExitCode::Clean\n-        } else {\n-            ExitCode::Anomalies\n-        };\n-\n-        Envelope {\n-            protocol: PROTOCOL.to_string(),\n-            config_version: self.config_version,\n-            source: self.source,\n-            format: self.format,\n-            baseline: self.baseline,\n-            rows_scanned: self.rows_scanned,\n-            dict,\n-            columns: FINDING_COLUMNS.iter().map(|s| s.to_string()).collect(),\n-            rows,\n-            absent: self.absent,\n-            summary,\n-            exit: exit.code(),\n-        }\n+        Default::default() /* ~ changed by cargo-mutants ~ */\n     }\n }\n \n fn severity_token(s: Severity) -> &'static str {\n     match s {\n         Severity::Info => \"info\",\n         Severity::Low => \"low\",\n         Severity::Medium => \"medium\",\n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "EnvelopeBuilder::build",
+      "return_type": "-> Envelope",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 211
+        },
+        "start": {
+          "column": 5,
+          "line": 146
+        }
+      }
+    },
+    "genre": "FnValue",
+    "name": "crates/ax-core/src/envelope.rs:150:9: replace EnvelopeBuilder::build -> Envelope with Default::default()",
+    "package": "ax-core",
+    "replacement": "Default::default()",
+    "span": {
+      "end": {
+        "column": 10,
+        "line": 210
+      },
+      "start": {
+        "column": 9,
+        "line": 150
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace == with != in EnvelopeBuilder::build\n@@ -174,17 +174,17 @@\n             ]);\n         }\n \n         let max_severity = self.findings.iter().map(|f| f.severity).max();\n         let by_class = AnomalyClass::ALL\n             .iter()\n             .map(|&class| ClassCount {\n                 class,\n-                count: self.findings.iter().filter(|f| f.class == class).count(),\n+                count: self.findings.iter().filter(|f| f.class != /* ~ changed by cargo-mutants ~ */ class).count(),\n             })\n             .collect();\n         let summary = Summary {\n             total: self.findings.len(),\n             max_severity,\n             by_class,\n         };\n \n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "EnvelopeBuilder::build",
+      "return_type": "-> Envelope",
+      "span": {
+        "end": {
+          "column": 6,
+          "line": 211
+        },
+        "start": {
+          "column": 5,
+          "line": 146
+        }
+      }
+    },
+    "genre": "BinaryOperator",
+    "name": "crates/ax-core/src/envelope.rs:182:64: replace == with != in EnvelopeBuilder::build",
+    "package": "ax-core",
+    "replacement": "!=",
+    "span": {
+      "end": {
+        "column": 66,
+        "line": 182
+      },
+      "start": {
+        "column": 64,
+        "line": 182
+      }
+    }
+  },
+  {
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace severity_token -> &'static str with \"\"\n@@ -207,23 +207,17 @@\n             absent: self.absent,\n             summary,\n             exit: exit.code(),\n         }\n     }\n }\n \n fn severity_token(s: Severity) -> &'static str {\n-    match s {\n-        Severity::Info => \"info\",\n-        Severity::Low => \"low\",\n-        Severity::Medium => \"medium\",\n-        Severity::High => \"high\",\n-        Severity::Critical => \"critical\",\n-    }\n+    \"\" /* ~ changed by cargo-mutants ~ */\n }\n \n fn json_u32(v: u32) -> serde_json::Value {\n     serde_json::Value::from(v)\n }\n \n fn json_f64(v: f64) -> serde_json::Value {\n     serde_json::Number::from_f64(v)\n",
+    "file": "crates/ax-core/src/envelope.rs",
+    "function": {
+      "function_name": "severity_token",
       "return_type": "-> &'static str",
       "span": {
         "end": {
           "column": 2,
-          "line": 73
+          "line": 222
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 214
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"\"",
-    "package": "ax-cli",
+    "name": "crates/ax-core/src/envelope.rs:215:5: replace severity_token -> &'static str with \"\"",
+    "package": "ax-core",
     "replacement": "\"\"",
     "span": {
       "end": {
-        "column": 50,
-        "line": 72
+        "column": 6,
+        "line": 221
       },
       "start": {
         "column": 5,
-        "line": 64
+        "line": 215
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace usage -> &'static str with \"xyzzy\"\n@@ -56,25 +56,17 @@\n         other => Err(AxError::Config(format!(\n             \"unknown command '{other}'\\n{}\",\n             usage()\n         ))),\n     }\n }\n \n fn usage() -> &'static str {\n-    \"anomalyx — contract-first anomaly detection\\n\\\n-     \\n\\\n-     USAGE:\\n\\\n-     \\x20 anomalyx describe            Protocol metadata\\n\\\n-     \\x20 anomalyx schema              JSON Schema of scan output\\n\\\n-     \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n-     \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n-     \\n\\\n-     EXIT: 0 clean · 1 anomalies found · 2 error\"\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n         Some(p) if p != \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace severity_token -> &'static str with \"xyzzy\"\n@@ -207,23 +207,17 @@\n             absent: self.absent,\n             summary,\n             exit: exit.code(),\n         }\n     }\n }\n \n fn severity_token(s: Severity) -> &'static str {\n-    match s {\n-        Severity::Info => \"info\",\n-        Severity::Low => \"low\",\n-        Severity::Medium => \"medium\",\n-        Severity::High => \"high\",\n-        Severity::Critical => \"critical\",\n-    }\n+    \"xyzzy\" /* ~ changed by cargo-mutants ~ */\n }\n \n fn json_u32(v: u32) -> serde_json::Value {\n     serde_json::Value::from(v)\n }\n \n fn json_f64(v: f64) -> serde_json::Value {\n     serde_json::Number::from_f64(v)\n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "usage",
+      "function_name": "severity_token",
       "return_type": "-> &'static str",
       "span": {
         "end": {
           "column": 2,
-          "line": 73
+          "line": 222
         },
         "start": {
           "column": 1,
-          "line": 63
+          "line": 214
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with \"xyzzy\"",
-    "package": "ax-cli",
+    "name": "crates/ax-core/src/envelope.rs:215:5: replace severity_token -> &'static str with \"xyzzy\"",
+    "package": "ax-core",
     "replacement": "\"xyzzy\"",
     "span": {
       "end": {
-        "column": 50,
-        "line": 72
-      },
-      "start": {
-        "column": 5,
-        "line": 64
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))",
-    "package": "ax-cli",
-    "replacement": "Ok((String::new(), vec![]))",
-    "span": {
-      "end": {
         "column": 6,
-        "line": 89
+        "line": 221
       },
       "start": {
         "column": 5,
-        "line": 77
+        "line": 215
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace json_u32 -> serde_json::Value with Default::default()\n@@ -217,17 +217,17 @@\n         Severity::Low => \"low\",\n         Severity::Medium => \"medium\",\n         Severity::High => \"high\",\n         Severity::Critical => \"critical\",\n     }\n }\n \n fn json_u32(v: u32) -> serde_json::Value {\n-    serde_json::Value::from(v)\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n fn json_f64(v: f64) -> serde_json::Value {\n     serde_json::Number::from_f64(v)\n         .map(serde_json::Value::Number)\n         .unwrap_or(serde_json::Value::Null)\n }\n \n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
+      "function_name": "json_u32",
+      "return_type": "-> serde_json::Value",
       "span": {
         "end": {
           "column": 2,
-          "line": 90
+          "line": 226
         },
         "start": {
           "column": 1,
-          "line": 75
+          "line": 224
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))",
-    "package": "ax-cli",
-    "replacement": "Ok((String::new(), vec![0]))",
+    "name": "crates/ax-core/src/envelope.rs:225:5: replace json_u32 -> serde_json::Value with Default::default()",
+    "package": "ax-core",
+    "replacement": "Default::default()",
     "span": {
       "end": {
-        "column": 6,
-        "line": 89
-      },
-      "start": {
-        "column": 5,
-        "line": 77
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((String::new(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))",
-    "package": "ax-cli",
-    "replacement": "Ok((String::new(), vec![1]))",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 89
-      },
-      "start": {
-        "column": 5,
-        "line": 77
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![]))",
-    "package": "ax-cli",
-    "replacement": "Ok((\"xyzzy\".into(), vec![]))",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 89
-      },
-      "start": {
-        "column": 5,
-        "line": 77
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![0])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![0]))",
-    "package": "ax-cli",
-    "replacement": "Ok((\"xyzzy\".into(), vec![0]))",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 89
-      },
-      "start": {
-        "column": 5,
-        "line": 77
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))\n@@ -69,29 +69,17 @@\n      \\x20 anomalyx scan [PATH]         Scan a file (or stdin) for anomalies\\n\\\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n-    match path {\n-        Some(p) if p != \"-\" => {\n-            let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n-            Ok((p.clone(), bytes))\n-        }\n-        _ => {\n-            let mut buf = Vec::new();\n-            std::io::stdin()\n-                .read_to_end(&mut buf)\n-                .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n-            Ok((\"-\".to_string(), buf))\n-        }\n-    }\n+    Ok((\"xyzzy\".into(), vec![1])) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n     let (source, bytes) = read_input(rest.first())?;\n     let rs = ax_normalize::normalize(&source, &bytes)?;\n     let cfg = DetectConfig::default();\n     let registry = Registry::default_set();\n     let report = registry.run(&rs, &cfg);\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((\"xyzzy\".into(), vec![1]))",
-    "package": "ax-cli",
-    "replacement": "Ok((\"xyzzy\".into(), vec![1]))",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 89
-      },
-      "start": {
-        "column": 5,
-        "line": 77
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with true in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if true /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "MatchArmGuard",
-    "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with true in read_input",
-    "package": "ax-cli",
-    "replacement": "true",
-    "span": {
-      "end": {
-        "column": 28,
-        "line": 78
-      },
-      "start": {
-        "column": 20,
-        "line": 78
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace match guard p != \"-\" with false in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if false /* ~ changed by cargo-mutants ~ */ => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "MatchArmGuard",
-    "name": "crates/ax-cli/src/main.rs:78:20: replace match guard p != \"-\" with false in read_input",
-    "package": "ax-cli",
-    "replacement": "false",
-    "span": {
-      "end": {
-        "column": 28,
-        "line": 78
-      },
-      "start": {
-        "column": 20,
-        "line": 78
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace != with == in read_input\n@@ -70,17 +70,17 @@\n      \\x20 anomalyx explain <HANDLE> [PATH]   Resolve a finding handle to evidence\\n\\\n      \\n\\\n      EXIT: 0 clean · 1 anomalies found · 2 error\"\n }\n \n /// Reads the input corpus: a path argument, or stdin when absent or `-`.\n fn read_input(path: Option<&String>) -> Result<(String, Vec<u8>), AxError> {\n     match path {\n-        Some(p) if p != \"-\" => {\n+        Some(p) if p == /* ~ changed by cargo-mutants ~ */ \"-\" => {\n             let bytes = std::fs::read(p).map_err(|e| AxError::Io(format!(\"{p}: {e}\")))?;\n             Ok((p.clone(), bytes))\n         }\n         _ => {\n             let mut buf = Vec::new();\n             std::io::stdin()\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "read_input",
-      "return_type": "-> Result<(String, Vec<u8>), AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 90
-        },
-        "start": {
-          "column": 1,
-          "line": 75
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:78:22: replace != with == in read_input",
-    "package": "ax-cli",
-    "replacement": "==",
-    "span": {
-      "end": {
-        "column": 24,
-        "line": 78
-      },
-      "start": {
-        "column": 22,
-        "line": 78
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -85,35 +85,17 @@\n                 .read_to_end(&mut buf)\n                 .map_err(|e| AxError::Io(format!(\"stdin: {e}\")))?;\n             Ok((\"-\".to_string(), buf))\n         }\n     }\n }\n \n fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let (source, bytes) = read_input(rest.first())?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-    let cfg = DetectConfig::default();\n-    let registry = Registry::default_set();\n-    let report = registry.run(&rs, &cfg);\n-\n-    let mut builder =\n-        EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);\n-    for a in report.absent {\n-        builder = builder.absent(a.detector, a.reason);\n-    }\n-    let env = builder.build();\n-\n-    println!(\"{}\", serde_json::to_string(&env).expect(\"envelope serializes\"));\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n-        ExitCode::Anomalies\n-    } else {\n-        ExitCode::Clean\n-    })\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let handle_str = rest\n         .first()\n         .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n     let handle =\n         Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "cmd_scan",
-      "return_type": "-> Result<ExitCode, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 112
-        },
-        "start": {
-          "column": 1,
-          "line": 92
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:93:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())",
-    "package": "ax-cli",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 7,
-        "line": 111
-      },
-      "start": {
-        "column": 5,
-        "line": 93
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_scan\n@@ -99,17 +99,17 @@\n     let mut builder =\n         EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows()).findings(report.findings);\n     for a in report.absent {\n         builder = builder.absent(a.detector, a.reason);\n     }\n     let env = builder.build();\n \n     println!(\"{}\", serde_json::to_string(&env).expect(\"envelope serializes\"));\n-    Ok(if env.exit == ExitCode::Anomalies.code() {\n+    Ok(if env.exit != /* ~ changed by cargo-mutants ~ */ ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n     let handle_str = rest\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "cmd_scan",
-      "return_type": "-> Result<ExitCode, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 112
-        },
-        "start": {
-          "column": 1,
-          "line": 92
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:107:20: replace == with != in cmd_scan",
-    "package": "ax-cli",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 22,
-        "line": 107
-      },
-      "start": {
-        "column": 20,
-        "line": 107
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())\n@@ -107,44 +107,17 @@\n     Ok(if env.exit == ExitCode::Anomalies.code() {\n         ExitCode::Anomalies\n     } else {\n         ExitCode::Clean\n     })\n }\n \n fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {\n-    let handle_str = rest\n-        .first()\n-        .ok_or_else(|| AxError::Config(\"explain requires a <HANDLE> argument\".into()))?;\n-    let handle =\n-        Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;\n-\n-    let (source, bytes) = read_input(rest.get(1))?;\n-    let rs = ax_normalize::normalize(&source, &bytes)?;\n-\n-    let evidence = resolve_handle(&rs, &handle)?;\n-\n-    // Re-run detection and attach any findings that point at this handle.\n-    let cfg = DetectConfig::default();\n-    let report = Registry::default_set().run(&rs, &cfg);\n-    let findings: Vec<_> = report\n-        .findings\n-        .into_iter()\n-        .filter(|f| f.handle == handle)\n-        .collect();\n-\n-    let out = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"handle\": handle_str,\n-        \"evidence\": evidence,\n-        \"findings\": findings,\n-    });\n-    println!(\"{}\", serde_json::to_string(&out).expect(\"explain serializes\"));\n-    Ok(ExitCode::Clean)\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n     let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n     match handle {\n         Handle::Column { name } | Handle::Dist { column: name } => {\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "cmd_explain",
-      "return_type": "-> Result<ExitCode, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 143
-        },
-        "start": {
-          "column": 1,
-          "line": 114
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:115:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())",
-    "package": "ax-cli",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 24,
-        "line": 142
-      },
-      "start": {
-        "column": 5,
-        "line": 115
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace == with != in cmd_explain\n@@ -124,17 +124,17 @@\n     let evidence = resolve_handle(&rs, &handle)?;\n \n     // Re-run detection and attach any findings that point at this handle.\n     let cfg = DetectConfig::default();\n     let report = Registry::default_set().run(&rs, &cfg);\n     let findings: Vec<_> = report\n         .findings\n         .into_iter()\n-        .filter(|f| f.handle == handle)\n+        .filter(|f| f.handle != /* ~ changed by cargo-mutants ~ */ handle)\n         .collect();\n \n     let out = serde_json::json!({\n         \"protocol\": PROTOCOL,\n         \"handle\": handle_str,\n         \"evidence\": evidence,\n         \"findings\": findings,\n     });\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "cmd_explain",
-      "return_type": "-> Result<ExitCode, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 143
-        },
-        "start": {
-          "column": 1,
-          "line": 114
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:132:30: replace == with != in cmd_explain",
-    "package": "ax-cli",
-    "replacement": "!=",
-    "span": {
-      "end": {
-        "column": 32,
-        "line": 132
-      },
-      "start": {
-        "column": 30,
-        "line": 132
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())\n@@ -140,53 +140,17 @@\n     });\n     println!(\"{}\", serde_json::to_string(&out).expect(\"explain serializes\"));\n     Ok(ExitCode::Clean)\n }\n \n /// Resolves a handle to a compact evidence object, or fails cleanly if it does\n /// not address anything in this corpus (honest absence, never a fabricated hit).\n fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {\n-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());\n-    match handle {\n-        Handle::Column { name } | Handle::Dist { column: name } => {\n-            let col = rs.column(name).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"column\",\n-                \"column\": col.name,\n-                \"type\": col.ty,\n-                \"len\": col.len(),\n-                \"nulls\": col.null_count(),\n-            }))\n-        }\n-        Handle::Cell { column, row } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;\n-            Ok(serde_json::json!({\n-                \"kind\": \"cell\",\n-                \"column\": col.name,\n-                \"row\": row,\n-                \"value\": value,\n-                \"column_type\": col.ty,\n-            }))\n-        }\n-        Handle::Range { column, start, end } => {\n-            let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n-                return Err(unresolved());\n-            }\n-            Ok(serde_json::json!({\n-                \"kind\": \"range\",\n-                \"column\": col.name,\n-                \"start\": start,\n-                \"end\": end,\n-                \"values\": &col.cells[*start..*end],\n-            }))\n-        }\n-    }\n+    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use ax_core::Column;\n \n     fn corpus() -> RecordSet {\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 185
-        },
-        "start": {
-          "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())",
-    "package": "ax-cli",
-    "replacement": "Ok(Default::default())",
-    "span": {
-      "end": {
-        "column": 6,
-        "line": 184
-      },
-      "start": {
-        "column": 5,
-        "line": 148
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace || with && in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end && /* ~ changed by cargo-mutants ~ */ *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 185
-        },
-        "start": {
-          "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:31: replace || with && in resolve_handle",
-    "package": "ax-cli",
-    "replacement": "&&",
-    "span": {
-      "end": {
-        "column": 33,
-        "line": 173
-      },
-      "start": {
         "column": 31,
-        "line": 173
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace >= with < in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start < /* ~ changed by cargo-mutants ~ */ *end || *end > col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 185
-        },
-        "start": {
-          "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:23: replace >= with < in resolve_handle",
-    "package": "ax-cli",
-    "replacement": "<",
-    "span": {
-      "end": {
-        "column": 25,
-        "line": 173
+        "line": 225
       },
       "start": {
-        "column": 23,
-        "line": 173
+        "column": 5,
+        "line": 225
       }
     }
   },
   {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with == in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end == /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
-    "file": "crates/ax-cli/src/main.rs",
+    "diff": "--- crates/ax-core/src/envelope.rs\n+++ replace json_f64 -> serde_json::Value with Default::default()\n@@ -221,19 +221,17 @@\n     }\n }\n \n fn json_u32(v: u32) -> serde_json::Value {\n     serde_json::Value::from(v)\n }\n \n fn json_f64(v: f64) -> serde_json::Value {\n-    serde_json::Number::from_f64(v)\n-        .map(serde_json::Value::Number)\n-        .unwrap_or(serde_json::Value::Null)\n+    Default::default() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n     use crate::finding::Handle;\n \n     fn finding(conf: f64, class: AnomalyClass, col: &str) -> Finding {\n",
+    "file": "crates/ax-core/src/envelope.rs",
     "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
+      "function_name": "json_f64",
+      "return_type": "-> serde_json::Value",
       "span": {
         "end": {
           "column": 2,
-          "line": 185
+          "line": 232
         },
         "start": {
           "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with == in resolve_handle",
-    "package": "ax-cli",
-    "replacement": "==",
-    "span": {
-      "end": {
-        "column": 40,
-        "line": 173
-      },
-      "start": {
-        "column": 39,
-        "line": 173
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with < in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end < /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 185
-        },
-        "start": {
-          "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with < in resolve_handle",
-    "package": "ax-cli",
-    "replacement": "<",
-    "span": {
-      "end": {
-        "column": 40,
-        "line": 173
-      },
-      "start": {
-        "column": 39,
-        "line": 173
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/main.rs\n+++ replace > with >= in resolve_handle\n@@ -165,17 +165,17 @@\n                 \"column\": col.name,\n                 \"row\": row,\n                 \"value\": value,\n                 \"column_type\": col.ty,\n             }))\n         }\n         Handle::Range { column, start, end } => {\n             let col = rs.column(column).ok_or_else(unresolved)?;\n-            if *start >= *end || *end > col.len() {\n+            if *start >= *end || *end >= /* ~ changed by cargo-mutants ~ */ col.len() {\n                 return Err(unresolved());\n             }\n             Ok(serde_json::json!({\n                 \"kind\": \"range\",\n                 \"column\": col.name,\n                 \"start\": start,\n                 \"end\": end,\n                 \"values\": &col.cells[*start..*end],\n",
-    "file": "crates/ax-cli/src/main.rs",
-    "function": {
-      "function_name": "resolve_handle",
-      "return_type": "-> Result<serde_json::Value, AxError>",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 185
-        },
-        "start": {
-          "column": 1,
-          "line": 145
-        }
-      }
-    },
-    "genre": "BinaryOperator",
-    "name": "crates/ax-cli/src/main.rs:173:39: replace > with >= in resolve_handle",
-    "package": "ax-cli",
-    "replacement": ">=",
-    "span": {
-      "end": {
-        "column": 40,
-        "line": 173
-      },
-      "start": {
-        "column": 39,
-        "line": 173
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with String::new()\n@@ -6,45 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\"],\n-        \"planned_formats\": [\"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
-    "file": "crates/ax-cli/src/describe.rs",
-    "function": {
-      "function_name": "describe_json",
-      "return_type": "-> String",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 43
-        },
-        "start": {
-          "column": 1,
-          "line": 13
+          "line": 228
         }
       }
     },
     "genre": "FnValue",
-    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()",
-    "package": "ax-cli",
-    "replacement": "String::new()",
+    "name": "crates/ax-core/src/envelope.rs:229:5: replace json_f64 -> serde_json::Value with Default::default()",
+    "package": "ax-core",
+    "replacement": "Default::default()",
     "span": {
       "end": {
-        "column": 69,
-        "line": 42
+        "column": 44,
+        "line": 231
       },
       "start": {
         "column": 5,
-        "line": 14
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/describe.rs\n+++ replace describe_json -> String with \"xyzzy\".into()\n@@ -6,45 +6,17 @@\n //! from the same registries `scan` uses, so the description can never drift from\n //! behavior.\n \n use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};\n use ax_core::AnomalyClass;\n use ax_detect::{DetectConfig, Registry};\n \n pub fn describe_json() -> String {\n-    let cfg = DetectConfig::default();\n-    let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();\n-    let detectors = Registry::default_set().ids();\n-\n-    let doc = serde_json::json!({\n-        \"protocol\": PROTOCOL,\n-        \"tool\": \"anomalyx\",\n-        \"summary\": \"Contract-first anomaly detection over arbitrary corpora.\",\n-        \"commands\": {\n-            \"describe\": \"Emit this protocol metadata.\",\n-            \"schema\": \"Emit the JSON Schema of `scan` output.\",\n-            \"scan\": \"Normalize input (file or stdin) and emit a tq1 anomaly envelope.\",\n-            \"explain\": \"Resolve a finding handle to its underlying evidence.\"\n-        },\n-        \"input_formats\": [\"csv\", \"tsv\", \"ndjson\", \"json\"],\n-        \"planned_formats\": [\"parquet\", \"arrow\"],\n-        \"anomaly_classes\": classes,\n-        \"detectors\": detectors,\n-        \"finding_columns\": FINDING_COLUMNS,\n-        \"exit_codes\": {\n-            \"clean\": ExitCode::Clean.code(),\n-            \"anomalies\": ExitCode::Anomalies.code(),\n-            \"error\": ExitCode::Error.code()\n-        },\n-        \"config\": cfg,\n-        \"config_version\": cfg.version(),\n-        \"determinism\": \"Same input + same config_version yields byte-identical output.\"\n-    });\n-    serde_json::to_string_pretty(&doc).expect(\"describe serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn describe_is_valid_json_with_protocol() {\n",
-    "file": "crates/ax-cli/src/describe.rs",
-    "function": {
-      "function_name": "describe_json",
-      "return_type": "-> String",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 43
-        },
-        "start": {
-          "column": 1,
-          "line": 13
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with \"xyzzy\".into()",
-    "package": "ax-cli",
-    "replacement": "\"xyzzy\".into()",
-    "span": {
-      "end": {
-        "column": 69,
-        "line": 42
-      },
-      "start": {
-        "column": 5,
-        "line": 14
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with String::new()\n@@ -2,99 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    String::new() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
-    "file": "crates/ax-cli/src/schema.rs",
-    "function": {
-      "function_name": "envelope_schema",
-      "return_type": "-> String",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 93
-        },
-        "start": {
-          "column": 1,
-          "line": 9
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()",
-    "package": "ax-cli",
-    "replacement": "String::new()",
-    "span": {
-      "end": {
-        "column": 70,
-        "line": 92
-      },
-      "start": {
-        "column": 5,
-        "line": 10
-      }
-    }
-  },
-  {
-    "diff": "--- crates/ax-cli/src/schema.rs\n+++ replace envelope_schema -> String with \"xyzzy\".into()\n@@ -2,99 +2,17 @@\n //!\n //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate\n //! against this instead of reverse-engineering field names. If the envelope\n //! shape changes, this schema (and the contract tests over it) must change too.\n \n use ax_core::envelope::{FINDING_COLUMNS, PROTOCOL};\n \n pub fn envelope_schema() -> String {\n-    let schema = serde_json::json!({\n-        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n-        \"$id\": \"https://anomalyx/tq1/envelope.schema.json\",\n-        \"title\": \"anomalyx tq1 envelope\",\n-        \"type\": \"object\",\n-        \"required\": [\n-            \"protocol\", \"config_version\", \"source\", \"format\",\n-            \"rows_scanned\", \"dict\", \"columns\", \"rows\", \"absent\", \"summary\", \"exit\"\n-        ],\n-        \"additionalProperties\": false,\n-        \"properties\": {\n-            \"protocol\": { \"const\": PROTOCOL },\n-            \"config_version\": { \"type\": \"string\" },\n-            \"source\": { \"type\": \"string\" },\n-            \"format\": { \"type\": \"string\" },\n-            \"rows_scanned\": { \"type\": \"integer\", \"minimum\": 0 },\n-            \"dict\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Dictionary-pinned string table; *_idx values index into this.\"\n-            },\n-            \"columns\": {\n-                \"type\": \"array\",\n-                \"items\": { \"type\": \"string\" },\n-                \"description\": \"Names of the dense finding-row columns.\",\n-                \"const\": FINDING_COLUMNS\n-            },\n-            \"rows\": {\n-                \"type\": \"array\",\n-                \"description\": \"Dense finding rows, each aligned to `columns`.\",\n-                \"items\": {\n-                    \"type\": \"array\",\n-                    \"minItems\": 7,\n-                    \"maxItems\": 7,\n-                    \"prefixItems\": [\n-                        { \"type\": \"integer\", \"description\": \"detector dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"class dict index\" },\n-                        { \"type\": \"integer\", \"description\": \"handle dict index\" },\n-                        { \"type\": \"number\", \"description\": \"confidence in [0,1]\" },\n-                        { \"type\": \"integer\", \"description\": \"severity dict index\" },\n-                        { \"type\": \"number\", \"description\": \"raw detector score\" },\n-                        { \"type\": \"integer\", \"description\": \"reason dict index\" }\n-                    ]\n-                }\n-            },\n-            \"absent\": {\n-                \"type\": \"array\",\n-                \"description\": \"Detectors that declined to run, with reasons (honest absence).\",\n-                \"items\": {\n-                    \"type\": \"object\",\n-                    \"required\": [\"detector\", \"reason\"],\n-                    \"properties\": {\n-                        \"detector\": { \"type\": \"string\" },\n-                        \"reason\": { \"type\": \"string\" }\n-                    }\n-                }\n-            },\n-            \"summary\": {\n-                \"type\": \"object\",\n-                \"required\": [\"total\", \"by_class\"],\n-                \"properties\": {\n-                    \"total\": { \"type\": \"integer\", \"minimum\": 0 },\n-                    \"max_severity\": {\n-                        \"type\": [\"string\", \"null\"],\n-                        \"enum\": [\"info\", \"low\", \"medium\", \"high\", \"critical\", null]\n-                    },\n-                    \"by_class\": {\n-                        \"type\": \"array\",\n-                        \"items\": {\n-                            \"type\": \"object\",\n-                            \"required\": [\"class\", \"count\"],\n-                            \"properties\": {\n-                                \"class\": { \"type\": \"string\" },\n-                                \"count\": { \"type\": \"integer\", \"minimum\": 0 }\n-                            }\n-                        }\n-                    }\n-                }\n-            },\n-            \"exit\": { \"type\": \"integer\", \"enum\": [0, 1, 2] }\n-        }\n-    });\n-    serde_json::to_string_pretty(&schema).expect(\"schema serializes\")\n+    \"xyzzy\".into() /* ~ changed by cargo-mutants ~ */\n }\n \n #[cfg(test)]\n mod tests {\n     use super::*;\n \n     #[test]\n     fn schema_is_valid_json_and_pins_protocol() {\n",
-    "file": "crates/ax-cli/src/schema.rs",
-    "function": {
-      "function_name": "envelope_schema",
-      "return_type": "-> String",
-      "span": {
-        "end": {
-          "column": 2,
-          "line": 93
-        },
-        "start": {
-          "column": 1,
-          "line": 9
-        }
-      }
-    },
-    "genre": "FnValue",
-    "name": "crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with \"xyzzy\".into()",
-    "package": "ax-cli",
-    "replacement": "\"xyzzy\".into()",
-    "span": {
-      "end": {
-        "column": 70,
-        "line": 92
-      },
-      "start": {
-        "column": 5,
-        "line": 10
+        "line": 229
       }
     }
   }

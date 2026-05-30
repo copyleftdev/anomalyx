@@ -15,6 +15,20 @@ pub struct DetectConfig {
     /// Minimum count of finite numeric values a column needs before the point
     /// detector will assess it. Below this, statistics are unreliable.
     pub point_min_n: usize,
+
+    /// Significance level for the KS and chi-square drift tests. A column is
+    /// flagged when the test's p-value falls below this.
+    pub dist_alpha: f64,
+    /// Population Stability Index threshold; PSI above this signals drift
+    /// (0.1 ≈ moderate, 0.2 ≈ significant by convention).
+    pub psi_threshold: f64,
+    /// Number of (baseline-quantile) bins used for PSI.
+    pub psi_bins: usize,
+    /// Minimum sample size (per side) before a distributional test runs.
+    pub dist_min_n: usize,
+
+    /// Null fraction above which the structural detector flags a column.
+    pub struct_null_rate: f64,
 }
 
 impl Default for DetectConfig {
@@ -22,6 +36,11 @@ impl Default for DetectConfig {
         DetectConfig {
             point_threshold: 3.5,
             point_min_n: 8,
+            dist_alpha: 0.05,
+            psi_threshold: 0.2,
+            psi_bins: 10,
+            dist_min_n: 20,
+            struct_null_rate: 0.5,
         }
     }
 }
@@ -31,8 +50,14 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/1;pt={:.4};ptn={}",
-            self.point_threshold, self.point_min_n
+            "anomalyx-cfg/2;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4}",
+            self.point_threshold,
+            self.point_min_n,
+            self.dist_alpha,
+            self.psi_threshold,
+            self.psi_bins,
+            self.dist_min_n,
+            self.struct_null_rate,
         )
     }
 }

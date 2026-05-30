@@ -1,6 +1,6 @@
 --- crates/ax-cli/src/schema.rs
 +++ replace envelope_schema -> String with "xyzzy".into()
-@@ -2,99 +2,17 @@
+@@ -2,103 +2,17 @@
  //!
  //! A JSON Schema (draft 2020-12) pinning the `tq1` envelope. Agents validate
  //! against this instead of reverse-engineering field names. If the envelope
@@ -24,6 +24,10 @@
 -            "config_version": { "type": "string" },
 -            "source": { "type": "string" },
 -            "format": { "type": "string" },
+-            "baseline": {
+-                "type": "string",
+-                "description": "Baseline corpus source; present only in compare mode (--baseline)."
+-            },
 -            "rows_scanned": { "type": "integer", "minimum": 0 },
 -            "dict": {
 -                "type": "array",

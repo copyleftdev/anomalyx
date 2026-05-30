@@ -1,0 +1,57 @@
+--- crates/ax-cli/src/main.rs
++++ replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
+@@ -191,53 +191,17 @@
+         serde_json::to_string(&out).expect("explain serializes")
+     );
+     Ok(ExitCode::Clean)
+ }
+ 
+ /// Resolves a handle to a compact evidence object, or fails cleanly if it does
+ /// not address anything in this corpus (honest absence, never a fabricated hit).
+ fn resolve_handle(rs: &RecordSet, handle: &Handle) -> Result<serde_json::Value, AxError> {
+-    let unresolved = || AxError::UnresolvedHandle(handle.canonical());
+-    match handle {
+-        Handle::Column { name } | Handle::Dist { column: name } => {
+-            let col = rs.column(name).ok_or_else(unresolved)?;
+-            Ok(serde_json::json!({
+-                "kind": "column",
+-                "column": col.name,
+-                "type": col.ty,
+-                "len": col.len(),
+-                "nulls": col.null_count(),
+-            }))
+-        }
+-        Handle::Cell { column, row } => {
+-            let col = rs.column(column).ok_or_else(unresolved)?;
+-            let value: &Value = col.cells.get(*row).ok_or_else(unresolved)?;
+-            Ok(serde_json::json!({
+-                "kind": "cell",
+-                "column": col.name,
+-                "row": row,
+-                "value": value,
+-                "column_type": col.ty,
+-            }))
+-        }
+-        Handle::Range { column, start, end } => {
+-            let col = rs.column(column).ok_or_else(unresolved)?;
+-            if *start >= *end || *end > col.len() {
+-                return Err(unresolved());
+-            }
+-            Ok(serde_json::json!({
+-                "kind": "range",
+-                "column": col.name,
+-                "start": start,
+-                "end": end,
+-                "values": &col.cells[*start..*end],
+-            }))
+-        }
+-    }
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use ax_core::Column;
+ 
+     fn corpus() -> RecordSet {

@@ -1,3 +1,4 @@
-crates/ax-cli/src/main.rs:37:5: replace run -> Result<ExitCode, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:93:5: replace cmd_scan -> Result<ExitCode, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:115:5: replace cmd_explain -> Result<ExitCode, AxError> with Ok(Default::default())
+crates/ax-core/src/envelope.rs:129:9: replace EnvelopeBuilder::baseline -> Self with Default::default()
+crates/ax-core/src/envelope.rs:134:9: replace EnvelopeBuilder::findings -> Self with Default::default()
+crates/ax-core/src/envelope.rs:139:9: replace EnvelopeBuilder::absent -> Self with Default::default()
+crates/ax-core/src/envelope.rs:150:9: replace EnvelopeBuilder::build -> Envelope with Default::default()

@@ -22,6 +22,10 @@ pub fn envelope_schema() -> String {
             "config_version": { "type": "string" },
             "source": { "type": "string" },
             "format": { "type": "string" },
+            "baseline": {
+                "type": "string",
+                "description": "Baseline corpus source; present only in compare mode (--baseline)."
+            },
             "rows_scanned": { "type": "integer", "minimum": 0 },
             "dict": {
                 "type": "array",

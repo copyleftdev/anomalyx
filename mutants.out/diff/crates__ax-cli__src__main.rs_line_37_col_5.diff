@@ -40,5 +40,5 @@
      "anomalyx — contract-first anomaly detection\n\
       \n\
       USAGE:\n\
-      \x20 anomalyx describe            Protocol metadata\n\
-      \x20 anomalyx schema              JSON Schema of scan output\n\
+      \x20 anomalyx describe                         Protocol metadata\n\
+      \x20 anomalyx schema                           JSON Schema of scan output\n\

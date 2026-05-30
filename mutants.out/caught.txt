@@ -1,23 +1,34 @@
 crates/ax-cli/src/main.rs:26:5: replace main -> ProcExit with Default::default()
 crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with ""
 crates/ax-cli/src/main.rs:64:5: replace usage -> &'static str with "xyzzy"
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![]))
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![0]))
-crates/ax-cli/src/main.rs:77:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![1]))
-crates/ax-cli/src/main.rs:78:20: replace match guard p != "-" with true in read_input
-crates/ax-cli/src/main.rs:78:20: replace match guard p != "-" with false in read_input
-crates/ax-cli/src/main.rs:78:22: replace != with == in read_input
-crates/ax-cli/src/main.rs:107:20: replace == with != in cmd_scan
-crates/ax-cli/src/main.rs:132:30: replace == with != in cmd_explain
-crates/ax-cli/src/main.rs:148:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
-crates/ax-cli/src/main.rs:173:31: replace || with && in resolve_handle
-crates/ax-cli/src/main.rs:173:23: replace >= with < in resolve_handle
-crates/ax-cli/src/main.rs:173:39: replace > with == in resolve_handle
-crates/ax-cli/src/main.rs:173:39: replace > with < in resolve_handle
-crates/ax-cli/src/main.rs:173:39: replace > with >= in resolve_handle
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec![String::new()]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((None, vec!["xyzzy".into()]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec![String::new()]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some(String::new()), vec!["xyzzy".into()]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec![]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec![String::new()]))
+crates/ax-cli/src/main.rs:79:5: replace split_baseline -> Result<(Option<String>, Vec<String>), AxError> with Ok((Some("xyzzy".into()), vec!["xyzzy".into()]))
+crates/ax-cli/src/main.rs:83:16: replace == with != in split_baseline
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![]))
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![0]))
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok((String::new(), vec![1]))
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![]))
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![0]))
+crates/ax-cli/src/main.rs:97:5: replace read_input -> Result<(String, Vec<u8>), AxError> with Ok(("xyzzy".into(), vec![1]))
+crates/ax-cli/src/main.rs:98:20: replace match guard p != "-" with true in read_input
+crates/ax-cli/src/main.rs:98:20: replace match guard p != "-" with false in read_input
+crates/ax-cli/src/main.rs:98:22: replace != with == in read_input
+crates/ax-cli/src/main.rs:114:5: replace load_baseline -> Result<Option<RecordSet>, AxError> with Ok(None)
+crates/ax-cli/src/main.rs:150:20: replace == with != in cmd_scan
+crates/ax-cli/src/main.rs:180:30: replace == with != in cmd_explain
+crates/ax-cli/src/main.rs:199:5: replace resolve_handle -> Result<serde_json::Value, AxError> with Ok(Default::default())
+crates/ax-cli/src/main.rs:224:31: replace || with && in resolve_handle
+crates/ax-cli/src/main.rs:224:23: replace >= with < in resolve_handle
+crates/ax-cli/src/main.rs:224:39: replace > with == in resolve_handle
+crates/ax-cli/src/main.rs:224:39: replace > with < in resolve_handle
+crates/ax-cli/src/main.rs:224:39: replace > with >= in resolve_handle
 crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with String::new()
 crates/ax-cli/src/describe.rs:14:5: replace describe_json -> String with "xyzzy".into()
 crates/ax-cli/src/schema.rs:10:5: replace envelope_schema -> String with String::new()

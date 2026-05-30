@@ -77,6 +77,10 @@ pub struct Envelope {
     pub config_version: String,
     pub source: String,
     pub format: String,
+    /// Source of the baseline corpus when scanning in compare mode; absent for
+    /// a single-corpus scan.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub baseline: Option<String>,
     pub rows_scanned: usize,
     /// Dictionary-pinned string table; all `*_idx` values index into this.
     pub dict: Dict,
@@ -96,6 +100,7 @@ pub struct EnvelopeBuilder {
     config_version: String,
     source: String,
     format: String,
+    baseline: Option<String>,
     rows_scanned: usize,
     findings: Vec<Finding>,
     absent: Vec<Absence>,
@@ -112,10 +117,17 @@ impl EnvelopeBuilder {
             config_version: config_version.into(),
             source: source.into(),
             format: format.into(),
+            baseline: None,
             rows_scanned,
             findings: Vec::new(),
             absent: Vec::new(),
         }
+    }
+
+    /// Records the baseline source for a compare-mode scan.
+    pub fn baseline(mut self, source: impl Into<String>) -> Self {
+        self.baseline = Some(source.into());
+        self
     }
 
     pub fn findings(mut self, mut findings: Vec<Finding>) -> Self {
@@ -187,6 +199,7 @@ impl EnvelopeBuilder {
             config_version: self.config_version,
             source: self.source,
             format: self.format,
+            baseline: self.baseline,
             rows_scanned: self.rows_scanned,
             dict,
             columns: FINDING_COLUMNS.iter().map(|s| s.to_string()).collect(),

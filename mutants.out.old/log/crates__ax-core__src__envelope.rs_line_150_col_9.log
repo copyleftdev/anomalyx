@@ -1,0 +1,156 @@
+
+*** crates/ax-core/src/envelope.rs:150:9: replace EnvelopeBuilder::build -> Envelope with Default::default()
+
+*** mutation diff:
+--- crates/ax-core/src/envelope.rs
++++ replace EnvelopeBuilder::build -> Envelope with Default::default()
+@@ -142,77 +142,17 @@
+         });
+         self
+     }
+ 
+     /// Finalizes the envelope. Findings are sorted into a deterministic order
+     /// (severity desc, then class, then handle, then detector) so the output is
+     /// stable regardless of the order detectors ran or emitted in.
+     pub fn build(mut self) -> Envelope {
+-        self.findings.sort_by(|a, b| {
+-            b.severity
+-                .cmp(&a.severity)
+-                .then_with(|| a.class.token().cmp(b.class.token()))
+-                .then_with(|| a.handle.canonical().cmp(&b.handle.canonical()))
+-                .then_with(|| a.detector.cmp(&b.detector))
+-        });
+-
+-        let mut dict = Dict::new();
+-        let mut rows = Vec::with_capacity(self.findings.len());
+-        for f in &self.findings {
+-            let detector = dict.intern(&f.detector);
+-            let class = dict.intern(f.class.token());
+-            let handle = dict.intern(&f.handle.canonical());
+-            let severity = dict.intern(severity_token(f.severity));
+-            let reason = dict.intern(&f.reason);
+-            rows.push(vec![
+-                json_u32(detector),
+-                json_u32(class),
+-                json_u32(handle),
+-                json_f64(f.confidence),
+-                json_u32(severity),
+-                json_f64(f.score),
+-                json_u32(reason),
+-            ]);
+-        }
+-
+-        let max_severity = self.findings.iter().map(|f| f.severity).max();
+-        let by_class = AnomalyClass::ALL
+-            .iter()
+-            .map(|&class| ClassCount {
+-                class,
+-                count: self.findings.iter().filter(|f| f.class == class).count(),
+-            })
+-            .collect();
+-        let summary = Summary {
+-            total: self.findings.len(),
+-            max_severity,
+-            by_class,
+-        };
+-
+-        let exit = if self.findings.is_empty() {
+-            ExitCode::Clean
+-        } else {
+-            ExitCode::Anomalies
+-        };
+-
+-        Envelope {
+-            protocol: PROTOCOL.to_string(),
+-            config_version: self.config_version,
+-            source: self.source,
+-            format: self.format,
+-            baseline: self.baseline,
+-            rows_scanned: self.rows_scanned,
+-            dict,
+-            columns: FINDING_COLUMNS.iter().map(|s| s.to_string()).collect(),
+-            rows,
+-            absent: self.absent,
+-            summary,
+-            exit: exit.code(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn severity_token(s: Severity) -> &'static str {
+     match s {
+         Severity::Info => "info",
+         Severity::Low => "low",
+         Severity::Medium => "medium",
+
+
+*** /home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo test --no-run --verbose --package=ax-core@0.1.0
+       Fresh libc v0.2.186
+       Fresh cfg-if v1.0.4
+       Fresh unicode-ident v1.0.24
+       Fresh autocfg v1.5.1
+       Fresh bitflags v2.11.1
+       Fresh linux-raw-sys v0.12.1
+       Fresh once_cell v1.21.4
+       Fresh fastrand v2.4.1
+       Fresh wait-timeout v0.2.1
+       Fresh quick-error v1.2.3
+       Fresh bit-vec v0.8.0
+       Fresh memchr v2.8.1
+       Fresh fnv v1.0.7
+       Fresh itoa v1.0.18
+       Fresh regex-syntax v0.8.10
+       Fresh unarray v0.1.4
+       Fresh proc-macro2 v1.0.106
+       Fresh getrandom v0.3.4
+       Fresh serde_core v1.0.228
+       Fresh bit-set v0.8.0
+       Fresh quote v1.0.45
+       Fresh rand_core v0.9.5
+       Fresh getrandom v0.4.2
+       Fresh zerocopy v0.8.50
+       Fresh rustix v1.1.4
+       Fresh zmij v1.0.21
+       Fresh syn v2.0.117
+       Fresh ppv-lite86 v0.2.21
+       Fresh tempfile v3.27.0
+       Fresh serde_json v1.0.150
+       Fresh num-traits v0.2.19
+       Fresh rand v0.9.4
+       Fresh rand_xorshift v0.4.0
+       Fresh serde_derive v1.0.228
+       Fresh thiserror-impl v2.0.18
+       Fresh rand_chacha v0.9.0
+       Fresh rusty-fork v0.3.1
+       Fresh serde v1.0.228
+       Fresh thiserror v2.0.18
+       Fresh proptest v1.11.0
+       Dirty ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/crates/ax-core): couldn't read metadata for file `target/debug/deps/libax_core-152e3833fb2b7c67.rlib`
+   Compiling ax-core v0.1.0 (/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/crates/ax-core)
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta`
+     Running `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib`
+error[E0277]: the trait bound `Envelope: Default` is not satisfied
+   --> crates/ax-core/src/envelope.rs:150:9
+    |
+150 |         Default::default() /* ~ changed by cargo-mutants ~ */
+    |         ^^^^^^^^^^^^^^^^^^ unsatisfied trait bound
+    |
+help: the trait `Default` is not implemented for `Envelope`
+   --> crates/ax-core/src/envelope.rs:73:1
+    |
+ 73 | pub struct Envelope {
+    | ^^^^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `ax-core` (lib) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=0c8fda170aa9664e -C extra-filename=-152e3833fb2b7c67 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde-0e044a46a977e748.rmeta --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rmeta --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rmeta` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `ax-core` (lib test) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/home/ops/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name ax_core --edition=2021 crates/ax-core/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3cdd1824e2a37b8c -C extra-filename=-5ab5d1a675507000 --out-dir /tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps -C incremental=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/incremental -L dependency=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps --extern proptest=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libproptest-66f5263f594b7cee.rlib --extern serde=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde-0e044a46a977e748.rlib --extern serde_json=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libserde_json-7a9eb2fcd78de1ef.rlib --extern thiserror=/tmp/claude-1000/cargo-mutants-anomalyx-hZ6XRA.tmp/target/debug/deps/libthiserror-ade23de5d46b64b8.rlib` (exit status: 1)
+
+*** result: Failure(101)

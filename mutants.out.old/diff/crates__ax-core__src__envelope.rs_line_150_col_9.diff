@@ -1,0 +1,81 @@
+--- crates/ax-core/src/envelope.rs
++++ replace EnvelopeBuilder::build -> Envelope with Default::default()
+@@ -142,77 +142,17 @@
+         });
+         self
+     }
+ 
+     /// Finalizes the envelope. Findings are sorted into a deterministic order
+     /// (severity desc, then class, then handle, then detector) so the output is
+     /// stable regardless of the order detectors ran or emitted in.
+     pub fn build(mut self) -> Envelope {
+-        self.findings.sort_by(|a, b| {
+-            b.severity
+-                .cmp(&a.severity)
+-                .then_with(|| a.class.token().cmp(b.class.token()))
+-                .then_with(|| a.handle.canonical().cmp(&b.handle.canonical()))
+-                .then_with(|| a.detector.cmp(&b.detector))
+-        });
+-
+-        let mut dict = Dict::new();
+-        let mut rows = Vec::with_capacity(self.findings.len());
+-        for f in &self.findings {
+-            let detector = dict.intern(&f.detector);
+-            let class = dict.intern(f.class.token());
+-            let handle = dict.intern(&f.handle.canonical());
+-            let severity = dict.intern(severity_token(f.severity));
+-            let reason = dict.intern(&f.reason);
+-            rows.push(vec![
+-                json_u32(detector),
+-                json_u32(class),
+-                json_u32(handle),
+-                json_f64(f.confidence),
+-                json_u32(severity),
+-                json_f64(f.score),
+-                json_u32(reason),
+-            ]);
+-        }
+-
+-        let max_severity = self.findings.iter().map(|f| f.severity).max();
+-        let by_class = AnomalyClass::ALL
+-            .iter()
+-            .map(|&class| ClassCount {
+-                class,
+-                count: self.findings.iter().filter(|f| f.class == class).count(),
+-            })
+-            .collect();
+-        let summary = Summary {
+-            total: self.findings.len(),
+-            max_severity,
+-            by_class,
+-        };
+-
+-        let exit = if self.findings.is_empty() {
+-            ExitCode::Clean
+-        } else {
+-            ExitCode::Anomalies
+-        };
+-
+-        Envelope {
+-            protocol: PROTOCOL.to_string(),
+-            config_version: self.config_version,
+-            source: self.source,
+-            format: self.format,
+-            baseline: self.baseline,
+-            rows_scanned: self.rows_scanned,
+-            dict,
+-            columns: FINDING_COLUMNS.iter().map(|s| s.to_string()).collect(),
+-            rows,
+-            absent: self.absent,
+-            summary,
+-            exit: exit.code(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn severity_token(s: Severity) -> &'static str {
+     match s {
+         Severity::Info => "info",
+         Severity::Low => "low",
+         Severity::Medium => "medium",
