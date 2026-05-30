@@ -12,6 +12,10 @@ ax-core = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
+csv = "1"
+# Polars/Arrow backbone for binary columnar formats lands behind the RecordSet
+# boundary in the next slice (Parquet, Arrow IPC) — text formats are handled
+# here with a fully-deterministic reader.
 
 [dev-dependencies]
 proptest = { workspace = true }

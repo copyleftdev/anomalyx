@@ -9,7 +9,7 @@ use std::cmp::Ordering;
 /// columnar grid of these. The variant set is intentionally small: detectors
 /// reason over a closed world, and "honest absence" is represented explicitly
 /// by [`Value::Null`] rather than by a sentinel number or empty string.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "t", content = "v", rename_all = "lowercase")]
 pub enum Value {
     Null,
