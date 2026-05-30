@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ax-core",
+    "crates/ax-normalize",
+    "crates/ax-detect",
+    "crates/ax-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.90"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/copyleftdev/anomalyx"
+authors = ["copyleftdev"]
+
+[workspace.dependencies]
+ax-core = { path = "crates/ax-core" }
+ax-normalize = { path = "crates/ax-normalize" }
+ax-detect = { path = "crates/ax-detect" }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+
+# detection math (assembled, not reinvented)
+statrs = "0.18"
+
+# property-based testing gate
+proptest = "1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

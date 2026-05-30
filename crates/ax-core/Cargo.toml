@@ -1,0 +1,16 @@
+[package]
+name = "ax-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "anomalyx contract core: typed record model, anomaly taxonomy, deterministic reductions, and the tq1 output envelope"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

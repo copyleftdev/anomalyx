@@ -1,0 +1,19 @@
+[package]
+name = "ax-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "anomalyx command-line contract surface: describe / schema / scan / explain"
+
+[[bin]]
+name = "anomalyx"
+path = "src/main.rs"
+
+[dependencies]
+ax-core = { workspace = true }
+ax-normalize = { workspace = true }
+ax-detect = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
