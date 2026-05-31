@@ -221,6 +221,7 @@ mod tests {
             "cloudtrail",
             "eve",
             "journal",
+            "osquery",
             "ndjson",
             "zeek",
             "logfmt",

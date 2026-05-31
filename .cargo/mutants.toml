@@ -32,6 +32,10 @@ exclude_re = [
     # equivalence as Zeek/Journal/Eve/CloudTrail above.
     'AuditdParser>::extensions.*Vec::new',
 
+    # OsqueryParser also claims no extension (returns `&[]`) — same empty-slice
+    # equivalence as the parsers above.
+    'OsqueryParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`
