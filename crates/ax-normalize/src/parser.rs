@@ -212,6 +212,7 @@ mod tests {
         let expected = vec![
             "parquet",
             "arrow",
+            "otlp",
             "ndjson",
             "zeek",
             "logfmt",
@@ -226,6 +227,7 @@ mod tests {
         ];
         #[cfg(not(feature = "polars"))]
         let expected = vec![
+            "otlp",
             "ndjson",
             "zeek",
             "logfmt",
