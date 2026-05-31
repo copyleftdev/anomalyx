@@ -15,6 +15,11 @@ exclude_re = [
     # `vec![…]` extension mutants ARE caught, by a `extensions().is_empty()` test.)
     'ZeekParser>::extensions.*Vec::new',
 
+    # JournalParser likewise claims no extension (returns `&[]`); the empty
+    # `Vec::leak(Vec::new())` mutant yields the same empty slice. Identical
+    # behavior — no input can observe the difference. (Same case as Zeek above.)
+    'JournalParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`
