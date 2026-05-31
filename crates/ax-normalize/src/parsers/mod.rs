@@ -5,6 +5,7 @@
 use crate::parser::ParserRegistry;
 
 pub mod accesslog;
+pub mod cef;
 pub mod delimited;
 pub mod journal;
 pub mod json;
@@ -21,6 +22,7 @@ pub mod zeek;
 pub mod columnar;
 
 pub use accesslog::AccessLogParser;
+pub use cef::{CefParser, LeefParser};
 pub use delimited::{CsvParser, TsvParser};
 pub use journal::JournalParser;
 pub use json::JsonParser;
@@ -53,6 +55,8 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(LogfmtParser));
     r.register(Box::new(AccessLogParser));
     r.register(Box::new(SyslogParser));
+    r.register(Box::new(CefParser));
+    r.register(Box::new(LeefParser));
     r.register(Box::new(PrometheusParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(YamlParser));

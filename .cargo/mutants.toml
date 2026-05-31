@@ -48,6 +48,14 @@ exclude_re = [
     # be the arg-max once any earlier split has been seen. Equivalent.
     "replace < with <= in cusum_changepoint",
 
+    # CEF extension scan advances `i = j + 1` past the `=` at index j after
+    # recording a key. The `+`→`*` variant sets `i = j` (the `=` itself); since
+    # `=` is not an identifier char, the very next iteration skips it and lands on
+    # j+1 — the identical key set, just one extra no-op step. Equivalent. (The
+    # `+`→`-` variant is NOT equivalent: it re-detects a 1-char key forever and is
+    # caught as a timeout by the `a=1 b=2` test.)
+    'replace \+ with \* in parse_cef_extension',
+
     # `naive_one_pass_variance` is a deliberately *inaccurate* reference baseline
     # (the textbook one-pass formula), kept only to demonstrate the precision gap
     # against our compensated reductions. Its sole contract — "less accurate than
