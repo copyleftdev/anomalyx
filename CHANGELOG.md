@@ -6,6 +6,38 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-31
+
+Format explosion — anomalyx now normalizes ~30 formats spanning logs, security
+telemetry, network captures, observability streams, spreadsheets, and data-lake
+files, all behind the same record-model boundary and detector taxonomy.
+
+### Added
+
+- **Logs & observability** parsers: `logfmt`, web access logs (Combined/Common),
+  `syslog` (RFC 3164/5424), `systemd journal` (`journalctl -o json`),
+  `Prometheus`/OpenMetrics, and `OpenTelemetry` (OTLP/JSON traces).
+- **Security telemetry** parsers: `CEF`/`LEEF`, Linux `auditd`, `EVTX` (Windows
+  Event Log), Suricata/Zeek `EVE` JSON, `osquery` results, and AWS `CloudTrail`.
+- **Network** parsers: `PCAP`/`PCAPNG` (beaconing/C2 via `cadence`), `NetFlow`/
+  IPFIX (nfdump CSV), AWS `VPC Flow Logs`, and DNS query logs (DGA/exfil via
+  `point` on query-name entropy/length).
+- **Structured-data** parsers: `YAML`, `TOML`/`INI`, and `XML`
+  (Nessus/OpenVAS/SOAP).
+- **Columnar, data-lake & database** parsers: `Avro`, `ORC`, Excel/`ODS`
+  (`xlsx`/`xls`/`xlsb`), and `SQLite` — joining the existing Parquet/Arrow.
+- Several parsers **compute detection features** (DNS name entropy/length, flow
+  `duration`, span durations, normalized epoch timestamps) and rename source
+  fields to a canonical schema.
+- Binary/heavyweight parsers sit behind **default-on feature flags**
+  (`evtx`, `pcap`, `xlsx`, `sqlite`, `datalake`, `polars`), so
+  `--no-default-features` is a lean text-only normalizer.
+
+### Notes
+
+- 32 parser plugins total; each ships its own property/exact tests and passes
+  the workspace-wide 0-surviving-mutant gate.
+
 ## [0.1.0] - 2026-05-30
 
 Initial release — a contract-first anomaly-detection CLI over arbitrary corpora.
@@ -47,5 +79,6 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/copyleftdev/anomalyx/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/copyleftdev/anomalyx/releases/tag/v0.1.0
