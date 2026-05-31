@@ -4,6 +4,7 @@
 
 use crate::parser::ParserRegistry;
 
+pub mod accesslog;
 pub mod delimited;
 pub mod json;
 pub mod logfmt;
@@ -13,6 +14,7 @@ pub mod zeek;
 #[cfg(feature = "polars")]
 pub mod columnar;
 
+pub use accesslog::AccessLogParser;
 pub use delimited::{CsvParser, TsvParser};
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
@@ -31,6 +33,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(NdjsonParser));
     r.register(Box::new(ZeekParser));
     r.register(Box::new(LogfmtParser));
+    r.register(Box::new(AccessLogParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));

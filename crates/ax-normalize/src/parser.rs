@@ -210,10 +210,26 @@ mod tests {
         // register with the `polars` feature.
         #[cfg(feature = "polars")]
         let expected = vec![
-            "parquet", "arrow", "ndjson", "zeek", "logfmt", "json", "tsv", "csv",
+            "parquet",
+            "arrow",
+            "ndjson",
+            "zeek",
+            "logfmt",
+            "accesslog",
+            "json",
+            "tsv",
+            "csv",
         ];
         #[cfg(not(feature = "polars"))]
-        let expected = vec!["ndjson", "zeek", "logfmt", "json", "tsv", "csv"];
+        let expected = vec![
+            "ndjson",
+            "zeek",
+            "logfmt",
+            "accesslog",
+            "json",
+            "tsv",
+            "csv",
+        ];
         assert_eq!(reg().ids(), expected);
     }
 }
