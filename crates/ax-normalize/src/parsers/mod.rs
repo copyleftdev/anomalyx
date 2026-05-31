@@ -26,6 +26,7 @@ pub mod prometheus;
 pub mod syslog;
 pub mod toml;
 pub mod vpcflow;
+pub mod xml;
 pub mod yaml;
 pub mod zeek;
 
@@ -54,6 +55,7 @@ pub use prometheus::PrometheusParser;
 pub use syslog::SyslogParser;
 pub use toml::{IniParser, TomlParser};
 pub use vpcflow::VpcFlowParser;
+pub use xml::XmlParser;
 pub use yaml::YamlParser;
 pub use zeek::ZeekParser;
 
@@ -91,6 +93,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(AuditdParser));
     r.register(Box::new(DnsParser));
     r.register(Box::new(PrometheusParser));
+    r.register(Box::new(XmlParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(YamlParser));
     r.register(Box::new(TomlParser));

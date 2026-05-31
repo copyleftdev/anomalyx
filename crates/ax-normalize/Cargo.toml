@@ -30,6 +30,9 @@ toml = "0.8"
 # deterministic — syslog_loose's default path reads the wall clock / local zone.
 syslog_loose = "0.23"
 chrono = "0.4"
+# XML (scan reports like Nessus/OpenVAS, SOAP, configs). Read-only DOM; we flatten
+# the most-repeated element group to rows. Lightweight, pure-Rust, deterministic.
+roxmltree = "0.21"
 # Polars/Arrow backbone for binary columnar formats (Parquet, Arrow IPC), behind
 # the RecordSet boundary and the default-on `polars` feature. Text formats never
 # touch it; `--no-default-features` yields a lean text-only normalizer.

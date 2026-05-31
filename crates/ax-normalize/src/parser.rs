@@ -234,6 +234,7 @@ mod tests {
             "auditd",
             "dns",
             "prometheus",
+            "xml",
             "json",
             "yaml",
             "toml",
