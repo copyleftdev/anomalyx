@@ -6,6 +6,38 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-31
+
+Column scoping — focus detection on the columns that matter in a wide corpus,
+deterministically and without guessing.
+
+### Added
+
+- `scan` / `explain` gain **`--columns C,..`** (analyze only these columns) and
+  **`--exclude C,..`** (analyze every column except these). The two are mutually
+  exclusive. Projection is applied before detection and to the baseline as well,
+  so drift comparison stays consistent.
+- Column scoping is **explicit, never heuristic.** anomalyx will not guess which
+  columns are "interesting" — a silent auto-skip would itself be a guess, and
+  would wrongly drop exactly the near-unique numeric measurements the marquee
+  detectors rely on (packet `durationNanos`, span durations, latencies). You name
+  the scope; the result stays deterministic and reproducible.
+- An unknown column name in `--columns`/`--exclude` on the primary corpus is a
+  hard error (exit `2`) — a typo can never silently scope a scan down to nothing
+  and read as "clean". The baseline is projected leniently (it is a different
+  corpus and need not carry every scoped column).
+
+### Notes
+
+- This directly tames wide, identifier-heavy corpora. On a real 20k-entry
+  `journalctl -o json` capture, `scan` emits ~10k mostly-noise `point` findings
+  across journald's many ID/counter/timestamp fields; `scan --exclude` of those
+  fields (or `--columns` of the meaningful ones) collapses that to a couple
+  hundred focused findings without touching detector configuration.
+- New `RecordSet::select` / `RecordSet::without` projection primitives in
+  `ax-core`. No envelope or `config_version` change — column scope is an
+  input-side projection, so the determinism contract is unchanged.
+
 ## [0.2.2] - 2026-05-31
 
 ### Fixed
@@ -106,7 +138,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/copyleftdev/anomalyx/compare/v0.1.0...v0.2.0

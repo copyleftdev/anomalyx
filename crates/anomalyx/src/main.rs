@@ -70,12 +70,14 @@ fn usage() -> &'static str {
      USAGE:\n\
      \x20 anomalyx describe                         Protocol metadata\n\
      \x20 anomalyx schema                           JSON Schema of scan output\n\
-     \x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [PATH]\n\
-     \x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [PATH]\n\
+     \x20 anomalyx scan [--baseline B] [--period N] [--cadence COL] [--columns C,..|--exclude C,..] [PATH]\n\
+     \x20 anomalyx explain <HANDLE> [--baseline B] [--period N] [--cadence COL] [--columns C,..|--exclude C,..] [PATH]\n\
      \n\
      --baseline B  compare against B (distributional drift + schema-diff)\n\
      --period N    treat rows as a time series of period N (contextual/seasonal)\n\
      --cadence COL assess column COL for metronomic timing (cadence)\n\
+     --columns C,.. analyze only these columns (focus a wide corpus)\n\
+     --exclude C,.. analyze every column except these\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
@@ -87,7 +89,20 @@ struct ScanArgs {
     baseline: Option<String>,
     period: Option<usize>,
     cadence: Option<String>,
+    /// `--columns`: analyze only these columns (allowlist).
+    columns: Option<Vec<String>>,
+    /// `--exclude`: analyze every column except these (denylist).
+    exclude: Option<Vec<String>>,
     positional: Vec<String>,
+}
+
+/// Splits a `--columns`/`--exclude` value into trimmed, non-empty column names.
+fn parse_column_list(v: &str) -> Vec<String> {
+    v.split(',')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .map(str::to_string)
+        .collect()
 }
 
 fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
@@ -116,10 +131,62 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                     .ok_or_else(|| AxError::Config("--cadence requires a column name".into()))?;
                 parsed.cadence = Some(v.clone());
             }
+            "--columns" => {
+                let v = it.next().ok_or_else(|| {
+                    AxError::Config("--columns requires a comma-separated list".into())
+                })?;
+                let cols = parse_column_list(v);
+                if cols.is_empty() {
+                    return Err(AxError::Config(
+                        "--columns requires at least one column name".into(),
+                    ));
+                }
+                parsed.columns = Some(cols);
+            }
+            "--exclude" => {
+                let v = it.next().ok_or_else(|| {
+                    AxError::Config("--exclude requires a comma-separated list".into())
+                })?;
+                let cols = parse_column_list(v);
+                if cols.is_empty() {
+                    return Err(AxError::Config(
+                        "--exclude requires at least one column name".into(),
+                    ));
+                }
+                parsed.exclude = Some(cols);
+            }
             _ => parsed.positional.push(arg.clone()),
         }
     }
+    if parsed.columns.is_some() && parsed.exclude.is_some() {
+        return Err(AxError::Config(
+            "use --columns or --exclude, not both".into(),
+        ));
+    }
     Ok(parsed)
+}
+
+/// Applies any `--columns`/`--exclude` projection to a record set before
+/// detection. When `validate` is set (the primary corpus), an unknown column
+/// name is a hard error (exit 2) — a typo must never silently scope the scan
+/// down to nothing and read as "clean". The baseline is projected leniently
+/// (`validate = false`): it is a different corpus and need not carry every
+/// scoped column.
+fn scope_columns(rs: RecordSet, args: &ScanArgs, validate: bool) -> Result<RecordSet, AxError> {
+    if validate {
+        if let Some(names) = args.columns.as_ref().or(args.exclude.as_ref()) {
+            for n in names {
+                if rs.column(n).is_none() {
+                    return Err(AxError::Config(format!("no such column '{n}'")));
+                }
+            }
+        }
+    }
+    Ok(match (&args.columns, &args.exclude) {
+        (Some(keep), _) => rs.select(keep),
+        (_, Some(drop)) => rs.without(drop),
+        _ => rs,
+    })
 }
 
 /// Builds the detector config, applying any `--period` / `--cadence` overrides.
@@ -162,8 +229,10 @@ fn load_baseline(path: &Option<String>) -> Result<Option<RecordSet>, AxError> {
 fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
     let args = parse_scan_args(rest)?;
     let (source, bytes) = read_input(args.positional.first())?;
-    let rs = ax_normalize::normalize(&source, &bytes)?;
-    let baseline = load_baseline(&args.baseline)?;
+    let rs = scope_columns(ax_normalize::normalize(&source, &bytes)?, &args, true)?;
+    let baseline = load_baseline(&args.baseline)?
+        .map(|b| scope_columns(b, &args, false))
+        .transpose()?;
 
     let cfg = config_for(&args);
     let ctx = match &baseline {
@@ -202,8 +271,10 @@ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
     let handle = Handle::parse(handle_str).ok_or_else(|| AxError::BadHandle(handle_str.clone()))?;
 
     let (source, bytes) = read_input(args.positional.get(1))?;
-    let rs = ax_normalize::normalize(&source, &bytes)?;
-    let baseline = load_baseline(&args.baseline)?;
+    let rs = scope_columns(ax_normalize::normalize(&source, &bytes)?, &args, true)?;
+    let baseline = load_baseline(&args.baseline)?
+        .map(|b| scope_columns(b, &args, false))
+        .transpose()?;
 
     let evidence = resolve_handle(&rs, &handle)?;
 
@@ -461,6 +532,102 @@ mod tests {
         assert!(parse_scan_args(&strings(&["--baseline"])).is_err());
         assert!(parse_scan_args(&strings(&["--period"])).is_err());
         assert!(parse_scan_args(&strings(&["--period", "notanumber"])).is_err());
+    }
+
+    #[test]
+    fn parse_column_list_trims_and_drops_empties() {
+        assert_eq!(parse_column_list("a, b ,c"), strings(&["a", "b", "c"]));
+        // surrounding/empty entries are dropped, not kept as ""
+        assert_eq!(parse_column_list(",a,,"), strings(&["a"]));
+        assert!(parse_column_list(" , ").is_empty());
+    }
+
+    #[test]
+    fn parse_scan_args_parses_columns_and_exclude() {
+        let a = parse_scan_args(&strings(&["--columns", "p,q", "cur.csv"])).unwrap();
+        assert_eq!(a.columns, Some(strings(&["p", "q"])));
+        assert_eq!(a.exclude, None);
+        let b = parse_scan_args(&strings(&["--exclude", "noise", "cur.csv"])).unwrap();
+        assert_eq!(b.exclude, Some(strings(&["noise"])));
+        assert_eq!(b.columns, None);
+    }
+
+    #[test]
+    fn parse_scan_args_rejects_columns_and_exclude_together() {
+        assert!(parse_scan_args(&strings(&["--columns", "a", "--exclude", "b"])).is_err());
+    }
+
+    #[test]
+    fn parse_scan_args_rejects_missing_or_empty_column_lists() {
+        assert!(parse_scan_args(&strings(&["--columns"])).is_err());
+        assert!(parse_scan_args(&strings(&["--exclude"])).is_err());
+        assert!(parse_scan_args(&strings(&["--columns", " , "])).is_err());
+        assert!(parse_scan_args(&strings(&["--exclude", ","])).is_err());
+    }
+
+    fn abc() -> RecordSet {
+        RecordSet::new(
+            "-",
+            "csv",
+            vec![
+                Column::new("a", vec![Value::Int(1), Value::Int(2)]),
+                Column::new("b", vec![Value::Int(3), Value::Int(4)]),
+                Column::new("c", vec![Value::Int(5), Value::Int(6)]),
+            ],
+        )
+    }
+
+    #[test]
+    fn scope_columns_select_keeps_only_named() {
+        let args = ScanArgs {
+            columns: Some(strings(&["a", "c"])),
+            ..ScanArgs::default()
+        };
+        let rs = scope_columns(abc(), &args, true).unwrap();
+        let names: Vec<&str> = rs.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a", "c"]);
+    }
+
+    #[test]
+    fn scope_columns_exclude_drops_named() {
+        let args = ScanArgs {
+            exclude: Some(strings(&["b"])),
+            ..ScanArgs::default()
+        };
+        let rs = scope_columns(abc(), &args, true).unwrap();
+        let names: Vec<&str> = rs.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a", "c"]);
+    }
+
+    #[test]
+    fn scope_columns_validates_unknown_name_on_primary() {
+        // A typo'd column on the primary corpus is a hard error, never a silent
+        // empty scan that reads as "clean".
+        let args = ScanArgs {
+            columns: Some(strings(&["a", "typo"])),
+            ..ScanArgs::default()
+        };
+        assert!(scope_columns(abc(), &args, true).is_err());
+        // The same unknown name on the baseline (validate = false) is tolerated:
+        // a different corpus need not carry every scoped column.
+        let scoped = scope_columns(abc(), &args, false).unwrap();
+        let names: Vec<&str> = scoped.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a"]);
+    }
+
+    #[test]
+    fn scope_columns_unknown_exclude_name_also_validated() {
+        let args = ScanArgs {
+            exclude: Some(strings(&["typo"])),
+            ..ScanArgs::default()
+        };
+        assert!(scope_columns(abc(), &args, true).is_err());
+    }
+
+    #[test]
+    fn scope_columns_noop_without_flags() {
+        let rs = scope_columns(abc(), &ScanArgs::default(), true).unwrap();
+        assert_eq!(rs.width(), 3);
     }
 
     #[test]
