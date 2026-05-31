@@ -1,2 +1,0 @@
-crates/ax-normalize/src/parsers/zeek.rs:28:9: replace ZeekParser::err -> AxError with Default::default()
-crates/ax-normalize/src/parsers/zeek.rs:49:9: replace <impl FormatParser for ZeekParser>::parse -> Result<Vec<Column>, AxError> with Ok(vec![Default::default()])
