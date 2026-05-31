@@ -26,6 +26,8 @@ pub mod prometheus;
 pub mod syslog;
 pub mod toml;
 pub mod vpcflow;
+#[cfg(feature = "xlsx")]
+pub mod xlsx;
 pub mod xml;
 pub mod yaml;
 pub mod zeek;
@@ -55,6 +57,8 @@ pub use prometheus::PrometheusParser;
 pub use syslog::SyslogParser;
 pub use toml::{IniParser, TomlParser};
 pub use vpcflow::VpcFlowParser;
+#[cfg(feature = "xlsx")]
+pub use xlsx::XlsxParser;
 pub use xml::XmlParser;
 pub use yaml::YamlParser;
 pub use zeek::ZeekParser;
@@ -74,6 +78,8 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(EvtxParser));
     #[cfg(feature = "pcap")]
     r.register(Box::new(PcapParser));
+    #[cfg(feature = "xlsx")]
+    r.register(Box::new(XlsxParser));
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));

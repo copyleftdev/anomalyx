@@ -51,12 +51,20 @@ evtx = { version = "0.11", optional = true }
 # feature, so the text-only build stays lean.
 pcap-parser = { version = "0.17", optional = true }
 etherparse = { version = "0.20", optional = true }
+# Excel (.xlsx/.xls/.xlsb) and OpenDocument (.ods) spreadsheets. calamine reads
+# all of them (pure Rust) and we lower the first sheet to a RecordSet. Behind the
+# default-on `xlsx` feature (binary format), so the text-only build stays lean.
+calamine = { version = "0.35", optional = true }
 
 [features]
-default = ["polars", "evtx", "pcap"]
+default = ["polars", "evtx", "pcap", "xlsx"]
 polars = ["dep:polars"]
 evtx = ["dep:evtx"]
 pcap = ["dep:pcap-parser", "dep:etherparse"]
+xlsx = ["dep:calamine"]
 
 [dev-dependencies]
 proptest = { workspace = true }
+# Writes a tiny .xlsx in-memory for the xlsx parser's roundtrip test (no
+# committed binary fixture).
+rust_xlsxwriter = "0.95"
