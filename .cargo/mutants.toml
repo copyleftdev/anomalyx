@@ -20,6 +20,10 @@ exclude_re = [
     # behavior — no input can observe the difference. (Same case as Zeek above.)
     'JournalParser>::extensions.*Vec::new',
 
+    # EveParser also claims no extension (returns `&[]`) — same empty-slice
+    # equivalence as Zeek/Journal above.
+    'EveParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`

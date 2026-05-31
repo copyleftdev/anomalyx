@@ -7,6 +7,7 @@ use crate::parser::ParserRegistry;
 pub mod accesslog;
 pub mod cef;
 pub mod delimited;
+pub mod eve;
 pub mod journal;
 pub mod json;
 pub mod logfmt;
@@ -24,6 +25,7 @@ pub mod columnar;
 pub use accesslog::AccessLogParser;
 pub use cef::{CefParser, LeefParser};
 pub use delimited::{CsvParser, TsvParser};
+pub use eve::EveParser;
 pub use journal::JournalParser;
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
@@ -47,8 +49,9 @@ pub fn default_registry() -> ParserRegistry {
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));
-    // Journal before NDJSON: a journald export is NDJSON, so its trusted-field
-    // signature must claim it before the generic NDJSON shape does.
+    // EVE and Journal before NDJSON: both are NDJSON dialects, so their content
+    // signatures must claim them before the generic NDJSON shape does.
+    r.register(Box::new(EveParser));
     r.register(Box::new(JournalParser));
     r.register(Box::new(NdjsonParser));
     r.register(Box::new(ZeekParser));
