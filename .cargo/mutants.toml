@@ -10,6 +10,11 @@ exclude_re = [
     # behaviorally identical to `<`. Provably equivalent, not a test gap.
     "replace < with <= in tab_before_comma",
 
+    # ZeekParser claims no file extension (returns `&[]`), so the `Vec::new()`
+    # mutant produces the same empty slice — identical behavior. (The non-empty
+    # `vec![…]` extension mutants ARE caught, by a `extensions().is_empty()` test.)
+    'ZeekParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`
