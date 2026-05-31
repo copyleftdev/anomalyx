@@ -55,13 +55,21 @@ etherparse = { version = "0.20", optional = true }
 # all of them (pure Rust) and we lower the first sheet to a RecordSet. Behind the
 # default-on `xlsx` feature (binary format), so the text-only build stays lean.
 calamine = { version = "0.35", optional = true }
+# SQLite database files. `bundled` compiles SQLite from source (self-contained,
+# no system lib) with the deserialize API so we can open a DB from a byte buffer.
+# Behind the default-on `sqlite` feature (binary format).
+rusqlite = { version = "0.40", features = [
+    "bundled",
+    "serialize",
+], optional = true }
 
 [features]
-default = ["polars", "evtx", "pcap", "xlsx"]
+default = ["polars", "evtx", "pcap", "xlsx", "sqlite"]
 polars = ["dep:polars"]
 evtx = ["dep:evtx"]
 pcap = ["dep:pcap-parser", "dep:etherparse"]
 xlsx = ["dep:calamine"]
+sqlite = ["dep:rusqlite"]
 
 [dev-dependencies]
 proptest = { workspace = true }
