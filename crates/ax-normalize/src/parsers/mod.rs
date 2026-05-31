@@ -9,6 +9,7 @@ pub mod delimited;
 pub mod json;
 pub mod logfmt;
 pub mod ndjson;
+pub mod otlp;
 pub mod prometheus;
 pub mod toml;
 pub mod yaml;
@@ -22,6 +23,7 @@ pub use delimited::{CsvParser, TsvParser};
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
+pub use otlp::OtlpParser;
 pub use prometheus::PrometheusParser;
 pub use toml::{IniParser, TomlParser};
 pub use yaml::YamlParser;
@@ -36,6 +38,9 @@ pub use columnar::{ArrowParser, ParquetParser};
 pub fn default_registry() -> ParserRegistry {
     let mut r = ParserRegistry::new();
     register_binary(&mut r);
+    // OTLP before NDJSON: a compact single-object OTLP doc must win the
+    // `resourceSpans` signature before any JSON-line heuristic sees it.
+    r.register(Box::new(OtlpParser));
     r.register(Box::new(NdjsonParser));
     r.register(Box::new(ZeekParser));
     r.register(Box::new(LogfmtParser));
