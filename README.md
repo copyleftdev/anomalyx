@@ -38,6 +38,12 @@ With `--cadence COL`, column `COL` is read as event times and assessed for
 metronomic (automated) regularity. Without it the cadence detector is absent —
 which column means "time" is never guessed.
 
+With `--columns C,..` (or its complement `--exclude C,..`) detection is scoped to
+a chosen set of columns — the answer to identifier noise on wide corpora (e.g.
+`journalctl -o json | anomalyx scan --exclude JOB_ID,_PID,__REALTIME_TIMESTAMP`).
+The scope is explicit, never a heuristic guess; an unknown column name is a hard
+error so a typo can't silently scan nothing. See [scan modes](docs/src/modes.md).
+
 Exit codes are part of the contract: **`0`** clean · **`1`** anomalies found ·
 **`2`** tool error.
 

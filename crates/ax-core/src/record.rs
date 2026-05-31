@@ -7,6 +7,7 @@
 
 use crate::value::{ColType, Value};
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeSet;
 
 /// One named column with an inferred type and its cells in row order.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -93,6 +94,41 @@ impl RecordSet {
     pub fn column(&self, name: &str) -> Option<&Column> {
         self.columns.iter().find(|c| c.name == name)
     }
+
+    /// A copy keeping only the columns named in `names`, in their original
+    /// column order (not the order given). Names with no matching column are
+    /// silently skipped — callers that must reject an unknown name should
+    /// validate with [`Self::column`] first. Provenance is preserved.
+    ///
+    /// This is the column-scoping primitive behind `scan --columns`: it lets a
+    /// caller focus detection on a handful of meaningful columns in a wide
+    /// corpus (e.g. journald's dozens of identifier/counter fields).
+    pub fn select(&self, names: &[String]) -> RecordSet {
+        let keep: BTreeSet<&str> = names.iter().map(String::as_str).collect();
+        self.retain(|name| keep.contains(name))
+    }
+
+    /// A copy dropping the columns named in `names`, preserving the order and
+    /// provenance of the rest. The complement of [`Self::select`], behind
+    /// `scan --exclude`.
+    pub fn without(&self, names: &[String]) -> RecordSet {
+        let drop: BTreeSet<&str> = names.iter().map(String::as_str).collect();
+        self.retain(|name| !drop.contains(name))
+    }
+
+    /// Shared projection: a copy keeping columns whose name satisfies `keep`.
+    fn retain(&self, keep: impl Fn(&str) -> bool) -> RecordSet {
+        RecordSet {
+            source: self.source.clone(),
+            format: self.format.clone(),
+            columns: self
+                .columns
+                .iter()
+                .filter(|c| keep(&c.name))
+                .cloned()
+                .collect(),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -147,5 +183,61 @@ mod tests {
         assert_eq!(rs.width(), 2);
         assert!(rs.column("a").is_some());
         assert!(rs.column("z").is_none());
+    }
+
+    fn abc() -> RecordSet {
+        RecordSet::new(
+            "src.csv",
+            "csv",
+            vec![
+                Column::new("a", vec![Value::Int(1)]),
+                Column::new("b", vec![Value::Int(2)]),
+                Column::new("c", vec![Value::Int(3)]),
+            ],
+        )
+    }
+
+    #[test]
+    fn select_keeps_named_columns_in_original_order() {
+        // Requested order is "c,a" but the projection preserves the corpus's own
+        // column order (a then c); the dropped column (b) is gone; provenance kept.
+        let rs = abc().select(&["c".to_string(), "a".to_string()]);
+        let names: Vec<&str> = rs.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a", "c"]);
+        assert_eq!(rs.source, "src.csv");
+        assert_eq!(rs.format, "csv");
+        assert_eq!(rs.rows(), 1);
+    }
+
+    #[test]
+    fn select_skips_unknown_names() {
+        // An unknown name contributes nothing — only the real "a" survives.
+        let rs = abc().select(&["a".to_string(), "nope".to_string()]);
+        let names: Vec<&str> = rs.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a"]);
+    }
+
+    #[test]
+    fn select_empty_yields_no_columns() {
+        assert_eq!(abc().select(&[]).width(), 0);
+    }
+
+    #[test]
+    fn without_drops_named_columns_and_keeps_the_rest() {
+        let rs = abc().without(&["b".to_string()]);
+        let names: Vec<&str> = rs.columns.iter().map(|c| c.name.as_str()).collect();
+        assert_eq!(names, ["a", "c"]);
+        assert_eq!(rs.source, "src.csv");
+        assert_eq!(rs.format, "csv");
+    }
+
+    #[test]
+    fn without_empty_keeps_everything() {
+        assert_eq!(abc().without(&[]).width(), 3);
+    }
+
+    #[test]
+    fn without_unknown_name_is_a_noop() {
+        assert_eq!(abc().without(&["zzz".to_string()]).width(), 3);
     }
 }
