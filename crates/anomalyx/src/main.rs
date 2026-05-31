@@ -53,6 +53,10 @@ fn run(args: &[String]) -> Result<ExitCode, AxError> {
             println!("{}", usage());
             Ok(ExitCode::Clean)
         }
+        "-V" | "--version" | "version" => {
+            println!("anomalyx {}", env!("CARGO_PKG_VERSION"));
+            Ok(ExitCode::Clean)
+        }
         other => Err(AxError::Config(format!(
             "unknown command '{other}'\n{}",
             usage()
