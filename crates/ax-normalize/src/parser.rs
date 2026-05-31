@@ -216,6 +216,8 @@ mod tests {
         }
         #[cfg(feature = "evtx")]
         expected.push("evtx");
+        #[cfg(feature = "pcap")]
+        expected.push("pcap");
         expected.extend([
             "otlp",
             "cloudtrail",
