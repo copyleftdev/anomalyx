@@ -6,6 +6,7 @@ use crate::parser::ParserRegistry;
 
 pub mod delimited;
 pub mod json;
+pub mod logfmt;
 pub mod ndjson;
 pub mod zeek;
 
@@ -14,6 +15,7 @@ pub mod columnar;
 
 pub use delimited::{CsvParser, TsvParser};
 pub use json::JsonParser;
+pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
 pub use zeek::ZeekParser;
 
@@ -28,6 +30,7 @@ pub fn default_registry() -> ParserRegistry {
     register_binary(&mut r);
     r.register(Box::new(NdjsonParser));
     r.register(Box::new(ZeekParser));
+    r.register(Box::new(LogfmtParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));
