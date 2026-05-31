@@ -6,9 +6,14 @@
 
 Contract-first anomaly detection over arbitrary corpora — a CLI built on the
 thesis of [*AI Tools Need Contracts, Not Prompts*][article]: **the executable is
-the contract.** Point a normalizer at any supported format, run a battery of
-typed anomaly detectors, and get back a dense, versioned, machine-readable
-envelope an agent can trust — not pretty text it has to scrape.
+the contract.**
+
+anomalyx meets your data where it already lives. Point it at **~30 formats** —
+logs, security telemetry, packet captures, flow records, observability streams,
+spreadsheets, and data-lake files — and it normalizes each into one typed record
+model, runs a battery of deterministic anomaly detectors, and returns a dense,
+versioned, machine-readable envelope an agent can trust — not pretty text it has
+to scrape.
 
 [article]: https://dev.to/copyleftdev/ai-tools-need-contracts-not-prompts-5ca3
 
@@ -56,6 +61,35 @@ $ ... | anomalyx explain cell:amount:8
   cleanly with exit `2`.
 - **Handle-based evidence** — `scan` stays compact; `explain` drills in.
 
+## Formats
+
+**32 built-in parsers** across five domains — each an independent plugin, each
+lowered to the same typed `RecordSet`:
+
+- **Tabular & structured** — CSV, TSV, NDJSON, JSON, YAML, TOML/INI, XML
+- **Columnar, data-lake & databases** — Parquet, Arrow IPC, Avro, ORC,
+  Excel/ODS, SQLite
+- **Logs & observability** — logfmt, web access logs, syslog (RFC 3164/5424),
+  systemd journal, Prometheus/OpenMetrics, OpenTelemetry (OTLP)
+- **Security telemetry** — Zeek, CEF/LEEF, auditd, EVTX (Windows Event Log),
+  Suricata/Zeek EVE, osquery, AWS CloudTrail
+- **Network** — PCAP/PCAPNG, NetFlow/IPFIX (nfdump CSV), AWS VPC Flow Logs,
+  DNS query logs
+
+Several parsers compute the features the detectors want — DNS query-name entropy
+& length, flow `duration`, span durations, normalized timestamps — and rename
+cryptic source fields to a canonical schema. So the same taxonomy lights up
+across domains: **beaconing/C2** via `cadence` on PCAP inter-arrival times,
+**DGA/exfil** via `point` on DNS name entropy, **config drift** via
+`struct.schema` on YAML/TOML, **exfil** via `mv.mahalanobis` on NetFlow
+(bytes, packets, duration), **alert-type drift** via `dist.chi2` on EVE/CEF.
+
+Resolution is by extension first, then deterministic content sniff (binary magic
+before text signatures); an unrecognized stream is an explicit error, never a
+guess. Binary/heavyweight parsers sit behind default-on feature flags, so
+`--no-default-features` yields a lean, text-only normalizer. Full table:
+[docs › Input & normalization](https://copyleftdev.github.io/anomalyx/formats.html).
+
 ## Architecture
 
 ```
@@ -63,10 +97,10 @@ crates/
   ax-core       contract types: RecordSet, anomaly taxonomy, tq1 envelope,
                 handles, deterministic reductions  (no heavy deps — the contract
                 stays engine-independent and the mutation gate stays fast)
-  ax-normalize  any input format → RecordSet  (CSV/TSV/NDJSON/JSON via a lean
-                deterministic reader; Parquet/Arrow IPC via the Polars backbone,
-                behind the default-on `polars` feature — all lowered to the same
-                RecordSet so detectors never see a Polars type)
+  ax-normalize  any input format → RecordSet  (32 parser plugins — text via a
+                lean deterministic reader, binary/library-backed formats behind
+                default-on feature flags — all lowered to the same RecordSet so
+                detectors never see a library type. See "Formats" below)
   ax-detect     Detector trait + registry; detection math assembled from
                 statrs, not reinvented
   anomalyx      the four-verb CLI surface (the installable crate / binary)

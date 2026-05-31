@@ -8,9 +8,12 @@
 
 anomalyx is a deterministic Rust CLI built on the thesis of
 [*AI Tools Need Contracts, Not Prompts*][article]: **the executable is the
-contract.** Point it at any supported format, run a battery of typed anomaly
-detectors, and get back a dense, versioned, machine-readable envelope an agent
-(or a human) can trust — not pretty text that has to be scraped.
+contract.** Point it at **~30 formats** — logs, security telemetry, packet
+captures, flow records, observability streams, spreadsheets, and data-lake files
+([the full set](./formats.md)) — and it normalizes each into one typed record
+model, runs a battery of typed anomaly detectors, and returns a dense, versioned,
+machine-readable envelope an agent (or a human) can trust — not pretty text that
+has to be scraped.
 
 [article]: https://dev.to/copyleftdev/ai-tools-need-contracts-not-prompts-5ca3
 
