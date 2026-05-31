@@ -30,44 +30,7 @@ jobs:
       - name: Test (text-only, no Polars)
         run: cargo test -p anomalyx-normalize --no-default-features
 
-  mutants:
-    name: mutation gate (0 survivors)
-    runs-on: ubuntu-latest
-    # The signature gate: cargo-mutants fails the job if any mutant survives.
-    # Equivalent mutants are documented in .cargo/mutants.toml.
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v5
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-mutants
-      - name: Mutation testing
-        # The gate is ZERO SURVIVING (missed) mutants. `cargo mutants` also
-        # returns non-zero on timeouts — but the only timeouts here are
-        # loop-bound mutations in ks_statistic that hang (e.g. `i += 1` → `i *= 1`),
-        # which means they are *detected*, not survivors. So we gate explicitly on
-        # missed.txt and tolerate the timeout exit code, while still failing on a
-        # baseline/usage error (which leaves no results behind).
-        run: |
-          set +e
-          cargo mutants --workspace
-          echo "cargo-mutants exit code: $?"
-          if [ ! -f mutants.out/missed.txt ]; then
-            echo "::error::cargo-mutants produced no results (baseline or usage error)"
-            exit 1
-          fi
-          if [ -s mutants.out/missed.txt ]; then
-            echo "::error::surviving (missed) mutants found:"
-            cat mutants.out/missed.txt
-            exit 1
-          fi
-          echo "0 surviving mutants (timeouts are detected loop-bound mutations)"
-      - name: Upload mutants report
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: mutants-report
-          path: mutants.out/
-          if-no-files-found: ignore
+# The 0-surviving-mutant gate is intentionally NOT run in CI — cargo-mutants
+# spends far too many hosted-runner minutes. It is enforced locally instead via
+# `./scripts/gates.sh` and the `gate` workflow, and is the contributor's
+# responsibility before pushing (see CLAUDE.md).

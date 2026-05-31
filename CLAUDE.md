@@ -22,7 +22,9 @@ is a dense, versioned `tq1` JSON envelope an agent can trust — never pretty te
 4. **The strong gates are the definition of done.** Property-based tests
    (`proptest`) **and** mutation testing (`cargo-mutants`) with **zero surviving
    (missed) mutants**. Timeouts are acceptable (loop-bound hangs = detected).
-   Run `./scripts/gates.sh` before every push; CI enforces it.
+   Run `./scripts/gates.sh` before every push. CI runs fmt/clippy/test only —
+   the **mutation gate is local-only** (too many CI minutes) and is your
+   responsibility before pushing.
 5. **Equivalent mutants are documented, never blanket-suppressed.** If a mutant
    truly cannot change observable behavior, prove why in a comment and add a
    specific entry to `.cargo/mutants.toml`. Prefer killing it with a test or a

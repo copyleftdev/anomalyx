@@ -34,15 +34,16 @@ mutant survives."
 
 ## CI
 
-`.github/workflows/ci.yml` runs two jobs on every push and pull request:
+`.github/workflows/ci.yml` runs the fast gates on every push and pull request:
+`cargo fmt --check`, `cargo clippy -D warnings`, the full test suite, and the
+text-only `--no-default-features` build.
 
-- **gates** — `cargo fmt --check`, `cargo clippy -D warnings`, the full test
-  suite, and the text-only `--no-default-features` build.
-- **mutation gate** — `cargo mutants --workspace`, gated on zero surviving
-  mutants (with the mutants report uploaded as an artifact).
-
-Run it all locally with:
+The **mutation gate runs locally, not in CI** — `cargo mutants` is far too
+minutes-expensive on hosted runners. It is enforced before pushing via:
 
 ```console
-./scripts/gates.sh
+./scripts/gates.sh    # fmt · clippy · test · mutation (0 surviving mutants)
 ```
+
+and is the contributor's responsibility (the `gate` workflow can fan it out
+per-crate). Treat a green local mutation run as part of "done."

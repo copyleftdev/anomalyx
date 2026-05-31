@@ -135,8 +135,9 @@ $ ./scripts/gates.sh          # fmt · clippy -D warnings · tests · mutants==0
 ```
 
 Current status: workspace builds clean, `clippy -D warnings` passes, all tests
-green, and every crate passes the 0-survivor mutation gate. CI runs the same
-gates on every push (`.github/workflows/ci.yml`).
+green, and every crate passes the 0-survivor mutation gate. CI
+(`.github/workflows/ci.yml`) runs fmt/clippy/test on every push; the mutation
+gate runs locally via `./scripts/gates.sh` (it's too minutes-expensive for CI).
 
 ## License
 
