@@ -44,6 +44,10 @@ exclude_re = [
     # equivalence as the parsers above.
     'VpcFlowParser>::extensions.*Vec::new',
 
+    # DnsParser also claims no extension (returns `&[]`) — same empty-slice
+    # equivalence as the parsers above.
+    'DnsParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`

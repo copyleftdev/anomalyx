@@ -9,6 +9,7 @@ pub mod auditd;
 pub mod cef;
 pub mod cloudtrail;
 pub mod delimited;
+pub mod dns;
 pub mod eve;
 #[cfg(feature = "evtx")]
 pub mod evtx;
@@ -36,6 +37,7 @@ pub use auditd::AuditdParser;
 pub use cef::{CefParser, LeefParser};
 pub use cloudtrail::CloudTrailParser;
 pub use delimited::{CsvParser, TsvParser};
+pub use dns::DnsParser;
 pub use eve::EveParser;
 #[cfg(feature = "evtx")]
 pub use evtx::EvtxParser;
@@ -87,6 +89,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(CefParser));
     r.register(Box::new(LeefParser));
     r.register(Box::new(AuditdParser));
+    r.register(Box::new(DnsParser));
     r.register(Box::new(PrometheusParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(YamlParser));

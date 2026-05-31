@@ -232,6 +232,7 @@ mod tests {
             "cef",
             "leef",
             "auditd",
+            "dns",
             "prometheus",
             "json",
             "yaml",
