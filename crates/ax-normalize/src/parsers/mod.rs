@@ -24,6 +24,7 @@ pub mod pcap;
 pub mod prometheus;
 pub mod syslog;
 pub mod toml;
+pub mod vpcflow;
 pub mod yaml;
 pub mod zeek;
 
@@ -50,6 +51,7 @@ pub use pcap::PcapParser;
 pub use prometheus::PrometheusParser;
 pub use syslog::SyslogParser;
 pub use toml::{IniParser, TomlParser};
+pub use vpcflow::VpcFlowParser;
 pub use yaml::YamlParser;
 pub use zeek::ZeekParser;
 
@@ -91,6 +93,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(TomlParser));
     r.register(Box::new(IniParser));
     r.register(Box::new(NetflowParser));
+    r.register(Box::new(VpcFlowParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));
     r

@@ -238,6 +238,7 @@ mod tests {
             "toml",
             "ini",
             "netflow",
+            "vpcflow",
             "tsv",
             "csv",
         ]);
