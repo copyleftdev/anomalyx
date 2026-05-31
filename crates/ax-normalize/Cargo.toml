@@ -37,10 +37,16 @@ polars = { version = "0.53", default-features = false, features = [
     "parquet",
     "ipc",
 ], optional = true }
+# EVTX (Windows Event Log) is a binary format; delegated to the `evtx` crate,
+# which decodes each record to a serde_json::Value that we flatten like the other
+# JSON-shaped sources. Behind the default-on `evtx` feature, so the text-only
+# `--no-default-features` build stays lean.
+evtx = { version = "0.11", optional = true }
 
 [features]
-default = ["polars"]
+default = ["polars", "evtx"]
 polars = ["dep:polars"]
+evtx = ["dep:evtx"]
 
 [dev-dependencies]
 proptest = { workspace = true }
