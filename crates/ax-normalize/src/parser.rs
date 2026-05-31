@@ -206,12 +206,17 @@ mod tests {
 
     #[test]
     fn default_registry_lists_all_formats() {
-        // order matters for deterministic tie-breaking; binary formats only
-        // register with the `polars` feature.
+        // Registration order is the deterministic tie-break. Binary readers are
+        // feature-gated, so the expected list is composed per active feature.
+        let mut expected: Vec<&str> = Vec::new();
         #[cfg(feature = "polars")]
-        let expected = vec![
-            "parquet",
-            "arrow",
+        {
+            expected.push("parquet");
+            expected.push("arrow");
+        }
+        #[cfg(feature = "evtx")]
+        expected.push("evtx");
+        expected.extend([
             "otlp",
             "cloudtrail",
             "eve",
@@ -231,29 +236,7 @@ mod tests {
             "ini",
             "tsv",
             "csv",
-        ];
-        #[cfg(not(feature = "polars"))]
-        let expected = vec![
-            "otlp",
-            "cloudtrail",
-            "eve",
-            "journal",
-            "ndjson",
-            "zeek",
-            "logfmt",
-            "accesslog",
-            "syslog",
-            "cef",
-            "leef",
-            "auditd",
-            "prometheus",
-            "json",
-            "yaml",
-            "toml",
-            "ini",
-            "tsv",
-            "csv",
-        ];
+        ]);
         assert_eq!(reg().ids(), expected);
     }
 }

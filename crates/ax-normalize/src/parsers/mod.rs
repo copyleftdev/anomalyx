@@ -10,6 +10,8 @@ pub mod cef;
 pub mod cloudtrail;
 pub mod delimited;
 pub mod eve;
+#[cfg(feature = "evtx")]
+pub mod evtx;
 pub mod journal;
 pub mod json;
 pub mod logfmt;
@@ -30,6 +32,8 @@ pub use cef::{CefParser, LeefParser};
 pub use cloudtrail::CloudTrailParser;
 pub use delimited::{CsvParser, TsvParser};
 pub use eve::EveParser;
+#[cfg(feature = "evtx")]
+pub use evtx::EvtxParser;
 pub use journal::JournalParser;
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
@@ -50,6 +54,10 @@ pub use columnar::{ArrowParser, ParquetParser};
 pub fn default_registry() -> ParserRegistry {
     let mut r = ParserRegistry::new();
     register_binary(&mut r);
+    // EVTX is a binary format detected by its `ElfFile\0` magic; group it with the
+    // other magic-detected binary readers, ahead of the text shapes.
+    #[cfg(feature = "evtx")]
+    r.register(Box::new(EvtxParser));
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));
