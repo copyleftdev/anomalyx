@@ -222,6 +222,11 @@ mod tests {
         expected.push("xlsx");
         #[cfg(feature = "sqlite")]
         expected.push("sqlite");
+        #[cfg(feature = "datalake")]
+        {
+            expected.push("avro");
+            expected.push("orc");
+        }
         expected.extend([
             "otlp",
             "cloudtrail",

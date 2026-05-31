@@ -62,14 +62,23 @@ rusqlite = { version = "0.40", features = [
     "bundled",
     "serialize",
 ], optional = true }
+# Avro and ORC, the data-lake siblings of Parquet. Avro via apache-avro (records
+# flattened to columns); ORC via orc-rust into Arrow batches lowered to columns.
+# Behind the default-on `datalake` feature (binary formats).
+apache-avro = { version = "0.21", optional = true }
+orc-rust = { version = "0.8", optional = true }
+# Pinned to the arrow major that orc-rust depends on (so the RecordBatch types unify).
+arrow = { version = "58", optional = true, default-features = false }
+bytes = { version = "1", optional = true }
 
 [features]
-default = ["polars", "evtx", "pcap", "xlsx", "sqlite"]
+default = ["polars", "evtx", "pcap", "xlsx", "sqlite", "datalake"]
 polars = ["dep:polars"]
 evtx = ["dep:evtx"]
 pcap = ["dep:pcap-parser", "dep:etherparse"]
 xlsx = ["dep:calamine"]
 sqlite = ["dep:rusqlite"]
+datalake = ["dep:apache-avro", "dep:orc-rust", "dep:arrow", "dep:bytes"]
 
 [dev-dependencies]
 proptest = { workspace = true }

@@ -6,6 +6,8 @@ use crate::parser::ParserRegistry;
 
 pub mod accesslog;
 pub mod auditd;
+#[cfg(feature = "datalake")]
+pub mod avro;
 pub mod cef;
 pub mod cloudtrail;
 pub mod delimited;
@@ -39,6 +41,8 @@ pub mod columnar;
 
 pub use accesslog::AccessLogParser;
 pub use auditd::AuditdParser;
+#[cfg(feature = "datalake")]
+pub use avro::{AvroParser, OrcParser};
 pub use cef::{CefParser, LeefParser};
 pub use cloudtrail::CloudTrailParser;
 pub use delimited::{CsvParser, TsvParser};
@@ -86,6 +90,11 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(XlsxParser));
     #[cfg(feature = "sqlite")]
     r.register(Box::new(SqliteParser));
+    #[cfg(feature = "datalake")]
+    {
+        r.register(Box::new(AvroParser));
+        r.register(Box::new(OrcParser));
+    }
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));
