@@ -16,6 +16,7 @@ pub mod journal;
 pub mod json;
 pub mod logfmt;
 pub mod ndjson;
+pub mod osquery;
 pub mod otlp;
 pub mod prometheus;
 pub mod syslog;
@@ -38,6 +39,7 @@ pub use journal::JournalParser;
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
+pub use osquery::OsqueryParser;
 pub use otlp::OtlpParser;
 pub use prometheus::PrometheusParser;
 pub use syslog::SyslogParser;
@@ -66,6 +68,7 @@ pub fn default_registry() -> ParserRegistry {
     // signatures must claim them before the generic NDJSON shape does.
     r.register(Box::new(EveParser));
     r.register(Box::new(JournalParser));
+    r.register(Box::new(OsqueryParser));
     r.register(Box::new(NdjsonParser));
     r.register(Box::new(ZeekParser));
     r.register(Box::new(LogfmtParser));
