@@ -218,6 +218,7 @@ mod tests {
             "accesslog",
             "prometheus",
             "json",
+            "yaml",
             "tsv",
             "csv",
         ];
@@ -229,6 +230,7 @@ mod tests {
             "accesslog",
             "prometheus",
             "json",
+            "yaml",
             "tsv",
             "csv",
         ];

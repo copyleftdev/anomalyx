@@ -15,6 +15,10 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 csv = "1"
+# YAML manifests (Kubernetes / CI) are deserialized into a serde_json::Value and
+# lowered through the same record path as JSON. Lightweight, pure-Rust, and
+# deterministic (sorted keys), so it stays on in the text-only build too.
+serde_yaml = "0.9"
 # Polars/Arrow backbone for binary columnar formats (Parquet, Arrow IPC), behind
 # the RecordSet boundary and the default-on `polars` feature. Text formats never
 # touch it; `--no-default-features` yields a lean text-only normalizer.

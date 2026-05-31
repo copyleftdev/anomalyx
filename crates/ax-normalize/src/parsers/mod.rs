@@ -10,6 +10,7 @@ pub mod json;
 pub mod logfmt;
 pub mod ndjson;
 pub mod prometheus;
+pub mod yaml;
 pub mod zeek;
 
 #[cfg(feature = "polars")]
@@ -21,6 +22,7 @@ pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
 pub use prometheus::PrometheusParser;
+pub use yaml::YamlParser;
 pub use zeek::ZeekParser;
 
 #[cfg(feature = "polars")]
@@ -38,6 +40,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(AccessLogParser));
     r.register(Box::new(PrometheusParser));
     r.register(Box::new(JsonParser));
+    r.register(Box::new(YamlParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));
     r
