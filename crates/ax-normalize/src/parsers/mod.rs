@@ -10,6 +10,7 @@ pub mod json;
 pub mod logfmt;
 pub mod ndjson;
 pub mod prometheus;
+pub mod toml;
 pub mod yaml;
 pub mod zeek;
 
@@ -22,6 +23,7 @@ pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
 pub use prometheus::PrometheusParser;
+pub use toml::{IniParser, TomlParser};
 pub use yaml::YamlParser;
 pub use zeek::ZeekParser;
 
@@ -41,6 +43,8 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(PrometheusParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(YamlParser));
+    r.register(Box::new(TomlParser));
+    r.register(Box::new(IniParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));
     r

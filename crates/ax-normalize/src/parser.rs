@@ -219,6 +219,8 @@ mod tests {
             "prometheus",
             "json",
             "yaml",
+            "toml",
+            "ini",
             "tsv",
             "csv",
         ];
@@ -231,6 +233,8 @@ mod tests {
             "prometheus",
             "json",
             "yaml",
+            "toml",
+            "ini",
             "tsv",
             "csv",
         ];

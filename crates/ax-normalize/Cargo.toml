@@ -19,6 +19,10 @@ csv = "1"
 # lowered through the same record path as JSON. Lightweight, pure-Rust, and
 # deterministic (sorted keys), so it stays on in the text-only build too.
 serde_yaml = "0.9"
+# TOML configs. Parsed to a toml::Value, converted to a serde_json::Value, then
+# lowered like JSON/YAML. INI is hand-rolled (no extra dep). Both feed the
+# config-drift use case via struct.schema.
+toml = "0.8"
 # Polars/Arrow backbone for binary columnar formats (Parquet, Arrow IPC), behind
 # the RecordSet boundary and the default-on `polars` feature. Text formats never
 # touch it; `--no-default-features` yields a lean text-only normalizer.
