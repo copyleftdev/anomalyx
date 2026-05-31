@@ -237,6 +237,7 @@ mod tests {
             "yaml",
             "toml",
             "ini",
+            "netflow",
             "tsv",
             "csv",
         ]);

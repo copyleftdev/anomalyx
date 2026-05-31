@@ -16,6 +16,7 @@ pub mod journal;
 pub mod json;
 pub mod logfmt;
 pub mod ndjson;
+pub mod netflow;
 pub mod osquery;
 pub mod otlp;
 #[cfg(feature = "pcap")]
@@ -41,6 +42,7 @@ pub use journal::JournalParser;
 pub use json::JsonParser;
 pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
+pub use netflow::NetflowParser;
 pub use osquery::OsqueryParser;
 pub use otlp::OtlpParser;
 #[cfg(feature = "pcap")]
@@ -88,6 +90,7 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(YamlParser));
     r.register(Box::new(TomlParser));
     r.register(Box::new(IniParser));
+    r.register(Box::new(NetflowParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));
     r
