@@ -23,6 +23,13 @@ serde_yaml = "0.9"
 # lowered like JSON/YAML. INI is hand-rolled (no extra dep). Both feed the
 # config-drift use case via struct.schema.
 toml = "0.8"
+# Syslog (RFC 3164 / 5424) wire messages. The dual-RFC field parsing (BSD vs ISO
+# timestamps, structured data) is delegated to this permissive parser; we derive
+# the numeric facility/severity ourselves from the <PRI> header. We pin a fixed
+# year + UTC (chrono::Utc) when parsing so a year-less RFC 3164 timestamp stays
+# deterministic — syslog_loose's default path reads the wall clock / local zone.
+syslog_loose = "0.23"
+chrono = "0.4"
 # Polars/Arrow backbone for binary columnar formats (Parquet, Arrow IPC), behind
 # the RecordSet boundary and the default-on `polars` feature. Text formats never
 # touch it; `--no-default-features` yields a lean text-only normalizer.

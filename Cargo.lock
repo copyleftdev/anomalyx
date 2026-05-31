@@ -90,12 +90,14 @@ name = "anomalyx-normalize"
 version = "0.1.0"
 dependencies = [
  "anomalyx-core",
+ "chrono",
  "csv",
  "polars",
  "proptest",
  "serde",
  "serde_json",
  "serde_yaml",
+ "syslog_loose",
  "thiserror",
  "toml",
 ]
@@ -415,8 +417,10 @@ checksum = "c469d952047f47f91b68d1cba3f10d63c11d73e4636f24f08daf0278abf01c4d"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
+ "js-sys",
  "num-traits",
  "serde",
+ "wasm-bindgen",
  "windows-link 0.1.3",
 ]
 
@@ -1391,6 +1395,15 @@ dependencies = [
  "rand_distr 0.4.3",
  "simba",
  "typenum",
+]
+
+[[package]]
+name = "nom"
+version = "8.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "df9761775871bdef83bee530e60050f7e54b1105350d6884eb0fb4f46c2f9405"
+dependencies = [
+ "memchr",
 ]
 
 [[package]]
@@ -3052,6 +3065,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "syslog_loose"
+version = "0.23.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3ddbead3f86a91bd8c9b559ce0c5b0cbf03e774ffb7f8511eaf78375cc4a7837"
+dependencies = [
+ "chrono",
+ "nom",
 ]
 
 [[package]]
