@@ -7,6 +7,7 @@ use crate::parser::ParserRegistry;
 pub mod delimited;
 pub mod json;
 pub mod ndjson;
+pub mod zeek;
 
 #[cfg(feature = "polars")]
 pub mod columnar;
@@ -14,6 +15,7 @@ pub mod columnar;
 pub use delimited::{CsvParser, TsvParser};
 pub use json::JsonParser;
 pub use ndjson::NdjsonParser;
+pub use zeek::ZeekParser;
 
 #[cfg(feature = "polars")]
 pub use columnar::{ArrowParser, ParquetParser};
@@ -25,6 +27,7 @@ pub fn default_registry() -> ParserRegistry {
     let mut r = ParserRegistry::new();
     register_binary(&mut r);
     r.register(Box::new(NdjsonParser));
+    r.register(Box::new(ZeekParser));
     r.register(Box::new(JsonParser));
     r.register(Box::new(TsvParser));
     r.register(Box::new(CsvParser));

@@ -1,0 +1,24 @@
+--- crates/ax-normalize/src/parsers/zeek.rs
++++ replace ZeekParser::err -> AxError with Default::default()
+@@ -20,20 +20,17 @@
+     match token.strip_prefix("\\x") {
+         Some(hex) => u8::from_str_radix(hex, 16).ok().map(|b| b as char),
+         None => token.chars().next(),
+     }
+ }
+ 
+ impl ZeekParser {
+     fn err(&self, msg: impl std::fmt::Display) -> AxError {
+-        AxError::Parse {
+-            format: self.id().to_string(),
+-            message: msg.to_string(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl FormatParser for ZeekParser {
+     fn id(&self) -> &'static str {
+         "zeek"
+     }
+     fn extensions(&self) -> &'static [&'static str] {
