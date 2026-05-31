@@ -220,6 +220,8 @@ mod tests {
         expected.push("pcap");
         #[cfg(feature = "xlsx")]
         expected.push("xlsx");
+        #[cfg(feature = "sqlite")]
+        expected.push("sqlite");
         expected.extend([
             "otlp",
             "cloudtrail",

@@ -23,6 +23,8 @@ pub mod otlp;
 #[cfg(feature = "pcap")]
 pub mod pcap;
 pub mod prometheus;
+#[cfg(feature = "sqlite")]
+pub mod sqlite;
 pub mod syslog;
 pub mod toml;
 pub mod vpcflow;
@@ -54,6 +56,8 @@ pub use otlp::OtlpParser;
 #[cfg(feature = "pcap")]
 pub use pcap::PcapParser;
 pub use prometheus::PrometheusParser;
+#[cfg(feature = "sqlite")]
+pub use sqlite::SqliteParser;
 pub use syslog::SyslogParser;
 pub use toml::{IniParser, TomlParser};
 pub use vpcflow::VpcFlowParser;
@@ -80,6 +84,8 @@ pub fn default_registry() -> ParserRegistry {
     r.register(Box::new(PcapParser));
     #[cfg(feature = "xlsx")]
     r.register(Box::new(XlsxParser));
+    #[cfg(feature = "sqlite")]
+    r.register(Box::new(SqliteParser));
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));
