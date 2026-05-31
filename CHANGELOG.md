@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-05-31
+
+### Fixed
+
+- `describe` advertised only the original six `input_formats`
+  (`csv`/`tsv`/`ndjson`/`json`/`parquet`/`arrow`) — a stale literal that never
+  tracked the 26 parsers added since. It now derives the list from the live
+  parser registry, so it reflects exactly what the build reads (all 32 with
+  default features; fewer under `--no-default-features`). A guard test asserts
+  `describe`'s formats equal the registry, so it can't drift again.
+
+### Added
+
+- `anomalyx --version` (`-V` / `version`) prints the crate version.
+
 ## [0.2.0] - 2026-05-31
 
 Format explosion — anomalyx now normalizes ~30 formats spanning logs, security
@@ -79,6 +94,7 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/copyleftdev/anomalyx/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/copyleftdev/anomalyx/releases/tag/v0.1.0

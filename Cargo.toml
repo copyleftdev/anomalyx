@@ -9,7 +9,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 rust-version = "1.90"
 license = "MIT OR Apache-2.0"
@@ -22,9 +22,9 @@ authors = ["copyleftdev"]
 # `ax-*` names were taken), but the import/extern name stays `ax_core` etc. via
 # the dependency key + `package` rename — so no source code changes are needed.
 # Keep versions in sync with workspace.package.version above.
-ax-core = { path = "crates/ax-core", version = "0.2.0", package = "anomalyx-core" }
-ax-normalize = { path = "crates/ax-normalize", version = "0.2.0", package = "anomalyx-normalize" }
-ax-detect = { path = "crates/ax-detect", version = "0.2.0", package = "anomalyx-detect" }
+ax-core = { path = "crates/ax-core", version = "0.2.1", package = "anomalyx-core" }
+ax-normalize = { path = "crates/ax-normalize", version = "0.2.1", package = "anomalyx-normalize" }
+ax-detect = { path = "crates/ax-detect", version = "0.2.1", package = "anomalyx-detect" }
 
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

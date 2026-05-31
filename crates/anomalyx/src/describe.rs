@@ -9,11 +9,15 @@
 use ax_core::envelope::{ExitCode, FINDING_COLUMNS, PROTOCOL};
 use ax_core::AnomalyClass;
 use ax_detect::{DetectConfig, Registry};
+use ax_normalize::ParserRegistry;
 
 pub fn describe_json() -> String {
     let cfg = DetectConfig::default();
     let classes: Vec<&str> = AnomalyClass::ALL.iter().map(|c| c.token()).collect();
     let detectors = Registry::default_set().ids();
+    // Derived from the live parser registry (reflects this build's features), so
+    // the advertised formats can never drift from what `scan` actually reads.
+    let input_formats = ParserRegistry::default().ids();
 
     let doc = serde_json::json!({
         "protocol": PROTOCOL,
@@ -25,7 +29,7 @@ pub fn describe_json() -> String {
             "scan": "Normalize input (file or stdin) and emit a tq1 anomaly envelope.",
             "explain": "Resolve a finding handle to its underlying evidence."
         },
-        "input_formats": ["csv", "tsv", "ndjson", "json", "parquet", "arrow"],
+        "input_formats": input_formats,
         "anomaly_classes": classes,
         "detectors": detectors,
         "finding_columns": FINDING_COLUMNS,
@@ -54,5 +58,23 @@ mod tests {
             .unwrap()
             .contains(&serde_json::json!("point.modz")));
         assert_eq!(v["exit_codes"]["anomalies"], 1);
+    }
+
+    #[test]
+    fn input_formats_match_the_registry() {
+        // `describe` must advertise exactly the formats the build actually reads,
+        // never a stale hand-maintained list.
+        let v: serde_json::Value = serde_json::from_str(&describe_json()).unwrap();
+        let listed: Vec<String> = serde_json::from_value(v["input_formats"].clone()).unwrap();
+        let registry: Vec<String> = ParserRegistry::default()
+            .ids()
+            .iter()
+            .map(|s| (*s).to_string())
+            .collect();
+        assert_eq!(listed, registry);
+        assert!(
+            listed.len() >= 24,
+            "expected the full parser set, got {listed:?}"
+        );
     }
 }
