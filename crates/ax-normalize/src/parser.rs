@@ -209,9 +209,11 @@ mod tests {
         // order matters for deterministic tie-breaking; binary formats only
         // register with the `polars` feature.
         #[cfg(feature = "polars")]
-        let expected = vec!["parquet", "arrow", "ndjson", "zeek", "json", "tsv", "csv"];
+        let expected = vec![
+            "parquet", "arrow", "ndjson", "zeek", "logfmt", "json", "tsv", "csv",
+        ];
         #[cfg(not(feature = "polars"))]
-        let expected = vec!["ndjson", "zeek", "json", "tsv", "csv"];
+        let expected = vec!["ndjson", "zeek", "logfmt", "json", "tsv", "csv"];
         assert_eq!(reg().ids(), expected);
     }
 }

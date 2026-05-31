@@ -37,8 +37,22 @@ impl TableBuilder {
         i
     }
 
-    /// Adds one record. Objects contribute their fields; anything else goes to
-    /// the synthetic [`VALUE_COL`] column.
+    /// Adds one record from already-typed cells, keyed by column name. Columns
+    /// new to this record are created (back-filled with `Null`); columns absent
+    /// from it receive `Null`. Used by record-shaped parsers (NDJSON, logfmt).
+    pub fn push_row(&mut self, mut row: BTreeMap<String, Value>) {
+        for k in row.keys() {
+            self.ensure(k);
+        }
+        for (name, &i) in &self.index {
+            let cell = row.remove(name).unwrap_or(Value::Null);
+            self.cols[i].push(cell);
+        }
+        self.rows += 1;
+    }
+
+    /// Adds one JSON record. Objects contribute their fields; anything else goes
+    /// to the synthetic [`VALUE_COL`] column.
     pub fn push_value(&mut self, val: serde_json::Value) {
         let mut row: BTreeMap<String, Value> = BTreeMap::new();
         match val {
@@ -51,14 +65,7 @@ impl TableBuilder {
                 row.insert(VALUE_COL.to_string(), infer::json_to_value(&other));
             }
         }
-        for k in row.keys() {
-            self.ensure(k);
-        }
-        for (name, &i) in &self.index {
-            let cell = row.remove(name).unwrap_or(Value::Null);
-            self.cols[i].push(cell);
-        }
-        self.rows += 1;
+        self.push_row(row);
     }
 
     pub fn finish(self) -> Vec<Column> {
