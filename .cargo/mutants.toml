@@ -24,6 +24,10 @@ exclude_re = [
     # equivalence as Zeek/Journal above.
     'EveParser>::extensions.*Vec::new',
 
+    # CloudTrailParser also claims no extension (returns `&[]`) — same empty-slice
+    # equivalence as Zeek/Journal/Eve above.
+    'CloudTrailParser>::extensions.*Vec::new',
+
     # Parser sniff confidences are registered in strictly descending order
     # (MAGIC > STRONG > TEXT > FALLBACK), so the highest-confidence match is
     # always unique — no two firing parsers ever tie. The `>` → `==` / `>=`
