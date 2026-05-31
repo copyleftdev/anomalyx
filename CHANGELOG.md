@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-05-31
+
+### Fixed
+
+- A plain-text stream that merely *starts with* `[` or `{` (e.g. an Apache
+  `error_log`) was grabbed by the JSON parser's cheap content sniff and then
+  failed with a misleading `failed to parse json input`. Now a parse failure
+  under a **weak** (`TEXT`/`FALLBACK`) content guess is reported honestly as
+  `UnknownFormat` — "I don't recognize this" rather than "your JSON is broken".
+  A format identified confidently (by file extension, or a `MAGIC`/`STRONG`
+  signature) still surfaces a genuine malformed-file parse error as before.
+
 ## [0.2.1] - 2026-05-31
 
 ### Fixed
@@ -94,7 +106,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/copyleftdev/anomalyx/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/copyleftdev/anomalyx/releases/tag/v0.1.0

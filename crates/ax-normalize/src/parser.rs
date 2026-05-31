@@ -47,6 +47,14 @@ pub struct ParserRegistry {
     parsers: Vec<Box<dyn FormatParser>>,
 }
 
+/// How [`ParserRegistry::resolve_detail`] selected a parser.
+enum Resolution {
+    /// Matched a declared file extension (the user named the format).
+    Extension,
+    /// Matched a content sniff at this confidence.
+    Sniff(Confidence),
+}
+
 impl ParserRegistry {
     pub fn new() -> Self {
         ParserRegistry {
@@ -69,17 +77,20 @@ impl ParserRegistry {
         source.rsplit('.').next().map(|e| e.to_ascii_lowercase())
     }
 
-    /// Resolves the parser for `source`/`bytes`: a matching file extension wins;
-    /// otherwise the highest-confidence content sniff (first registered on a
-    /// tie). An unrecognized stream is [`AxError::UnknownFormat`], never a guess.
-    pub fn resolve(&self, source: &str, bytes: &[u8]) -> Result<&dyn FormatParser, AxError> {
+    /// How a parser was chosen — used to decide whether a downstream parse
+    /// failure is a real "malformed file" error or just a wrong content guess.
+    fn resolve_detail(
+        &self,
+        source: &str,
+        bytes: &[u8],
+    ) -> Result<(&dyn FormatParser, Resolution), AxError> {
         if let Some(ext) = Self::extension(source) {
             if let Some(p) = self
                 .parsers
                 .iter()
                 .find(|p| p.extensions().contains(&ext.as_str()))
             {
-                return Ok(p.as_ref());
+                return Ok((p.as_ref(), Resolution::Extension));
             }
         }
         // Highest sniff confidence; strict `>` keeps the first registered winner.
@@ -91,15 +102,35 @@ impl ParserRegistry {
                 }
             }
         }
-        best.map(|(_, p)| p)
+        best.map(|(c, p)| (p, Resolution::Sniff(c)))
             .ok_or_else(|| AxError::UnknownFormat(source.to_string()))
     }
 
+    /// Resolves the parser for `source`/`bytes`: a matching file extension wins;
+    /// otherwise the highest-confidence content sniff (first registered on a
+    /// tie). An unrecognized stream is [`AxError::UnknownFormat`], never a guess.
+    pub fn resolve(&self, source: &str, bytes: &[u8]) -> Result<&dyn FormatParser, AxError> {
+        self.resolve_detail(source, bytes).map(|(p, _)| p)
+    }
+
     /// Resolve, parse, and wrap into a [`RecordSet`] tagged with the parser id.
+    ///
+    /// When the parser was picked by a *weak* (`TEXT`/`FALLBACK`) content sniff
+    /// and then fails to parse, the content guess was simply wrong — so the
+    /// stream is reported as [`AxError::UnknownFormat`], not with that parser's
+    /// internal error (e.g. a plain-text file that merely starts with `[` is
+    /// "unrecognized", not "invalid JSON"). An explicit extension or a
+    /// `MAGIC`/`STRONG` signature that then fails is a genuine malformed-file
+    /// error and is surfaced as-is.
     pub fn normalize(&self, source: &str, bytes: &[u8]) -> Result<RecordSet, AxError> {
-        let parser = self.resolve(source, bytes)?;
-        let columns = parser.parse(source, bytes)?;
-        Ok(RecordSet::new(source, parser.id(), columns))
+        let (parser, how) = self.resolve_detail(source, bytes)?;
+        match parser.parse(source, bytes) {
+            Ok(columns) => Ok(RecordSet::new(source, parser.id(), columns)),
+            Err(_) if matches!(how, Resolution::Sniff(c) if c < STRONG) => {
+                Err(AxError::UnknownFormat(source.to_string()))
+            }
+            Err(e) => Err(e),
+        }
     }
 
     /// Normalize with an explicitly chosen parser id (skips detection).
@@ -180,6 +211,34 @@ mod tests {
             reg().resolve("-", &[0x00, 0x01, 0x02, 0xff]),
             Err(AxError::UnknownFormat(_))
         ));
+    }
+
+    #[test]
+    fn weak_sniff_parse_failure_is_unrecognized_not_misleading() {
+        // A plain-text line that merely starts with `[` (e.g. an Apache
+        // error_log) is grabbed by the JSON parser's cheap TEXT sniff. When the
+        // JSON parse then fails, the content guess was wrong → report
+        // UnknownFormat, not a confusing "invalid JSON" parse error.
+        let r = reg().normalize("-", b"[Sun Dec 04 04:47:44 2005] [error] not json");
+        assert!(matches!(r, Err(AxError::UnknownFormat(_))), "got {r:?}");
+    }
+
+    #[test]
+    fn malformed_input_under_a_claimed_extension_is_a_parse_error() {
+        // But when the FORMAT was confidently identified — here by the `.json`
+        // extension — a parse failure is a genuine malformed-file error and is
+        // surfaced as such, not masked as UnknownFormat.
+        let r = reg().normalize("data.json", b"{not valid json");
+        assert!(matches!(r, Err(AxError::Parse { .. })), "got {r:?}");
+    }
+
+    #[test]
+    fn malformed_input_under_a_strong_sniff_is_a_parse_error() {
+        // A STRONG content signature that then fails to parse is a real
+        // malformed-file error, not "unrecognized" — pins the `< STRONG`
+        // boundary. Zeek sniffs STRONG on `#separator` but needs `#fields`.
+        let r = reg().normalize("-", b"#separator \\x09\n#path\tconn\n");
+        assert!(matches!(r, Err(AxError::Parse { .. })), "got {r:?}");
     }
 
     #[test]
