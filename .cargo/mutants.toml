@@ -84,6 +84,11 @@ exclude_re = [
     # caught as a timeout by the `a=1 b=2` test.)
     'replace \+ with \* in parse_cef_extension',
 
+    # `avro_to_value`'s explicit `AvroValue::Null => Value::Null` arm and its
+    # catch-all `_ => Value::Null` (for complex/unmodelled types) return the same
+    # value, so deleting the Null arm is behaviorally identical. Equivalent.
+    "delete match arm AvroValue::Null in avro_to_value",
+
     # `naive_one_pass_variance` is a deliberately *inaccurate* reference baseline
     # (the textbook one-pass formula), kept only to demonstrate the precision gap
     # against our compensated reductions. Its sole contract — "less accurate than
