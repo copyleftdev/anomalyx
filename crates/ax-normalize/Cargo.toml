@@ -42,11 +42,18 @@ polars = { version = "0.53", default-features = false, features = [
 # JSON-shaped sources. Behind the default-on `evtx` feature, so the text-only
 # `--no-default-features` build stays lean.
 evtx = { version = "0.11", optional = true }
+# PCAP / PCAPNG packet captures. `pcap-parser` decodes the container (both
+# formats) into per-packet timestamp/length/data; `etherparse` decodes the
+# Ethernet/IPv4/transport headers to src/dst/ports. Behind the default-on `pcap`
+# feature, so the text-only build stays lean.
+pcap-parser = { version = "0.17", optional = true }
+etherparse = { version = "0.20", optional = true }
 
 [features]
-default = ["polars", "evtx"]
+default = ["polars", "evtx", "pcap"]
 polars = ["dep:polars"]
 evtx = ["dep:evtx"]
+pcap = ["dep:pcap-parser", "dep:etherparse"]
 
 [dev-dependencies]
 proptest = { workspace = true }

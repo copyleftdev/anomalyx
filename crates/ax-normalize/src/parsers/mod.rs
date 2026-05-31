@@ -18,6 +18,8 @@ pub mod logfmt;
 pub mod ndjson;
 pub mod osquery;
 pub mod otlp;
+#[cfg(feature = "pcap")]
+pub mod pcap;
 pub mod prometheus;
 pub mod syslog;
 pub mod toml;
@@ -41,6 +43,8 @@ pub use logfmt::LogfmtParser;
 pub use ndjson::NdjsonParser;
 pub use osquery::OsqueryParser;
 pub use otlp::OtlpParser;
+#[cfg(feature = "pcap")]
+pub use pcap::PcapParser;
 pub use prometheus::PrometheusParser;
 pub use syslog::SyslogParser;
 pub use toml::{IniParser, TomlParser};
@@ -60,6 +64,8 @@ pub fn default_registry() -> ParserRegistry {
     // other magic-detected binary readers, ahead of the text shapes.
     #[cfg(feature = "evtx")]
     r.register(Box::new(EvtxParser));
+    #[cfg(feature = "pcap")]
+    r.register(Box::new(PcapParser));
     // OTLP before NDJSON: a compact single-object OTLP doc must win the
     // `resourceSpans` signature before any JSON-line heuristic sees it.
     r.register(Box::new(OtlpParser));
