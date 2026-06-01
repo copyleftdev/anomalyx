@@ -33,6 +33,7 @@ const ID_TOKENS: &[&str] = &[
     "guid",
     "gid",
     "pid",
+    "procid",
     "ppid",
     "tid",
     "sid",
@@ -238,6 +239,7 @@ mod tests {
             "SYSLOG_PID",
             "user_id",
             "uuid",
+            "procid",
         ] {
             assert!(
                 name_is_identifier(id),

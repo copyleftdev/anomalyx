@@ -14,8 +14,11 @@
 //! year and UTC, so the same bytes always normalize identically (the real
 //! month/day/time are preserved; only the absent RFC 3164 year is a sentinel).
 //!
-//! Detected by the `<PRI>` header; claims `.syslog` (a plain `.log` is too
-//! generic). A line without a valid `<PRI>` is a clean parse error.
+//! Detected by the `<PRI>` header **or** the PRI-less file format that
+//! rsyslog/syslog-ng actually write (ISO-8601 or BSD timestamp, then host and
+//! tag) — recognized by `syslog_loose` extracting a timestamp + host + app.
+//! `facility`/`severity` exist only when a `<PRI>` is present. Claims `.syslog`
+//! (a plain `.log` is too generic). A line that is neither is a clean parse error.
 
 use crate::parser::{Confidence, FormatParser, STRONG};
 use crate::table::TableBuilder;
@@ -30,6 +33,19 @@ pub struct SyslogParser;
 /// The RFC 3164 year is unknowable from the wire; pin a sentinel so the parse is
 /// deterministic (the month/day/time carry the real information).
 const SENTINEL_YEAR: i32 = 1970;
+
+/// Whether a line is syslog: either a `<PRI>` wire header, or the PRI-less file
+/// format (what rsyslog/syslog-ng actually write to `/var/log/syslog`) — which
+/// we recognize by `syslog_loose` extracting a timestamp **and** a hostname
+/// **and** an appname. Requiring all three keeps a timestamp-leading CSV row
+/// (no space-delimited host/app after the time) from being mistaken for syslog.
+fn looks_like_syslog(line: &str) -> bool {
+    if parse_pri(line).is_some() {
+        return true;
+    }
+    let m = parse_message_with_year_tz(line, |_| SENTINEL_YEAR, Some(Utc), Variant::Either);
+    m.timestamp.is_some() && m.hostname.is_some() && m.appname.is_some()
+}
 
 /// Parses the leading `<PRI>` header into `(facility, severity)`. `PRI = facility
 /// * 8 + severity` and is 0–191; anything else is not a syslog priority.
@@ -59,7 +75,7 @@ impl FormatParser for SyslogParser {
     fn sniff(&self, bytes: &[u8]) -> Option<Confidence> {
         let text = std::str::from_utf8(bytes).ok()?;
         let line = text.lines().find(|l| !l.trim().is_empty())?;
-        parse_pri(line).map(|_| STRONG)
+        looks_like_syslog(line).then_some(STRONG)
     }
     fn parse(&self, _source: &str, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
         let text = std::str::from_utf8(bytes).map_err(|e| self.err(e))?;
@@ -68,14 +84,26 @@ impl FormatParser for SyslogParser {
             if line.trim().is_empty() {
                 continue;
             }
-            let (facility, severity) = parse_pri(line)
-                .ok_or_else(|| self.err("not a syslog line: missing or invalid <PRI> header"))?;
+            let pri = parse_pri(line);
             let msg =
                 parse_message_with_year_tz(line, |_| SENTINEL_YEAR, Some(Utc), Variant::Either);
+            // Accept a line with a `<PRI>` header (wire format) OR a recognizable
+            // timestamp (the PRI-less file format rsyslog/syslog-ng write).
+            // `syslog_loose` only yields a timestamp once it has also parsed the
+            // host/tag that follow it, so the timestamp alone is a sufficient gate.
+            if pri.is_none() && msg.timestamp.is_none() {
+                return Err(
+                    self.err("not a syslog line: no <PRI> header and no recognizable timestamp")
+                );
+            }
 
             let mut row: BTreeMap<String, Value> = BTreeMap::new();
-            row.insert("facility".into(), Value::Int(facility));
-            row.insert("severity".into(), Value::Int(severity));
+            // facility/severity come only from the `<PRI>` header; a file-format
+            // line has none, so those columns are simply absent for it.
+            if let Some((facility, severity)) = pri {
+                row.insert("facility".into(), Value::Int(facility));
+                row.insert("severity".into(), Value::Int(severity));
+            }
             row.insert(
                 "protocol".into(),
                 Value::Str(
@@ -242,6 +270,11 @@ mod tests {
         ));
     }
 
+    /// The PRI-less file formats that rsyslog/syslog-ng actually write to disk.
+    const ISO_FILE: &[u8] =
+        b"2026-06-01T09:14:57.403686-07:00 4ubox NetworkManager[3524]: dhcp4 beginning\n";
+    const BSD_FILE: &[u8] = b"Jun  1 09:14:57 4ubox NetworkManager[3524]: dhcp4 beginning\n";
+
     #[test]
     fn sniff_keys_on_pri_header() {
         assert_eq!(SyslogParser.sniff(SYSLOG.as_bytes()), Some(STRONG));
@@ -254,6 +287,37 @@ mod tests {
         assert_eq!(SyslogParser.sniff(b"plain text line\n"), None);
         assert_eq!(SyslogParser.sniff(b"{\"a\":1}"), None);
         assert_eq!(SyslogParser.sniff(b"a,b,c\n1,2,3"), None);
+    }
+
+    #[test]
+    fn sniff_recognizes_pri_less_file_format() {
+        // The real /var/log/syslog format (no <PRI>): ISO-8601 and BSD timestamps.
+        assert_eq!(SyslogParser.sniff(ISO_FILE), Some(STRONG));
+        assert_eq!(SyslogParser.sniff(BSD_FILE), Some(STRONG));
+        // But a timestamp-leading CSV (no space-delimited host/app) is NOT syslog.
+        assert_eq!(SyslogParser.sniff(b"2026-06-01T09:14:57,42,foo\n"), None);
+        // And it wins over the greedy `ini` sniff through the registry.
+        let reg = crate::parser::ParserRegistry::default();
+        assert_eq!(reg.resolve("-", ISO_FILE).unwrap().id(), "syslog");
+    }
+
+    #[test]
+    fn pri_less_file_line_parses_without_facility_severity() {
+        let cols = SyslogParser.parse("-", ISO_FILE).unwrap();
+        // The fields syslog_loose recovers are present...
+        assert_eq!(col(&cols, "hostname").cells[0], Value::Str("4ubox".into()));
+        assert_eq!(
+            col(&cols, "appname").cells[0],
+            Value::Str("NetworkManager".into())
+        );
+        assert_eq!(col(&cols, "procid").cells[0], Value::Int(3524));
+        assert!(
+            matches!(&col(&cols, "timestamp").cells[0], Value::Str(s) if s.starts_with("2026-06-01"))
+        );
+        // ...but facility/severity columns don't exist (no <PRI> to derive them).
+        assert!(cols
+            .iter()
+            .all(|c| c.name != "facility" && c.name != "severity"));
     }
 
     #[test]
