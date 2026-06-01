@@ -6,6 +6,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Testing
+
+- **Parser robustness harness** (`ax-normalize/tests/robustness.rs`). Property
+  tests assert that no parser panics, hangs, or over-allocates on arbitrary,
+  magic-prefixed-garbage, or truncated byte streams — fed both through
+  auto-detection and straight to every registered parser — and that
+  normalization is deterministic over fuzz inputs. Untrusted-input hardening:
+  a malformed file must fail cleanly, never crash. Test-only; no library change
+  (so no release).
+
 ## [0.7.0] - 2026-06-01
 
 ### Added
