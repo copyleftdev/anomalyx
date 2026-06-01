@@ -18,6 +18,7 @@ pub mod coll;
 pub mod config;
 pub mod ctx;
 pub mod dist;
+pub mod fdr;
 pub mod linalg;
 pub mod mv;
 pub mod point;

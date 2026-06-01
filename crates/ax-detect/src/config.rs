@@ -15,6 +15,12 @@ pub struct DetectConfig {
     /// Minimum count of finite numeric values a column needs before the point
     /// detector will assess it. Below this, statistics are unreliable.
     pub point_min_n: usize,
+    /// Optional false-discovery-rate (FDR) level for the point detector. When
+    /// set, the per-cell modified-z threshold is replaced by Benjamini–Hochberg
+    /// control at this level, applied within each column: a cell is flagged only
+    /// if its two-sided p-value survives BH, bounding the expected proportion of
+    /// false flags at `q`. `None` keeps the fixed `point_threshold` behavior.
+    pub point_fdr_q: Option<f64>,
 
     /// Significance level for the KS and chi-square drift tests. A column is
     /// flagged when the test's p-value falls below this.
@@ -72,6 +78,7 @@ impl Default for DetectConfig {
         DetectConfig {
             point_threshold: 3.5,
             point_min_n: 8,
+            point_fdr_q: None,
             dist_alpha: 0.05,
             psi_threshold: 0.2,
             psi_bins: 10,
@@ -97,9 +104,10 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/5;pt={:.4};ptn={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
+            "anomalyx-cfg/6;pt={:.4};ptn={};pfdr={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
             self.point_threshold,
             self.point_min_n,
+            self.point_fdr_q.map(|q| format!("{q:.4}")).unwrap_or_default(),
             self.dist_alpha,
             self.psi_threshold,
             self.psi_bins,
@@ -135,5 +143,15 @@ mod tests {
             ..DetectConfig::default()
         };
         assert_ne!(a.version(), c.version());
+
+        // Enabling FDR control changes the fingerprint (and the empty default
+        // renders as no value, so `pfdr=;` for the off case).
+        let f = DetectConfig {
+            point_fdr_q: Some(0.05),
+            ..DetectConfig::default()
+        };
+        assert_ne!(a.version(), f.version());
+        assert!(a.version().contains(";pfdr=;"));
+        assert!(f.version().contains(";pfdr=0.0500;"));
     }
 }

@@ -64,6 +64,29 @@ choice, never a hidden one.
 > Rows are treated in their given order as the time axis. If your data isn't
 > already time-ordered, sort it first.
 
+## `--fdr Q` — false-discovery-rate control (point detector)
+
+By default the point detector flags every cell whose modified z-score clears a
+fixed cutoff. With thousands of cells, a fixed cutoff has no notion of *how many*
+cells were tested. `--fdr Q` converts each cell's score to a two-sided p-value
+and applies the **Benjamini–Hochberg** procedure within each column, bounding the
+expected proportion of false flags at `Q`:
+
+```console
+$ anomalyx scan --fdr 0.05 events.parquet     # ≤5% expected false discoveries
+```
+
+This is **principled, not arbitrary**: a column that is really just noise stops
+contributing chance flags, and the same outlier can be significant in a small
+column yet not in a large one (the per-rank bar `(k/m)·Q` shrinks with the number
+of cells `m`). The threshold is folded into `config_version` (`pfdr=`), so a
+non-default level is a versioned, reproducible choice.
+
+> `--fdr` controls *correctness*, not output *volume*. On genuinely heavy-tailed
+> data it can flag **more** cells than the fixed cutoff — those cells really are
+> significant at `Q`. To cap volume, pair it with `--columns`/`--exclude` (and
+> the planned severity / top-N output scoping).
+
 ## `--columns C,..` / `--exclude C,..` — column scope
 
 Restrict detection to a chosen set of columns (`--columns`, an allowlist) or to
