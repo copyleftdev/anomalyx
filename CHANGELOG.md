@@ -6,6 +6,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-06-01
+
+### Changed
+
+- **Unified confidence calibration across all detectors.** Confidence was
+  computed three incompatible ways (`1 − p` for the distributional/multivariate
+  detectors, a logistic-over-threshold for point/contextual/collective/PSI, and a
+  linear map for cadence), so a `0.9` meant different things depending on which
+  detector produced it — and severity (and `--top` / `--min-severity`) couldn't
+  rank across detectors. Now every detector routes through one shared function:
+  confidence is a logistic of how far its statistic sits past its firing
+  threshold, measured **relatively** so units cancel. At the threshold → `0.5`,
+  rising toward `1.0`; a finding "2× past threshold" earns the same confidence on
+  any detector. New `ax_detect::calibrate` module (`from_exceedance` /
+  `from_undercut`); the duplicated `shift_confidence` / `psi_confidence` /
+  `robustz::confidence` helpers are gone.
+- This recalibrates every published confidence and severity. The `config_version`
+  fingerprint is bumped (`anomalyx-cfg/8`) so the change is visible to agents.
+  The envelope shape and `PROTOCOL` are unchanged.
+
 ### Testing
 
 - **Parser robustness harness** (`ax-normalize/tests/robustness.rs`). Property
@@ -13,8 +33,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   magic-prefixed-garbage, or truncated byte streams — fed both through
   auto-detection and straight to every registered parser — and that
   normalization is deterministic over fuzz inputs. Untrusted-input hardening:
-  a malformed file must fail cleanly, never crash. Test-only; no library change
-  (so no release).
+  a malformed file must fail cleanly, never crash.
 
 ## [0.7.0] - 2026-06-01
 
@@ -263,7 +282,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...v0.5.0

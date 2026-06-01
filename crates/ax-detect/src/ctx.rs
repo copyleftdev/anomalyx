@@ -10,7 +10,7 @@
 //! honest absence rather than inventing one.
 
 use crate::config::DetectConfig;
-use crate::{robustz, Detector, Report, ScanContext};
+use crate::{calibrate, robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Column, Finding, RecordSet};
 
@@ -53,7 +53,7 @@ impl SeasonalDetector {
                         column: col.name.clone(),
                         row,
                     },
-                    robustz::confidence(modz, cfg.ctx_threshold),
+                    calibrate::from_exceedance(modz, cfg.ctx_threshold),
                     modz,
                     format!(
                         "{} = {v:.6} at row {row} (phase {phase}/{p}): modified z-score {modz:.3} within its seasonal subseries exceeds {:.3}",

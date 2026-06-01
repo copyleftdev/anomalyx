@@ -11,7 +11,7 @@
 //! column named by `cadence_column`, and otherwise reports honest absence.
 
 use crate::config::DetectConfig;
-use crate::{Detector, Report, ScanContext};
+use crate::{calibrate, Detector, Report, ScanContext};
 use ax_core::det;
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Finding};
@@ -78,7 +78,7 @@ impl Detector for CadenceDetector {
         // genuinely-killable `min_n` `<` above stay under the gate.
         if cfg.cad_max_cv > cv {
             // Lower CV ⇒ more metronomic ⇒ higher confidence.
-            let confidence = (1.0 - cv / cfg.cad_max_cv).clamp(0.0, 1.0);
+            let confidence = calibrate::from_undercut(cv, cfg.cad_max_cv);
             out.push(Finding::new(
                 self.id(),
                 AnomalyClass::Cadence,
@@ -202,10 +202,10 @@ mod tests {
     }
 
     #[test]
-    fn confidence_is_one_minus_cv_over_threshold() {
+    fn confidence_is_calibrated_from_cv_under_threshold() {
         // Alternating 100 / 100.1 gaps → a small but non-zero CV, well below the
-        // 0.05 threshold. Pins confidence = 1 − cv/threshold exactly (the score
-        // is the cv), catching the `/` → `*` / `%` mutations.
+        // 0.05 threshold. Confidence is the unified undercut calibration of the
+        // CV against the max-CV threshold (the score is the cv).
         let mut ts = vec![0.0];
         for i in 0..40 {
             ts.push(ts[i] + if i % 2 == 0 { 100.0 } else { 100.1 });
@@ -218,8 +218,9 @@ mod tests {
             "cv is small but positive: {}",
             f.score
         );
-        let expected = 1.0 - f.score / DetectConfig::default().cad_max_cv;
+        let expected = crate::calibrate::from_undercut(f.score, DetectConfig::default().cad_max_cv);
         assert!((f.confidence - expected).abs() < 1e-12);
+        assert!(f.confidence > 0.5, "CV under threshold ⇒ above 0.5");
     }
 
     #[test]

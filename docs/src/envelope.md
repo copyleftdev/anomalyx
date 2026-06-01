@@ -35,6 +35,13 @@ JSON Schema.
 - **`columns`** — the fixed column order of each dense finding row.
 - **`rows`** — one array per finding, aligned to `columns`:
   `[detector_idx, class_idx, handle_idx, confidence, severity_idx, score, reason_idx]`.
+  `confidence` is **calibrated to one scale across every detector**: a logistic of
+  how far the detector's statistic sits past its firing threshold, measured
+  relatively (so units cancel) — `0.5` at the threshold, rising toward `1.0`. A
+  finding "2× past threshold" earns the same confidence whether it came from a
+  modified z-score, a KS p-value, a PSI, or a cadence CV, so `severity` (derived
+  from confidence) ranks findings from different detectors on one scale. `score`
+  is the detector's raw statistic (uncalibrated), for drill-down.
 - **`absent`** — detectors that declined to run, each with a machine-readable
   reason. See [honest absence](./determinism.md).
 - **`summary`** — total count, max severity, and per-class counts for at-a-glance

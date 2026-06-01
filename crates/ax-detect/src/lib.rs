@@ -14,6 +14,7 @@ use ax_core::envelope::Absence;
 use ax_core::{AnomalyClass, Finding, RecordSet};
 
 pub mod cadence;
+pub mod calibrate;
 pub mod coll;
 pub mod config;
 pub mod ctx;

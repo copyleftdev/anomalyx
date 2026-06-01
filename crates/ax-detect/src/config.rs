@@ -110,7 +110,7 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/7;pt={:.4};ptn={};cr={};pfdr={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
+            "anomalyx-cfg/8;pt={:.4};ptn={};cr={};pfdr={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
             self.point_threshold,
             self.point_min_n,
             self.column_roles,

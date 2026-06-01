@@ -11,7 +11,7 @@
 //! point chosen by a stable arg-max (first maximal split wins).
 
 use crate::config::DetectConfig;
-use crate::{Detector, Report, ScanContext};
+use crate::{calibrate, Detector, Report, ScanContext};
 use ax_core::det;
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Finding};
@@ -43,12 +43,6 @@ pub fn cusum_changepoint(xs: &[f64], mean: f64) -> usize {
 pub fn standardized_shift(mean_l: f64, mean_r: f64, sigma: f64, nl: usize, nr: usize) -> f64 {
     let se = sigma * (1.0 / nl as f64 + 1.0 / nr as f64).sqrt();
     (mean_l - mean_r).abs() / se
-}
-
-/// Logistic confidence in the excess of the standardized shift over `threshold`
-/// (shift == threshold ⇒ 0.5), strictly increasing in the shift.
-fn shift_confidence(shift: f64, threshold: f64) -> f64 {
-    1.0 / (1.0 + (-(shift - threshold)).exp())
 }
 
 impl Detector for CusumDetector {
@@ -101,7 +95,7 @@ impl Detector for CusumDetector {
                         start,
                         end,
                     },
-                    shift_confidence(shift, cfg.coll_threshold),
+                    calibrate::from_exceedance(shift, cfg.coll_threshold),
                     shift,
                     format!(
                         "{}: level shift at row {start} — mean {mean_l:.4} → {mean_r:.4}, standardized shift {shift:.3} > {:.3}",
@@ -171,13 +165,6 @@ mod tests {
         assert!((standardized_shift(0.0, 6.0, 2.0, 2, 2) - 3.0).abs() < 1e-12);
         // asymmetric segment sizes: |0 − 2| / (1·√(1 + 1/3)) = 2/√(4/3) = √3.
         assert!((standardized_shift(0.0, 2.0, 1.0, 1, 3) - 3.0_f64.sqrt()).abs() < 1e-12);
-    }
-
-    #[test]
-    fn shift_confidence_is_half_at_threshold_and_monotonic() {
-        assert_eq!(shift_confidence(5.0, 5.0), 0.5);
-        assert!(shift_confidence(4.0, 5.0) < 0.5);
-        assert!(shift_confidence(8.0, 5.0) > shift_confidence(6.0, 5.0));
     }
 
     #[test]
