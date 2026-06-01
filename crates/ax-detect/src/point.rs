@@ -14,7 +14,7 @@
 use crate::config::DetectConfig;
 use crate::{calibrate, fdr, robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
-use ax_core::{AnomalyClass, Column, Finding, Role, Value};
+use ax_core::{AnomalyClass, Column, Finding, Value};
 
 #[derive(Debug, Default, Clone)]
 pub struct PointDetector;
@@ -45,7 +45,7 @@ impl Detector for PointDetector {
             // "outlier" is just its endpoint). A constant column is left to
             // `scan_column` (it self-no-ops). Roles still ship in the envelope;
             // `column_roles = false` disables this skipping entirely.
-            if cfg.column_roles && matches!(col.role(), Role::Identifier | Role::Sequence) {
+            if cfg.column_roles && col.role().skips_value_detection() {
                 continue;
             }
             scanned += 1;

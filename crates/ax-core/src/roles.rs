@@ -73,6 +73,16 @@ impl Role {
     pub fn is_measured(self) -> bool {
         matches!(self, Role::Measurement)
     }
+
+    /// Whether a *value-distribution* detector (point, contextual, collective,
+    /// distributional, multivariate) should skip a column of this role: an
+    /// `Identifier` is an arbitrary label and a `Sequence` is a monotonic ramp,
+    /// so any value-based anomaly statistic on them is noise, not signal. A
+    /// `Constant` is left to each detector (it naturally produces nothing), and a
+    /// `Categorical` is the chi-square detector's legitimate input.
+    pub fn skips_value_detection(self) -> bool {
+        matches!(self, Role::Identifier | Role::Sequence)
+    }
 }
 
 /// A column name paired with its classified role, for the envelope.
@@ -204,6 +214,17 @@ mod tests {
             Role::Constant,
         ] {
             assert!(!r.is_measured(), "{:?} must not be measured", r);
+        }
+    }
+
+    #[test]
+    fn skips_value_detection_targets_identifier_and_sequence() {
+        assert!(Role::Identifier.skips_value_detection());
+        assert!(Role::Sequence.skips_value_detection());
+        // Measurement is analyzed; Categorical feeds chi-square; Constant is
+        // left to each detector to no-op — none are skipped by this gate.
+        for r in [Role::Measurement, Role::Categorical, Role::Constant] {
+            assert!(!r.skips_value_detection(), "{:?} must not be skipped", r);
         }
     }
 

@@ -36,11 +36,14 @@ impl MahalanobisDetector {
     /// Extracts the numeric feature matrix, keeping only rows where every
     /// numeric column has a finite value (a partial row has no position in
     /// feature space — honest absence, not imputation).
-    fn extract(current: &RecordSet) -> Option<Features> {
+    fn extract(current: &RecordSet, column_roles: bool) -> Option<Features> {
+        // Build the feature space from numeric *measurement* columns: an
+        // identifier or monotonic-sequence column is a meaningless Mahalanobis
+        // dimension (and inflates the covariance with label noise).
         let feats: Vec<&Vec<ax_core::Value>> = current
             .columns
             .iter()
-            .filter(|c| c.ty.is_numeric())
+            .filter(|c| c.ty.is_numeric() && !(column_roles && c.role().skips_value_detection()))
             .map(|c| &c.cells)
             .collect();
         let dim = feats.len();
@@ -116,7 +119,7 @@ impl Detector for MahalanobisDetector {
         AnomalyClass::Multivariate
     }
     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
-        let Some(f) = Self::extract(ctx.current) else {
+        let Some(f) = Self::extract(ctx.current, cfg.column_roles) else {
             out.mark_absent(
                 self.id(),
                 "needs at least 2 numeric columns for a multivariate distance",
@@ -187,6 +190,42 @@ mod tests {
         let mut out = Report::new();
         MahalanobisDetector.detect(&ScanContext::single(rs), &DetectConfig::default(), &mut out);
         out
+    }
+
+    #[test]
+    fn identifier_column_excluded_from_features() {
+        // One measurement + one identifier column. With roles on, the identifier
+        // is not a feature, leaving a single dimension → mv can't run (needs ≥2).
+        // With roles off, both columns are features and it runs.
+        let (xs, ys) = correlated(40);
+        let rs = RecordSet::new(
+            "-",
+            "t",
+            vec![
+                Column::new("x", xs.iter().map(|&v| Value::Float(v)).collect()),
+                Column::new("user_id", ys.iter().map(|&v| Value::Float(v)).collect()),
+            ],
+        );
+        let mut on = Report::new();
+        MahalanobisDetector.detect(&ScanContext::single(&rs), &DetectConfig::default(), &mut on);
+        assert!(
+            on.absent.iter().any(|a| a.reason.contains("2 numeric")),
+            "identifier excluded ⇒ <2 features ⇒ absent, got {:?}",
+            on.absent
+        );
+        let mut off = Report::new();
+        MahalanobisDetector.detect(
+            &ScanContext::single(&rs),
+            &DetectConfig {
+                column_roles: false,
+                ..DetectConfig::default()
+            },
+            &mut off,
+        );
+        assert!(
+            !off.absent.iter().any(|a| a.reason.contains("2 numeric")),
+            "both columns are features when roles are off"
+        );
     }
 
     /// A correlated cloud y ≈ x (with small wobble) of `n` points.

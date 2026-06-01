@@ -6,6 +6,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-06-01
+
+### Changed
+
+- **Column roles now gate every value-distribution detector, not just `point`.**
+  `ctx.seasonal`, `coll.cusum`, `dist.ks` / `dist.psi` / `dist.chi2`, and
+  `mv.mahalanobis` now skip `identifier` and `sequence` columns (and exclude them
+  from the Mahalanobis feature space). A seasonal subseries, level-shift, drift
+  test, or joint distance over arbitrary ids or a monotonic ramp is noise, not
+  signal — this fixes, e.g., `coll.cusum` flagging a shift in a syslog `procid`.
+  A shared `Role::skips_value_detection()` keeps the rule in one place.
+  (`struct.schema` stays role-agnostic — null-rate/schema-diff are meaningful for
+  any column; `cad.regularity` only ever uses the explicit `--cadence` column.)
+- This changes detector output when `column_roles = true`, so the
+  `config_version` fingerprint is bumped (`anomalyx-cfg/9`). Envelope shape and
+  `PROTOCOL` are unchanged; `--no-column-roles` restores the pre-roles behavior
+  across all detectors.
+
 ## [1.0.1] - 2026-06-01
 
 ### Fixed
@@ -343,7 +361,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/copyleftdev/anomalyx/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/copyleftdev/anomalyx/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...v0.9.0
