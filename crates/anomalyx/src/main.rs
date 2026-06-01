@@ -14,7 +14,7 @@
 
 use ax_core::envelope::{EnvelopeBuilder, ExitCode, PROTOCOL};
 use ax_core::finding::{Handle, Severity};
-use ax_core::{AxError, RecordSet, Value};
+use ax_core::{AxError, ColumnRole, RecordSet, Value};
 use ax_detect::{DetectConfig, Registry, ScanContext};
 use std::io::Read;
 use std::process::ExitCode as ProcExit;
@@ -83,6 +83,7 @@ fn usage() -> &'static str {
      --exclude C,.. analyze every column except these\n\
      --top N       emit only the N most severe findings (summary/exit unchanged)\n\
      --min-severity S  emit only findings ≥ S (info|low|medium|high|critical)\n\
+     --no-column-roles  don't skip identifier/sequence columns (roles still shown)\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
@@ -107,6 +108,9 @@ struct ScanArgs {
     top: Option<usize>,
     /// `--min-severity`: emit only findings at or above this severity.
     min_severity: Option<Severity>,
+    /// `--no-column-roles`: disable role-based detector skipping (roles are
+    /// still reported in the envelope).
+    no_column_roles: bool,
     positional: Vec<String>,
 }
 
@@ -205,6 +209,9 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                 })?;
                 parsed.min_severity = Some(s);
             }
+            "--no-column-roles" => {
+                parsed.no_column_roles = true;
+            }
             "--columns" => {
                 let v = it.next().ok_or_else(|| {
                     AxError::Config("--columns requires a comma-separated list".into())
@@ -274,6 +281,7 @@ fn config_for(args: &ScanArgs) -> DetectConfig {
         cadence_column: args.cadence.clone(),
         cad_max_cv: args.cad_max_cv.unwrap_or(defaults.cad_max_cv),
         point_fdr_q: args.fdr,
+        column_roles: !args.no_column_roles,
         ..defaults
     }
 }
@@ -321,8 +329,19 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
     };
     let report = Registry::default_set().run(&ctx, &cfg);
 
+    // Classify and report every scanned column's role (transparency), regardless
+    // of whether role-based skipping is enabled.
+    let roles: Vec<ColumnRole> = rs
+        .columns
+        .iter()
+        .map(|c| ColumnRole {
+            column: c.name.clone(),
+            role: c.role(),
+        })
+        .collect();
     let mut builder = EnvelopeBuilder::new(cfg.version(), &rs.source, &rs.format, rs.rows())
-        .findings(report.findings);
+        .findings(report.findings)
+        .roles(roles);
     if let Some(b) = &baseline {
         builder = builder.baseline(b.source.clone());
     }
@@ -640,6 +659,20 @@ mod tests {
         assert!(parse_scan_args(&strings(&["--fdr", "-0.1"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "1.5"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "inf"])).is_err());
+    }
+
+    #[test]
+    fn no_column_roles_flag_toggles_config() {
+        let a = parse_scan_args(&strings(&["--no-column-roles", "x.csv"])).unwrap();
+        assert!(a.no_column_roles);
+        assert!(!config_for(&a).column_roles);
+        // default: roles on
+        assert!(
+            !parse_scan_args(&strings(&["x.csv"]))
+                .unwrap()
+                .no_column_roles
+        );
+        assert!(config_for(&ScanArgs::default()).column_roles);
     }
 
     #[test]

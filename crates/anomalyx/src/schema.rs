@@ -14,7 +14,7 @@ pub fn envelope_schema() -> String {
         "type": "object",
         "required": [
             "protocol", "config_version", "source", "format",
-            "rows_scanned", "dict", "columns", "rows", "absent", "summary", "exit"
+            "rows_scanned", "dict", "columns", "rows", "absent", "roles", "summary", "exit"
         ],
         "additionalProperties": false,
         "properties": {
@@ -65,6 +65,21 @@ pub fn envelope_schema() -> String {
                     "properties": {
                         "detector": { "type": "string" },
                         "reason": { "type": "string" }
+                    }
+                }
+            },
+            "roles": {
+                "type": "array",
+                "description": "Classified role of each scanned column (measurement/identifier/categorical/sequence/constant). Always reported; detectors may skip non-measurement columns unless --no-column-roles.",
+                "items": {
+                    "type": "object",
+                    "required": ["column", "role"],
+                    "properties": {
+                        "column": { "type": "string" },
+                        "role": {
+                            "type": "string",
+                            "enum": ["measurement", "identifier", "categorical", "sequence", "constant"]
+                        }
                     }
                 }
             },

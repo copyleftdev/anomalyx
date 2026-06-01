@@ -64,6 +64,34 @@ choice, never a hidden one.
 > Rows are treated in their given order as the time axis. If your data isn't
 > already time-ordered, sort it first.
 
+## Column roles (and `--no-column-roles`)
+
+Every scanned column is classified into a **role** — `measurement`, `identifier`,
+`categorical`, `sequence`, or `constant` — and the full map ships in the envelope's
+`roles` array. Detectors consult it to skip columns where their statistic is
+meaningless: the point detector ignores `identifier` and `sequence` columns,
+because a "large process-id" or the endpoint of a monotonic counter is not an
+anomaly.
+
+```console
+$ anomalyx scan app.log            # roles on (default)
+$ anomalyx scan --no-column-roles app.log   # report roles, but skip nothing
+```
+
+Identifiers are recognized by **name** (`*_id`, `uid`, `gid`, `pid`, `tid`,
+`session`, `uuid`, …) — the only reliable signal, since a process-id column is
+statistically indistinguishable from a discrete measurement. A continuous
+measurement (`fare`, `durationNanos`, `DAYS_LOST`) is never named like an id, so
+it is never skipped. Cardinality is deliberately *not* used to call a numeric
+column categorical — a column that is one value with a few wild outliers has low
+cardinality yet is exactly what point detection should catch.
+
+This is heuristic, but never **silent**: the role of every column is in the
+envelope (audit it), and `--no-column-roles` disables the skipping entirely. On a
+real 20k-entry journald capture it cuts point findings from ~12,500 to ~240 (the
+`_PID`/`_UID`/`JOB_ID`/timestamp columns) while leaving genuine measurements
+untouched. The setting is part of `config_version` (`cr=`).
+
 ## `--top N` / `--min-severity S` — output scoping
 
 Detection can surface tens of thousands of findings on a large corpus. These two

@@ -15,6 +15,11 @@ pub struct DetectConfig {
     /// Minimum count of finite numeric values a column needs before the point
     /// detector will assess it. Below this, statistics are unreliable.
     pub point_min_n: usize,
+    /// When set, detectors consult each column's [`Role`](ax_core::Role) and skip
+    /// columns where their statistic is meaningless (e.g. the point detector
+    /// skips identifier/categorical/sequence columns). Roles are always reported
+    /// in the envelope; this only governs whether they affect detection.
+    pub column_roles: bool,
     /// Optional false-discovery-rate (FDR) level for the point detector. When
     /// set, the per-cell modified-z threshold is replaced by Benjamini–Hochberg
     /// control at this level, applied within each column: a cell is flagged only
@@ -78,6 +83,7 @@ impl Default for DetectConfig {
         DetectConfig {
             point_threshold: 3.5,
             point_min_n: 8,
+            column_roles: true,
             point_fdr_q: None,
             dist_alpha: 0.05,
             psi_threshold: 0.2,
@@ -104,9 +110,10 @@ impl DetectConfig {
     /// Deterministic: no wall-clock, no environment.
     pub fn version(&self) -> String {
         format!(
-            "anomalyx-cfg/6;pt={:.4};ptn={};pfdr={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
+            "anomalyx-cfg/7;pt={:.4};ptn={};cr={};pfdr={};da={:.4};psi={:.4};psib={};dmn={};snr={:.4};mva={:.5};mvn={};mvr={:e};cxp={};cxt={:.4};cxm={};cln={};clt={:.4};cdc={};cdcv={:.4};cdn={}",
             self.point_threshold,
             self.point_min_n,
+            self.column_roles,
             self.point_fdr_q.map(|q| format!("{q:.4}")).unwrap_or_default(),
             self.dist_alpha,
             self.psi_threshold,
@@ -153,5 +160,14 @@ mod tests {
         assert_ne!(a.version(), f.version());
         assert!(a.version().contains(";pfdr=;"));
         assert!(f.version().contains(";pfdr=0.0500;"));
+
+        // Toggling column-role skipping changes the fingerprint.
+        let g = DetectConfig {
+            column_roles: false,
+            ..DetectConfig::default()
+        };
+        assert_ne!(a.version(), g.version());
+        assert!(a.version().contains(";cr=true;"));
+        assert!(g.version().contains(";cr=false;"));
     }
 }

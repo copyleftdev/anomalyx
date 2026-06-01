@@ -8,6 +8,7 @@
 
 use crate::dict::Dict;
 use crate::finding::{AnomalyClass, Finding, Severity};
+use crate::roles::ColumnRole;
 use serde::Serialize;
 
 /// Protocol identifier. Bump on any breaking change to the envelope shape.
@@ -111,6 +112,10 @@ pub struct Envelope {
     pub rows: Vec<Vec<serde_json::Value>>,
     /// Detectors that could not run (honest absence).
     pub absent: Vec<Absence>,
+    /// The classified [`Role`](crate::Role) of each scanned column. Always
+    /// reported (transparent): detectors may skip columns by role, and an agent
+    /// can see and override that. Empty only for a column-less corpus.
+    pub roles: Vec<ColumnRole>,
     pub summary: Summary,
     /// Output scoping applied to `rows`, present only when `--top`/`--min-severity`
     /// withheld findings. Absent ⇒ `rows` is the complete detected set.
@@ -129,6 +134,7 @@ pub struct EnvelopeBuilder {
     rows_scanned: usize,
     findings: Vec<Finding>,
     absent: Vec<Absence>,
+    roles: Vec<ColumnRole>,
     min_severity: Option<Severity>,
     top: Option<usize>,
 }
@@ -148,9 +154,16 @@ impl EnvelopeBuilder {
             rows_scanned,
             findings: Vec::new(),
             absent: Vec::new(),
+            roles: Vec::new(),
             min_severity: None,
             top: None,
         }
+    }
+
+    /// Records the classified role of each scanned column (transparency).
+    pub fn roles(mut self, roles: Vec<ColumnRole>) -> Self {
+        self.roles = roles;
+        self
     }
 
     /// Restricts emitted findings to those at or above severity `s` (the full
@@ -272,6 +285,7 @@ impl EnvelopeBuilder {
             columns: FINDING_COLUMNS.iter().map(|s| s.to_string()).collect(),
             rows,
             absent: self.absent,
+            roles: self.roles,
             summary,
             scope,
             exit: exit.code(),
