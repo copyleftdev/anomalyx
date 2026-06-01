@@ -99,6 +99,12 @@ impl Detector for SeasonalDetector {
 fn scan_all(det: &SeasonalDetector, rs: &RecordSet, cfg: &DetectConfig, out: &mut Report) -> bool {
     let mut assessed = false;
     for col in &rs.columns {
+        // Skip identifier/sequence columns: a seasonal subseries of arbitrary
+        // labels or a monotonic ramp is meaningless. Roles still ship in the
+        // envelope; `column_roles = false` disables this.
+        if cfg.column_roles && col.role().skips_value_detection() {
+            continue;
+        }
         if col.ty.is_numeric() {
             assessed |= det.scan_column(col, cfg, out);
         }
@@ -141,6 +147,35 @@ mod tests {
         let mut out = Report::new();
         SeasonalDetector.detect(&ScanContext::single(rs), cfg, &mut out);
         out
+    }
+
+    #[test]
+    fn identifier_column_is_skipped_by_role() {
+        // A phase-0 outlier that a measurement column would flag — but on an
+        // identifier-named column, the seasonal subseries is meaningless.
+        let mut s = seasonal_series();
+        s[14] = 50.0;
+        let rs = RecordSet::new(
+            "-",
+            "t",
+            vec![Column::new(
+                "user_id",
+                s.iter().map(|&x| Value::Float(x)).collect(),
+            )],
+        );
+        assert!(
+            run(&rs, &weekly(7)).findings.is_empty(),
+            "seasonal on an identifier column is skipped"
+        );
+        let off = DetectConfig {
+            ctx_period: 7,
+            column_roles: false,
+            ..DetectConfig::default()
+        };
+        assert!(
+            !run(&rs, &off).findings.is_empty(),
+            "--no-column-roles assesses it"
+        );
     }
 
     #[test]

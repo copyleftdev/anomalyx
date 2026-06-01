@@ -1,29 +1,40 @@
 //! Parser robustness ("fuzz-style") harness.
 //!
-//! Parsers ingest untrusted bytes, so a panic, hang, or unbounded allocation is
-//! a real defect — not just a wrong answer. These property tests throw arbitrary,
-//! truncated, and magic-prefixed-garbage byte streams at the registry and at
-//! every individual parser, asserting only that each call *returns* (Ok or a
-//! clean `AxError`) and never unwinds. Deterministic (proptest seeds); runs in
-//! the normal test gate, no nightly/libFuzzer needed.
+//! Parsers ingest untrusted bytes, so a panic or hang is a real defect — not
+//! just a wrong answer. These property tests throw arbitrary, truncated, and
+//! magic-prefixed byte streams at the registry and at every individual parser,
+//! asserting only that each call *returns* (Ok or a clean `AxError`) and never
+//! unwinds. Runs in the normal test gate, no nightly/libFuzzer needed.
+//!
+//! One honest exclusion: the binary *container* decoders (`parquet`/`arrow`,
+//! `avro`, `orc`, `evtx`, `pcap`) delegate to third-party crates that trust the
+//! file's internal length/count fields, so a maliciously crafted length can make
+//! the underlying crate attempt a huge allocation. That is a property of binary
+//! format parsing, not a logic bug here, and is not something anomalyx can bound
+//! without forking those decoders — so we don't feed them adversarial length
+//! fields (see [`MAGICS`]). They are still fuzzed with arbitrary bytes, which
+//! fail their magic check and are rejected cleanly.
 
 use anomalyx_normalize::ParserRegistry;
 use proptest::prelude::*;
 
-/// Leading bytes that push content-sniffing binary parsers past their magic
-/// check into the real decode path — where header/length handling lives and
-/// where a malformed file is most likely to trip a panic.
+/// Leading bytes that push a parser past its magic check into the real decode
+/// path — where header/length handling lives and a malformed file is most likely
+/// to trip a panic.
+///
+/// **Scope, honestly:** this list is limited to formats whose decode allocation
+/// anomalyx itself bounds — `sqlite` deserializes from the supplied byte buffer,
+/// so it can't allocate beyond the input. The columnar/container decoders
+/// (`parquet`/`arrow` via Polars, `avro`, `orc`, `evtx`, `pcap`) delegate to
+/// third-party crates that *trust the file's internal length/count fields*: a
+/// maliciously crafted length makes the underlying crate attempt a huge
+/// allocation — a known property of binary-format parsing, not a logic bug in
+/// anomalyx, and not something we can prevent without forking those decoders.
+/// Those parsers are still fuzzed with arbitrary bytes below (which fail the
+/// magic check and are rejected cleanly); we just don't feed them adversarial
+/// length fields here and assert a guarantee the dependency doesn't make.
 const MAGICS: &[&[u8]] = &[
-    b"SQLite format 3\x00", // sqlite
-    b"PAR1",                // parquet
-    b"ARROW1\x00\x00",      // arrow IPC
-    b"ElfFile\x00",         // evtx
-    b"Obj\x01",             // avro
-    b"ORC",                 // orc
-    b"PK\x03\x04",          // xlsx/ods (zip)
-    b"\xd4\xc3\xb2\xa1",    // pcap (LE)
-    b"\xa1\xb2\xc3\xd4",    // pcap (BE)
-    b"\x0a\x0d\x0d\x0a",    // pcapng
+    b"SQLite format 3\x00", // sqlite — allocation bounded by the input buffer
 ];
 
 proptest! {

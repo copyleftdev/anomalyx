@@ -98,6 +98,6 @@
     "cad_max_cv": 0.05,
     "cad_min_n": 20
   },
-  "config_version": "anomalyx-cfg/8;pt=3.5000;ptn=8;cr=true;pfdr=;da=0.0500;psi=0.2000;psib=10;dmn=20;snr=0.5000;mva=0.00100;mvn=20;mvr=1e-9;cxp=0;cxt=3.5000;cxm=4;cln=20;clt=5.0000;cdc=;cdcv=0.0500;cdn=20",
+  "config_version": "anomalyx-cfg/9;pt=3.5000;ptn=8;cr=true;pfdr=;da=0.0500;psi=0.2000;psib=10;dmn=20;snr=0.5000;mva=0.00100;mvn=20;mvr=1e-9;cxp=0;cxt=3.5000;cxm=4;cln=20;clt=5.0000;cdc=;cdcv=0.0500;cdn=20",
   "determinism": "Same input + same config_version yields byte-identical output."
 }

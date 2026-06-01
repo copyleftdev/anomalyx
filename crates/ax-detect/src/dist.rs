@@ -196,11 +196,17 @@ fn for_paired_numeric(
     current: &RecordSet,
     baseline: &RecordSet,
     min_n: usize,
+    column_roles: bool,
     mut f: impl FnMut(&str, &[f64], &[f64]),
 ) -> bool {
     let mut any = false;
     for col in &current.columns {
         if !col.ty.is_numeric() {
+            continue;
+        }
+        // Skip identifier/sequence columns: drift in arbitrary ids or a monotonic
+        // ramp is meaningless. (`column_roles = false` disables this.)
+        if column_roles && col.role().skips_value_detection() {
             continue;
         }
         let Some(bcol) = baseline.column(&col.name) else {
@@ -237,27 +243,33 @@ impl Detector for KsDetector {
             out.mark_absent(self.id(), NO_BASELINE);
             return;
         };
-        let any = for_paired_numeric(ctx.current, baseline, cfg.dist_min_n, |name, bas, cur| {
-            let Some(d) = ks_statistic(bas, cur) else {
-                return;
-            };
-            let p = ks_pvalue(d, bas.len(), cur.len());
-            if p < cfg.dist_alpha {
-                out.push(Finding::new(
-                    self.id(),
-                    AnomalyClass::Distributional,
-                    Handle::Dist {
-                        column: name.to_string(),
-                    },
-                    calibrate::from_undercut(p, cfg.dist_alpha),
-                    d,
-                    format!(
-                        "{name}: KS D={d:.4}, p={p:.4} < α={:.4} — distribution shifted",
-                        cfg.dist_alpha
-                    ),
-                ));
-            }
-        });
+        let any = for_paired_numeric(
+            ctx.current,
+            baseline,
+            cfg.dist_min_n,
+            cfg.column_roles,
+            |name, bas, cur| {
+                let Some(d) = ks_statistic(bas, cur) else {
+                    return;
+                };
+                let p = ks_pvalue(d, bas.len(), cur.len());
+                if p < cfg.dist_alpha {
+                    out.push(Finding::new(
+                        self.id(),
+                        AnomalyClass::Distributional,
+                        Handle::Dist {
+                            column: name.to_string(),
+                        },
+                        calibrate::from_undercut(p, cfg.dist_alpha),
+                        d,
+                        format!(
+                            "{name}: KS D={d:.4}, p={p:.4} < α={:.4} — distribution shifted",
+                            cfg.dist_alpha
+                        ),
+                    ));
+                }
+            },
+        );
         if !any {
             out.mark_absent(
                 self.id(),
@@ -286,26 +298,32 @@ impl Detector for PsiDetector {
             out.mark_absent(self.id(), NO_BASELINE);
             return;
         };
-        let any = for_paired_numeric(ctx.current, baseline, cfg.dist_min_n, |name, bas, cur| {
-            let Some(value) = psi(bas, cur, cfg.psi_bins) else {
-                return;
-            };
-            if value > cfg.psi_threshold {
-                out.push(Finding::new(
-                    self.id(),
-                    AnomalyClass::Distributional,
-                    Handle::Dist {
-                        column: name.to_string(),
-                    },
-                    calibrate::from_exceedance(value, cfg.psi_threshold),
-                    value,
-                    format!(
-                        "{name}: PSI={value:.4} > {:.4} — population shifted",
-                        cfg.psi_threshold
-                    ),
-                ));
-            }
-        });
+        let any = for_paired_numeric(
+            ctx.current,
+            baseline,
+            cfg.dist_min_n,
+            cfg.column_roles,
+            |name, bas, cur| {
+                let Some(value) = psi(bas, cur, cfg.psi_bins) else {
+                    return;
+                };
+                if value > cfg.psi_threshold {
+                    out.push(Finding::new(
+                        self.id(),
+                        AnomalyClass::Distributional,
+                        Handle::Dist {
+                            column: name.to_string(),
+                        },
+                        calibrate::from_exceedance(value, cfg.psi_threshold),
+                        value,
+                        format!(
+                            "{name}: PSI={value:.4} > {:.4} — population shifted",
+                            cfg.psi_threshold
+                        ),
+                    ));
+                }
+            },
+        );
         if !any {
             out.mark_absent(
                 self.id(),
@@ -338,6 +356,11 @@ impl Detector for Chi2Detector {
         for col in &ctx.current.columns {
             // Categorical = string/bool columns; numerics are KS/PSI's job.
             if col.ty.is_numeric() {
+                continue;
+            }
+            // Skip identifier columns: a high-cardinality id mints a "new
+            // category" every row, so chi-square drift on it is pure noise.
+            if cfg.column_roles && col.role().skips_value_detection() {
                 continue;
             }
             let Some(bcol) = baseline.column(&col.name) else {
@@ -618,9 +641,11 @@ mod tests {
     fn ks_detector_confidence_is_calibrated_from_pvalue() {
         // Mild drift (shift 12) → flagged with a *meaningful* p-value, so the
         // calibrated confidence is the unified undercut mapping of (p vs alpha),
-        // distinguishable from a degenerate constant.
-        let base: Vec<f64> = (0..40).map(|i| i as f64).collect();
-        let cur: Vec<f64> = (0..40).map(|i| i as f64 + 12.0).collect();
+        // distinguishable from a degenerate constant. Values are a non-monotonic
+        // permutation (`*17 mod 40`) so the column reads as a measurement, not a
+        // sequence — KS sorts internally, so the statistic is unchanged.
+        let base: Vec<f64> = (0..40).map(|i| ((i * 17) % 40) as f64).collect();
+        let cur: Vec<f64> = (0..40).map(|i| ((i * 17) % 40) as f64 + 12.0).collect();
         let (b, c) = baseline_vs_current(vec![ncol("x", &base)], vec![ncol("x", &cur)]);
         let cfg = DetectConfig::default();
         let mut out = Report::new();
@@ -634,10 +659,65 @@ mod tests {
     }
 
     #[test]
+    fn numeric_detectors_skip_identifier_columns_by_role() {
+        // Strong drift on an identifier-named numeric column: the shared numeric
+        // iterator (KS + PSI) must skip it under roles, and assess it without.
+        let base: Vec<f64> = (0..40).map(|i| ((i * 17) % 40) as f64).collect();
+        let cur: Vec<f64> = (0..40).map(|i| ((i * 17) % 40) as f64 + 50.0).collect();
+        let (b, c) = baseline_vs_current(vec![ncol("user_id", &base)], vec![ncol("user_id", &cur)]);
+        let ctx = ScanContext::compared(&b, &c);
+
+        let mut on = Report::new();
+        KsDetector.detect(&ctx, &DetectConfig::default(), &mut on);
+        assert!(on.findings.is_empty(), "KS skips an identifier column");
+
+        let off = DetectConfig {
+            column_roles: false,
+            ..DetectConfig::default()
+        };
+        let mut off_out = Report::new();
+        KsDetector.detect(&ctx, &off, &mut off_out);
+        assert_eq!(off_out.findings.len(), 1, "--no-column-roles assesses it");
+    }
+
+    #[test]
+    fn chi2_skips_identifier_columns_by_role() {
+        // An id-named categorical column whose categories fully turn over (≥2
+        // distinct each side so it is an Identifier, not a Constant): chi2 would
+        // scream "new categories", but that is noise on an identifier.
+        let base: Vec<&str> = (0..50)
+            .map(|i| if i % 2 == 0 { "a" } else { "b" })
+            .collect();
+        let cur: Vec<&str> = (0..50)
+            .map(|i| if i % 2 == 0 { "c" } else { "d" })
+            .collect();
+        let (b, c) = baseline_vs_current(
+            vec![scol("session_id", &base)],
+            vec![scol("session_id", &cur)],
+        );
+        let ctx = ScanContext::compared(&b, &c);
+        let mut on = Report::new();
+        Chi2Detector.detect(&ctx, &DetectConfig::default(), &mut on);
+        assert!(on.findings.is_empty(), "chi2 skips an identifier column");
+        let mut off = Report::new();
+        Chi2Detector.detect(
+            &ctx,
+            &DetectConfig {
+                column_roles: false,
+                ..DetectConfig::default()
+            },
+            &mut off,
+        );
+        assert!(!off.findings.is_empty(), "--no-column-roles assesses it");
+    }
+
+    #[test]
     fn ks_detector_runs_at_exactly_min_n() {
         let n = DetectConfig::default().dist_min_n; // 20
-        let base: Vec<f64> = (0..n).map(|i| i as f64).collect();
-        let cur: Vec<f64> = (0..n).map(|i| i as f64 + 50.0).collect();
+                                                    // Non-monotonic permutation (`*7 mod 20`) so the column is a measurement,
+                                                    // not a sequence; the KS drift (shift 50) is preserved.
+        let base: Vec<f64> = (0..n).map(|i| ((i * 7) % n) as f64).collect();
+        let cur: Vec<f64> = (0..n).map(|i| ((i * 7) % n) as f64 + 50.0).collect();
         let (b, c) = baseline_vs_current(vec![ncol("x", &base)], vec![ncol("x", &cur)]);
         let mut out = Report::new();
         KsDetector.detect(

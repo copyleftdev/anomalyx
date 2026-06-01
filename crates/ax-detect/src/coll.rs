@@ -58,6 +58,12 @@ impl Detector for CusumDetector {
             if !col.ty.is_numeric() {
                 continue;
             }
+            // Skip identifier/sequence columns: a "level shift" in arbitrary ids
+            // is meaningless, and a monotonic counter is one big ramp the CUSUM
+            // would always flag. (`column_roles = false` disables this.)
+            if cfg.column_roles && col.role().skips_value_detection() {
+                continue;
+            }
             // Finite values in row order, with their original row indices.
             let pairs: Vec<(usize, f64)> = col
                 .cells
@@ -165,6 +171,38 @@ mod tests {
         assert!((standardized_shift(0.0, 6.0, 2.0, 2, 2) - 3.0).abs() < 1e-12);
         // asymmetric segment sizes: |0 − 2| / (1·√(1 + 1/3)) = 2/√(4/3) = √3.
         assert!((standardized_shift(0.0, 2.0, 1.0, 1, 3) - 3.0_f64.sqrt()).abs() < 1e-12);
+    }
+
+    #[test]
+    fn identifier_column_is_skipped_by_role() {
+        // A clean 10→40 level shift that a measurement column would flag as a
+        // range — but a shift in arbitrary ids is meaningless.
+        let mut v: Vec<f64> = vec![10.0; 20];
+        v.extend(std::iter::repeat_n(40.0, 20));
+        let rs = RecordSet::new(
+            "-",
+            "t",
+            vec![Column::new(
+                "user_id",
+                v.iter().map(|&x| Value::Float(x)).collect(),
+            )],
+        );
+        let mut on = Report::new();
+        CusumDetector.detect(&ScanContext::single(&rs), &DetectConfig::default(), &mut on);
+        assert!(
+            on.findings.is_empty(),
+            "cusum on an identifier column is skipped"
+        );
+        let mut off = Report::new();
+        CusumDetector.detect(
+            &ScanContext::single(&rs),
+            &DetectConfig {
+                column_roles: false,
+                ..DetectConfig::default()
+            },
+            &mut off,
+        );
+        assert_eq!(off.findings.len(), 1, "--no-column-roles assesses it");
     }
 
     #[test]
