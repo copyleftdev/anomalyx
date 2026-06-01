@@ -13,7 +13,7 @@
 //! committed: `0` clean, `1` anomalies found, `2` tool error.
 
 use ax_core::envelope::{EnvelopeBuilder, ExitCode, PROTOCOL};
-use ax_core::finding::Handle;
+use ax_core::finding::{Handle, Severity};
 use ax_core::{AxError, RecordSet, Value};
 use ax_detect::{DetectConfig, Registry, ScanContext};
 use std::io::Read;
@@ -81,6 +81,8 @@ fn usage() -> &'static str {
      \x20             (0<Q≤1), replacing the fixed modified-z threshold\n\
      --columns C,.. analyze only these columns (focus a wide corpus)\n\
      --exclude C,.. analyze every column except these\n\
+     --top N       emit only the N most severe findings (summary/exit unchanged)\n\
+     --min-severity S  emit only findings ≥ S (info|low|medium|high|critical)\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
@@ -101,7 +103,23 @@ struct ScanArgs {
     columns: Option<Vec<String>>,
     /// `--exclude`: analyze every column except these (denylist).
     exclude: Option<Vec<String>>,
+    /// `--top`: emit only the N most severe findings (output scoping).
+    top: Option<usize>,
+    /// `--min-severity`: emit only findings at or above this severity.
+    min_severity: Option<Severity>,
     positional: Vec<String>,
+}
+
+/// Parses a severity name (case-insensitive) to its bucket.
+fn parse_severity(s: &str) -> Option<Severity> {
+    match s.to_ascii_lowercase().as_str() {
+        "info" => Some(Severity::Info),
+        "low" => Some(Severity::Low),
+        "medium" => Some(Severity::Medium),
+        "high" => Some(Severity::High),
+        "critical" => Some(Severity::Critical),
+        _ => None,
+    }
 }
 
 /// Splits a `--columns`/`--exclude` value into trimmed, non-empty column names.
@@ -166,6 +184,26 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                     )));
                 }
                 parsed.fdr = Some(q);
+            }
+            "--top" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--top requires an integer".into()))?;
+                let n = v.parse::<usize>().ok().filter(|&n| n >= 1).ok_or_else(|| {
+                    AxError::Config(format!("--top must be a positive integer, got '{v}'"))
+                })?;
+                parsed.top = Some(n);
+            }
+            "--min-severity" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--min-severity requires a level".into()))?;
+                let s = parse_severity(v).ok_or_else(|| {
+                    AxError::Config(format!(
+                        "--min-severity must be one of info|low|medium|high|critical, got '{v}'"
+                    ))
+                })?;
+                parsed.min_severity = Some(s);
             }
             "--columns" => {
                 let v = it.next().ok_or_else(|| {
@@ -290,6 +328,14 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
     }
     for a in report.absent {
         builder = builder.absent(a.detector, a.reason);
+    }
+    // Output scoping: cap / floor the emitted findings. summary + exit still
+    // reflect everything detected, so this never hides that anomalies exist.
+    if let Some(s) = args.min_severity {
+        builder = builder.min_severity(s);
+    }
+    if let Some(n) = args.top {
+        builder = builder.top(n);
     }
     let env = builder.build();
 
@@ -594,6 +640,37 @@ mod tests {
         assert!(parse_scan_args(&strings(&["--fdr", "-0.1"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "1.5"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "inf"])).is_err());
+    }
+
+    #[test]
+    fn parse_scan_args_parses_and_validates_top() {
+        assert_eq!(
+            parse_scan_args(&strings(&["--top", "50", "x.csv"]))
+                .unwrap()
+                .top,
+            Some(50)
+        );
+        // missing, non-numeric, and zero are rejected (zero would emit nothing)
+        assert!(parse_scan_args(&strings(&["--top"])).is_err());
+        assert!(parse_scan_args(&strings(&["--top", "lots"])).is_err());
+        assert!(parse_scan_args(&strings(&["--top", "0"])).is_err());
+    }
+
+    #[test]
+    fn parse_scan_args_parses_and_validates_min_severity() {
+        let a = parse_scan_args(&strings(&["--min-severity", "High", "x.csv"])).unwrap();
+        assert_eq!(a.min_severity, Some(Severity::High));
+        // case-insensitive across the whole ladder
+        for (s, want) in [
+            ("info", Severity::Info),
+            ("low", Severity::Low),
+            ("MEDIUM", Severity::Medium),
+            ("critical", Severity::Critical),
+        ] {
+            assert_eq!(parse_severity(s), Some(want));
+        }
+        assert!(parse_scan_args(&strings(&["--min-severity"])).is_err());
+        assert!(parse_scan_args(&strings(&["--min-severity", "extreme"])).is_err());
     }
 
     #[test]

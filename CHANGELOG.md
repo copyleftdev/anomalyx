@@ -6,6 +6,30 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-06-01
+
+### Added
+
+- **`scan` gains output scoping: `--top N` and `--min-severity S`.** `--top N`
+  emits only the N most severe findings; `--min-severity S` emits only findings
+  at or above `S` (`info`/`low`/`medium`/`high`/`critical`). This is the volume
+  complement to `--fdr` — on a large corpus it shrinks the envelope dramatically
+  (a real 127k-row parquet: ~3 MB → ~5.6 KB with `--top 25`) while keeping the
+  full picture in `summary`.
+- **Honest truncation.** `summary` (`total`, `by_class`, `max_severity`) and the
+  **exit code** always describe everything *detected*, never the scoped view —
+  so filtering can't make anomalies look absent or flip exit `1`→`0`. When
+  findings are withheld, the envelope gains a `scope` block with the applied
+  filter and `detected` / `emitted` / `dropped` counts; `rows` carries only the
+  emitted subset. Absent when no scoping was applied (default output unchanged).
+
+### Changed
+
+- The envelope `summary.total` now reports the number of findings **detected**
+  (unchanged when no output scoping is applied, since detected == emitted then).
+  `rows.len()` equals `scope.emitted` when scoping is active. The `scope` field
+  and updated `schema` are additive; `PROTOCOL` is unchanged.
+
 ## [0.5.0] - 2026-05-31
 
 ### Added
@@ -203,7 +227,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...v0.4.0
