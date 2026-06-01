@@ -84,6 +84,7 @@ fn usage() -> &'static str {
      --top N       emit only the N most severe findings (summary/exit unchanged)\n\
      --min-severity S  emit only findings ≥ S (info|low|medium|high|critical)\n\
      --no-column-roles  don't skip identifier/sequence columns (roles still shown)\n\
+     --set K=V     override a detector-config field (see `describe`); repeatable\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
 }
 
@@ -111,7 +112,61 @@ struct ScanArgs {
     /// `--no-column-roles`: disable role-based detector skipping (roles are
     /// still reported in the envelope).
     no_column_roles: bool,
+    /// `--set key=value`: detector-config field overrides, applied in order.
+    sets: Vec<(String, String)>,
     positional: Vec<String>,
+}
+
+/// Applies `--set key=value` overrides onto `cfg` by field name, via a JSON
+/// round-trip so every [`DetectConfig`] field is settable without per-field
+/// code. An unknown key, or a value that doesn't fit the field, is a hard error
+/// (exit `2`). The overridden values feed `config_version`, so every change is
+/// visible and reproducible — tuning is never silent.
+fn apply_overrides(cfg: DetectConfig, sets: &[(String, String)]) -> Result<DetectConfig, AxError> {
+    if sets.is_empty() {
+        return Ok(cfg);
+    }
+    let mut value = serde_json::to_value(&cfg).expect("DetectConfig serializes");
+    let obj = value
+        .as_object_mut()
+        .expect("DetectConfig is a JSON object");
+    for (key, raw) in sets {
+        let existing = obj.get(key).ok_or_else(|| {
+            AxError::Config(format!(
+                "--set: unknown config key '{key}' (see `describe`)"
+            ))
+        })?;
+        let parsed = parse_override(existing, raw).ok_or_else(|| {
+            AxError::Config(format!("--set {key}: cannot parse '{raw}' for this field"))
+        })?;
+        obj.insert(key.clone(), parsed);
+    }
+    serde_json::from_value(value)
+        .map_err(|e| AxError::Config(format!("--set produced an invalid config: {e}")))
+}
+
+/// Parses an override string into the JSON shape of the field's current value:
+/// bool→bool, float-number→float, integer-number→integer, string→string, and a
+/// currently-null (optional) field → number else string.
+fn parse_override(existing: &serde_json::Value, raw: &str) -> Option<serde_json::Value> {
+    use serde_json::Value as J;
+    match existing {
+        J::Bool(_) => raw.parse::<bool>().ok().map(J::Bool),
+        J::Number(n) if n.is_f64() => raw
+            .parse::<f64>()
+            .ok()
+            .and_then(serde_json::Number::from_f64)
+            .map(J::Number),
+        J::Number(_) => raw.parse::<i64>().ok().map(|i| J::Number(i.into())),
+        J::String(_) => Some(J::String(raw.to_string())),
+        J::Null => raw
+            .parse::<f64>()
+            .ok()
+            .and_then(serde_json::Number::from_f64)
+            .map(J::Number)
+            .or_else(|| Some(J::String(raw.to_string()))),
+        _ => None,
+    }
 }
 
 /// Parses a severity name (case-insensitive) to its bucket.
@@ -211,6 +266,20 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
             }
             "--no-column-roles" => {
                 parsed.no_column_roles = true;
+            }
+            "--set" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--set requires KEY=VALUE".into()))?;
+                let (k, val) = v.split_once('=').ok_or_else(|| {
+                    AxError::Config(format!("--set expects KEY=VALUE, got '{v}'"))
+                })?;
+                if k.is_empty() || val.is_empty() {
+                    return Err(AxError::Config(format!(
+                        "--set KEY and VALUE must both be non-empty, got '{v}'"
+                    )));
+                }
+                parsed.sets.push((k.to_string(), val.to_string()));
             }
             "--columns" => {
                 let v = it.next().ok_or_else(|| {
@@ -322,7 +391,7 @@ fn cmd_scan(rest: &[String]) -> Result<ExitCode, AxError> {
         .map(|b| scope_columns(b, &args, false))
         .transpose()?;
 
-    let cfg = config_for(&args);
+    let cfg = apply_overrides(config_for(&args), &args.sets)?;
     let ctx = match &baseline {
         Some(b) => ScanContext::compared(b, &rs),
         None => ScanContext::single(&rs),
@@ -386,7 +455,7 @@ fn cmd_explain(rest: &[String]) -> Result<ExitCode, AxError> {
     let evidence = resolve_handle(&rs, &handle)?;
 
     // Re-run detection and attach any findings that point at this handle.
-    let cfg = config_for(&args);
+    let cfg = apply_overrides(config_for(&args), &args.sets)?;
     let ctx = match &baseline {
         Some(b) => ScanContext::compared(b, &rs),
         None => ScanContext::single(&rs),
@@ -659,6 +728,70 @@ mod tests {
         assert!(parse_scan_args(&strings(&["--fdr", "-0.1"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "1.5"])).is_err());
         assert!(parse_scan_args(&strings(&["--fdr", "inf"])).is_err());
+    }
+
+    #[test]
+    fn parse_scan_args_parses_set_overrides() {
+        let a = parse_scan_args(&strings(&[
+            "--set",
+            "point_threshold=4.0",
+            "--set",
+            "column_roles=false",
+            "x.csv",
+        ]))
+        .unwrap();
+        assert_eq!(
+            a.sets,
+            vec![
+                ("point_threshold".to_string(), "4.0".to_string()),
+                ("column_roles".to_string(), "false".to_string()),
+            ]
+        );
+        // missing value, no '=', empty key/value are rejected
+        assert!(parse_scan_args(&strings(&["--set"])).is_err());
+        assert!(parse_scan_args(&strings(&["--set", "noequals"])).is_err());
+        assert!(parse_scan_args(&strings(&["--set", "=5"])).is_err());
+        assert!(parse_scan_args(&strings(&["--set", "k="])).is_err());
+    }
+
+    #[test]
+    fn apply_overrides_sets_fields_and_rejects_bad_keys_and_values() {
+        let base = DetectConfig::default();
+        // float, integer, and bool fields all override by name
+        let cfg = apply_overrides(
+            base.clone(),
+            &[
+                ("point_threshold".into(), "4.0".into()),
+                ("point_min_n".into(), "5".into()),
+                ("column_roles".into(), "false".into()),
+            ],
+        )
+        .unwrap();
+        assert_eq!(cfg.point_threshold, 4.0);
+        assert_eq!(cfg.point_min_n, 5);
+        assert!(!cfg.column_roles);
+        // an Option field (currently None) can be set
+        let cfg2 = apply_overrides(base.clone(), &[("point_fdr_q".into(), "0.05".into())]).unwrap();
+        assert_eq!(cfg2.point_fdr_q, Some(0.05));
+        // a field whose current value is a string (an already-set cadence column)
+        // overrides as a string — exercises the string branch.
+        let with_cad = DetectConfig {
+            cadence_column: Some("ts".into()),
+            ..DetectConfig::default()
+        };
+        let cfg3 = apply_overrides(with_cad, &[("cadence_column".into(), "other".into())]).unwrap();
+        assert_eq!(cfg3.cadence_column.as_deref(), Some("other"));
+        // overriding changes the config-version fingerprint (visible, reproducible)
+        assert_ne!(cfg.version(), base.version());
+        // empty overrides ⇒ unchanged
+        assert_eq!(
+            apply_overrides(base.clone(), &[]).unwrap().version(),
+            base.version()
+        );
+        // unknown key and unparseable value are hard errors
+        assert!(apply_overrides(base.clone(), &[("nope".into(), "1".into())]).is_err());
+        assert!(apply_overrides(base.clone(), &[("point_min_n".into(), "4.5".into())]).is_err());
+        assert!(apply_overrides(base, &[("column_roles".into(), "maybe".into())]).is_err());
     }
 
     #[test]
