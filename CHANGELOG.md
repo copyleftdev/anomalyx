@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-06-01
+
+### Added
+
+- **`scan` / `explain` gain `--set KEY=VALUE`** (repeatable) — override any
+  detector-config field by name (`--set point_threshold=4.0`, `--set
+  dist_alpha=0.01`, `--set column_roles=false`, …). The settable keys and their
+  defaults are exactly what `describe`'s `config` object lists. An unknown key,
+  or a value that doesn't fit the field's type, is a hard error (exit `2`).
+  Overrides flow into `config_version`, so a tuned run stays reproducible and
+  self-describing — tuning is never silent. (The common knobs keep their
+  dedicated flags: `--fdr`, `--cad-max-cv`, `--period`, `--cadence`.)
+- Implemented as a JSON round-trip over the serialized `DetectConfig`, so every
+  field is settable with no per-field code; no envelope/`PROTOCOL` change.
+
 ### Testing
 
 - **Golden-envelope snapshot tests** (`anomalyx/tests/golden.rs`). Run the actual
@@ -294,7 +309,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...v0.6.0

@@ -92,6 +92,21 @@ real 20k-entry journald capture it cuts point findings from ~12,500 to ~240 (the
 `_PID`/`_UID`/`JOB_ID`/timestamp columns) while leaving genuine measurements
 untouched. The setting is part of `config_version` (`cr=`).
 
+## `--set KEY=VALUE` — tune detector config
+
+Every detector threshold is a field of the config that `describe` reports.
+`--set` overrides any of them by name (repeatable):
+
+```console
+$ anomalyx scan --set point_threshold=4.0 --set dist_alpha=0.01 data.csv
+$ anomalyx describe | jq .config        # the settable keys + their defaults
+```
+
+An unknown key or a value that doesn't fit the field is a hard error (exit `2`).
+Overrides flow into `config_version`, so a tuned run is just as reproducible and
+self-describing as a default one — the knob is never hidden. (The common knobs
+also have dedicated flags: `--fdr`, `--cad-max-cv`, `--period`, `--cadence`.)
+
 ## `--top N` / `--min-severity S` — output scoping
 
 Detection can surface tens of thousands of findings on a large corpus. These two
