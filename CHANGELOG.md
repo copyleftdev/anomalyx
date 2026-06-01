@@ -24,6 +24,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `PROTOCOL` are unchanged; `--no-column-roles` restores the pre-roles behavior
   across all detectors.
 
+### Testing
+
+- Scoped the parser-robustness harness's magic-prefixed fuzz test to formats
+  whose decode allocation anomalyx bounds (`sqlite`). The binary *container*
+  decoders (`parquet`/`arrow`, `avro`, `orc`, `evtx`, `pcap`) delegate to crates
+  that trust the file's internal length fields and can attempt a large
+  allocation on adversarial input — a property of binary-format parsing, now
+  **documented** rather than asserted (it surfaced as an intermittent CI OOM).
+  Those parsers are still fuzzed with arbitrary bytes (rejected at the magic
+  check).
+
 ## [1.0.1] - 2026-06-01
 
 ### Fixed
