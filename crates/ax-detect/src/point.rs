@@ -14,7 +14,7 @@
 use crate::config::DetectConfig;
 use crate::{fdr, robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
-use ax_core::{AnomalyClass, Column, Finding, Value};
+use ax_core::{AnomalyClass, Column, Finding, Role, Value};
 
 #[derive(Debug, Default, Clone)]
 pub struct PointDetector;
@@ -29,7 +29,8 @@ impl Detector for PointDetector {
     }
 
     fn detect(&self, ctx: &ScanContext, cfg: &DetectConfig, out: &mut Report) {
-        let mut applicable = 0usize;
+        let mut eligible = 0usize; // numeric columns with enough finite values
+        let mut scanned = 0usize; // of those, the ones a role didn't skip
         for col in &ctx.current.columns {
             if !col.ty.is_numeric() {
                 continue;
@@ -38,16 +39,35 @@ impl Detector for PointDetector {
             if xs.len() < cfg.point_min_n {
                 continue;
             }
-            applicable += 1;
+            eligible += 1;
+            // Skip columns whose role makes a magnitude outlier meaningless: an
+            // identifier (arbitrary label) or a monotonic sequence (a ramp's
+            // "outlier" is just its endpoint). A constant column is left to
+            // `scan_column` (it self-no-ops). Roles still ship in the envelope;
+            // `column_roles = false` disables this skipping entirely.
+            if cfg.column_roles && matches!(col.role(), Role::Identifier | Role::Sequence) {
+                continue;
+            }
+            scanned += 1;
             self.scan_column(col, &xs, cfg, out);
         }
-        if applicable == 0 {
+        // Honest absence only when there was nothing to measure in the first
+        // place — not when columns existed but were all role-skipped (point ran;
+        // it simply had no measurement column to flag).
+        if eligible == 0 {
             out.mark_absent(
                 self.id(),
                 format!(
                     "no numeric column with at least {} finite values",
                     cfg.point_min_n
                 ),
+            );
+        } else if scanned == 0 {
+            out.mark_absent(
+                self.id(),
+                "every numeric column was an identifier, category, or sequence \
+                 (no measurement column to assess; see `roles`)"
+                    .to_string(),
             );
         }
     }
@@ -309,6 +329,65 @@ mod tests {
             r.findings[0].handle,
             Handle::Cell { row: 100, .. }
         ));
+    }
+
+    fn cfg_no_roles() -> DetectConfig {
+        DetectConfig {
+            column_roles: false,
+            ..DetectConfig::default()
+        }
+    }
+
+    #[test]
+    fn identifier_named_column_is_skipped_by_role() {
+        // An id-named numeric column with a blatant "outlier": skipped when roles
+        // are on (a big PID is not an anomaly), scanned when roles are off.
+        let mut xs = vec![100.0; 30];
+        xs.push(999_999.0);
+        let id_col = col("_PID", &xs);
+        let rs = ax_core::RecordSet::new("-", "t", vec![id_col]);
+
+        let mut on = Report::new();
+        PointDetector.detect(&ScanContext::single(&rs), &DetectConfig::default(), &mut on);
+        assert!(
+            on.findings.is_empty(),
+            "identifier column must be role-skipped"
+        );
+        // It WAS the only numeric column and it was skipped → honest absence.
+        assert_eq!(on.absent.len(), 1);
+
+        let mut off = Report::new();
+        PointDetector.detect(&ScanContext::single(&rs), &cfg_no_roles(), &mut off);
+        assert_eq!(
+            off.findings.len(),
+            1,
+            "--no-column-roles scans it as before"
+        );
+    }
+
+    #[test]
+    fn measurement_column_alongside_identifier_still_scanned() {
+        // A measurement column is assessed even when an identifier column sits
+        // next to it; only the identifier is skipped.
+        let mut m = vec![10.0; 30];
+        m.push(1000.0);
+        let rs = ax_core::RecordSet::new("-", "t", vec![col("fare", &m), col("user_id", &m)]);
+        let mut out = Report::new();
+        PointDetector.detect(
+            &ScanContext::single(&rs),
+            &DetectConfig::default(),
+            &mut out,
+        );
+        assert_eq!(
+            out.findings.len(),
+            1,
+            "only the measurement column's outlier"
+        );
+        match &out.findings[0].handle {
+            Handle::Cell { column, .. } => assert_eq!(column, "fare"),
+            _ => unreachable!(),
+        }
+        assert!(out.absent.is_empty(), "a measurement column WAS assessed");
     }
 
     #[test]

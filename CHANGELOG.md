@@ -6,6 +6,32 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-06-01
+
+### Added
+
+- **Column roles.** Every scanned column is classified into a role —
+  `measurement` / `identifier` / `categorical` / `sequence` / `constant` — and the
+  full map ships in the envelope's new `roles` array. The point detector skips
+  `identifier` and `sequence` columns (a "large process-id" or a counter's
+  endpoint is not an anomaly), attacking noise at the *detection* layer. On a real
+  20k journald capture this cuts point findings from ~12,500 to ~240 while leaving
+  genuine measurements (e.g. a parquet's heavily-skewed `DAYS_LOST`) untouched.
+- **`--no-column-roles`** disables role-based skipping (roles are still reported).
+  The setting is part of the `config_version` fingerprint (`cr=`).
+
+### Design
+
+- Identifiers are recognized by **name** (`*_id`, `uid`, `gid`, `pid`, `tid`,
+  `session`, `uuid`, …) — the only reliable signal, since a process-id column is
+  statistically indistinguishable from a discrete measurement. Cardinality is
+  deliberately *not* used to call a numeric column categorical (a near-constant
+  column with a few outliers has low cardinality yet is exactly what point
+  detection should catch). Heuristic, but never silent: every role is in the
+  envelope and the skipping is one flag away from off.
+- New `ax_core::roles` module (`Role`, `ColumnRole`, `Column::role`); `roles`
+  added to the envelope and `schema`. Additive; `PROTOCOL` unchanged.
+
 ## [0.6.0] - 2026-06-01
 
 ### Added
@@ -227,7 +253,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...v0.4.1

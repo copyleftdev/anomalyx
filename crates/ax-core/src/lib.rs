@@ -24,9 +24,11 @@ pub mod envelope;
 pub mod error;
 pub mod finding;
 pub mod record;
+pub mod roles;
 pub mod value;
 
 pub use error::{AxError, Result};
 pub use finding::{AnomalyClass, Finding, Handle, Severity};
 pub use record::{Column, RecordSet};
+pub use roles::{ColumnRole, Role};
 pub use value::{ColType, Value};
