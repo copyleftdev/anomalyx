@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-06-01
+
+### Fixed
+
+- **Syslog: the PRI-less file format now parses.** rsyslog/syslog-ng write
+  `/var/log/syslog` without the `<PRI>` wire header (an ISO-8601 or BSD timestamp,
+  then host and tag), but the parser's sniff required a `<PRI>` — so a real
+  `/var/log/syslog` was misdetected as `ini` and collapsed to a single garbage
+  row. It is now recognized (timestamp + host + app) and parses one row per line;
+  `facility`/`severity` are present only when a `<PRI>` is. Found by dogfooding
+  the host's real syslog (50k lines → `ini`/1 row, now → `syslog`/50k rows).
+- **Column roles: `procid` is recognized as an identifier.** The syslog `procid`
+  (process id) column was classed a `measurement`, so PIDs were flagged as point
+  outliers (~18.5k noise findings on a 50k-line syslog). `procid` joins the
+  identifier name set, so it is skipped like other ids (→ 1 finding).
+
 ## [1.0.0] - 2026-06-01
 
 First stable release. No code changes from `0.9.0` — this commits the contract.
@@ -327,7 +343,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/copyleftdev/anomalyx/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...v0.8.0
