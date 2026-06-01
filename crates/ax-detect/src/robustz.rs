@@ -34,14 +34,6 @@ pub fn score(x: f64, center: f64, scale: f64, k: f64) -> f64 {
     (k * (x - center) / scale).abs()
 }
 
-/// Maps a modified z-score to a calibrated confidence in `[0, 1]`: logistic in
-/// the excess `modz − threshold`, so `modz == threshold` gives 0.5 and it rises
-/// monotonically toward 1.0.
-pub fn confidence(modz: f64, threshold: f64) -> f64 {
-    let excess = modz - threshold;
-    1.0 / (1.0 + (-excess).exp())
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -51,13 +43,6 @@ mod tests {
         assert_eq!(score(20.0, 10.0, 2.0, 0.5), 2.5);
         assert_eq!(score(0.0, 10.0, 2.0, 1.0), 5.0);
         assert_eq!(score(4.0, 10.0, 3.0, 1.0), 2.0);
-    }
-
-    #[test]
-    fn confidence_is_half_at_threshold_and_monotonic() {
-        assert_eq!(confidence(3.5, 3.5), 0.5);
-        assert!(confidence(2.0, 3.5) < 0.5);
-        assert!(confidence(6.0, 3.5) > confidence(4.0, 3.5));
     }
 
     #[test]

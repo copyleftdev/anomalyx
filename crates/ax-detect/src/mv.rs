@@ -15,7 +15,7 @@
 
 use crate::config::DetectConfig;
 use crate::dist::chi2_pvalue;
-use crate::{linalg, Detector, Report, ScanContext};
+use crate::{calibrate, linalg, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{det, AnomalyClass, Finding, RecordSet};
 
@@ -153,7 +153,7 @@ impl Detector for MahalanobisDetector {
                     self.id(),
                     AnomalyClass::Multivariate,
                     Handle::Row { row },
-                    1.0 - p,
+                    calibrate::from_undercut(p, cfg.mv_alpha),
                     dsq,
                     format!(
                         "row {row}: Mahalanobis D²={dsq:.3} over {} numeric columns, p={p:.3e} < α={:.3e} — joint outlier",
@@ -254,9 +254,9 @@ mod tests {
         assert_eq!(report.findings.len(), 1);
         assert!(matches!(report.findings[0].handle, Handle::Row { row: 40 }));
         assert_eq!(report.findings[0].class, AnomalyClass::Multivariate);
-        // confidence is 1 − p with p > 0, so strictly below 1.0 (pins `1 - p`).
-        assert!(report.findings[0].confidence < 1.0);
-        assert!(report.findings[0].confidence > 0.99);
+        // A clear joint outlier sits far past the alpha bar, so the unified
+        // undercut calibration drives confidence to the critical end.
+        assert!(report.findings[0].confidence > 0.95);
     }
 
     #[test]

@@ -12,7 +12,7 @@
 //! exactly what the property tests pin down.
 
 use crate::config::DetectConfig;
-use crate::{fdr, robustz, Detector, Report, ScanContext};
+use crate::{calibrate, fdr, robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Column, Finding, Role, Value};
 
@@ -81,7 +81,7 @@ impl PointDetector {
         };
 
         match cfg.point_fdr_q {
-            Some(q) => self.scan_column_fdr(col, center, scale, q, cfg, out),
+            Some(q) => self.scan_column_fdr(col, center, scale, q, out),
             None => self.scan_column_threshold(col, center, scale, k, cfg, out),
         }
     }
@@ -114,7 +114,7 @@ impl PointDetector {
                 col,
                 row,
                 modz,
-                robustz::confidence(modz, cfg.point_threshold),
+                calibrate::from_exceedance(modz, cfg.point_threshold),
                 reason,
                 out,
             );
@@ -125,15 +125,7 @@ impl PointDetector {
     /// flag only the cells that survive Benjamini–Hochberg control at level `q`
     /// *within this column*. A column that is really just noise rejects nothing,
     /// so it stops contributing chance flags; the fixed threshold is bypassed.
-    fn scan_column_fdr(
-        &self,
-        col: &Column,
-        center: f64,
-        scale: f64,
-        q: f64,
-        cfg: &DetectConfig,
-        out: &mut Report,
-    ) {
+    fn scan_column_fdr(&self, col: &Column, center: f64, scale: f64, q: f64, out: &mut Report) {
         // First pass: (row, value, |z|, p) for every finite cell, in cell order.
         // `z = (x − center)/scale` is the consistent-σ standardized deviation
         // (≈ N(0, 1) under the null in both the MAD and σ branches) — unlike
@@ -169,7 +161,7 @@ impl PointDetector {
                 col,
                 row,
                 z,
-                robustz::confidence(z, cfg.point_threshold),
+                calibrate::from_undercut(p, cutoff),
                 reason,
                 out,
             );

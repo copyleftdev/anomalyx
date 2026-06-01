@@ -11,7 +11,7 @@
 //! reports absence; it simply emits fewer findings when there is no baseline.
 
 use crate::config::DetectConfig;
-use crate::{Detector, Report, ScanContext};
+use crate::{calibrate, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, ColType, Finding, RecordSet};
 
@@ -51,7 +51,7 @@ impl SchemaDetector {
                         self.id(),
                         AnomalyClass::Structural,
                         Self::col_handle(&col.name),
-                        frac,
+                        calibrate::from_exceedance(frac, cfg.struct_null_rate),
                         frac,
                         format!("column '{}' is {:.0}% null", col.name, frac * 100.0),
                     )

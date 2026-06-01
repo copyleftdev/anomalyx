@@ -14,6 +14,7 @@
 //! The statistics are deterministic: sorted samples, fixed bin edges derived
 //! from baseline quantiles, and order-independent reductions via [`ax_core::det`].
 
+use crate::calibrate;
 use crate::config::DetectConfig;
 use crate::{Detector, Report, ScanContext};
 use ax_core::det;
@@ -126,12 +127,6 @@ pub fn psi(baseline: &[f64], current: &[f64], bins: usize) -> Option<f64> {
         })
         .collect();
     Some(det::det_sum(&terms))
-}
-
-/// Maps a PSI value to a confidence in `[0, 1]`, logistic around `threshold`
-/// (PSI == threshold ⇒ 0.5). Strictly increasing in PSI.
-fn psi_confidence(psi: f64, threshold: f64) -> f64 {
-    1.0 / (1.0 + (-(psi - threshold) / 0.1).exp())
 }
 
 // ---------------------------------------------------------------------------
@@ -254,7 +249,7 @@ impl Detector for KsDetector {
                     Handle::Dist {
                         column: name.to_string(),
                     },
-                    1.0 - p,
+                    calibrate::from_undercut(p, cfg.dist_alpha),
                     d,
                     format!(
                         "{name}: KS D={d:.4}, p={p:.4} < α={:.4} — distribution shifted",
@@ -302,7 +297,7 @@ impl Detector for PsiDetector {
                     Handle::Dist {
                         column: name.to_string(),
                     },
-                    psi_confidence(value, cfg.psi_threshold),
+                    calibrate::from_exceedance(value, cfg.psi_threshold),
                     value,
                     format!(
                         "{name}: PSI={value:.4} > {:.4} — population shifted",
@@ -361,7 +356,7 @@ impl Detector for Chi2Detector {
                     Handle::Dist {
                         column: col.name.clone(),
                     },
-                    1.0 - p,
+                    calibrate::from_undercut(p, cfg.dist_alpha),
                     stat,
                     format!(
                         "{}: χ²={stat:.3} (dof={dof}), p={p:.4} < α={:.4} — category mix changed",
@@ -449,13 +444,6 @@ mod tests {
     #[test]
     fn psi_none_when_baseline_too_small() {
         assert_eq!(psi(&[1.0, 2.0, 3.0], &[1.0, 2.0], 10), None);
-    }
-
-    #[test]
-    fn psi_confidence_is_half_at_threshold_and_monotonic() {
-        assert_eq!(psi_confidence(0.2, 0.2), 0.5);
-        assert!(psi_confidence(0.1, 0.2) < 0.5);
-        assert!(psi_confidence(0.5, 0.2) > psi_confidence(0.3, 0.2));
     }
 
     #[test]
@@ -611,12 +599,6 @@ mod tests {
     }
 
     #[test]
-    fn psi_confidence_exact() {
-        // (0.3 − 0.2)/0.1 = 1.0 ⇒ sigmoid(1) = 0.7310585786300049.
-        assert!((psi_confidence(0.3, 0.2) - 0.7310585786300049).abs() < 1e-15);
-    }
-
-    #[test]
     fn chi2_categorical_exact_stat() {
         let base: BTreeMap<String, usize> = [("a".to_string(), 10), ("b".to_string(), 30)]
             .into_iter()
@@ -633,22 +615,22 @@ mod tests {
     // ----- detector boundary & confidence behavior -----
 
     #[test]
-    fn ks_detector_confidence_is_one_minus_pvalue() {
+    fn ks_detector_confidence_is_calibrated_from_pvalue() {
         // Mild drift (shift 12) → flagged with a *meaningful* p-value, so the
-        // exact `1 − p` confidence is distinguishable from `1 + p` / `1 / p`.
+        // calibrated confidence is the unified undercut mapping of (p vs alpha),
+        // distinguishable from a degenerate constant.
         let base: Vec<f64> = (0..40).map(|i| i as f64).collect();
         let cur: Vec<f64> = (0..40).map(|i| i as f64 + 12.0).collect();
         let (b, c) = baseline_vs_current(vec![ncol("x", &base)], vec![ncol("x", &cur)]);
+        let cfg = DetectConfig::default();
         let mut out = Report::new();
-        KsDetector.detect(
-            &ScanContext::compared(&b, &c),
-            &DetectConfig::default(),
-            &mut out,
-        );
+        KsDetector.detect(&ScanContext::compared(&b, &c), &cfg, &mut out);
         assert_eq!(out.findings.len(), 1);
         let p = ks_pvalue(ks_statistic(&base, &cur).unwrap(), 40, 40);
-        assert!((out.findings[0].confidence - (1.0 - p)).abs() < 1e-12);
-        assert!(out.findings[0].confidence < 0.99);
+        let expected = calibrate::from_undercut(p, cfg.dist_alpha);
+        assert!((out.findings[0].confidence - expected).abs() < 1e-12);
+        // p well below alpha ⇒ confidence above the at-threshold 0.5.
+        assert!(out.findings[0].confidence > 0.5);
     }
 
     #[test]
