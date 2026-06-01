@@ -305,7 +305,10 @@ mod tests {
         xs.push(200.0);
         let r = run_cfg(&xs, &fdr_cfg(0.05));
         assert_eq!(r.findings.len(), 1, "only the 200 outlier is significant");
-        assert!(matches!(r.findings[0].handle, Handle::Cell { row: 100, .. }));
+        assert!(matches!(
+            r.findings[0].handle,
+            Handle::Cell { row: 100, .. }
+        ));
     }
 
     #[test]
