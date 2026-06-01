@@ -6,6 +6,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-06-01
+
+First stable release. No code changes from `0.9.0` — this commits the contract.
+
+### Stable
+
+- The **`tq1` contract is now stable**: the protocol id `anomalyx/tq1`, the exit
+  codes (`0`/`1`/`2`), the dense finding-row layout, the handle forms
+  (`column:`/`cell:`/`row:`/`range:`/`dist:`), the required envelope fields, and
+  the severity ladder. Breaking any of these requires a major bump and a
+  `PROTOCOL` change — they will not change quietly under `1.x`. See
+  [the contract's Stability section](docs/src/contract.md).
+- Continues to evolve *additively* under `1.x`: new detectors, formats, optional
+  flags, and optional envelope fields. Output-affecting config changes move the
+  `config_version` fingerprint; determinism (same input + same `config_version`
+  ⇒ byte-identical output) is absolute. The golden-envelope tests guard all of
+  this against accidental drift.
+
 ## [0.9.0] - 2026-06-01
 
 ### Added
@@ -309,7 +327,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...v1.0.0
 [0.9.0]: https://github.com/copyleftdev/anomalyx/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/copyleftdev/anomalyx/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/copyleftdev/anomalyx/compare/v0.6.0...v0.7.0

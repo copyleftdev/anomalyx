@@ -53,3 +53,28 @@ $ anomalyx explain cell:amount:8 sales.csv
  "evidence":{"kind":"cell","column":"amount","row":8,"value":{"t":"int","v":9999}},
  "findings":[{"detector":"point.modz","class":"point","confidence":1.0, ... }]}
 ```
+
+## Stability (1.0)
+
+As of **1.0**, the `tq1` contract is stable and committed. An agent can rely on
+these without pinning a patch version:
+
+- the protocol id **`anomalyx/tq1`** (`envelope::PROTOCOL`);
+- the **exit codes** — `0` clean, `1` anomalies found, `2` error;
+- the **dense finding-row layout** (`[detector, class, handle, confidence,
+  severity, score, reason]`) and the dictionary-pinned string table;
+- the **handle forms** (`column:` / `cell:` / `row:` / `range:` / `dist:`) and
+  their canonical string shapes;
+- the envelope's required fields and the `severity` ladder
+  (`info < low < medium < high < critical`).
+
+Breaking any of these requires a **major bump and a `PROTOCOL` change** — they
+will not change quietly under `1.x`.
+
+What still evolves *additively* under `1.x`: new detectors, new input formats,
+new optional CLI flags, and new optional envelope fields (consumers must ignore
+unknown fields). Anything that changes detector *output* for a given input —
+a new threshold default, a recalibration — moves the **`config_version`**
+fingerprint, so "the tool changed" stays distinguishable from "the data changed."
+Determinism remains absolute: same input + same `config_version` ⇒ byte-identical
+output.
