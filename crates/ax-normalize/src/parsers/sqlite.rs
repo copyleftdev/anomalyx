@@ -65,8 +65,26 @@ impl FormatParser for SqliteParser {
         bytes.starts_with(SQLITE_MAGIC).then_some(MAGIC)
     }
     fn parse(&self, _source: &str, bytes: &[u8]) -> Result<Vec<Column>, AxError> {
+        // A WAL-mode database sets the file header's *read version* (byte 19) to
+        // 2. We only ever receive the main-file image — the `-wal` companion does
+        // not travel in a byte stream — and SQLite refuses to open a
+        // read-version-2 image read-only, returning SQLITE_CANTOPEN. The main
+        // image of a checkpointed WAL database is itself a complete, valid
+        // database, so we reinterpret it as legacy (read version 1) on a private
+        // copy and read its checkpointed state. This is read-only: we never write
+        // these bytes back. (Byte 18, the write version, does not gate reads.)
+        let patched: Vec<u8>;
+        let data: &[u8] = if bytes.get(19) == Some(&2) {
+            let mut v = bytes.to_vec();
+            v[19] = 1;
+            patched = v;
+            &patched
+        } else {
+            bytes
+        };
+
         let mut conn = Connection::open_in_memory().map_err(|e| self.err(e))?;
-        conn.deserialize_read_exact(MAIN_DB, Cursor::new(bytes), bytes.len(), true)
+        conn.deserialize_read_exact(MAIN_DB, Cursor::new(data), data.len(), true)
             .map_err(|e| self.err(e))?;
 
         // First user table (deterministic order; internal tables excluded).
@@ -149,6 +167,24 @@ mod tests {
         // `alpha` sorts before `zeta`, so its column is the one scanned.
         assert_eq!(col(&cols, "a").cells, vec![Value::Str("first".into())]);
         assert!(cols.iter().all(|c| c.name != "z"));
+    }
+
+    #[test]
+    fn reads_a_wal_mode_database() {
+        // Production databases (browsers, peewee/yfinance, many apps) default to
+        // WAL journal mode, whose header read-version byte (19) is 2. The
+        // main-file image alone then can't be opened read-only without its `-wal`
+        // companion — SQLite returns CANTOPEN. Flip a valid DB's read-version to
+        // 2 to simulate WAL; the parser must still read it by reinterpreting the
+        // checkpointed image as legacy (read-version 1).
+        let mut db = build_db(EVENTS);
+        assert_eq!(db[19], 1, "serialized fixture should start as legacy");
+        db[19] = 2;
+        let cols = SqliteParser.parse("app.db", &db).unwrap();
+        assert_eq!(
+            col(&cols, "id").cells,
+            vec![Value::Int(1), Value::Int(2), Value::Int(3)]
+        );
     }
 
     #[test]

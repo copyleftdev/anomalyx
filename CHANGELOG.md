@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-31
+
+### Fixed
+
+- **SQLite: WAL-mode databases now read.** The parser loads a database from its
+  main-file byte image via SQLite's read-only deserialize. A database in WAL
+  journal mode carries read-version `2` in its file header (byte 19), and SQLite
+  refuses to open such an image read-only without the `-wal` companion (which
+  never travels in a byte stream) — failing with `unable to open database file`
+  (`SQLITE_CANTOPEN`). Since the main image of a checkpointed WAL database is a
+  complete, valid database, the parser now reinterprets it as legacy
+  (read-version `1`) on a private copy and reads its checkpointed state. This
+  unblocks the common case: most production `.db` files (browsers, peewee, and
+  countless apps) default to WAL. Found by dogfooding real on-disk databases.
+
 ## [0.4.0] - 2026-05-31
 
 ### Added
@@ -158,7 +173,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...v0.2.2
