@@ -64,6 +64,32 @@ choice, never a hidden one.
 > Rows are treated in their given order as the time axis. If your data isn't
 > already time-ordered, sort it first.
 
+## `--top N` / `--min-severity S` — output scoping
+
+Detection can surface tens of thousands of findings on a large corpus. These two
+flags scope what `scan` *emits* without touching what it *detects*:
+
+```console
+$ anomalyx scan --top 50 big.parquet              # the 50 most severe
+$ anomalyx scan --min-severity high big.parquet   # only high/critical
+$ anomalyx scan --fdr 0.01 --min-severity high --top 25 big.parquet   # compose
+```
+
+`--top N` keeps the N most severe findings (the row list is already sorted
+severity-first); `--min-severity S` keeps findings at or above `S`
+(`info` < `low` < `medium` < `high` < `critical`).
+
+**The scoping is honest.** `summary` (`total`, `by_class`, `max_severity`) and
+the **exit code** always describe *everything detected* — so filtering the view
+can never make anomalies look absent or flip exit `1`→`0`. When findings are
+withheld, the envelope gains a `scope` block recording the filter and the
+`detected` / `emitted` / `dropped` counts; `rows` carries only the emitted
+subset. Without these flags the block is absent and `rows` is complete.
+
+> This is the volume complement to `--fdr` (which controls *correctness*): FDR
+> makes findings statistically defensible, output scoping makes the list
+> consumable. Together: "the top N, ≥ severity S, among the FDR-significant set."
+
 ## `--fdr Q` — false-discovery-rate control (point detector)
 
 By default the point detector flags every cell whose modified z-score clears a

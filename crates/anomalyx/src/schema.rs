@@ -90,6 +90,21 @@ pub fn envelope_schema() -> String {
                     }
                 }
             },
+            "scope": {
+                "type": "object",
+                "description": "Output scoping (--top/--min-severity); present only when findings were withheld from `rows`. `summary`, `max_severity`, and `exit` always reflect everything detected, not the scoped view.",
+                "required": ["detected", "emitted", "dropped"],
+                "properties": {
+                    "min_severity": {
+                        "type": "string",
+                        "enum": ["info", "low", "medium", "high", "critical"]
+                    },
+                    "top": { "type": "integer", "minimum": 1 },
+                    "detected": { "type": "integer", "minimum": 0 },
+                    "emitted": { "type": "integer", "minimum": 0 },
+                    "dropped": { "type": "integer", "minimum": 0 }
+                }
+            },
             "exit": { "type": "integer", "enum": [0, 1, 2] }
         }
     });

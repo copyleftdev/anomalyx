@@ -69,7 +69,7 @@ dependencies = [
 
 [[package]]
 name = "anomalyx"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "anomalyx-core",
  "anomalyx-detect",
@@ -80,7 +80,7 @@ dependencies = [
 
 [[package]]
 name = "anomalyx-core"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "proptest",
  "serde",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "anomalyx-detect"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "anomalyx-core",
  "proptest",
@@ -101,7 +101,7 @@ dependencies = [
 
 [[package]]
 name = "anomalyx-normalize"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "anomalyx-core",
  "apache-avro",
@@ -129,7 +129,7 @@ dependencies = [
 
 [[package]]
 name = "anomalyx-validate"
-version = "0.5.0"
+version = "0.6.0"
 dependencies = [
  "anomalyx-core",
  "anomalyx-detect",
