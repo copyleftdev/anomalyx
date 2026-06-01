@@ -76,6 +76,7 @@ fn usage() -> &'static str {
      --baseline B  compare against B (distributional drift + schema-diff)\n\
      --period N    treat rows as a time series of period N (contextual/seasonal)\n\
      --cadence COL assess column COL for metronomic timing (cadence)\n\
+     --cad-max-cv F max inter-arrival CV for the cadence flag (default 0.05)\n\
      --columns C,.. analyze only these columns (focus a wide corpus)\n\
      --exclude C,.. analyze every column except these\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
@@ -89,6 +90,8 @@ struct ScanArgs {
     baseline: Option<String>,
     period: Option<usize>,
     cadence: Option<String>,
+    /// `--cad-max-cv`: cadence regularity threshold (max inter-arrival CV).
+    cad_max_cv: Option<f64>,
     /// `--columns`: analyze only these columns (allowlist).
     columns: Option<Vec<String>>,
     /// `--exclude`: analyze every column except these (denylist).
@@ -130,6 +133,20 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                     .next()
                     .ok_or_else(|| AxError::Config("--cadence requires a column name".into()))?;
                 parsed.cadence = Some(v.clone());
+            }
+            "--cad-max-cv" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--cad-max-cv requires a number".into()))?;
+                let cv = v.parse::<f64>().map_err(|_| {
+                    AxError::Config(format!("--cad-max-cv must be a number, got '{v}'"))
+                })?;
+                if !cv.is_finite() || cv < 0.0 {
+                    return Err(AxError::Config(format!(
+                        "--cad-max-cv must be a finite, non-negative coefficient of variation, got '{v}'"
+                    )));
+                }
+                parsed.cad_max_cv = Some(cv);
             }
             "--columns" => {
                 let v = it.next().ok_or_else(|| {
@@ -189,12 +206,17 @@ fn scope_columns(rs: RecordSet, args: &ScanArgs, validate: bool) -> Result<Recor
     })
 }
 
-/// Builds the detector config, applying any `--period` / `--cadence` overrides.
+/// Builds the detector config, applying any `--period` / `--cadence` /
+/// `--cad-max-cv` overrides. The cadence threshold defaults to the config
+/// default when not given; because it is part of the config-version
+/// fingerprint, overriding it is a visible, versioned change in the envelope.
 fn config_for(args: &ScanArgs) -> DetectConfig {
+    let defaults = DetectConfig::default();
     DetectConfig {
         ctx_period: args.period.unwrap_or(0),
         cadence_column: args.cadence.clone(),
-        ..DetectConfig::default()
+        cad_max_cv: args.cad_max_cv.unwrap_or(defaults.cad_max_cv),
+        ..defaults
     }
 }
 
@@ -647,5 +669,44 @@ mod tests {
         };
         assert_eq!(config_for(&c).cadence_column.as_deref(), Some("ts"));
         assert_eq!(config_for(&ScanArgs::default()).cadence_column, None);
+    }
+
+    #[test]
+    fn config_for_applies_cad_max_cv_override() {
+        let a = ScanArgs {
+            cad_max_cv: Some(0.15),
+            ..ScanArgs::default()
+        };
+        assert_eq!(config_for(&a).cad_max_cv, 0.15);
+        // no flag ⇒ the config default is used, not 0.0
+        assert_eq!(
+            config_for(&ScanArgs::default()).cad_max_cv,
+            DetectConfig::default().cad_max_cv
+        );
+        // overriding the threshold changes the config-version fingerprint
+        assert_ne!(
+            config_for(&a).version(),
+            config_for(&ScanArgs::default()).version()
+        );
+    }
+
+    #[test]
+    fn parse_scan_args_parses_and_validates_cad_max_cv() {
+        let a = parse_scan_args(&strings(&["--cad-max-cv", "0.15", "x.pcap"])).unwrap();
+        assert_eq!(a.cad_max_cv, Some(0.15));
+        // zero is the boundary: a 0.0 threshold is valid (flag only perfectly
+        // regular timing), so the bound is `< 0.0`, not `<= 0.0`.
+        assert_eq!(
+            parse_scan_args(&strings(&["--cad-max-cv", "0"]))
+                .unwrap()
+                .cad_max_cv,
+            Some(0.0)
+        );
+        // missing value, non-numeric, negative, and non-finite are all rejected
+        assert!(parse_scan_args(&strings(&["--cad-max-cv"])).is_err());
+        assert!(parse_scan_args(&strings(&["--cad-max-cv", "lots"])).is_err());
+        assert!(parse_scan_args(&strings(&["--cad-max-cv", "-0.1"])).is_err());
+        assert!(parse_scan_args(&strings(&["--cad-max-cv", "inf"])).is_err());
+        assert!(parse_scan_args(&strings(&["--cad-max-cv", "NaN"])).is_err());
     }
 }

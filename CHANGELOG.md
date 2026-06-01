@@ -6,6 +6,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-31
+
+### Added
+
+- **`scan` / `explain` gain `--cad-max-cv F`** — the maximum inter-arrival
+  coefficient of variation below which `cad.regularity` flags a column as
+  metronomic (automated) timing. Defaults to `0.05` (unchanged behavior). Raise
+  it to catch *jittered* beacons: a C2 channel with ~10% timing jitter
+  (CV ≈ 0.10) slips past the default but is caught at `--cad-max-cv 0.15`.
+- The threshold is part of the **`config_version` fingerprint** (`cdcv=`), so
+  overriding it is a visible, versioned change in the envelope — not a silent
+  knob. Same input + same `config_version` still yields byte-identical output.
+
+### Notes
+
+- Validated against a deterministic jitter sweep: at the default `0.05` the
+  detector fires up to CV ≈ 0.0494 and goes quiet at ≈ 0.0504 (it uses the
+  sample/Bessel-corrected standard deviation); raising the threshold shifts that
+  boundary exactly as expected.
+
 ## [0.3.0] - 2026-05-31
 
 Column scoping — focus detection on the columns that matter in a wide corpus,
@@ -138,7 +158,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/copyleftdev/anomalyx/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/copyleftdev/anomalyx/compare/v0.2.0...v0.2.1
