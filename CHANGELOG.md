@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Testing
+
+- **Golden-envelope snapshot tests** (`anomalyx/tests/golden.rs`). Run the actual
+  binary and pin its byte-exact stdout for `schema`, `describe`, and a
+  representative `scan` envelope against committed goldens — so any accidental
+  contract drift (renamed field, changed dense-row layout, shifted
+  `config_version`, recalibrated confidence) fails CI as a visible diff.
+  Regenerate intentional changes with `BLESS=1`.
+- **Million-row scale test** (`ax-validate`): a 1,000,000-row scan must be
+  byte-identical across runs *and* recover exactly the injected outliers —
+  determinism and correctness verified at scale, not just on toy inputs.
+
 ## [0.8.0] - 2026-06-01
 
 ### Changed

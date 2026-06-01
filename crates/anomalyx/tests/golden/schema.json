@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anomalyx/tq1/envelope.schema.json",
+  "title": "anomalyx tq1 envelope",
+  "type": "object",
+  "required": [
+    "protocol",
+    "config_version",
+    "source",
+    "format",
+    "rows_scanned",
+    "dict",
+    "columns",
+    "rows",
+    "absent",
+    "roles",
+    "summary",
+    "exit"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "protocol": {
+      "const": "anomalyx/tq1"
+    },
+    "config_version": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "baseline": {
+      "type": "string",
+      "description": "Baseline corpus source; present only in compare mode (--baseline)."
+    },
+    "rows_scanned": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "dict": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Dictionary-pinned string table; *_idx values index into this."
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Names of the dense finding-row columns.",
+      "const": [
+        "detector",
+        "class",
+        "handle",
+        "confidence",
+        "severity",
+        "score",
+        "reason"
+      ]
+    },
+    "rows": {
+      "type": "array",
+      "description": "Dense finding rows, each aligned to `columns`.",
+      "items": {
+        "type": "array",
+        "minItems": 7,
+        "maxItems": 7,
+        "prefixItems": [
+          {
+            "type": "integer",
+            "description": "detector dict index"
+          },
+          {
+            "type": "integer",
+            "description": "class dict index"
+          },
+          {
+            "type": "integer",
+            "description": "handle dict index"
+          },
+          {
+            "type": "number",
+            "description": "confidence in [0,1]"
+          },
+          {
+            "type": "integer",
+            "description": "severity dict index"
+          },
+          {
+            "type": "number",
+            "description": "raw detector score"
+          },
+          {
+            "type": "integer",
+            "description": "reason dict index"
+          }
+        ]
+      }
+    },
+    "absent": {
+      "type": "array",
+      "description": "Detectors that declined to run, with reasons (honest absence).",
+      "items": {
+        "type": "object",
+        "required": [
+          "detector",
+          "reason"
+        ],
+        "properties": {
+          "detector": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "description": "Classified role of each scanned column (measurement/identifier/categorical/sequence/constant). Always reported; detectors may skip non-measurement columns unless --no-column-roles.",
+      "items": {
+        "type": "object",
+        "required": [
+          "column",
+          "role"
+        ],
+        "properties": {
+          "column": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "measurement",
+              "identifier",
+              "categorical",
+              "sequence",
+              "constant"
+            ]
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total",
+        "by_class"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_severity": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high",
+            "critical",
+            null
+          ]
+        },
+        "by_class": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "class",
+              "count"
+            ],
+            "properties": {
+              "class": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "description": "Output scoping (--top/--min-severity); present only when findings were withheld from `rows`. `summary`, `max_severity`, and `exit` always reflect everything detected, not the scoped view.",
+      "required": [
+        "detected",
+        "emitted",
+        "dropped"
+      ],
+      "properties": {
+        "min_severity": {
+          "type": "string",
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "top": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "detected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "emitted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "exit": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    }
+  }
+}
