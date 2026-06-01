@@ -120,6 +120,59 @@ fn large_scan_is_byte_identical_across_runs() {
 }
 
 #[test]
+fn million_row_scan_is_deterministic_and_recovers_outliers() {
+    // Determinism and correctness must hold at *scale*, not just on toy inputs.
+    // 1,000,000 rows: a tight numeric measurement (100 + i mod 7, so every normal
+    // value sits well within threshold) with five extreme outliers injected at
+    // fixed positions, plus a categorical column. The scan must be byte-identical
+    // across runs and recover exactly those five rows — and complete well within
+    // the test timeout (a loop-bound regression would surface as a timeout).
+    let n = 1_000_000usize;
+    let outlier_rows = [10usize, 250_000, 500_000, 750_000, 999_999];
+    let mut reading: Vec<Value> = (0..n)
+        .map(|i| Value::Float(100.0 + (i % 7) as f64))
+        .collect();
+    for &r in &outlier_rows {
+        reading[r] = Value::Float(1.0e9);
+    }
+    let g: Vec<Value> = (0..n)
+        .map(|i| Value::Str(["x", "y", "z"][i % 3].to_string()))
+        .collect();
+    let rs = RecordSet::new(
+        "-",
+        "stress",
+        vec![Column::new("reading", reading), Column::new("g", g)],
+    );
+    let cfg = DetectConfig::default();
+
+    let report1 = Registry::default_set().run(&ScanContext::single(&rs), &cfg);
+    let s1 = serde_json::to_string(&report1.findings).unwrap();
+    let report2 = Registry::default_set().run(&ScanContext::single(&rs), &cfg);
+    let s2 = serde_json::to_string(&report2.findings).unwrap();
+    assert_eq!(s1, s2, "a 1M-row scan must be byte-identical across runs");
+
+    // Ground-truth recovery at scale: exactly the five injected outlier rows are
+    // flagged by the point detector on `reading`, nothing else.
+    let flagged: std::collections::BTreeSet<usize> = report1
+        .findings
+        .iter()
+        .filter_map(|f| match &f.handle {
+            ax_core::finding::Handle::Cell { column, row }
+                if f.detector == "point.modz" && column == "reading" =>
+            {
+                Some(*row)
+            }
+            _ => None,
+        })
+        .collect();
+    assert_eq!(
+        flagged,
+        outlier_rows.iter().copied().collect(),
+        "the five injected outliers must be recovered exactly"
+    );
+}
+
+#[test]
 fn detector_means_reproduce_certified_via_the_record_model() {
     // End-to-end through the public RecordSet/Column model (not just det::),
     // confirming the column projection feeding detectors is itself exact.
