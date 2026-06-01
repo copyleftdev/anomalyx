@@ -12,7 +12,7 @@
 //! exactly what the property tests pin down.
 
 use crate::config::DetectConfig;
-use crate::{robustz, Detector, Report, ScanContext};
+use crate::{fdr, robustz, Detector, Report, ScanContext};
 use ax_core::finding::Handle;
 use ax_core::{AnomalyClass, Column, Finding, Value};
 
@@ -60,6 +60,23 @@ impl PointDetector {
             return;
         };
 
+        match cfg.point_fdr_q {
+            Some(q) => self.scan_column_fdr(col, center, scale, q, cfg, out),
+            None => self.scan_column_threshold(col, center, scale, k, cfg, out),
+        }
+    }
+
+    /// Fixed-cutoff mode: flag every cell whose modified z-score exceeds
+    /// `point_threshold`. No multiplicity control.
+    fn scan_column_threshold(
+        &self,
+        col: &Column,
+        center: f64,
+        scale: f64,
+        k: f64,
+        cfg: &DetectConfig,
+        out: &mut Report,
+    ) {
         // Iterate the original cells so row indices in handles are correct.
         for (row, cell) in col.cells.iter().enumerate() {
             let Some(x) = numeric_cell(cell) else {
@@ -69,26 +86,101 @@ impl PointDetector {
             if modz <= cfg.point_threshold {
                 continue;
             }
-            let confidence = robustz::confidence(modz, cfg.point_threshold);
             let reason = format!(
                 "{} = {:.6}: modified z-score {:.3} exceeds {:.3} (center={:.6}, scale={:.6})",
                 col.name, x, modz, cfg.point_threshold, center, scale
             );
-            out.push(
-                Finding::new(
-                    self.id(),
-                    AnomalyClass::Point,
-                    Handle::Cell {
-                        column: col.name.clone(),
-                        row,
-                    },
-                    confidence,
-                    modz,
-                    reason,
-                )
-                .with_col_type(col.ty),
+            self.emit(
+                col,
+                row,
+                modz,
+                robustz::confidence(modz, cfg.point_threshold),
+                reason,
+                out,
             );
         }
+    }
+
+    /// FDR mode: convert each cell's modified z-score to a two-sided p-value and
+    /// flag only the cells that survive Benjamini–Hochberg control at level `q`
+    /// *within this column*. A column that is really just noise rejects nothing,
+    /// so it stops contributing chance flags; the fixed threshold is bypassed.
+    fn scan_column_fdr(
+        &self,
+        col: &Column,
+        center: f64,
+        scale: f64,
+        q: f64,
+        cfg: &DetectConfig,
+        out: &mut Report,
+    ) {
+        // First pass: (row, value, |z|, p) for every finite cell, in cell order.
+        // `z = (x − center)/scale` is the consistent-σ standardized deviation
+        // (≈ N(0, 1) under the null in both the MAD and σ branches) — unlike
+        // `robustz::score`, which additionally folds in the display constant
+        // `MODZ_K`, so it is not on a unit-variance scale and would mis-state the
+        // p-value. We use `z` for the p-value (the FDR decision) and as the
+        // reported score.
+        let mut cand: Vec<(usize, f64, f64, f64)> = Vec::new();
+        for (row, cell) in col.cells.iter().enumerate() {
+            let Some(x) = numeric_cell(cell) else {
+                continue;
+            };
+            let z = ((x - center) / scale).abs();
+            cand.push((row, x, z, fdr::two_sided_p(z)));
+        }
+
+        let pvals: Vec<f64> = cand.iter().map(|c| c.3).collect();
+        let Some(cutoff) = fdr::benjamini_hochberg(&pvals, q) else {
+            return; // nothing significant in this column
+        };
+
+        // Second pass: emit the cells BH rejects (p ≤ cutoff), in row order.
+        for (row, x, z, p) in cand {
+            if p > cutoff {
+                continue;
+            }
+            let reason = format!(
+                "{} = {:.6}: standardized deviation z={:.3}, p={:.3e} ≤ BH cutoff \
+                 {:.3e} at FDR q={:.4} (center={:.6}, scale={:.6})",
+                col.name, x, z, p, cutoff, q, center, scale
+            );
+            self.emit(
+                col,
+                row,
+                z,
+                robustz::confidence(z, cfg.point_threshold),
+                reason,
+                out,
+            );
+        }
+    }
+
+    /// Pushes a point finding for cell `row` with the given `score` (the
+    /// magnitude statistic) and calibrated `confidence` in `[0, 1]`.
+    fn emit(
+        &self,
+        col: &Column,
+        row: usize,
+        score: f64,
+        confidence: f64,
+        reason: String,
+        out: &mut Report,
+    ) {
+        out.push(
+            Finding::new(
+                self.id(),
+                AnomalyClass::Point,
+                Handle::Cell {
+                    column: col.name.clone(),
+                    row,
+                },
+                confidence,
+                score,
+                reason,
+            )
+            .with_col_type(col.ty),
+        );
     }
 }
 
@@ -144,6 +236,88 @@ mod tests {
             Handle::Cell { row: 30, .. }
         ));
         assert!(report.findings[0].confidence > 0.5);
+    }
+
+    fn run_cfg(xs: &[f64], cfg: &DetectConfig) -> Report {
+        let rs = ax_core::RecordSet::new("-", "test", vec![col("x", xs)]);
+        let mut out = Report::new();
+        PointDetector.detect(&ScanContext::single(&rs), cfg, &mut out);
+        out
+    }
+
+    fn fdr_cfg(q: f64) -> DetectConfig {
+        DetectConfig {
+            point_fdr_q: Some(q),
+            ..DetectConfig::default()
+        }
+    }
+
+    #[test]
+    fn fdr_flags_the_clear_outlier() {
+        // A blatant outlier has p ≈ 0, which Benjamini–Hochberg rejects in any
+        // column — FDR mode still catches what matters.
+        let mut xs = vec![10.0; 30];
+        xs.push(1000.0);
+        let r = run_cfg(&xs, &fdr_cfg(0.05));
+        assert_eq!(r.findings.len(), 1);
+        assert!(matches!(r.findings[0].handle, Handle::Cell { row: 30, .. }));
+        // The reason records the FDR decision, not a fixed threshold.
+        assert!(r.findings[0].reason.contains("FDR q="));
+    }
+
+    #[test]
+    fn fdr_adapts_to_the_number_of_tests() {
+        // The SAME outlier — standardized deviation z ≈ 4.0 (two-sided p ≈
+        // 6.3e-5) over a symmetric [-1, 0, 1] base (median 0, consistent scale
+        // 1.4826) — is significant in a small column but not in a large one,
+        // because BH's per-rank bar (k/m)·q shrinks with the number of cells
+        // tested. That multiplicity awareness is exactly what a fixed cutoff
+        // lacks. The base cells (z ≈ 0.45) are never flagged in either column.
+        let outlier = 4.0 * 1.4826; // (x − 0)/1.4826 = z ≈ 4.0
+        let make = |n: usize| {
+            let mut xs = Vec::new();
+            for _ in 0..n {
+                xs.extend_from_slice(&[-1.0, 0.0, 1.0]);
+            }
+            xs.push(outlier);
+            xs
+        };
+        let small = run_cfg(&make(7), &fdr_cfg(0.05)); // m = 22:  (1/22)·.05 ≈ 2.3e-3 ≥ p
+        let large = run_cfg(&make(700), &fdr_cfg(0.05)); // m = 2101: (1/2101)·.05 ≈ 2.4e-5 < p
+        assert_eq!(small.findings.len(), 1, "rare in a small column ⇒ flagged");
+        assert_eq!(
+            large.findings.len(),
+            0,
+            "the same cell among 2101 tests ⇒ not significant after correction"
+        );
+    }
+
+    #[test]
+    fn fdr_uses_deviation_from_center_not_sum() {
+        // Median 100, a tight base around it, and one real outlier at 200. The
+        // standardized deviation is (x − center)/scale: only the 200 is extreme.
+        // Were it (x + center) instead, every base cell would look ~130 σ out
+        // (98 + 100 ≈ 198) and get flagged — so this pins the subtraction sign.
+        let mut xs: Vec<f64> = Vec::new();
+        for _ in 0..20 {
+            xs.extend_from_slice(&[98.0, 99.0, 100.0, 101.0, 102.0]);
+        }
+        xs.push(200.0);
+        let r = run_cfg(&xs, &fdr_cfg(0.05));
+        assert_eq!(r.findings.len(), 1, "only the 200 outlier is significant");
+        assert!(matches!(
+            r.findings[0].handle,
+            Handle::Cell { row: 100, .. }
+        ));
+    }
+
+    #[test]
+    fn fdr_off_matches_the_threshold_path_exactly() {
+        // With point_fdr_q = None the FDR machinery is inert: identical findings.
+        let xs = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 1000.0];
+        let off = run_cfg(&xs, &DetectConfig::default());
+        assert_eq!(off.findings.len(), 1);
+        assert!(off.findings[0].reason.contains("exceeds"));
     }
 
     #[test]

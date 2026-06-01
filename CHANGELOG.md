@@ -6,6 +6,36 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-31
+
+### Added
+
+- **`scan` / `explain` gain `--fdr Q`** — false-discovery-rate control for the
+  point detector via the **Benjamini–Hochberg** procedure, applied per column.
+  When set, each cell's modified z-score is converted to a two-sided p-value and
+  the fixed `point_threshold` is replaced by a multiplicity-aware cutoff that
+  bounds the expected proportion of false flags at `Q` (e.g. `--fdr 0.05`).
+  Opt-in: omitted, the detector behaves exactly as before. The level is part of
+  the `config_version` fingerprint (`pfdr=`), so it is a versioned, reproducible
+  choice.
+- New `ax_detect::fdr` module: `two_sided_p` (normal-tail p-value via `erfc`) and
+  `benjamini_hochberg` (deterministic step-up cutoff), each property/exact tested
+  and mutation-gated.
+
+### Notes
+
+- **FDR is a *correctness* control, not a volume knob.** It replaces an arbitrary
+  fixed cutoff with a principled error-rate guarantee and adapts to how many
+  cells were tested (a noise column stops contributing chance flags; the same
+  outlier can be significant in a small column yet not a large one). On genuinely
+  heavy-tailed data it may flag **more** cells than the old fixed threshold — those
+  cells really are significant at the chosen `Q`; the fixed cutoff was simply
+  stringent in an uncalibrated way. To *cap* output volume, combine with column
+  scoping (`--columns`/`--exclude`) and the planned severity / top-N output
+  scoping.
+- The p-value uses the consistent-σ standardized deviation `(x − center)/scale`
+  (≈ `N(0, 1)` under the null), not `robustz`'s display-scaled modified z-score.
+
 ## [0.4.1] - 2026-05-31
 
 ### Fixed
@@ -173,7 +203,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/copyleftdev/anomalyx/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/copyleftdev/anomalyx/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/copyleftdev/anomalyx/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/copyleftdev/anomalyx/compare/v0.2.2...v0.3.0

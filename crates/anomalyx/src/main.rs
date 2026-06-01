@@ -77,6 +77,8 @@ fn usage() -> &'static str {
      --period N    treat rows as a time series of period N (contextual/seasonal)\n\
      --cadence COL assess column COL for metronomic timing (cadence)\n\
      --cad-max-cv F max inter-arrival CV for the cadence flag (default 0.05)\n\
+     --fdr Q       point detector: Benjamini–Hochberg FDR control at level Q\n\
+     \x20             (0<Q≤1), replacing the fixed modified-z threshold\n\
      --columns C,.. analyze only these columns (focus a wide corpus)\n\
      --exclude C,.. analyze every column except these\n\
      EXIT: 0 clean · 1 anomalies found · 2 error"
@@ -92,6 +94,9 @@ struct ScanArgs {
     cadence: Option<String>,
     /// `--cad-max-cv`: cadence regularity threshold (max inter-arrival CV).
     cad_max_cv: Option<f64>,
+    /// `--fdr`: false-discovery-rate level for the point detector (replaces the
+    /// fixed modified-z threshold with Benjamini–Hochberg control).
+    fdr: Option<f64>,
     /// `--columns`: analyze only these columns (allowlist).
     columns: Option<Vec<String>>,
     /// `--exclude`: analyze every column except these (denylist).
@@ -147,6 +152,20 @@ fn parse_scan_args(args: &[String]) -> Result<ScanArgs, AxError> {
                     )));
                 }
                 parsed.cad_max_cv = Some(cv);
+            }
+            "--fdr" => {
+                let v = it
+                    .next()
+                    .ok_or_else(|| AxError::Config("--fdr requires a number".into()))?;
+                let q = v
+                    .parse::<f64>()
+                    .map_err(|_| AxError::Config(format!("--fdr must be a number, got '{v}'")))?;
+                if !q.is_finite() || q <= 0.0 || q > 1.0 {
+                    return Err(AxError::Config(format!(
+                        "--fdr must be a false-discovery rate in (0, 1], got '{v}'"
+                    )));
+                }
+                parsed.fdr = Some(q);
             }
             "--columns" => {
                 let v = it.next().ok_or_else(|| {
@@ -216,6 +235,7 @@ fn config_for(args: &ScanArgs) -> DetectConfig {
         ctx_period: args.period.unwrap_or(0),
         cadence_column: args.cadence.clone(),
         cad_max_cv: args.cad_max_cv.unwrap_or(defaults.cad_max_cv),
+        point_fdr_q: args.fdr,
         ..defaults
     }
 }
@@ -554,6 +574,26 @@ mod tests {
         assert!(parse_scan_args(&strings(&["--baseline"])).is_err());
         assert!(parse_scan_args(&strings(&["--period"])).is_err());
         assert!(parse_scan_args(&strings(&["--period", "notanumber"])).is_err());
+    }
+
+    #[test]
+    fn parse_scan_args_parses_and_validates_fdr() {
+        let a = parse_scan_args(&strings(&["--fdr", "0.05", "x.csv"])).unwrap();
+        assert_eq!(a.fdr, Some(0.05));
+        assert_eq!(config_for(&a).point_fdr_q, Some(0.05));
+        // q = 1.0 is the inclusive upper bound (valid); default has no FDR.
+        assert_eq!(
+            parse_scan_args(&strings(&["--fdr", "1"])).unwrap().fdr,
+            Some(1.0)
+        );
+        assert_eq!(config_for(&ScanArgs::default()).point_fdr_q, None);
+        // missing, non-numeric, and out-of-range (≤0, >1, non-finite) are rejected
+        assert!(parse_scan_args(&strings(&["--fdr"])).is_err());
+        assert!(parse_scan_args(&strings(&["--fdr", "high"])).is_err());
+        assert!(parse_scan_args(&strings(&["--fdr", "0"])).is_err());
+        assert!(parse_scan_args(&strings(&["--fdr", "-0.1"])).is_err());
+        assert!(parse_scan_args(&strings(&["--fdr", "1.5"])).is_err());
+        assert!(parse_scan_args(&strings(&["--fdr", "inf"])).is_err());
     }
 
     #[test]
