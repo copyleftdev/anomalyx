@@ -45,6 +45,22 @@ $ anomalyx scan --cadence ts events.csv
 Organic streams are ragged; a metronome is a tell. Opt-in, because which column
 means "time" is never guessed.
 
+The regularity bar is the inter-arrival **coefficient of variation** (CV =
+stddev / mean); `cad.regularity` fires when CV is below a threshold (default
+`0.05`). Tune it with **`--cad-max-cv F`**:
+
+```console
+$ anomalyx scan --cadence timestamp beacon.pcap                    # default 0.05
+$ anomalyx scan --cadence timestamp --cad-max-cv 0.15 beacon.pcap  # catch jittered beacons
+```
+
+A perfectly periodic beacon has CV ≈ 0; real C2 channels add timing jitter to
+evade exactly this kind of test. A ~10% jitter (CV ≈ 0.10) slips past the
+default but is caught at `--cad-max-cv 0.15` — at the cost of flagging more
+merely-regular traffic. The threshold is folded into the envelope's
+`config_version` (`cdcv=`), so a non-default bar is a versioned, reproducible
+choice, never a hidden one.
+
 > Rows are treated in their given order as the time axis. If your data isn't
 > already time-ordered, sort it first.
 
