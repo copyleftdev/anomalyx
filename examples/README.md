@@ -36,6 +36,36 @@ volatility, and the second‑half‑2025 price regime shift (`coll.cusum`) — a
 `--baseline` mode, that NVDA's volume and volatility *distributions* differ
 sharply from a peer's.
 
+## `synergy_market.py`
+
+Pairs anomalyx with [`agent-calc`](https://github.com/copyleftdev/agent-calc) —
+another contract-first CLI, an *exact* math kernel — on the live market. Two
+typed-JSON contracts chained: anomalyx is **descriptive** (which days/regimes
+broke the pattern, assumption-free); agent-calc is **exact** (what those
+findings mean as deterministic statistics).
+
+```sh
+pip install yfinance
+cargo install anomalyx                                  # or set $ANOMALYX
+(cd ../agent-calc && cargo build --release)             # then point $AGENT_CALC at it
+export AGENT_CALC=../agent-calc/target/release/agent-calc
+
+python3 examples/synergy_market.py
+python3 examples/synergy_market.py --market SPY --period 2y --fdr 0.01
+python3 examples/synergy_market.py --tickers SPY,NVDA,TSLA --top 12
+```
+
+anomalyx finds the anomalous days and the price regime shift (`point.modz` /
+`mv.mahalanobis` / `coll.cusum`); the detector output then feeds `agent-calc`,
+which computes the exact return distribution (`describe_sample` — note the
+fat-tailed kurtosis), the worst day's tail probability under a fitted Gaussian
+(`normal_cdf` — often "1-in-millions", i.e. the *model* is what's broken), a
+two-sample t-test on the returns either side of the CUSUM break (`two_sample_t`
+— is the regime shift a real change in *mean* return, or only in trajectory?),
+and exact Pearson `r` of each basket name to the market. The punchline is that
+both halves emit machine-readable contracts, so findings flow into the math
+kernel with no prose and no float drift.
+
 ## `journal_anomalies.py`
 
 Finds anomalies in the systemd journal (Linux + systemd). Pipes
