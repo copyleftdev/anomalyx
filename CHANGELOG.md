@@ -6,6 +6,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Examples
+
+- **`examples/stock_anomalies.py`** — fetch a ticker's daily history from Yahoo
+  Finance and find its anomalous trading days (point / multivariate / collective),
+  or its distributional drift against another ticker (`--baseline`). A worked
+  example of consuming the `tq1` envelope: it parses the dense JSON contract and
+  maps each finding's handle back to a calendar date. Outside the Cargo workspace,
+  so it doesn't affect the build or gates.
+
 ## [1.1.0] - 2026-06-01
 
 ### Changed

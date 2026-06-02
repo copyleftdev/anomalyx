@@ -114,6 +114,13 @@ crates/
 
 Install: `cargo install anomalyx`.
 
+## Examples
+
+[`examples/stock_anomalies.py`](examples/README.md) fetches a stock's history
+from Yahoo Finance and finds its anomalous trading days — or its distributional
+drift against another ticker — as a worked example of consuming the `tq1`
+envelope (handles mapped back to dates).
+
 ## Anomaly taxonomy
 
 Seven classes, so an agent reasons about the *kind* of deviation:
