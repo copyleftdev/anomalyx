@@ -8,6 +8,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Examples
 
+- **`examples/synergy_market.py`** — pairs anomalyx with `agent-calc` (a sibling
+  contract-first *exact* math CLI) on the live market: anomalyx finds the
+  anomalous days and the price regime shift, then `agent-calc` computes the exact
+  return distribution, the worst day's tail probability under a fitted Gaussian,
+  a two-sample t-test across the detected CUSUM break, and exact Pearson `r` of
+  each basket name to the market. Two typed-JSON contracts chained end to end.
 - **`examples/polymarket_anomalies.py`** — find information shocks in a Polymarket
   prediction market: pulls a market's price history from Polymarket's public APIs
   (read-only, no key), enriches with the per-step probability change, and scans —
