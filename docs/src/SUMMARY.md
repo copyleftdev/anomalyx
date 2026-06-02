@@ -12,6 +12,7 @@
 - [Validation against NIST](./validation.md)
 - [Architecture](./architecture.md)
 - [Quality gates](./gates.md)
+- [Worked examples](./examples.md)
 
 ---
 
