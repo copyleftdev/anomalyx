@@ -6,6 +6,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-06-01
+
+No library or contract changes — the `tq1` envelope, exit codes, and
+`config_version` are byte-for-byte identical to 1.1.1. This is a
+documentation/examples release; it also wires the `anomalyx` crate's README so
+the crates.io landing page finally renders it.
+
 ### Examples
 
 - **`examples/synergy_market.py`** — pairs anomalyx with `agent-calc` (a sibling
@@ -18,8 +25,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   prediction market: pulls a market's price history from Polymarket's public APIs
   (read-only, no key), enriches with the per-step probability change, and scans —
   sharp probability jumps (`point` / `mv`) and sustained regime shifts in the odds
-  (`coll.cusum`), each mapped back to its UTC timestamp. Also lists the journal
-  example in `examples/README.md` (previously only in the changelog).
+  (`coll.cusum`), each mapped back to its UTC timestamp.
+
+### Documentation
+
+- README's Examples section now lists all four worked examples (stock, journal,
+  polymarket, synergy) with the `agent-calc` synergy called out; the journal
+  example is also listed in `examples/README.md`.
+- New mdbook page **"Worked examples"** (`docs/src/examples.md`) framing the
+  examples as consuming the `tq1` contract.
+- The `anomalyx` binary crate now sets `readme = "../../README.md"`, so the
+  crates.io page renders the project README (it had none before).
 
 ## [1.1.1] - 2026-06-01
 

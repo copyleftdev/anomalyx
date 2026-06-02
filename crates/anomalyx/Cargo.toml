@@ -8,6 +8,7 @@ repository.workspace = true
 description = "anomalyx command-line contract surface: describe / schema / scan / explain"
 keywords = ["anomaly-detection", "outlier", "drift", "cli", "data-quality"]
 categories = ["command-line-utilities", "science"]
+readme = "../../README.md"
 
 [[bin]]
 name = "anomalyx"
