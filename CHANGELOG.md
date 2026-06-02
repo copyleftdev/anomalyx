@@ -6,6 +6,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Examples
+
+- **`examples/polymarket_anomalies.py`** — find information shocks in a Polymarket
+  prediction market: pulls a market's price history from Polymarket's public APIs
+  (read-only, no key), enriches with the per-step probability change, and scans —
+  sharp probability jumps (`point` / `mv`) and sustained regime shifts in the odds
+  (`coll.cusum`), each mapped back to its UTC timestamp. Also lists the journal
+  example in `examples/README.md` (previously only in the changelog).
+
 ## [1.1.1] - 2026-06-01
 
 ### Fixed

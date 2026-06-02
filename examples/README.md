@@ -35,3 +35,42 @@ On real NVDA history this surfaces, for example, the 2025‑01‑27 DeepSeek sel
 volatility, and the second‑half‑2025 price regime shift (`coll.cusum`) — and in
 `--baseline` mode, that NVDA's volume and volatility *distributions* differ
 sharply from a peer's.
+
+## `journal_anomalies.py`
+
+Finds anomalies in the systemd journal (Linux + systemd). Pipes
+`journalctl -o json` to anomalyx on **stdin** (so it content-sniffs as `journal`,
+not plain JSON) and maps each finding back to its **timestamp / unit / message**.
+
+```sh
+python3 examples/journal_anomalies.py --lines 20000
+python3 examples/journal_anomalies.py --since "2 hours ago" --top 20
+
+# Distributional drift between two windows (which units / priorities shifted):
+python3 examples/journal_anomalies.py --since "1 hour ago" \
+        --baseline-since "3 hours ago" --baseline-until "1 hour ago"
+```
+
+Single-window finds per-unit content anomalies (e.g. CPU‑usage spikes); the
+`--baseline-since` mode runs `dist.chi2` over `_SYSTEMD_UNIT` / `PRIORITY` to flag
+units that appeared or whose share changed. Column roles keep journald's many
+id / counter / timestamp fields out of the way automatically.
+
+## `polymarket_anomalies.py`
+
+Pulls a prediction market's price history from Polymarket's public APIs
+(read-only, no key), enriches it with the per‑step probability change, and finds
+the **information shocks** — sharp probability jumps (`point` / `mv`) and
+sustained regime shifts in the odds (`coll.cusum`).
+
+```sh
+python3 examples/polymarket_anomalies.py                 # top market by volume
+python3 examples/polymarket_anomalies.py "bitcoin"       # first match by question/slug
+python3 examples/polymarket_anomalies.py "fed" --top 15  # search first, then scan flags
+```
+
+> Pass any search term **before** scan flags (the term is an optional positional).
+
+Maps each finding back to its UTC timestamp; the `timestamp` column is
+auto-classified a `sequence` and skipped, so the findings are about the odds, not
+the clock.
