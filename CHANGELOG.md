@@ -6,14 +6,35 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-01
+
+### Fixed
+
+- **Timestamp columns are now recognized as sequences and skipped by the value
+  detectors.** `Role::Sequence` required *strict* monotonicity, but real clock
+  columns (journald's `__REALTIME_TIMESTAMP`/`__MONOTONIC_TIMESTAMP`, a pcap
+  `timestamp`) tie or regress just often enough to fail it — so they were treated
+  as measurements, and `coll.cusum` flagged their "level shift" (time advancing)
+  and `point` their jumps. A `timestamp` / `ts` name token now classifies a
+  column as `sequence`, kept deliberately narrow so `response_time`-style
+  *measurements* (which you do want outliers on) are unaffected. Surfaced by the
+  new journald example. No `config_version` change — a classifier refinement,
+  like 1.0.1's `procid`.
+
 ### Examples
 
+- **`examples/journal_anomalies.py`** — find anomalies in the systemd journal:
+  point / structural / collective within one capture (e.g. CPU-usage spikes per
+  unit), or distributional drift of `_SYSTEMD_UNIT` / `PRIORITY` between two
+  windows (`--baseline-since`). Pipes journald JSON on stdin (so it sniffs as
+  `journal`, not plain JSON) and maps findings back to timestamp / unit / message.
 - **`examples/stock_anomalies.py`** — fetch a ticker's daily history from Yahoo
   Finance and find its anomalous trading days (point / multivariate / collective),
   or its distributional drift against another ticker (`--baseline`). A worked
   example of consuming the `tq1` envelope: it parses the dense JSON contract and
-  maps each finding's handle back to a calendar date. Outside the Cargo workspace,
-  so it doesn't affect the build or gates.
+  maps each finding's handle back to a calendar date.
+- Both live outside the Cargo workspace (they shell out to the installed
+  binary), so they don't affect the build or gates.
 
 ## [1.1.0] - 2026-06-01
 
@@ -381,7 +402,8 @@ Initial release — a contract-first anomaly-detection CLI over arbitrary corpor
   gates on every push.
 - Dual-licensed under MIT OR Apache-2.0.
 
-[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/copyleftdev/anomalyx/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/copyleftdev/anomalyx/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/copyleftdev/anomalyx/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/copyleftdev/anomalyx/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/copyleftdev/anomalyx/compare/v0.9.0...v1.0.0

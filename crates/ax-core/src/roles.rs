@@ -125,6 +125,21 @@ pub fn name_is_identifier(name: &str) -> bool {
         .any(|t| ID_TOKENS.contains(&t.as_str()))
 }
 
+/// Name tokens marking a clock/time column. A timestamp is a monotonic-ish clock
+/// value, never a measurement to outlier-test — and real timestamps (journald's
+/// `__REALTIME_TIMESTAMP`, a pcap `timestamp`) tie/regress just often enough to
+/// fail strict-monotonic [`Role::Sequence`] detection, so we also catch them by
+/// name. Kept narrow (`timestamp`/`ts`) to avoid `response_time`-style
+/// measurements you *do* want outliers on.
+const TIME_TOKENS: &[&str] = &["timestamp", "ts"];
+
+/// Whether a column name reads as a timestamp/clock column.
+pub fn name_is_timestamp(name: &str) -> bool {
+    name_tokens(name)
+        .iter()
+        .any(|t| TIME_TOKENS.contains(&t.as_str()))
+}
+
 /// A stable per-value key for distinct counting (NaN-safe via bit pattern).
 fn distinct_key(v: &Value) -> String {
     match v {
@@ -172,6 +187,10 @@ impl Column {
         }
         if name_is_identifier(&self.name) {
             return Role::Identifier;
+        }
+        // A clock column is a sequence regardless of type or exact monotonicity.
+        if name_is_timestamp(&self.name) {
+            return Role::Sequence;
         }
         if self.ty.is_numeric() {
             let xs = self.numeric();
@@ -281,6 +300,28 @@ mod tests {
                 !name_is_identifier(m),
                 "{m} must NOT look like an identifier"
             );
+        }
+    }
+
+    #[test]
+    fn timestamp_named_columns_are_sequences() {
+        // journald's near-monotonic clocks tie/regress, so strict-monotonic
+        // detection misses them; the name catches them. Numeric or not.
+        for ts in [
+            "__REALTIME_TIMESTAMP",
+            "__MONOTONIC_TIMESTAMP",
+            "timestamp",
+            "ts",
+        ] {
+            assert!(name_is_timestamp(ts), "{ts} should read as a timestamp");
+            // a jittery (non-strictly-monotonic) clock column → Sequence by name
+            let jittery = ints(ts, &[100, 101, 101, 105, 104, 110, 130]);
+            assert_eq!(jittery.role(), Role::Sequence, "{ts}");
+        }
+        // but a real measurement whose name merely contains "time" is NOT a
+        // timestamp — we still want outliers on it.
+        for m in ["response_time", "DAYS_LOST", "duration_ms", "fare"] {
+            assert!(!name_is_timestamp(m), "{m} must NOT read as a timestamp");
         }
     }
 
