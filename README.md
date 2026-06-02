@@ -116,10 +116,20 @@ Install: `cargo install anomalyx`.
 
 ## Examples
 
-[`examples/stock_anomalies.py`](examples/README.md) fetches a stock's history
-from Yahoo Finance and finds its anomalous trading days — or its distributional
-drift against another ticker — as a worked example of consuming the `tq1`
-envelope (handles mapped back to dates).
+Worked examples of *consuming the `tq1` contract* on real data — they parse the
+dense JSON envelope and map handles back to time, never scrape pretty text. See
+[`examples/`](examples/README.md) for details and how to run each.
+
+- [`stock_anomalies.py`](examples/README.md#stock_anomaliespy) — anomalous
+  trading days (and distributional drift vs. another ticker) from Yahoo Finance.
+- [`journal_anomalies.py`](examples/README.md#journal_anomaliespy) — anomalies in
+  the systemd journal, piped from `journalctl -o json`.
+- [`polymarket_anomalies.py`](examples/README.md#polymarket_anomaliespy) —
+  information shocks and odds regime shifts in a Polymarket prediction market.
+- [`synergy_market.py`](examples/README.md#synergy_marketpy) — anomalyx paired
+  with [`agent-calc`](https://github.com/copyleftdev/agent-calc): anomalyx
+  *finds* the anomalies, the exact-math kernel *proves* what they mean (tail
+  probability, a t-test across the regime break, exact correlations).
 
 ## Anomaly taxonomy
 
